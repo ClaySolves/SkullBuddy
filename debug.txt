@@ -1,23 +1,28 @@
-s _Copperlight Lightfoot B Boots
+Loose Trousers
 
-a - Armor Rating 5 -
+_ - Armor Rating 14 -
+- - Move Speed -2 -
+= - Agility 5 -
 
-: - Move Speed 9 -
+ha - -
 
-ad - Move Speed Bonus 0.5% - @
-- 40.7% Magical Damage Reduction -
++2 Strength
 
-*k - +1 Magical Power -
++ - +6,6% Magical Interaction Speed -
+
+- +4 Max Health -
+
+Legs ;
+Cloth Pe)
 
 Handled
-Uncommon
 
-These boots combine the lightness needed
+Epic
 
-for rapid movement with the 0
+Extremely light, soft breathable canvas:
 
-resilience of copper
-A PP
+cotton trousers,
 
-ee
+|
+Br Or
 

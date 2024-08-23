@@ -1,0 +1,47 @@
+Action Speed
+Weapon Damage
+Move Speed
+Additional Magical Damage
+Additional Memory Capacity
+Additional Move Speed
+Additional Physical Damage
+Additional Weapon Damage
+Agility
+Armor Penetration
+Armor Rating
+Buff Duration Bonus
+Debuff Duration Bonus
+Dexterity
+Knowledge
+Luck
+Magic Penetration
+Magic Resistance
+Magical Damge Bonus
+Magical Damage Reduction
+Magical Healing
+Magical Interaction Speed
+Magical Power
+Max Health
+Max Health Bonus
+Memory Capacity Bonus
+Move Speed Bonus
+Physical Damage Bonus
+Physical Damage Reduction
+Physical Healing
+Physical Power
+Projectile Damage Reduction
+Regular Interaction Speed
+Resourcefulness
+Spell Casting Speed
+Strength
+True Magical Damage
+True PHysical Damage
+Vigor
+Will
+Unique
+Legendary
+Epic
+Rare
+Uncommon
+Common
+Poor

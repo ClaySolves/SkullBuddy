@@ -1,4 +1,9 @@
 xTrade, yTrade = 1109, 37
+xCloseWindow, yCloseWindow = 310, 37
+xAttribute, yAttribute = 1565, 201
+xResetAttribute, yResetAttribute = 1673, 200
+xAttrSearch, yAttrSearch = 1575, 245
+xAttrSelect, yAttrSelect = 1575, 276
 xMarket, yMarket = 1176, 244
 xViewMarket, yViewMarket = 847, 118
 xMyListings, yMyListings = 1056, 119
@@ -10,6 +15,7 @@ xPoor, yPoor = 300, 275
 xCommon, yCommon = 300, 300
 xUncommon, yUncommon = 300, 325
 xRare, yRare = 300, 350
+xRarity, yRarity = 375, 200
 xEpic, yEpic = 300, 375
 xLegend, yLegend = 300, 400 
 xUnique, yUnique = 300, 425
@@ -22,6 +28,8 @@ xChangeClass, yChangeClass = 1852, 1010
 StashCoords = (1289, 0, 620, 1059)
 xStashStart, yStashStart = 1390, 213
 priceCoords = (1452, 324, 180, 180) # for add its x + 60 y + 150
+xResetFilters, yResetFilters = 1790, 201
+xSearchPrice, ySearchPrice = 1788, 273
 
 import math
 import psutil
@@ -29,11 +37,14 @@ import pyautogui
 import time
 import pytesseract
 from PIL import Image, ImageOps
+import difflib
 
 # Replace 'game.exe' with the actual name of the game's process
 GAME_NAME = "DungeonCrawler.exe"
 
-
+def findItem(input_string, phrase_list):
+    closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
+    return closest_match[0] if closest_match else None
 
 def is_game_running():
     # Iterate through all running processes
@@ -41,6 +52,75 @@ def is_game_running():
         if process.info['name'] == GAME_NAME:
             return True
     return False
+
+def searchAndFindPrice(weapon):
+    #reset filters and search item name
+    pyautogui.moveTo(xViewMarket, yViewMarket, duration=.5) 
+    pyautogui.click()  
+
+    pyautogui.moveTo(xResetFilters, yResetFilters, duration=.5) 
+    pyautogui.click()  
+
+    pyautogui.moveTo(xItemName, yItemName, duration=.5) 
+    pyautogui.click()  
+
+    pyautogui.moveTo(xItemSearch, yItemSearch, duration=.5) 
+    pyautogui.click() 
+    pyautogui.typewrite(weapon[0], interval=0.05)
+
+    pyautogui.moveTo(xItemSelect, yItemSelect, duration=.5) 
+    pyautogui.click() 
+
+    #select rarity
+    pyautogui.moveTo(xRarity, yRarity, duration=.2) 
+    pyautogui.click()
+
+    if weapon[-1] == "Poor":
+        pyautogui.moveTo(xPoor, yPoor, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Common":
+        pyautogui.moveTo(xCommon, yCommon, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Uncommon":
+        pyautogui.moveTo(xUncommon, yUncommon, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Rare":
+        pyautogui.moveTo(xRare, yRare, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Epic":
+        pyautogui.moveTo(xEpic, yEpic, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Legendary":
+        pyautogui.moveTo(xLegend, yLegend, duration=.2) 
+        pyautogui.click()
+    elif weapon[-1] == "Unique":
+        pyautogui.moveTo(xUnique, yUnique, duration=.2) 
+        pyautogui.click() 
+    else:
+        print("ERROR, WRONG RARITY!!! TS SHOULD NOT SHOW IN TERMINAL")
+
+    price = []
+
+    for weaponRolls in weapon[1:-1]:
+        pyautogui.moveTo(xResetAttribute, yResetAttribute, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xAttribute, yAttribute, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xAttrSearch, yAttrSearch, duration=.2) 
+        pyautogui.click()
+        pyautogui.typewrite(weaponRolls, interval=0.05)
+
+        pyautogui.moveTo(xAttrSelect, yAttrSelect, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xSearchPrice, ySearchPrice, duration=.02) 
+        pyautogui.click()
+        time.sleep(3)
+        price.append(getItemCost())
+        
+    print(price)
 
 
 
@@ -77,7 +157,7 @@ def getItemCost():
     numbers = [int(num) for num in numList]
     avgPrice = math.floor(sum(numbers) / 3)
 
-    print(avgPrice)
+    return avgPrice
 
 
 
@@ -128,6 +208,9 @@ def getItemDetails():
 
 
 def filterItemText():
+
+    weaponToSell = []
+
     keywords = [
         "Strength", "Agility", "Dexterity", "Will", "Knowledge", "Vigor", "Resourcefulness",
         "Armor", "Penetration", "Additional", "Physical", "Damage", "Bonus", "Weapon", "Add",
@@ -159,16 +242,46 @@ def filterItemText():
     with open('debug.txt', 'r') as infile:
         lines = infile.readlines()
 
-    print(lines)
-
     filteredText = []
     for line in lines:
         if any(keyword in line for keyword in keywords):
-            print(line)
             filteredText.append(line)
 
     with open('loot.txt', 'w') as outfile:
         outfile.writelines(filteredText)
+
+    with open("items.txt", 'r') as file:
+        lines = file.readlines()
+    allItems = [line.strip() for line in lines]
+
+    with open("rolls.txt", 'r') as file:
+        lines = file.readlines()
+    allRolls = [line.strip() for line in lines]
+
+    itemName = findItem(filteredText[0],allItems)
+    if itemName:
+        weaponToSell.append(itemName)
+        filteredText.pop(0)
+    else:
+        print("ERROR: ITEM NOT FOUND")
+
+    for textLines in filteredText:
+        found = findItem(textLines,allRolls)
+        if found:
+            if found == 'Move Speed' or found == 'Weapon Damage':
+                continue
+            weaponToSell.append(found)
+        else:
+            print("ERROR: ROLL NOT FOUND")
+            
+    print("selling: ...")
+
+    print(weaponToSell)
+    print("done")
+
+    searchAndFindPrice(weaponToSell)
+
+    
     
     
 
