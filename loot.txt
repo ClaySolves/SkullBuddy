@@ -1,0 +1,7 @@
+s _Copperlight Lightfoot B Boots
+a - Armor Rating 5 -
+: - Move Speed 9 -
+ad - Move Speed Bonus 0.5% - @
+- 40.7% Magical Damage Reduction -
+*k - +1 Magical Power -
+Uncommon
