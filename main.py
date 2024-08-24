@@ -30,8 +30,11 @@ xStashStart, yStashStart = 1390, 213
 priceCoords = (1452, 324, 180, 180) # for add its x + 60 y + 150
 xResetFilters, yResetFilters = 1790, 201
 xSearchPrice, ySearchPrice = 1788, 273
+undercutPercent = 10
 
 import math
+import sys
+import numbers
 import psutil
 import pyautogui
 import time
@@ -42,9 +45,32 @@ import difflib
 # Replace 'game.exe' with the actual name of the game's process
 GAME_NAME = "DungeonCrawler.exe"
 
+def listItem(price):
+    pyautogui.click()
+    time.sleep(0.1)
+
+    pyautogui.moveTo(xSellingPrice, ySellingPrice, duration=0.1) 
+    pyautogui.click()
+    pyautogui.typewrite(str(price), interval=0.01)
+
+    pyautogui.moveTo(xCreateListing, yCreateListing, duration=0.1) 
+    pyautogui.click()
+
+    pyautogui.moveTo(xConfirmListing, yConfirmListing, duration=0.1) 
+    pyautogui.click()
+
+
 def findItem(input_string, phrase_list):
     closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
     return closest_match[0] if closest_match else None
+
+def sanitizeNumerRead(num):
+    cleanNum = num.replace(',','')
+    return cleanNum.isdigit()
+
+def returnMarketStash():
+    pyautogui.moveTo(xMyListings, yMyListings, duration=0.1) 
+    pyautogui.click()  
 
 def is_game_running():
     # Iterate through all running processes
@@ -54,81 +80,159 @@ def is_game_running():
     return False
 
 def searchAndFindPrice(weapon):
-    #reset filters and search item name
-    pyautogui.moveTo(xViewMarket, yViewMarket, duration=.5) 
+    #reset filters and search rarity
+    pyautogui.moveTo(xViewMarket, yViewMarket, duration=0.1) 
     pyautogui.click()  
 
-    pyautogui.moveTo(xResetFilters, yResetFilters, duration=.5) 
-    pyautogui.click()  
-
-    pyautogui.moveTo(xItemName, yItemName, duration=.5) 
-    pyautogui.click()  
-
-    pyautogui.moveTo(xItemSearch, yItemSearch, duration=.5) 
-    pyautogui.click() 
-    pyautogui.typewrite(weapon[0], interval=0.05)
-
-    pyautogui.moveTo(xItemSelect, yItemSelect, duration=.5) 
+    pyautogui.moveTo(xResetFilters, yResetFilters, duration=0.5) 
     pyautogui.click() 
 
-    #select rarity
-    pyautogui.moveTo(xRarity, yRarity, duration=.2) 
+    pyautogui.moveTo(xRarity, yRarity, duration=0.1) 
     pyautogui.click()
-
     if weapon[-1] == "Poor":
-        pyautogui.moveTo(xPoor, yPoor, duration=.2) 
+        pyautogui.moveTo(xPoor, yPoor, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Common":
-        pyautogui.moveTo(xCommon, yCommon, duration=.2) 
+        pyautogui.moveTo(xCommon, yCommon, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Uncommon":
-        pyautogui.moveTo(xUncommon, yUncommon, duration=.2) 
+        pyautogui.moveTo(xUncommon, yUncommon, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Rare":
-        pyautogui.moveTo(xRare, yRare, duration=.2) 
+        pyautogui.moveTo(xRare, yRare, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Epic":
-        pyautogui.moveTo(xEpic, yEpic, duration=.2) 
+        pyautogui.moveTo(xEpic, yEpic, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Legendary":
-        pyautogui.moveTo(xLegend, yLegend, duration=.2) 
+        pyautogui.moveTo(xLegend, yLegend, duration=0.1) 
         pyautogui.click()
     elif weapon[-1] == "Unique":
-        pyautogui.moveTo(xUnique, yUnique, duration=.2) 
+        pyautogui.moveTo(xUnique, yUnique, duration=0.1) 
         pyautogui.click() 
     else:
-        print("ERROR, WRONG RARITY!!! TS SHOULD NOT SHOW IN TERMINAL")
+        sys.exit("ERROR, WRONG RARITY!!! TS SHOULD NOT SHOW IN TERMINAL")
 
+    #search Item
+    pyautogui.moveTo(xItemName, yItemName, duration=0.1) 
+    pyautogui.click()  
+
+    pyautogui.moveTo(xItemSearch, yItemSearch, duration=0.1) 
+    pyautogui.click() 
+    pyautogui.typewrite(weapon[0], interval=0.01)
+
+    pyautogui.moveTo(xItemSelect, yItemSelect, duration=0.1) 
+    pyautogui.click() 
+
+    #Start reading price for each attribute
     price = []
+    pyautogui.moveTo(xSearchPrice, ySearchPrice, duration=0.1) 
+    pyautogui.click()
+    time.sleep(1)
+    price.append(getItemCost())
 
     for weaponRolls in weapon[1:-1]:
-        pyautogui.moveTo(xResetAttribute, yResetAttribute, duration=.2) 
+        pyautogui.moveTo(xResetAttribute, yResetAttribute, duration=0.1) 
         pyautogui.click()
+
+        pyautogui.moveTo(xAttribute, yAttribute, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xAttrSearch, yAttrSearch, duration=0.1) 
+        pyautogui.click()
+        pyautogui.typewrite(weaponRolls, interval=0.01)
+
+        pyautogui.moveTo(xAttrSelect, yAttrSelect, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xSearchPrice, ySearchPrice, duration=0.1) 
+        pyautogui.click()
+        time.sleep(1)
+        price.append(getItemCost())
+        
+    #If attr raises price >25%, we're gonna comp it with other attr's
+    #Get max index and search that
+    maxPrice = max(price)
+    maxIndex = price.index(maxPrice)
+
+    pyautogui.moveTo(xResetAttribute, yResetAttribute, duration=.2) 
+    pyautogui.click()
+
+    pyautogui.moveTo(xAttribute, yAttribute, duration=.2) 
+    pyautogui.click()
+
+    pyautogui.moveTo(xAttrSearch, yAttrSearch, duration=.2) 
+    pyautogui.click()
+    pyautogui.typewrite(weapon[maxIndex], interval=0.01)
+
+    pyautogui.moveTo(xAttrSelect, yAttrSelect, duration=.2) 
+    pyautogui.click()
+
+    #add other attr to selected attr
+    twoPrice = []
+    for index, attr in enumerate(weapon[1:-1]):
+
+        if index + 1 == maxIndex:
+            print('this happened')
+            continue
+
+        pyautogui.moveTo(xAttrSearch, yAttrSearch, duration=.2) 
+        pyautogui.click()
+        pyautogui.typewrite(attr, interval=0.01)
+
+        pyautogui.moveTo(xAttrSelect, yAttrSelect + 25, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(xSearchPrice, ySearchPrice, duration=.2) 
+        pyautogui.click()
+        time.sleep(1)
+        twoPrice.append(getItemCost())
 
         pyautogui.moveTo(xAttribute, yAttribute, duration=.2) 
         pyautogui.click()
 
-        pyautogui.moveTo(xAttrSearch, yAttrSearch, duration=.2) 
-        pyautogui.click()
-        pyautogui.typewrite(weaponRolls, interval=0.05)
-
-        pyautogui.moveTo(xAttrSelect, yAttrSelect, duration=.2) 
+        pyautogui.moveTo(xAttrSelect, yAttrSelect + 25, duration=.2) 
         pyautogui.click()
 
-        pyautogui.moveTo(xSearchPrice, ySearchPrice, duration=.02) 
-        pyautogui.click()
-        time.sleep(3)
-        price.append(getItemCost())
-        
-    print(price)
+    if twoPrice:    
+        maxTwoPrice = max(twoPrice)
+        realMax = max(maxTwoPrice,maxPrice)
+    else:
+        realMax = maxPrice
+
+    ret = math.floor(realMax - (realMax * (0.01 * undercutPercent)))
+
+    return(ret)
+
+
+
 
 
 
 def searchStash():
     for i in range(1):
         for j in range(1):
-            pyautogui.moveTo(xStashStart + (40 *j), yStashStart +(40 *i),duration=0.15) # moves to each stash square
+            newXCoord = xStashStart + (40 *j)
+            newYCoord = yStashStart +(40 *i)
+            pyautogui.moveTo(newXCoord, newYCoord,duration=0.15) # moves to each stash square
+
             getItemDetails()
+
+            weapon = filterItemText()
+
+            price = searchAndFindPrice(weapon)
+
+            returnMarketStash()
+
+            pyautogui.moveTo(newXCoord, newYCoord,duration=0.15) # moves to each stash square
+
+            listItem(price)
+
+            
+
+
+
+
 
 
 
@@ -154,8 +258,15 @@ def getItemCost():
     txt = pytesseract.image_to_string("testing.png",config="--psm 6")
 
     numList = txt.split()
-    numbers = [int(num) for num in numList]
-    avgPrice = math.floor(sum(numbers) / 3)
+    print(numList)
+    newNums = [int(num.replace(',','')) for num in numList if sanitizeNumerRead(num)]
+    print(newNums)
+
+    div = len(newNums)
+    if div != 0:
+        avgPrice = math.floor(sum(newNums) / div)
+    else:
+        sys.exit("ERROR, NO PRICE READ")
 
     return avgPrice
 
@@ -177,6 +288,7 @@ def navCharLogin():
 def getItemDetails():
 
     targetColor = 130
+    limitWhite = 200
     screenshot = pyautogui.screenshot(region=StashCoords)
     screenshot.save('test.png')
 
@@ -191,7 +303,10 @@ def getItemDetails():
 
     for item in data:
         if item[0] >= targetColor or item[1] >= targetColor or item[2] >= targetColor:
-            newData.append(item)
+            if item[0] >= limitWhite and item[1] >= limitWhite and item[2] >= limitWhite:
+                newData.append((0,0,0))
+            else:
+                newData.append(item)
         else:
             newData.append((0,0,0))
 
@@ -203,7 +318,6 @@ def getItemDetails():
 
     img.save('final.png')
 
-    filterItemText()
 
 
 
@@ -212,7 +326,7 @@ def filterItemText():
     weaponToSell = []
 
     keywords = [
-        "Strength", "Agility", "Dexterity", "Will", "Knowledge", "Vigor", "Resourcefulness",
+        "Bane", "Strength", "Agility", "Dexterity", "Will", "Knowledge", "Vigor", "Resourcefulness",
         "Armor", "Penetration", "Additional", "Physical", "Damage", "Bonus", "Weapon", "Add",
         "Power", "Magic", "True", "Rating", "Resistance", "Reduction", "Projectile", "Mod", "Action",
         "Speed", "Move", "Regular", "Interaction", "Magical", "Spell", "Casting", "Buff", "Duration",
@@ -242,6 +356,8 @@ def filterItemText():
     with open('debug.txt', 'r') as infile:
         lines = infile.readlines()
 
+
+
     filteredText = []
     for line in lines:
         if any(keyword in line for keyword in keywords):
@@ -259,11 +375,12 @@ def filterItemText():
     allRolls = [line.strip() for line in lines]
 
     itemName = findItem(filteredText[0],allItems)
+  
     if itemName:
         weaponToSell.append(itemName)
         filteredText.pop(0)
     else:
-        print("ERROR: ITEM NOT FOUND")
+        sys.exit("ERROR: ITEM NOT FOUND")
 
     for textLines in filteredText:
         found = findItem(textLines,allRolls)
@@ -273,15 +390,14 @@ def filterItemText():
             weaponToSell.append(found)
         else:
             print("ERROR: ROLL NOT FOUND")
-            
-    print("selling: ...")
+    
 
+
+    print("selling: ...")
     print(weaponToSell)
     print("done")
 
-    searchAndFindPrice(weaponToSell)
-
-    
+    return(weaponToSell)
     
     
 

@@ -2,6 +2,7 @@ Badger Pendant
 Bear Pendant 
 Fangs of Death Necklace 
 Fox Pendant 
+Troll's Bane
 Frost Amulet 
 Monkey Pendant 
 Necklace of Peace
@@ -106,6 +107,7 @@ Oracle Robe
 Padded Leggings
 Ornate Jazerant
 Padded Tunic
+Plate Boots
 Rubysilver Plate Boots
 Cobalt Plate Boots
 Plate Pants
@@ -132,11 +134,13 @@ Watchman Cloak
 Templar Armor
 Cobalt Templar Armor 
 Troubadour Outfit
-Viking Helmet
-Cobalt Viking Helmet
+Viking Helm
+Cobalt Viking Helm
 Visored Barbuta Helm
 Wanderer Attire
 Warden Outfit
 Wizard Hat
 Wizard Shoes
 Mercurial Cloak
+Visored Sallet
+Topfhelm

@@ -1,9 +1,4 @@
-Loose Trousers
-_ - Armor Rating 14 -
-- - Move Speed -2 -
-= - Agility 5 -
-+2 Strength
-+ - +6,6% Magical Interaction Speed -
-- +4 Max Health -
-Cloth Pe)
-Epic
+Frost Amulet
+koi - +9 Magic Resistance -
+Necklace
+Uncommon
