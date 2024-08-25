@@ -10,7 +10,74 @@ import difflib
 import coords
 import random
 
+
+
+class NoListingSlots(Exception):
+    pass
+
+
+
+def gatherGold():
+    for i in range(10):
+        time.sleep(0.1)
+        pyautogui.moveTo(coords.xGatherGold, coords.yGatherGold + i * 51, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(coords.xCanOrTransfer, coords.yCanOrTransfer, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(coords.xConfirmNo, coords.yConfirmNo, duration=0.1) 
+        pyautogui.click()
+
+
+def getAvailListings(secondRun):
+    #Take screenshot and sanitize for read text
+    ss = pyautogui.screenshot(region=[coords.xGetListings,coords.yGetListings,coords.x2GetListings,coords.y2GetListings])
+    ss = ss.convert("RGB")
+    data = ss.getdata()
+    newData = []
+
+    for item in data:
+        avg = math.floor((item[0] + item[1] + item[2]) / 3)
+        bounds = avg * 0.05
+        if bounds > abs(avg - item[0]) and bounds > abs(avg - item[1]) and bounds > abs(avg - item[2]):
+            newData.append(item)
+        else:
+            newData.append((0,0,0))
+
+    ss.putdata(newData)
+    ss.save('testingTitle.png')
+    ss.save('testingListItem.png')
+    txt = pytesseract.image_to_string('testingListItem.png',config="--psm 6")
+    txt = txt.splitlines()
+
+    #Read for listing slots and report if any avial, and #of slots
+    avail = 0
+    slots = 0
+    for lines in txt:
+        if lines == 'List an Item':
+            avail = 1
+            slots += 1
+        else:
+            continue
+
+    with open('debug.txt', 'a') as file:
+        if avail:
+            file.write("YES! " + str(slots) + " listings availible\n")
+        else:
+            file.write("NO LISTING SLOTS!, CLEAR GOLD ")
+
+    if not avail:
+        gatherGold()
+        if not secondRun:
+            getAvailListings(1)
+
+    return avail, slots
+    
+
+
 def getItemTitle():
+    # Take screenshot of title and filter data for text read
     targetColor = 130    
     ss = pyautogui.screenshot(region=[coords.xStashStart,coords.yStashStart,coords.xTitleAdd,coords.yTitleAdd])
     ss = ss.convert("RGB")
@@ -25,49 +92,50 @@ def getItemTitle():
 
     ss.putdata(newData)
     ss.save('testingTitle.png')
-
     txt = pytesseract.image_to_string("testingTitle.png",config="--psm 6")
-
     with open('debug.txt', 'a') as file:
         file.write("got text: " + str(txt))
 
-    # filteredText = filterGarbage(txt.split())
-    # filteredText = ' '.join(filteredText)
-    # print(filteredText)
-
+    # Search for item from txt and return result
     with open("items.txt", 'r') as file:
         lines = file.readlines()
     allItems = [line.strip() for line in lines]
 
     txt = txt.splitlines()
     for line in txt:
-        print(line)
         item = findItem(line,allItems)
-        print("found: " + str(item))
         if item:
             break
     print(txt)
     
     if item == None:
-        sys.exit("ERROR, COULDN'T FIND ITEM")
+        return None
     else:
         return item
 
 
 
 def listItem(price):
-    pyautogui.click()
-    time.sleep(0.4)
 
-    pyautogui.moveTo(coords.xSellingPrice, coords.ySellingPrice, duration=0.1) 
-    pyautogui.click()
-    pyautogui.typewrite(str(price), interval=0.01)
+    avail, slots = getAvailListings(0)
 
-    pyautogui.moveTo(coords.xCreateListing, coords.yCreateListing, duration=0.1) 
-    pyautogui.click()
+    if(avail):
+        pyautogui.moveTo(coords.xStashStart, coords.yStashStart, duration=0.1) 
+        pyautogui.click()
+        time.sleep(0.4)
 
-    pyautogui.moveTo(coords.xConfirmListing, coords.yConfirmListing, duration=0.1) 
-    pyautogui.click()
+        pyautogui.moveTo(coords.xSellingPrice, coords.ySellingPrice, duration=0.1) 
+        pyautogui.click()
+        pyautogui.typewrite(str(price), interval=0.01)
+
+        pyautogui.moveTo(coords.xCreateListing, coords.yCreateListing, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(coords.xConfirmListing, coords.yConfirmListing, duration=0.1) 
+        pyautogui.click()
+        return 1
+    else:
+        return 0
 
 
 
@@ -401,6 +469,8 @@ def filterItemText(rawItem):
     allRolls = [line.strip() for line in lines]
 
     itemName = getItemTitle()
+    if itemName == None:
+        return None
     weaponToSell.append(itemName)
 
     for textLines in rawItem:
@@ -489,17 +559,29 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.2):
 
 
 def searchStash():
-    for i in range(1):
-        for j in range(2):
-            xHome = coords.xStashStart
-            yHome = coords.yStashStart
-            newXCoord = xHome + (40 *j)
-            newYCoord = yHome +(40 *i)
-            clickAndDrag(newXCoord,newYCoord, xHome, yHome,0.5)
-                
-            rawWeapon = getItemDetails()
-            weapon = filterItemText(rawWeapon)
-            price = searchAndFindPrice(weapon)
-            returnMarketStash()
-            listItem(price)
-            returnMarketStash() 
+    try:
+        for i in range(20):
+            for j in range(12):
+                xHome = coords.xStashStart
+                yHome = coords.yStashStart
+                newXCoord = xHome + (40 *j)
+                newYCoord = yHome +(40 *i)
+                clickAndDrag(newXCoord,newYCoord, xHome, yHome,0.5)
+                    
+                rawWeapon = getItemDetails()
+                weapon = filterItemText(rawWeapon)
+                if weapon == None:
+                    with open('debug.txt', 'a') as file:
+                        file.write("No Weapon found ... going next cube")
+                    continue
+                price = searchAndFindPrice(weapon)
+                returnMarketStash()
+                success = listItem(price)
+                returnMarketStash()
+                if not success:
+                    raise NoListingSlots
+                    
+
+    except NoListingSlots:
+        with open('debug.txt', 'a') as file:
+            file.write("No Weapon found ... its actually over bro ...")
