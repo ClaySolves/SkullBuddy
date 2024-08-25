@@ -29,18 +29,25 @@ def getItemTitle():
     txt = pytesseract.image_to_string("testingTitle.png",config="--psm 6")
 
     with open('debug.txt', 'a') as file:
-        file.write("got text: " + str(txt) + "\nTime To Look Up\n")
+        file.write("got text: " + str(txt))
 
-    filteredText = filterGarbage(txt.split())
-    filteredText = ' '.join(filteredText)
-    print(filteredText)
+    # filteredText = filterGarbage(txt.split())
+    # filteredText = ' '.join(filteredText)
+    # print(filteredText)
 
     with open("items.txt", 'r') as file:
         lines = file.readlines()
     allItems = [line.strip() for line in lines]
 
+    txt = txt.splitlines()
+    for line in txt:
+        print(line)
+        item = findItem(line,allItems)
+        print("found: " + str(item))
+        if item:
+            break
+    print(txt)
     
-    item = findItem(filteredText,allItems)
     if item == None:
         sys.exit("ERROR, COULDN'T FIND ITEM")
     else:
@@ -50,7 +57,7 @@ def getItemTitle():
 
 def listItem(price):
     pyautogui.click()
-    time.sleep(0.1)
+    time.sleep(0.4)
 
     pyautogui.moveTo(coords.xSellingPrice, coords.ySellingPrice, duration=0.1) 
     pyautogui.click()
@@ -80,6 +87,8 @@ def returnMarketStash():
     pyautogui.moveTo(coords.xMyListings, coords.yMyListings, duration=0.1) 
     pyautogui.click()  
 
+    time.sleep(0.25)
+
 
 
 def is_game_running():
@@ -88,6 +97,34 @@ def is_game_running():
         if process.info['name'] == coords.GAME_NAME:
             return True
     return False
+
+
+
+def searchRarity(rarity):
+    if rarity == "Poor":
+        pyautogui.moveTo(coords.xPoor, coords.yPoor, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Common":
+        pyautogui.moveTo(coords.xCommon, coords.yCommon, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Uncommon":
+        pyautogui.moveTo(coords.xUncommon, coords.yUncommon, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Rare":
+        pyautogui.moveTo(coords.xRare, coords.yRare, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Epic":
+        pyautogui.moveTo(coords.xEpic, coords.yEpic, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Legendary":
+        pyautogui.moveTo(coords.xLegend, coords.yLegend, duration=0.1) 
+        pyautogui.click()
+    elif rarity == "Unique":
+        pyautogui.moveTo(coords.xUnique, coords.yUnique, duration=0.1) 
+        pyautogui.click() 
+    else:
+        return 0
+    return 1
 
 
 
@@ -104,30 +141,25 @@ def searchAndFindPrice(weapon):
 
     pyautogui.moveTo(coords.xRarity, coords.yRarity, duration=0.1) 
     pyautogui.click()
-    if weapon[-1] == "Poor":
-        pyautogui.moveTo(coords.xPoor, coords.yPoor, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Common":
-        pyautogui.moveTo(coords.xCommon, coords.yCommon, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Uncommon":
-        pyautogui.moveTo(coords.xUncommon, coords.yUncommon, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Rare":
-        pyautogui.moveTo(coords.xRare, coords.yRare, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Epic":
-        pyautogui.moveTo(coords.xEpic, coords.yEpic, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Legendary":
-        pyautogui.moveTo(coords.xLegend, coords.yLegend, duration=0.1) 
-        pyautogui.click()
-    elif weapon[-1] == "Unique":
-        pyautogui.moveTo(coords.xUnique, coords.yUnique, duration=0.1) 
-        pyautogui.click() 
-    else:
-        sys.exit("ERROR, WRONG RARITY!!! TS SHOULD NOT SHOW IN TERMINAL")
 
+    if not searchRarity(weapon[-1]):
+        with open('debug.txt', 'a') as file:
+            file.write("No rarity was found... Let's guess off the amount of rolls\n")
+        length = len(weapon)
+        if length == 1:
+            weapon.append("Common")
+        if length == 2:
+            weapon.append("Uncommon")
+        if length == 3:
+            weapon.append("Rare")
+        if length == 4:
+            weapon.append("Epic")
+        if length == 5:
+            weapon.append("Legendary")
+        if length == 5:
+            weapon.append("Unique")
+        searchRarity(weapon[-1])
+        
     #search Item
     pyautogui.moveTo(coords.xItemName, coords.yItemName, duration=0.1) 
     pyautogui.click()  
@@ -230,24 +262,6 @@ def searchAndFindPrice(weapon):
 
 
 
-def searchStash():
-    for i in range(1):
-        for j in range(2):
-            xHome = coords.xStashStart
-            yHome = coords.yStashStart
-            newXCoord = xHome + (40 *j)
-            newYCoord = yHome +(40 *i)
-            clickAndDrag(newXCoord,newYCoord, xHome, yHome,0.5)
-                
-            getItemDetails()
-            weapon = filterItemText()
-            price = searchAndFindPrice(weapon)
-            returnMarketStash()
-            #listItem(price)
-            print(price)
-
-
-
 def getItemCost():
     targetColor = 120
     getRidCoin = 50
@@ -292,23 +306,32 @@ def getItemCost():
         with open('debug.txt', 'a') as file:
             file.write("Price : " + str((newNums)) + '\n')
 
-        for nums in newNums:
-            if nums == 0:
-                continue
-
+        #if we are missing value or read 0 reread with more comps
         divCheck = len(newNums)
         if divCheck == 0 or divCheck != coords.numComps:
             count += 1
             numCompares += 1
             continue
-        else:
-            avgPrice = math.floor(sum(newNums) / divCheck)
-            return avgPrice
-    avgPrice = (math.floor(sum(newNums) / divCheck)) * -1
-    with open('debug.txt', 'a') as file:
-            file.write("Price :" + str(avgPrice) + "Not Enough Legit Comps for this roll:" + str(newNums) + '\n')
+
+        avgPrice = math.floor(sum(newNums) / divCheck)
+
+        #this block filters out higher listing prices for faster selling
+        for count, nums in enumerate(newNums):
+            if nums != newNums[-1]:
+                if newNums[count] + 50 > newNums[count + 1] or newNums[count] + (newNums[count] * 0.65) > newNums[count + 1]:
+                    if abs(newNums[count] - avgPrice) > abs(newNums[count + 1] - avgPrice):
+                        newNums.remove(nums)
+                    else:
+                        newNums.remove(newNums[count + 1])
+
+        avgPrice = math.floor(sum(newNums) / len(newNums))
+
+        return avgPrice
     
-    return avgPrice
+    with open('debug.txt', 'a') as file:
+            file.write("Not Enough Legit Comps for this roll:" + str(newNums) + '\n')
+    
+    return 0
 
 
 
@@ -327,17 +350,15 @@ def navCharLogin():
 
 def getItemDetails():
 
-    targetColor = 130
+    targetFilter = 315
+    targetColor = 150
     limitWhite = 200
     screenshot = pyautogui.screenshot(region=coords.StashCoords)
     screenshot.save('test.png')
-
-    
     img = Image.open('test.png')
 
     #Mask with blue to see attributes
     img = img.convert("RGB")
-
     data = img.getdata()
     newData = []
 
@@ -352,24 +373,24 @@ def getItemDetails():
 
     img.putdata(newData)
 
-    txt = pytesseract.image_to_string(img)
+    rawItemData = pytesseract.image_to_string(img)
     with open('debug.txt', 'a') as file:
-        file.write(txt)
+        file.write(rawItemData)
 
     img.save('final.png')
 
+    return rawItemData
 
 
-def filterItemText():
+
+
+def filterItemText(rawItem):
     weaponToSell = []
 
-    with open('debug.txt', 'r') as infile:
-        lines = infile.readlines()
+    # with open("debug.txt", 'a') as file:
+    #     file.write(rawItem)
 
-    filteredText = filterGarbage(lines)
-
-    with open('loot.txt', 'w') as outfile:
-        outfile.writelines(filteredText)
+    rawItem = rawItem.splitlines()
 
     with open("items.txt", 'r') as file:
         lines = file.readlines()
@@ -382,15 +403,17 @@ def filterItemText():
     itemName = getItemTitle()
     weaponToSell.append(itemName)
 
-    for textLines in filteredText:
-        textLines = ''.join([char for char in textLines if char.isalpha()])
+    for textLines in rawItem:
+        #print(textLines)
         found = findItem(textLines,allRolls)
+
         if found:
             if found == 'Move Speed' or found == 'Weapon Damage':
                 continue
             weaponToSell.append(found)
         else:
-            print("ERROR: ROLL NOT FOUND")
+            continue
+            #print("ERROR: ROLL NOT FOUND")
     
     print("selling: ...")
     print(weaponToSell)
@@ -462,3 +485,21 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.2):
     time.sleep(0.1)              # Optional: Wait a moment for the cursor to settle
     pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
     pyautogui.mouseUp()          # Release the mouse button
+
+
+
+def searchStash():
+    for i in range(1):
+        for j in range(2):
+            xHome = coords.xStashStart
+            yHome = coords.yStashStart
+            newXCoord = xHome + (40 *j)
+            newYCoord = yHome +(40 *i)
+            clickAndDrag(newXCoord,newYCoord, xHome, yHome,0.5)
+                
+            rawWeapon = getItemDetails()
+            weapon = filterItemText(rawWeapon)
+            price = searchAndFindPrice(weapon)
+            returnMarketStash()
+            listItem(price)
+            returnMarketStash() 
