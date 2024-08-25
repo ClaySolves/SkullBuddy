@@ -9,7 +9,7 @@ Additional Weapon Damage
 Agility
 Armor Penetration
 Armor Rating
-+ Armor Rating
+Armor Rating
 Buff Duration Bonus
 Debuff Duration Bonus
 Dexterity

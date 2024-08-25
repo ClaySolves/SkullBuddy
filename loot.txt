@@ -1,4 +1,9 @@
-Frost Amulet
-koi - +9 Magic Resistance -
-Necklace
+Ring of Vitality
+- +1 Max Health -
+Uncommon
+Ring of Vitality
+Searching for : Uncommon Ring of Vitality
+attr : Max Health
+Ring of Vitality
+- +1 Max Health -
 Uncommon
