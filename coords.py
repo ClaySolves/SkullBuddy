@@ -3,7 +3,7 @@ GAME_NAME = "DungeonCrawler.exe"
 undercutPercent = 10
 
 xTrade, yTrade = 1109, 37
-xGatherGold, yGatherGold = 300, 530
+xGatherGold, yGatherGold = 300, 988
 xCloseWindow, yCloseWindow = 310, 37
 xAttribute, yAttribute = 1565, 201
 xResetAttribute, yResetAttribute = 1673, 200
@@ -41,3 +41,4 @@ xGetListings, yGetListings = 242, 509
 x2GetListings, y2GetListings = 110, 500
 xCanOrTransfer, yCanOrTransfer = 960, 660
 xConfirmNo, yConfirmNo = 1111, 615
+xStashDetect, yStashDetect = 1380, 195

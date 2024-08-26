@@ -1,142 +1,730 @@
 reset
-ve
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 170
+Item detected
+Bear Pendant
 
-Wind Locket
++3.2% Magic Penetration -
+- +1 Additional Magical Damage
+News ace
+Handled
 
-+2.5% Armor Penetration. -
+Rare
 
-we
+Fubodyiy
 
-sit secs
+ete cesiiieice of Une cuig’ ily
 
-opine a
+sci Pie
 
-N
+got text: —~ a.
+Bear Pendant
 
-ant
+Searching for: —~ a.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Bear Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: ['Bear Pendant']
+Searching for: Bear Pendantfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: +3.2% Magic Penetration -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Magic Penetration']
+Searching for: - +1 Additional Magical Damagefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Additional Magical Damage']
+Searching for: News acefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Handledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Rare']
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Fubodyiyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: ete cesiiieice of Une cuig’ ilyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: sci Piefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for : Rare Bear Pendant
+Price : [39, 40, 40]
+attr : Magic Penetration
+Price : [39, 40, 40]
+attr : Additional Magical Damage
+Price : [45, 49]
+Price : [45, 49, 50]
+attr : Magic Penetration Additional Magical Damage
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Not Enough Legit Comps for this roll:[]
+Skipping already selected attr
+YES! 2 listings availible
+SUCCESS!!! Bear Pendant Listed at 44
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 262
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-Looted
+got text: )
+Ger et pee
 
-Uncommon
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 350
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-ace
+got text: )
+Ger et pee
 
-rystion!
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 314
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-sdb with ig ee
+got text: )
+Ger et pee
 
-Shae storie.
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 264
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: a a
-Wind Locket
-Searching for : Uncommon Wind Locket
-Price : [20, 24, 24]
-attr : Armor Penetration
-Price : [25, 27, 27]
-YES! 1 listings availible
-Stisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 171
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 165
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 310
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 278
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 285
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 340
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 296
+Item detected
+= te
+a 5
+oan Ss :
+I
+|
+|
+X z ¢
+he & OS
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
+got text: )
+Ger et pee
 
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
-
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
-
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
-
-got text: Pa
-c #
-Cs Qo goes
-No Weapon found ... going next cubeStisl
-
-Necklace e
-
-7 Looted
-Uncommoen
-Ariiticate ‘eat ie: chose: bo syubolize:
-
-ehh Prides
-
-got text: — a
-Phoenix Choker
-Searching for : Uncommon Phoenix Choker
-Price : [29, 30, 32]
-NO LISTING SLOTS!, CLEAR GOLD YES! 2 listings availible
-No Weapon found ... its actually over bro ...
+Searching for: )from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: Ger et peefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+No Weapon found ... going next cubeavg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 83
+No item detected ; 83 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 103
+No item detected ; 103 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110
+avg pixel val: 0
+No item detected ; 0 < 110

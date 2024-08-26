@@ -43,15 +43,14 @@ def main():
             with open('debug.txt', 'w') as file:
                 file.write('reset\n')
 
-            #navCharLogin()  # Call your automation function
+            #navCharLogin()
             #getItemDetails()
             #changeClass()
             DAD_Utils.searchStash()
             #getItemCost()
-            break  # Stop after performing the action, or remove this if you want continuous automation
+            break  
         else:
             print(f"{coords.GAME_NAME} is not running.")
-        
         time.sleep(5)  # Wait 5 seconds before checking again
 
 if __name__ == "__main__":

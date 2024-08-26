@@ -17,10 +17,40 @@ class NoListingSlots(Exception):
 
 
 
+def detectItem(xAdd,yAdd):
+    ss = pyautogui.screenshot(region=[coords.xStashDetect + xAdd,coords.yStashDetect + yAdd,20,20])
+    ss = ss.convert("RGB")
+    ss.save("ss" + str(coords.xStashDetect + xAdd) + "_" + str(coords.yStashDetect + yAdd) +".png")
+    w, h = ss.size
+    data = ss.getdata()
+    total = 0
+    ret = 0
+
+    for item in data:
+        total += sum(item)
+
+    div = w*h
+    res = math.floor(total/div)
+    with open('debug.txt', 'a') as file:
+        file.write("avg pixel val: " + str(res) + "\n")
+    if res > 110:
+        ret = 1
+
+    if ret:
+        with open('debug.txt', 'a') as file:
+            file.write("Item detected\n")
+    else:
+        with open('debug.txt', 'a') as file:
+            file.write("No item detected ; " + str(res) + " < 110\n")
+
+    return ret
+
+
+
 def gatherGold():
     for i in range(10):
         time.sleep(0.1)
-        pyautogui.moveTo(coords.xGatherGold, coords.yGatherGold + i * 51, duration=0.1) 
+        pyautogui.moveTo(coords.xGatherGold, coords.yGatherGold - (i * 51), duration=0.1) 
         pyautogui.click()
 
         pyautogui.moveTo(coords.xCanOrTransfer, coords.yCanOrTransfer, duration=0.1) 
@@ -67,10 +97,10 @@ def getAvailListings(secondRun):
         else:
             file.write("NO LISTING SLOTS!, CLEAR GOLD ")
 
-    if not avail:
+    if not avail and not secondRun:
         gatherGold()
         if not secondRun:
-            getAvailListings(1)
+            avail, _ = getAvailListings(1)
 
     return avail, slots
     
@@ -84,9 +114,9 @@ def getItemTitle():
     data = ss.getdata()
     newData = []
 
-    for item in data:
-        if item[0] >= targetColor or item[1] >= targetColor:
-            newData.append(item)
+    for pixel in data:
+        if pixel[0] >= targetColor or pixel[1] >= targetColor:
+            newData.append(pixel)
         else:
             newData.append((0,0,0))
 
@@ -94,7 +124,7 @@ def getItemTitle():
     ss.save('testingTitle.png')
     txt = pytesseract.image_to_string("testingTitle.png",config="--psm 6")
     with open('debug.txt', 'a') as file:
-        file.write("got text: " + str(txt))
+        file.write("got text: " + str(txt) + "\n")
 
     # Search for item from txt and return result
     with open("items.txt", 'r') as file:
@@ -102,11 +132,11 @@ def getItemTitle():
     allItems = [line.strip() for line in lines]
 
     txt = txt.splitlines()
+    item = None
     for line in txt:
         item = findItem(line,allItems)
         if item:
             break
-    print(txt)
     
     if item == None:
         return None
@@ -140,7 +170,14 @@ def listItem(price):
 
 
 def findItem(input_string, phrase_list):
+    with open('debug.txt', 'a') as file:
+        file.write("Searching for: " + str(input_string) + 
+                   "from " + str(phrase_list[:3]) + "\n")
+
     closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
+
+    with open('debug.txt', 'a') as file:
+        file.write("Found: " + str(closest_match) + "\n")
     return closest_match[0] if closest_match else None
 
 
@@ -446,18 +483,13 @@ def getItemDetails():
         file.write(rawItemData)
 
     img.save('final.png')
-
     return rawItemData
 
 
 
-
+#
 def filterItemText(rawItem):
     weaponToSell = []
-
-    # with open("debug.txt", 'a') as file:
-    #     file.write(rawItem)
-
     rawItem = rawItem.splitlines()
 
     with open("items.txt", 'r') as file:
@@ -470,6 +502,7 @@ def filterItemText(rawItem):
 
     itemName = getItemTitle()
     if itemName == None:
+        print("RETURN NONE")
         return None
     weaponToSell.append(itemName)
 
@@ -541,15 +574,7 @@ def filterGarbage(text):
 
     return filteredText
 
-def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.2):
-    """
-    Click and drag from startPos to endPos over a specified duration.
-    
-    Parameters:
-        startPos (tuple): The (x, y) coordinates to start dragging from.
-        endPos (tuple): The (x, y) coordinates to drag to.
-        duration (float): The duration to complete the drag operation.
-    """
+def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xStart, yStart)  # Move to the starting position
     pyautogui.mouseDown()        # Press and hold the mouse button
     time.sleep(0.1)              # Optional: Wait a moment for the cursor to settle
@@ -566,6 +591,8 @@ def searchStash():
                 yHome = coords.yStashStart
                 newXCoord = xHome + (40 *j)
                 newYCoord = yHome +(40 *i)
+                if not detectItem(41 * i,41 * j):
+                    continue
                 clickAndDrag(newXCoord,newYCoord, xHome, yHome,0.5)
                     
                 rawWeapon = getItemDetails()
@@ -580,6 +607,8 @@ def searchStash():
                 returnMarketStash()
                 if not success:
                     raise NoListingSlots
+                with open('debug.txt', 'a') as file:
+                    file.write("SUCCESS!!! " + str(weapon[0]) + " Listed at " + str(price) + "\n")
                     
 
     except NoListingSlots:

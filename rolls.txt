@@ -36,7 +36,7 @@ Resourcefulness
 Spell Casting Speed
 Strength
 True Magical Damage
-True PHysical Damage
+True Physical Damage
 Vigor
 Will
 Unique
