@@ -38,14 +38,14 @@ Rare
 
 Fubodyiy
 
-ete cesiiieice of Une cuig’ ily
+ete cesiiieice of Une cuigï¿½ ily
 
 sci Pie
 
-got text: —~ a.
+got text: ï¿½~ a.
 Bear Pendant
 
-Searching for: —~ a.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Searching for: ï¿½~ a.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 Found: []
 Searching for: Bear Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 Found: ['Bear Pendant']
@@ -71,7 +71,7 @@ Searching for: Fubodyiyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 Found: []
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 Found: []
-Searching for: ete cesiiieice of Une cuig’ ilyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: ete cesiiieice of Une cuigï¿½ ilyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 Found: []
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 Found: []
@@ -156,7 +156,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -184,7 +184,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -208,7 +208,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -252,7 +252,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -314,7 +314,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -332,7 +332,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -370,7 +370,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -388,7 +388,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -450,7 +450,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -482,7 +482,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -508,7 +508,7 @@ oan Ss :
 I
 |
 |
-X z ¢
+X z ï¿½
 he & OS
 
 got text: )
@@ -728,3 +728,17 @@ avg pixel val: 0
 No item detected ; 0 < 110
 avg pixel val: 0
 No item detected ; 0 < 110
+Checking screen for: img/{img}.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: img/showListingComplete.png
+Checking screen for: showListingComplete
+Checking screen for: img/showListingComplete.png

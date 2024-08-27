@@ -11,6 +11,17 @@ import coords
 import random
 
 
+#return 1 if img on screen else return location
+def getCurrentScreen(img):
+
+    with open('debug.txt', 'a') as file:
+        file.write(f'Checking screen for: img/{img}.png' + "\n")
+
+    imgDetected = pyautogui.locateOnScreen(f'img/{img}.png')
+    if imgDetected: return 1 
+    else: return 0
+
+
 
 class NoListingSlots(Exception):
     pass

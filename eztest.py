@@ -17,6 +17,4 @@ def findItem(input_string, phrase_list):
 
 # print(res)
 
-avail, slots = DAD_Utils.getAvailListings()
-print(avail, slots)
-DAD_Utils.gatherGold()
+print(DAD_Utils.getCurrentScreen('showListingComplete'))
