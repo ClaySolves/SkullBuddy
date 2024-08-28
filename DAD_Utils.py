@@ -9,29 +9,36 @@ from PIL import Image, ImageOps
 import difflib
 import coords
 import random
-
-
-#return 1 if img on screen else return location
-def getCurrentScreen(img):
-
-    with open('debug.txt', 'a') as file:
-        file.write(f'Checking screen for: img/{img}.png' + "\n")
-
-    imgDetected = pyautogui.locateOnScreen(f'img/{img}.png')
-    if imgDetected: return 1 
-    else: return 0
-
-
+import os
 
 class NoListingSlots(Exception):
     pass
 
 
 
+
+#return 1 if img on screen else return location
+def getCurrentScreen(img):
+    with open('debug.txt', 'a') as file:
+        file.write(f'Checking screen for: img/{img}.png' + "\n")
+
+    try:
+        pyautogui.locateOnScreen(f'img/{img}.png')
+        with open('debug.txt', 'a') as file:
+            file.write("SCREEN DETECTED!\n")
+        return 1
+    except pyautogui.ImageNotFoundException as e:
+        with open('debug.txt', 'a') as file:
+            file.write("NOPE !!! NOT FOUND\n")
+        return 0
+
+
+
+#NEEDS FIXING detects if item is in stash on given coord offet
 def detectItem(xAdd,yAdd):
     ss = pyautogui.screenshot(region=[coords.xStashDetect + xAdd,coords.yStashDetect + yAdd,20,20])
     ss = ss.convert("RGB")
-    ss.save("ss" + str(coords.xStashDetect + xAdd) + "_" + str(coords.yStashDetect + yAdd) +".png")
+    ss.save("seeStash.png")
     w, h = ss.size
     data = ss.getdata()
     total = 0
@@ -57,7 +64,7 @@ def detectItem(xAdd,yAdd):
     return ret
 
 
-
+#Gathers gold from sold listings
 def gatherGold():
     for i in range(10):
         time.sleep(0.1)
@@ -213,6 +220,17 @@ def is_game_running():
         if process.info['name'] == coords.GAME_NAME:
             return True
     return False
+
+
+
+
+def findExecPath(appName):
+    for path in coords.execSearchPaths:
+        for root, dirs, files in os.walk(path):
+            if appName in files:
+                return os.path.join(root, appName)
+    return None
+
 
 
 

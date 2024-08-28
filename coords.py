@@ -2,6 +2,12 @@
 GAME_NAME = "DungeonCrawler.exe"
 undercutPercent = 10
 
+execSearchPaths = [
+    r'C:\Program Files',
+    r'C:\Program Files (x86)',
+    r'C:\Games',
+]
+
 xTrade, yTrade = 1109, 37
 xGatherGold, yGatherGold = 300, 988
 xCloseWindow, yCloseWindow = 310, 37

@@ -1,5 +1,6 @@
 import difflib
 import DAD_Utils
+import coords
 
 def findItem(input_string, phrase_list):
     closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
@@ -16,5 +17,8 @@ def findItem(input_string, phrase_list):
 # res = findItem(str,allItems)
 
 # print(res)
-
-print(DAD_Utils.getCurrentScreen('showListingComplete'))
+print(DAD_Utils.findExecPath(coords.GAME_NAME))
+print(DAD_Utils.getCurrentScreen('selectedPlay'))
+print(DAD_Utils.getCurrentScreen('selectedTrade'))
+print(DAD_Utils.getCurrentScreen('selectedStash'))
+print(DAD_Utils.getCurrentScreen('selectedTitleScreen'))

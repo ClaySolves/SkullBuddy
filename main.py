@@ -34,8 +34,10 @@ from PIL import Image, ImageOps
 import difflib
 import DAD_Utils
 import coords
+import subprocess
 
 def main():
+    launchedGame = 0
     while True:
         if DAD_Utils.is_game_running():
             print(f"{coords.GAME_NAME} is running.")
@@ -43,14 +45,17 @@ def main():
             with open('debug.txt', 'w') as file:
                 file.write('reset\n')
 
-            #navCharLogin()
-            #getItemDetails()
-            #changeClass()
-            DAD_Utils.searchStash()
-            #getItemCost()
+            #DAD_Utils.navCharLogin()
+            #DAD_Utils.getItemDetails()
+            #DAD_Utils.changeClass()
+            #DAD_Utils.searchStash()
+            #DAD_Utils.getItemCost()
             break  
         else:
-            print(f"{coords.GAME_NAME} is not running.")
+            if not launchedGame:
+                print(f"{coords.GAME_NAME} is not running. Launching...\n")
+                subprocess.Popen(DAD_Utils.findExecPath(coords.GAME_NAME))
+                launchedGame = 1
         time.sleep(5)  # Wait 5 seconds before checking again
 
 if __name__ == "__main__":
