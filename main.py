@@ -48,14 +48,19 @@ def main():
             #DAD_Utils.navCharLogin()
             #DAD_Utils.getItemDetails()
             #DAD_Utils.changeClass()
-            #DAD_Utils.searchStash()
+            DAD_Utils.searchStash()
             #DAD_Utils.getItemCost()
             break  
         else:
             if not launchedGame:
                 print(f"{coords.GAME_NAME} is not running. Launching...\n")
-                subprocess.Popen(DAD_Utils.findExecPath(coords.GAME_NAME))
-                launchedGame = 1
+
+                # Ironshield doesn't like this solution ... 
+                # subprocess.Popen(DAD_Utils.findExecPath(coords.GAME_NAME))
+                # launchedGame = 1
+
+                sys.exit(f"{coords.GAME_NAME} is NOT running. Launch Dark and Darker\n")
+
         time.sleep(5)  # Wait 5 seconds before checking again
 
 if __name__ == "__main__":

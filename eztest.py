@@ -1,6 +1,8 @@
 import difflib
 import DAD_Utils
 import coords
+import time
+import pyautogui
 
 def findItem(input_string, phrase_list):
     closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
@@ -16,9 +18,20 @@ def findItem(input_string, phrase_list):
 
 # res = findItem(str,allItems)
 
-# print(res)
-print(DAD_Utils.findExecPath(coords.GAME_NAME))
-print(DAD_Utils.getCurrentScreen('selectedPlay'))
-print(DAD_Utils.getCurrentScreen('selectedTrade'))
-print(DAD_Utils.getCurrentScreen('selectedStash'))
-print(DAD_Utils.getCurrentScreen('selectedTitleScreen'))
+
+# print(DAD_Utils.findExecPath(coords.GAME_NAME))
+# print(DAD_Utils.getCurrentScreen('selectedPlay'))
+# time.sleep(0.2)
+# print(DAD_Utils.getCurrentScreen('selectedTrade'))
+# time.sleep(0.2)
+# print(DAD_Utils.getCurrentScreen('selectedStash'))
+# time.sleep(0.2)
+# print(DAD_Utils.getCurrentScreen('showListingComplete'))
+# time.sleep(0.2)
+# print(DAD_Utils.getCurrentScreen('selectedTitleScreen'))
+# time.sleep(0.2)
+# print(DAD_Utils.getCurrentScreen('sharedStash'))
+# time.sleep(0.2)
+for i in range(10):
+    DAD_Utils.getItemRarity()
+    time.sleep(3)

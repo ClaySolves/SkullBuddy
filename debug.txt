@@ -1,1 +1,143 @@
 reset
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 230
+Item detected
+oS x7
+
+Stisl
+
+got text: 
+No Weapon found ... going next cubeavg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 84
+No item detected ; 84 < 110
+avg pixel val: 220
+Item detected
+—
+
+tian, Piss ne!
+
+Stisl
+
++3.5% Buff Duration Bonus
++1 Max Health
+
+Required Class
+
+Barbarian.
+Heat
+Paste
+Looted
+Rare
+WIE Tits stindy covst: action eid i: ose
+
+Wensnes your
+
+SM ag reel ot be,
+
+»
+A
+
+got text: aT oe .
+a: Visored Sallet
+
+Searching for: aT oe .from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: []
+Searching for: a: Visored Salletfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Found: ['Visored Sallet']
+Searching for: —from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: tian, Piss ne!from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: +3.5% Buff Duration Bonusfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Buff Duration Bonus']
+Searching for: +1 Max Healthfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Max Health']
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Required Classfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Barbarian.from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Heatfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Pastefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: ['Rare']
+Searching for: WIE Tits stindy covst: action eid i: osefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Wensnes yourfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: SM ag reel ot be,from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: »from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: Afrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Found: []
+Searching for : Rare Visored Sallet
+Price : [40, 45, 48]
+attr : Buff Duration Bonus
+Price : [70, 70, 99]
+attr : Max Health
+Price : [100]
+Price : [100]
+Price : [100, 200]
+Price : [100, 200, 200]
+attr : Buff Duration Bonus Max Health
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Price : []
+Not Enough Legit Comps for this roll:[]
+Skipping already selected attr
+YES! 3 listings availible
+SUCCESS!!! Visored Sallet Listed at 149

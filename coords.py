@@ -48,3 +48,4 @@ x2GetListings, y2GetListings = 110, 500
 xCanOrTransfer, yCanOrTransfer = 960, 660
 xConfirmNo, yConfirmNo = 1111, 615
 xStashDetect, yStashDetect = 1380, 195
+firstSlotItemDisplayRegion = (1358, 170, 442, 630)

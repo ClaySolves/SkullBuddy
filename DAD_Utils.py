@@ -14,27 +14,121 @@ import os
 class NoListingSlots(Exception):
     pass
 
-
-
-
 #return 1 if img on screen else return location
 def getCurrentScreen(img):
     with open('debug.txt', 'a') as file:
         file.write(f'Checking screen for: img/{img}.png' + "\n")
 
     try:
-        pyautogui.locateOnScreen(f'img/{img}.png')
+        pyautogui.locateOnScreen(f'img/{img}.png', confidence=0.98)
         with open('debug.txt', 'a') as file:
             file.write("SCREEN DETECTED!\n")
         return 1
     except pyautogui.ImageNotFoundException as e:
         with open('debug.txt', 'a') as file:
-            file.write("NOPE !!! NOT FOUND\n")
+            file.write("NOT FOUND: " + str(e) + "\n")
         return 0
 
 
 
-#NEEDS FIXING detects if item is in stash on given coord offet
+# Read image text and confirm the rarity
+def confirmRarity(img,rarity):
+
+    left = int(img.left)
+    top = int(img.top)
+    width = int(img.width)
+    height = int(img.height)
+    ssRegion=(left, top, width, height)
+    ss = pyautogui.screenshot(region=ssRegion)
+    ss.save('readText.png')
+    txt = pytesseract.image_to_string('readText.png', config="--psm 6")
+    if rarity.lower() in txt.lower():
+        return 1
+    else:
+        return 0
+
+
+
+# Return location and santize ImageNotFound error
+def locateOnScreen(img,region):
+    try:
+        res = pyautogui.locateOnScreen(f'img/{img}.png', region=region, confidence=0.99)
+        with open('debug.txt', 'a') as file:
+            file.write(f"Found: {img}\n") 
+        return res 
+    except pyautogui.ImageNotFoundException as e:
+        with open('debug.txt', 'a') as file:
+            file.write(f"{img} was not found\n") 
+        return None
+        
+
+# Returns the rarity of the item in top left 
+def getItemRarity():
+    pyautogui.moveTo(coords.xStashStart,coords.yStashStart,duration=0.1)
+
+    ret = None
+
+    poorDetect = locateOnScreen('poor', region=coords.firstSlotItemDisplayRegion)
+    if poorDetect:
+        if confirmRarity(poorDetect,'poor'):
+            print('its poor\n')
+            ret = 'poor'
+    time.sleep(0.02)
+
+    commonDetect = locateOnScreen('common', region=coords.firstSlotItemDisplayRegion)
+    if commonDetect:
+        if confirmRarity(commonDetect,'common'):
+            print('its common\n')
+            ret = 'common'
+    time.sleep(0.02)
+
+    uncommonDetect = locateOnScreen('uncommon', region=coords.firstSlotItemDisplayRegion)
+    if uncommonDetect:
+        if confirmRarity(uncommonDetect,'uncommon'):
+            print('its uncommon\n')
+            ret = 'uncommon'
+    time.sleep(0.02)
+
+    rareDetect = locateOnScreen('rare', region=coords.firstSlotItemDisplayRegion)
+    if rareDetect:
+        if confirmRarity(rareDetect,'rare'):
+            print('its rare\n')
+            ret = 'rare'
+    time.sleep(0.02)
+
+    epicDetect = locateOnScreen('epic', region=coords.firstSlotItemDisplayRegion)
+    if epicDetect:
+        if confirmRarity(epicDetect,'epic'):
+            print('its epic\n')
+            ret = 'epic'
+    time.sleep(0.02)
+
+    legendaryDetect = locateOnScreen('legendary', region=coords.firstSlotItemDisplayRegion)
+    if legendaryDetect:
+        if confirmRarity(legendaryDetect,'legendary'):
+            print('its legendary\n')
+            ret = 'legendary'
+    time.sleep(0.02)
+
+    uniqueDetect = locateOnScreen('unique', region=coords.firstSlotItemDisplayRegion)
+    if uniqueDetect:
+        if confirmRarity(uniqueDetect,'unique'):
+            print('its unique\n')
+            ret = 'unique'
+    time.sleep(0.02)
+
+    if ret:
+        with open('debug.txt', 'a') as file:
+            file.write(f"Found {ret} item\n")  
+    else:
+        with open('debug.txt', 'a') as file:
+            file.write("ERROR!!! NO RARITY FOUND\n") 
+
+    return ret   
+
+
+
+# NEEDS FIXING detects if item is in stash on given coord offet
 def detectItem(xAdd,yAdd):
     ss = pyautogui.screenshot(region=[coords.xStashDetect + xAdd,coords.yStashDetect + yAdd,20,20])
     ss = ss.convert("RGB")
@@ -64,7 +158,7 @@ def detectItem(xAdd,yAdd):
     return ret
 
 
-#Gathers gold from sold listings
+# Gathers gold from sold listings
 def gatherGold():
     for i in range(10):
         time.sleep(0.1)
@@ -78,6 +172,8 @@ def gatherGold():
         pyautogui.click()
 
 
+
+# Get the availible listing slots
 def getAvailListings(secondRun):
     #Take screenshot and sanitize for read text
     ss = pyautogui.screenshot(region=[coords.xGetListings,coords.yGetListings,coords.x2GetListings,coords.y2GetListings])
@@ -124,6 +220,7 @@ def getAvailListings(secondRun):
     
 
 
+# Get the title of an item on top left corner
 def getItemTitle():
     # Take screenshot of title and filter data for text read
     targetColor = 130    
@@ -163,6 +260,7 @@ def getItemTitle():
 
 
 
+#Listen item at price
 def listItem(price):
 
     avail, slots = getAvailListings(0)
