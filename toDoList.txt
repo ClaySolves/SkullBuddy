@@ -1,7 +1,11 @@
 TO DO LIST FOR DNDAUTOTRADER 8.28
 
-Add a function to swap characters in case all listings are full
-Add a function to detect SharedStash and select it 
+Add a function to swap through all characters and get the number of listing slots
+Add a function to detect SharedStash and select it | Partially done
 Add a function to navigate to the tradingMarket from ANY screen
-Fix stash navigation 
-If an item isn't found in item look up, save the screenshot of it so i can manually add it in
+Fix stash navigation | DONE
+If an item isn't found in item look up, save the screenshot of it so i can manually add it in 
+Add VerifySwap(destination) function that verifies we swapped screens, add to anything with GAME LAG/UPDATE LAG | FUNCTION DONE need impliment 
+
+wrap script in an application
+make webpage showing sold items / store somewhere

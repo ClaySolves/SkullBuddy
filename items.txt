@@ -27,7 +27,7 @@ Bardiche
 Club
 Battle Axe		
 Buckler	
-Castillion Dagger
+Castillon Dagger
 Crystal Ball
 Double Axe
 Falchion
@@ -71,6 +71,7 @@ Cloth Pants
 Dark Plate Armor
 Doublet
 Rubysilver Doublet
+Short Sword
 Fine Cuirass
 Feathered Hat
 Forest hood

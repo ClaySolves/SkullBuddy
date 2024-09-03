@@ -32,6 +32,7 @@ def findItem(input_string, phrase_list):
 # time.sleep(0.2)
 # print(DAD_Utils.getCurrentScreen('sharedStash'))
 # time.sleep(0.2)
-for i in range(10):
-    DAD_Utils.getItemRarity()
-    time.sleep(3)
+#weapon = ["Loose Trousers","Strength","Max Health","Max Health Bonus", "Epic"]
+#print(DAD_Utils.searchAndFindPrice(weapon))
+DAD_Utils.dumpInventory()
+print(1)

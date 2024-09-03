@@ -39,10 +39,3 @@ True Magical Damage
 True Physical Damage
 Vigor
 Will
-Unique
-Legendary
-Epic
-Rare
-Uncommon
-Common
-Poor

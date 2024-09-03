@@ -9,6 +9,7 @@ execSearchPaths = [
 ]
 
 xTrade, yTrade = 1109, 37
+xStashSelect,yStashSelect = 800,40
 xGatherGold, yGatherGold = 300, 988
 xCloseWindow, yCloseWindow = 310, 37
 xAttribute, yAttribute = 1565, 201
@@ -43,9 +44,15 @@ xPriceCoords, yPriceCoords = 1452, 324 # for add its x + 60 y + 150
 xResetFilters, yResetFilters = 1790, 201
 xSearchPrice, ySearchPrice = 1788, 273
 numComps = 3
+totalListings = 10
+valueThreshold = 1000
 xGetListings, yGetListings = 242, 509
 x2GetListings, y2GetListings = 110, 500
 xCanOrTransfer, yCanOrTransfer = 960, 660
 xConfirmNo, yConfirmNo = 1111, 615
 xStashDetect, yStashDetect = 1380, 195
 firstSlotItemDisplayRegion = (1358, 170, 442, 630)
+listingSoldRegion = (20,500,45,515)
+xInventory,yInvetory = 705, 644
+xExitMarket,yExitMarket = 150,40
+xExitMarketYes,yExitMarketYes = 855,615
