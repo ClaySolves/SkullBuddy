@@ -10,19 +10,57 @@ import difflib
 import coords
 import random
 import os
+from pynput import keyboard, mouse
 
 class NoListingSlots(Exception):
     pass
 
 
 
+#Navigate to the market place
+def navToMarket():
+    #Add some automation, if not on main screen FIX
+    if locateOnScreen('verifyTitleScreen',region=(0,0,500,333)): 
+        navCharLogin()
+    if locateOnScreen('verifyMainScreen',region=(0,0,300,300)): 
+        pyautogui.moveTo(coords.xSelectTrade,coords.ySelectTrade) 
+        pyautogui.click()
+
+        while not locateOnScreen('verifyMarket',region=coords.getMarketRegion):
+            pyautogui.moveTo(coords.xSelectMarket,coords.ySelectMarket) 
+            pyautogui.click()
+
+        pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
+        pyautogui.click()      
+
+
+
+#Returns coords of selected stash
+def selectStash(market=False): 
+    if market:
+        stashNum = coords.stashSell
+    else:
+        stashNum = coords.stashDump
+    txt = 'SharedMenu' if stashNum < 0 else str(stashNum)
+    search = txt + "Market" if market else txt
+    print(search)
+    res = locateOnScreen(f"stash{search}", region=coords.getStashRegion)
+    if res:
+        pyautogui.moveTo(res[0]+15,res[1]+15)
+        pyautogui.click()
+    return res
+
+
 #moves item in coords to/from inventor
 def itemMoveInventory(x=coords.xStashStart,y=coords.yStashStart,attempt=1):
     pyautogui.moveTo(x,y)
-    pyautogui.keyDown('shift')
+
+    mouseKey = mouse.Controller()
+    keyboardKey = keyboard.Controller()
+    keyboardKey.press(keyboard.Key.shift)
     time.sleep(0.1)
-    pyautogui.click(button='right')
-    pyautogui.keyUp('shift')
+    mouseKey.click(mouse.Button.right)
+    keyboardKey.release(keyboard.Key.shift)
     if attempt > 4: 
         pass
     elif getItemTitle(): 
@@ -43,6 +81,8 @@ def dumpInventory():
     pyautogui.click()
 
     if not getCurrentScreen('selectedStash'): dumpInventory()
+
+    selectStash()
 
     for y in range(5):
         for x in range(10):
@@ -652,7 +692,9 @@ def navCharLogin():
     xLobby, yLobby = 960, 1000  # coords for enter lobby location
     pyautogui.moveTo(xLobby, yLobby, duration=0.1)  # Move the mouse to (x, y) over 1 second
     pyautogui.click()  # Perform a mouse click
-    time.sleep(7)
+    
+    while not locateOnScreen('verifyMainScreen', region=(0,0,300,300)):
+        time.sleep(0.3)
 
 
 
@@ -813,7 +855,15 @@ def searchStash():
                 price = searchAndFindPrice(weapon)
                 returnMarketStash()
 
+                # handle goot loot / inventory dump
+                if price <= 15:
+                    itemMoveInventory()
+                    if getItemTitle():
+                        dumpInventory()
+                        navToMarket()
+
                 success = listItem(price)
+
                 returnMarketStash()
                 if not success:
                     raise NoListingSlots

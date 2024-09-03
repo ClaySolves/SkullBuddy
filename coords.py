@@ -50,9 +50,16 @@ xGetListings, yGetListings = 242, 509
 x2GetListings, y2GetListings = 110, 500
 xCanOrTransfer, yCanOrTransfer = 960, 660
 xConfirmNo, yConfirmNo = 1111, 615
+xSelectTrade, ySelectTrade = 1111, 40
+xSelectMarket, ySelectMarket = 1250, 250
 xStashDetect, yStashDetect = 1380, 195
 firstSlotItemDisplayRegion = (1358, 170, 442, 630)
 listingSoldRegion = (20,500,45,515)
 xInventory,yInvetory = 705, 644
 xExitMarket,yExitMarket = 150,40
 xExitMarketYes,yExitMarketYes = 855,615
+getStashRegion = (1284, 172, 80, 371)
+getMarketRegion = (800,0,400,80)
+
+stashDump = 3 # put -1 for shared stash
+stashSell = -1 # put -1 for shared stash 

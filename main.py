@@ -35,21 +35,31 @@ import difflib
 import DAD_Utils
 import coords
 import subprocess
+import keyboard
+
+
+running = True
+
+def stopScript():
+    global running
+    running = False
+    print("HOTKEY PRESSED ENDING SCRIPT!!!!!!!!\n")
+
+keyboard.add_hotkey("ctrl+shift+q",stopScript)
 
 def main():
     launchedGame = 0
-    while True:
+    while running:
         if DAD_Utils.is_game_running():
             print(f"{coords.GAME_NAME} is running.")
             
             with open('debug.txt', 'w') as file:
                 file.write('reset\n')
-
-            #DAD_Utils.navCharLogin()
-            #DAD_Utils.getItemDetails()
-            #DAD_Utils.changeClass()
+            DAD_Utils.navToMarket()
+            time.sleep(0.3)
+            DAD_Utils.selectStash(True)
+            time.sleep(0.3)
             DAD_Utils.searchStash()
-            #DAD_Utils.getItemCost()
             break  
         else:
             if not launchedGame:

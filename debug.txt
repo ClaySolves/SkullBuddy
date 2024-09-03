@@ -1,40 +1,234 @@
 reset
-addX: 0.0 addY: 0.0 avg pixel val on: 167
+Found: verifyTitleScreen
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+verifyMainScreen was not found
+
+Found: verifyMainScreen
+
+Found: verifyMainScreen
+
+verifyMarket was not found
+
+verifyMarket was not found
+
+verifyMarket was not found
+
+Found: verifyMarket
+
+Found: stashSharedMenuMarket
+
+addX: 0.0 addY: 0.0 avg pixel val on: 130
 
 Item detected
 
-Fubodyiy
+Stisl
 
-Co
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 1.0 addY: 0.0 avg pixel val on: 119
+
+Item detected
 
 Stisl
 
-Bear Pendant
 
-+3.2% Magic Penetration -  €&
-+1 Additional Magical Damage -
+got title text: This {tem cannot be sold, 6 Sy
 
-Necklace
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 2.0 addY: 0.0 avg pixel val on: 125
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 3.0 addY: 0.0 avg pixel val on: 135
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 4.0 addY: 0.0 avg pixel val on: 129
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 5.0 addY: 0.0 avg pixel val on: 124
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 6.0 addY: 0.0 avg pixel val on: 117
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 7.0 addY: 0.0 avg pixel val on: 139
+
+Item detected
+
+Stisl
+
+
+got title text: This {tem cannot be sold, 6 Sy
+
+
+Searching for: This {tem cannot be sold, 6 Syfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 8.0 addY: 0.0 avg pixel val on: 189
+
+Item detected
+
+Stisl
+
+
+got title text: 1.000 1.000 631 o~o
+
+
+Searching for: 1.000 1.000 631 o~ofrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 9.0 addY: 0.0 avg pixel val on: 185
+
+Item detected
+
+Stisl
+
+1.900 1000 631 0
+
+
+got title text: BS pe gi |
+
+
+Searching for: BS pe gi |from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+No Weapon found ... going next cube
+addX: 10.0 addY: 0.0 avg pixel val on: 266
+
+Item detected
+
+- +5 Magic Resistance -
+
+- +4 Armor Rating -
+
+Feet
+
+Leet ne
 
 Handled
 Rare
-e
-tig cesiieice of Pecuig ity *
-erecta Urey Vigo
-aed
-i
-Fa
-ap
+
+Thee ail Erie lect ne: cent Sitead wei
+
+wwe tecuruaaact tor
 
 
-got title text: Bear Pendant
+got title text: Rugged Boots
 
 
-Searching for: Bear Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Searching for: Rugged Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-Found: ['Bear Pendant']
+Found: ['Rugged Boots']
 
-Searching for: Fubodyiyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: - +5 Magic Resistance -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Magic Resistance']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: - +4 Armor Rating -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Armor Rating']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Feetfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -42,43 +236,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Cofrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Bear Pendantfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: +3.2% Magic Penetration -  €&from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: ['Magic Penetration']
-
-Searching for: +1 Additional Magical Damage -from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: ['Additional Magical Damage']
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Necklacefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Leet nefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -94,31 +252,11 @@ Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: efrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: tig cesiieice of Pecuig ity *from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: erecta Urey Vigofrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: aedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: ifrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Fafrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: apfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Thee ail Erie lect ne: cent Sitead weifrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -126,91 +264,115 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for : Additional Magical Damage Bear Pendant
+Searching for: wwe tecuruaaact torfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
 
 No rarity was found... Let's guess off the amount of rolls
+Searching for : Rare Rugged Boots
+Not Enough Legit Comps for this roll:[]
 
-Price : [50, 50, 70]
+attr : Magic Resistance
+Not Enough Legit Comps for this roll:[]
 
-attr : Magic Penetration
+attr : Armor Rating
+Not Enough Legit Comps for this roll:[]
 
-Price : [50, 70, 80]
+got title text: _ Rugged Boots
 
-attr : Additional Magical Damage
 
-Price : [80, 84, 85]
+Searching for: _ Rugged Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-attr : Magic Penetration Additional Magical Damage
+Found: ['Rugged Boots']
 
-Price : [100, 100]
+got title text: 
 
-Price : [100, 100]
+got title text: 
 
-Price : [100, 100]
+YES! 10 listings availible
 
-Price : [100, 100]
+SUCCESS!!! Rugged Boots Listed at 0
 
-Price : [100, 100]
+addX: 11.0 addY: 0.0 avg pixel val on: 309
 
-Price : [100, 100]
+Item detected
 
-Price : [100, 100]
+- +2 Physical Power -
 
-Price : [100, 100]
+Nexis
+janclled
+a
+7 Uneommon
+Fevistcing Pie aivtity to cast tose dive: se
+end sowe: fal sutells
+a &
 
-Price : [100, 100]
 
-Not Enough Legit Comps for this roll:[100, 100]
+got title text: Owl Pendant
 
-Skipping already selected attr
 
-YES! 5 listings availible
+Searching for: Owl Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-SUCCESS!!! Bear Pendant Listed at 75
+Found: ['Owl Pendant']
 
-addX: 1.0 addY: 0.0 avg pixel val on: 84
+Searching for: - +2 Physical Power -from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 84 < 110
+Found: ['Physical Power']
 
-addX: 2.0 addY: 0.0 avg pixel val on: 84
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 84 < 110
+Found: []
 
-addX: 3.0 addY: 0.0 avg pixel val on: 84
+Searching for: Nexisfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 84 < 110
+Found: []
 
-addX: 4.0 addY: 0.0 avg pixel val on: 84
+Searching for: janclledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 84 < 110
+Found: []
 
-addX: 5.0 addY: 0.0 avg pixel val on: 84
+Searching for: afrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 84 < 110
+Found: []
 
-addX: 6.0 addY: 0.0 avg pixel val on: 83
+Searching for: 7 Uneommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 83 < 110
+Found: []
 
-addX: 7.0 addY: 0.0 avg pixel val on: 83
+Searching for: Fevistcing Pie aivtity to cast tose dive: sefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 83 < 110
+Found: []
 
-addX: 8.0 addY: 0.0 avg pixel val on: 83
+Searching for: end sowe: fal sutellsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 83 < 110
+Found: []
 
-addX: 9.0 addY: 0.0 avg pixel val on: 83
+Searching for: a &from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 83 < 110
+Found: []
 
-addX: 10.0 addY: 0.0 avg pixel val on: 83
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-No item detected ; 83 < 110
+Found: []
 
-addX: 11.0 addY: 0.0 avg pixel val on: 83
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Uncommon Owl Pendant
+Recorded Price : [69, 86, 87]
 
-No item detected ; 83 < 110
+Recorded Price : [69, 86, 87]
+
+attr : Physical Power
+Recorded Price : [99, 99, 99]
+
+Recorded Price : [99, 99, 99]
+
+YES! 10 listings availible
+
+SUCCESS!!! Owl Pendant Listed at 99
 
 addX: 0.0 addY: 1.0 avg pixel val on: 84
 
@@ -220,14 +382,24 @@ addX: 1.0 addY: 1.0 avg pixel val on: 84
 
 No item detected ; 84 < 110
 
-addX: 2.0 addY: 1.0 avg pixel val on: 84
+addX: 2.0 addY: 1.0 avg pixel val on: 171
 
-No item detected ; 84 < 110
+Item detected
 
-addX: 3.0 addY: 1.0 avg pixel val on: 84
+ap
 
-No item detected ; 84 < 110
+got title text: 
 
+No Weapon found ... going next cube
+addX: 3.0 addY: 1.0 avg pixel val on: 254
+
+Item detected
+
+ap
+
+got title text: 
+
+No Weapon found ... going next cube
 addX: 4.0 addY: 1.0 avg pixel val on: 84
 
 No item detected ; 84 < 110
@@ -236,92 +408,47 @@ addX: 5.0 addY: 1.0 avg pixel val on: 84
 
 No item detected ; 84 < 110
 
-addX: 6.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 7.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 8.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 9.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 10.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 11.0 addY: 1.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 0.0 addY: 2.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 1.0 addY: 2.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 2.0 addY: 2.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 3.0 addY: 2.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 4.0 addY: 2.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 5.0 addY: 2.0 avg pixel val on: 200
+addX: 6.0 addY: 1.0 avg pixel val on: 283
 
 Item detected
 
-Boras
-Two |
+- +1 True Magical Damage -
 
-teed
-Axe
+News’
+
 Looted
 
 Uncommon
 
-This teswy for uide:
+eadalitiae your son courndings uae
 
-detives Pg deve
+Adee
+
+effectively, hist lise Pie cleve: cat
+
+7 4
 
 
-got title text: Double Axe
+got title text: Rat Pendant
 
 
-Searching for: Double Axefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Searching for: Rat Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-Found: ['Double Axe']
+Found: ['Rat Pendant']
 
-Searching for: Borasfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: - +1 True Magical Damage -from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-Found: []
-
-Searching for: Two |from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
+Found: ['True Magical Damage']
 
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: teedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: News’from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Axefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -341,7 +468,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: This teswy for uide:from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: eadalitiae your son courndings uaefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -349,7 +476,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: detives Pg devefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Adeefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -357,31 +484,634 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for : Double Axe Double Axe
+Searching for: effectively, hist lise Pie cleve: catfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: 7 4from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
 
 No rarity was found... Let's guess off the amount of rolls
+Searching for : Uncommon Rat Pendant
+Recorded Price : [30, 30, 30]
 
-Price : [144, 144, 145]
+Recorded Price : [30, 30, 30]
+
+attr : True Magical Damage
+Recorded Price : [45, 50, 55]
+
+Recorded Price : [45, 50, 55]
+
+YES! 9 listings availible
+
+SUCCESS!!! Rat Pendant Listed at 45
+
+addX: 7.0 addY: 1.0 avg pixel val on: 243
+
+Item detected
+
+
+got title text: 
+
+No Weapon found ... going next cube
+addX: 8.0 addY: 1.0 avg pixel val on: 179
+
+Item detected
+
+- +2.8% Armor Penetration -
+
+- +2 Magical Power -
+
+7- Required Class :
+Rogue, Fighter, Bard, Druid
+Secotidin y Wi a
+
+One Hesded
+
+Handled
+Rare
+Coated wile tine blade ie sowins to ct
+Sie aurit, Tre rity civeted desizer
+ute
+: 2
+
+
+got title text: Castillon Dagger
+
+
+Searching for: Castillon Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Castillon Dagger']
+
+Searching for: - +2.8% Armor Penetration -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Armor Penetration']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: - +2 Magical Power -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Magical Power']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: 7- Required Class :from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Rogue, Fighter, Bard, Druidfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Secotidin y Wi afrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: One Hesdedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Handledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Coated wile tine blade ie sowins to ctfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Sie aurit, Tre rity civeted desizerfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: utefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: : 2from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Rare Castillon Dagger
+Recorded Price : [59, 65, 67]
+
+Recorded Price : [59, 65, 67]
+
+attr : Armor Penetration
+Recorded Price : [85, 90, 95]
+
+Recorded Price : [85, 90, 95]
+
+attr : Magical Power
+Recorded Price : [59, 67, 68]
+
+Recorded Price : [59, 67, 68]
+
+YES! 8 listings availible
+
+SUCCESS!!! Castillon Dagger Listed at 85
+
+addX: 9.0 addY: 1.0 avg pixel val on: 168
+
+Item detected
+
+
+got title text: 
+
+No Weapon found ... going next cube
+addX: 10.0 addY: 1.0 avg pixel val on: 262
+
+Item detected
+
+- +1 Magical Power -
+Looted
+Uncommon
+Tivose tie cowe: of He Ox, bine oving He
+sxtieigt
+a4
+ape
+
+
+got title text: Ox Pendant
+
+
+Searching for: Ox Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Ox Pendant']
+
+Searching for: - +1 Magical Power -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Magical Power']
+
+Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Tivose tie cowe: of He Ox, bine oving Hefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: sxtieigtfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: a4from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: apefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Uncommon Ox Pendant
+Recorded Price : [80, 85, 85]
+
+Recorded Price : [80, 85, 85]
+
+attr : Magical Power
+Recorded Price : [80, 85, 99]
+
+Recorded Price : [80, 85, 99]
+
+YES! 7 listings availible
+
+SUCCESS!!! Ox Pendant Listed at 80
+
+addX: 11.0 addY: 1.0 avg pixel val on: 254
+
+Item detected
+
+- +1 Additional Weapon Damage
+-  ¥7.3% Regular Interaction Speed
+- +2 Physical Power
+
+men, Clecic, Dood
+Torun y We
+One [eeided
+Mace:
+Handled
+Epic
+
+Dart
+
+Shusie
+
+sPettective, Uris satid wood ¢
+
+toto: Prose wir a etie
+
+Ion, celigble wero hy
+
+* lh
+
+iis
+
+
+got title text: Club
+
+
+Searching for: Clubfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Club']
+
+Searching for: - +1 Additional Weapon Damagefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Additional Weapon Damage']
+
+Searching for: -  ¥7.3% Regular Interaction Speedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Regular Interaction Speed']
+
+Searching for: - +2 Physical Powerfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Physical Power']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: men, Clecic, Doodfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Torun y Wefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: One [eeidedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Mace:from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Handledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Epicfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Dartfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Shusiefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: sPettective, Uris satid wood ¢from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: toto: Prose wir a etiefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Ion, celigble wero hyfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: * lhfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: iisfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Epic Club
+Recorded Price : [189, 190, 190]
+
+Recorded Price : [189, 190, 190]
+
+attr : Additional Weapon Damage
+Recorded Price : [190, 199, 200]
+
+Recorded Price : [190, 199, 200]
+
+attr : Regular Interaction Speed
+Recorded Price : [189, 190, 195]
+
+Recorded Price : [189, 190, 195]
+
+attr : Physical Power
+Recorded Price : [190, 200, 200]
+
+Recorded Price : [190, 200, 200]
+
+YES! 6 listings availible
+
+SUCCESS!!! Club Listed at 190
+
+addX: 0.0 addY: 2.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 1.0 addY: 2.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 2.0 addY: 2.0 avg pixel val on: 145
+
+Item detected
+
+Uncommon
+
+Miawde wil tig it dinatste ‘eve owns
+
+wile to ctove switliy Poudre vriety of
+
+obstacles
+
+
+got title text: Lightfoot Boots
+
+
+Searching for: Lightfoot Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Lightfoot Boots']
+
+Searching for: Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Miawde wil tig it dinatste ‘eve ownsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: wile to ctove switliy Poudre vriety offrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: obstaclesfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Common Lightfoot Boots
+Recorded Price : [99, 101, 120]
+
+Recorded Price : [99, 101, 120]
+
+YES! 5 listings availible
+
+SUCCESS!!! Lightfoot Boots Listed at 99
+
+addX: 3.0 addY: 2.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 4.0 addY: 2.0 avg pixel val on: 140
+
+Item detected
+
+
+got title text: Lightfoot Boots
+
+
+Searching for: Lightfoot Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Lightfoot Boots']
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Common Lightfoot Boots
+Recorded Price : [101, 120, 125]
+
+Recorded Price : [101, 120, 125]
 
 YES! 4 listings availible
 
-SUCCESS!!! Double Axe Listed at 144
+SUCCESS!!! Lightfoot Boots Listed at 101
+
+addX: 5.0 addY: 2.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
 
 addX: 6.0 addY: 2.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
-addX: 7.0 addY: 2.0 avg pixel val on: 83
+addX: 7.0 addY: 2.0 avg pixel val on: 173
 
-No item detected ; 83 < 110
+Item detected
 
+Stisl
+
+got title text: 
+
+No Weapon found ... going next cube
 addX: 8.0 addY: 2.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
-addX: 9.0 addY: 2.0 avg pixel val on: 83
+addX: 9.0 addY: 2.0 avg pixel val on: 155
 
-No item detected ; 83 < 110
+Item detected
+
+- +1 Additional Magical Damage
+
+UW
+
+foes
+Looted
+
+Uncommon
+
+swil certian ced
+
+Doubted layered let’:
+
+Sth 4
+
+
+got title text: Leather Cap
+
+
+Searching for: Leather Capfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Leather Cap']
+
+Searching for: - +1 Additional Magical Damagefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Additional Magical Damage']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: UWfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: foesfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: swil certian cedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Doubted layered let’:from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Sth 4from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Uncommon Leather Cap
+Not Enough Legit Comps for this roll:[]
+
+attr : Additional Magical Damage
+Not Enough Legit Comps for this roll:[]
+
+got title text: ee
+‘ a
+7 Leather Cap
+
+
+Searching for: eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+Searching for: ‘ afrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: []
+
+Searching for: 7 Leather Capfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Leather Cap']
+
+got title text: 
+
+got title text: 
+
+YES! 3 listings availible
+
+SUCCESS!!! Leather Cap Listed at 0
 
 addX: 10.0 addY: 2.0 avg pixel val on: 83
 
@@ -391,9 +1121,123 @@ addX: 11.0 addY: 2.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
-addX: 0.0 addY: 3.0 avg pixel val on: 84
+addX: 0.0 addY: 3.0 avg pixel val on: 202
 
-No item detected ; 84 < 110
+Item detected
+
++1.9% Debuff Duration Bonus
++18 Luck
+
+Required Class
+Ranger, Druid
+Hessel
+Corr
+Looted
+Rare
+
+A iood Pitt Sooke “ise ite
+
+oi ridde aves i Pre
+
+wives.
+
+
+got title text: Forest Hood
+
+
+Searching for: Forest Hoodfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Forest hood']
+
+Searching for: +1.9% Debuff Duration Bonusfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Debuff Duration Bonus']
+
+Searching for: +18 Luckfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Luck']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Required Classfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Ranger, Druidfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Hesselfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Corrfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: A iood Pitt Sooke “ise itefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: oi ridde aves i Prefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: wives.from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Rare Forest hood
+Recorded Price : [49, 49, 49]
+
+Recorded Price : [49, 49, 49]
+
+attr : Debuff Duration Bonus
+Recorded Price : [60, 89, 100]
+
+Recorded Price : [60, 89, 100]
+
+attr : Luck
+Recorded Price : [108, 108, 120]
+
+Recorded Price : [108, 108, 120]
+
+Skipping already selected attr
+attr : Luck Luck
+Recorded Price : [108, 108, 120]
+
+Recorded Price : [108, 108, 120]
+
+YES! 3 listings availible
+
+SUCCESS!!! Forest hood Listed at 108
 
 addX: 1.0 addY: 3.0 avg pixel val on: 84
 
@@ -427,143 +1271,9 @@ addX: 8.0 addY: 3.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
-addX: 9.0 addY: 3.0 avg pixel val on: 368
+addX: 9.0 addY: 3.0 avg pixel val on: 83
 
-Item detected
-
-Stisl
-
-1
-
-- +1 Magical Power -
-
-Necklace
-
-Looted
-
-7 Uncommon
-
-Silver sendkent srecklace Paid wilt this ee
-
-sonorendisns ct
-
-uysticn!
-
-Shae storie.
-
-&
-
-
-got title text: Wind Locket
-
-
-Searching for: Wind Locketfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Wind Locket']
-
-Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: 1from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: - +1 Magical Power -from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: ['Magical Power']
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Necklacefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: 7 Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Silver sendkent srecklace Paid wilt this eefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: sonorendisns ctfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: uysticn!from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Shae storie.from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: &from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for : Magical Power Wind Locket
-
-No rarity was found... Let's guess off the amount of rolls
-
-Price : [27, 28, 29]
-
-attr : Magical Power
-
-Price : [40, 48, 49]
-
-Skipping already selected attr
-
-YES! 3 listings availible
-
-SUCCESS!!! Wind Locket Listed at 43
+No item detected ; 83 < 110
 
 addX: 10.0 addY: 3.0 avg pixel val on: 83
 
@@ -577,37 +1287,49 @@ addX: 0.0 addY: 4.0 avg pixel val on: 84
 
 No item detected ; 84 < 110
 
-addX: 1.0 addY: 4.0 avg pixel val on: 277
+addX: 1.0 addY: 4.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 2.0 addY: 4.0 avg pixel val on: 192
 
 Item detected
 
-Stisl
++1 Strength
 
-Rat Pendant
++5% Magical Interaction Speed
+y +18 Luck
 
-- +1 Additional Magical Damage -
+Handled
+Epic
 
-News’
+Hendy leat es bouts, coated wits
 
-Looted
+Saul wii, $e sr agaccity cond
 
-o Uncomunean
-Adi sid abilize yu SU aid its la &
-ettectively, fist like Pie cleve: t
-& we
-}
-a
-sp
+Hs Pid wi
 
 
-got title text: Rat Pendant
+got title text: Adventurer Boots
 
 
-Searching for: Rat Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+Searching for: Adventurer Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-Found: ['Rat Pendant']
+Found: ['Adventurer Boots']
 
-Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: +1 Strengthfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Strength']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: +5% Magical Interaction Speedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Magical Interaction Speed']
+
+Searching for: y +18 Luckfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -615,7 +1337,11 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Rat Pendantfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Handledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Epicfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -623,15 +1349,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: - +1 Additional Magical Damage -from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: ['Additional Magical Damage']
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: News’from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Hendy leat es bouts, coated witsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -639,7 +1357,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Saul wii, $e sr agaccity condfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -647,160 +1365,194 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: o Uncomuneanfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Adi sid abilize yu SU aid its la &from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: ettectively, fist like Pie cleve: tfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: & wefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: }from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: afrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: spfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Hs Pid wifrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
-
-Searching for : Additional Magical Damage Rat Pendant
 
 No rarity was found... Let's guess off the amount of rolls
+Searching for : Rare Adventurer Boots
+Recorded Price : [80, 90, 90]
 
-Price : [30, 30, 30]
+Recorded Price : [80, 90, 90]
 
-attr : Additional Magical Damage
+attr : Strength
+Recorded Price : [135, 150, 160]
 
-Price : [60, 69, 70]
+Recorded Price : [135, 150, 160]
 
-Skipping already selected attr
+attr : Magical Interaction Speed
+Recorded Price : [90, 100, 100]
+
+Recorded Price : [90, 100, 100]
 
 YES! 2 listings availible
 
-SUCCESS!!! Rat Pendant Listed at 62
-
-addX: 2.0 addY: 4.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
+SUCCESS!!! Adventurer Boots Listed at 135
 
 addX: 3.0 addY: 4.0 avg pixel val on: 84
 
 No item detected ; 84 < 110
 
-addX: 4.0 addY: 4.0 avg pixel val on: 84
+addX: 4.0 addY: 4.0 avg pixel val on: 159
 
-No item detected ; 84 < 110
+Item detected
+
+- +2.4% Armor Penetration -
+- +3 Armor Rating -
+
+Required Class
+
+Fighter
+He.
+Pate
+Handled
+Rare
+
+Molded “reawy towsiie face cod oo lees alabe
+
+ues, Sully wobec tg Pie reed focu blows
+
+~
+
+
+got title text: Armet
+
+
+Searching for: Armetfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+
+Found: ['Armet']
+
+Searching for: - +2.4% Armor Penetration -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Armor Penetration']
+
+Searching for: - +3 Armor Rating -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: ['Armor Rating']
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Required Classfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Fighterfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: He.from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Patefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Handledfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Rarefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: Molded “reawy towsiie face cod oo lees alabefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: ues, Sully wobec tg Pie reed focu blowsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: ~from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+No rarity was found... Let's guess off the amount of rolls
+Searching for : Rare Armet
+Recorded Price : [105, 120, 120]
+
+Recorded Price : [105, 120, 120]
+
+attr : Armor Penetration
+Recorded Price : [130, 195, 199]
+
+Recorded Price : [130, 195, 199]
+
+attr : Armor Rating
+Recorded Price : [270, 299, 300]
+
+Recorded Price : [270, 299, 300]
+
+Skipping already selected attr
+attr : Armor Rating Armor Rating
+Recorded Price : [270, 299, 300]
+
+Recorded Price : [270, 299, 300]
+
+YES! 1 listings availible
+
+SUCCESS!!! Armet Listed at 270
 
 addX: 5.0 addY: 4.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
-addX: 6.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 7.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 8.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 9.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 10.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 11.0 addY: 4.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 0.0 addY: 5.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 1.0 addY: 5.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 2.0 addY: 5.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 3.0 addY: 5.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 4.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 5.0 addY: 5.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 6.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 7.0 addY: 5.0 avg pixel val on: 200
+addX: 6.0 addY: 4.0 avg pixel val on: 137
 
 Item detected
 
-Stisl
+Lightfoot Boots
 
-Phoenix Choker
+- +1% Max Health Bonus -
 
--  +5.8% Magical Interaction Speed -
-
-Necklace
+Feet
+7 Leatire:
 Looted
 
-7 Uncommon
+Uncommon
 
-Acrittictte teat ies Cases to syubutice
+Miasde wil ig it dinate leat luc: allowing
 
-wh Pyar id se reaver
+wile to ctove switliy Poudre vriety of
 
-1994 Toyota Supra
-
-
-got title text: Phoenix Choker
+obstacles
 
 
-Searching for: Phoenix Chokerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
+got title text: Lightfoot Boots
 
-Found: ['Phoenix Choker']
 
-Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Lightfoot Bootsfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
 
-Found: []
+Found: ['Lightfoot Boots']
 
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Phoenix Chokerfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Lightfoot Bootsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -808,15 +1560,19 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: -  +5.8% Magical Interaction Speed -from ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: - +1% Max Health Bonus -from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
-Found: ['Magical Interaction Speed']
+Found: ['Max Health Bonus']
 
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Necklacefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Feetfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+
+Found: []
+
+Searching for: 7 Leatire:from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -828,7 +1584,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: 7 Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -836,7 +1592,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: Acrittictte teat ies Cases to syubuticefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: Miasde wil ig it dinate leat luc: allowingfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -844,7 +1600,7 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: wh Pyar id se reaverfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: wile to ctove switliy Poudre vriety offrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
@@ -852,171 +1608,24 @@ Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
-Searching for: 1994 Toyota Suprafrom ['Action Speed', 'Weapon Damage', 'Move Speed']
+Searching for: obstaclesfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
 
 Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
 
 Found: []
-
-Searching for : Magical Interaction Speed Phoenix Choker
 
 No rarity was found... Let's guess off the amount of rolls
+Searching for : Uncommon Lightfoot Boots
+Recorded Price : [195, 222, 252]
 
-Price : [48, 49, 60]
+Recorded Price : [195, 222, 252]
 
-attr : Magical Interaction Speed
+attr : Max Health Bonus
+Recorded Price : [195, 288, 300]
 
-Price : [66, 78, 99]
-
-Skipping already selected attr
-
-YES! 1 listings availible
-
-SUCCESS!!! Phoenix Choker Listed at 79
-
-addX: 8.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 9.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 10.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 11.0 addY: 5.0 avg pixel val on: 83
-
-No item detected ; 83 < 110
-
-addX: 0.0 addY: 6.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 1.0 addY: 6.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 2.0 addY: 6.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 3.0 addY: 6.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 4.0 addY: 6.0 avg pixel val on: 254
-
-Item detected
-
-Stisl
-
-- +3 Physical Healing -
-
-Necklace
-
-Looted
-
-7 Uncommon
-
-Tavose Pie sowe: of Pre Ox, Pune avin Pre
-
-stents
-
-
-got title text: Ox Pendant
-
-
-Searching for: Ox Pendantfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Ox Pendant']
-
-Searching for: Stislfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: - +3 Physical Healing -from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: ['Physical Healing']
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Necklacefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Lootedfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: 7 Uncommonfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: Tavose Pie sowe: of Pre Ox, Pune avin Prefrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: stentsfrom ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for: from ['Action Speed', 'Weapon Damage', 'Move Speed']
-
-Found: []
-
-Searching for : Physical Healing Ox Pendant
-
-No rarity was found... Let's guess off the amount of rolls
-
-Price : [60, 65, 69]
-
-attr : Physical Healing
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Price : [120, 180]
-
-Not Enough Legit Comps for this roll:[120, 180]
+Recorded Price : [195, 288, 300]
 
 NO LISTING SLOTS!, CLEAR GOLD 
 betterSoldItem was not found
@@ -1024,2176 +1633,3 @@ betterSoldItem was not found
 Nothing found
 NO LISTING SLOTS!, CLEAR GOLD 
 No Weapon found ... its actually over bro ...
-Price : [199, 200, 267]
-
-Price : [199, 200, 267]
-
-Price : [50, 60, 64]
-
-Not Enough Legit Comps for this roll:[]
-
-Price : [16, 34, 35]
-
-Removing undercut value
-Price : [40, 46, 48]
-
-Price : [40, 46, 48]
-
-Price : [666, 668, 698]
-
-Price : [666, 668, 698]
-
-Price : [750, 800, 800]
-
-Price : [111, 1250, 1277]
-
-Removing undercut value
-Price : [111, 1250, 1277]
-
-Removing undercut value
-Price : [1400, 1500, 1644]
-
-Price : [1500, 2222, 2500]
-
-Price : [2250, 2666, 3999]
-
-Price : [120, 130, 139]
-
-Price : [230, 250, 250]
-
-Price : [300, 300, 300]
-
-Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [350, 520, 599]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [3799, 3999, 4000]
-
-Recorded Price : [5000, 5888, 5999]
-
-Recorded Price : [5000, 5888, 5999]
-
-Recorded Price : [5000, 5888, 5999]
-
-Recorded Price : [5000, 5888, 5999]
-
-Recorded Price : [630, 1000, 1188]
-
-Recorded Price : [630, 1000, 1188]
-
-Recorded Price : [630, 1000, 1188]
-
-Recorded Price : [630, 1000, 1188]
-
-Recorded Price : [700, 700, 788]
-
-Recorded Price : [700, 700, 788]
-
-Recorded Price : [820, 825, 831]
-
-Recorded Price : [820, 825, 831]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [1555, 1578, 1666]
-
-Recorded Price : [499, 499, 550]
-
-Recorded Price : [499, 499, 550]
-
-Recorded Price : [700, 765, 800]
-
-Recorded Price : [700, 765, 800]
-
-Recorded Price : [175, 199, 200]
-
-Recorded Price : [175, 199, 200]
-
-Recorded Price : [1822, 1900, 2000]
-
-Recorded Price : [1822, 1900, 2000]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [549, 575, 600]
-
-Recorded Price : [275, 333, 333]
-
-Recorded Price : [275, 333, 333]
-
-Recorded Price : [400, 800, 899]
-
-Removing undercut value
-Recorded Price : [0, 800, 899]
-
-Searching for : Epic Felling Axe
-Recorded Price : [200, 200, 350]
-
-Removing undercut value
-Recorded Price : [200, 0, 350]
-
-attr : Additional Weapon Damage
-
-Recorded Price : [350, 369, 386]
-
-Recorded Price : [350, 369, 386]
-
-attr : Armor Penetration
-
-Recorded Price : [200, 350, 370]
-
-Removing undercut value
-Recorded Price : [0, 350, 370]
-
-attr : Max Health
-
-Recorded Price : [200, 377, 388]
-
-Removing undercut value
-Recorded Price : [0, 377, 388]
-
-attr : Additional Weapon Damage Armor Penetration
-
-Recorded Price : [350, 400, 415]
-
-Recorded Price : [350, 400, 415]
-
-Skipping already selected attr
-
-attr : Max Health Armor Penetration
-
-Recorded Price : [200, 388, 400]
-
-Removing undercut value
-Recorded Price : [0, 388, 400]
-
-Searching for : Epic Felling Axe
-Recorded Price : [200, 200, 350]
-
-Removing undercut value
-Recorded Price : [200, 0, 350]
-
-attr : Additional Weapon Damage
-
-Recorded Price : [350, 369, 386]
-
-Recorded Price : [350, 369, 386]
-
-attr : Armor Penetration
-
-Recorded Price : [200, 350, 370]
-
-Removing undercut value
-Recorded Price : [0, 350, 370]
-
-attr : Max Health
-
-Recorded Price : [200, 377, 388]
-
-Removing undercut value
-Recorded Price : [0, 377, 388]
-
-attr : Additional Weapon Damage Armor Penetration
-
-Recorded Price : [350, 400, 415]
-
-Recorded Price : [350, 400, 415]
-
-Skipping already selected attr
-
-attr : Max Health Armor Penetration
-
-Recorded Price : [200, 388, 400]
-
-Removing undercut value
-Recorded Price : [0, 388, 400]
-
-Searching for : Uncommon Felling Axe
-Recorded Price : [121, 125, 133]
-
-Recorded Price : [121, 125, 133]
-
-attr : Additional Weapon Damage
-
-Recorded Price : [150, 150, 165]
-
-Recorded Price : [150, 150, 165]
-
-Searching for : Rare Felling Axe
-Recorded Price : [160, 179, 180]
-
-Recorded Price : [160, 179, 180]
-
-attr : Additional Weapon Damage
-
-Recorded Price : [180, 200, 219]
-
-Recorded Price : [180, 200, 219]
-
-attr : Max Health
-
-Recorded Price : [200, 200, 200]
-
-Recorded Price : [200, 200, 200]
-
-Searching for : Rare Felling Axe
-Recorded Price : [160, 179, 180]
-
-Recorded Price : [160, 179, 180]
-
-attr : Additional Weapon Damage
-
-Recorded Price : [180, 200, 219]
-
-Recorded Price : [180, 200, 219]
-
-attr : Max Health
-
-Recorded Price : [200, 200, 200]
-
-Recorded Price : [200, 200, 200]
-
-Searching for : Rare Lightfoot Boots
-Recorded Price : [190, 195, 195]
-
-Recorded Price : [190, 195, 195]
-
-attr : Additional Move Speed
-
-Recorded Price : [450, 550, 600]
-
-Recorded Price : [450, 550, 600]
-
-attr : Max Health
-
-Recorded Price : [220, 220, 222]
-
-Recorded Price : [220, 220, 222]
-
-No rarity was found... Let's guess off the amount of rolls
-Searching for : Legendary Lightfoot Boots
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : Additional Move Speed
-
-Recorded Price : [2899, 3333, 4220]
-
-Recorded Price : [2899, 3333, 4220]
-
-attr : Max Health
-
-Recorded Price : [990, 999, 999]
-
-Recorded Price : [990, 999, 999]
-
-attr : armor penetration
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : epic
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-Skipping already selected attr
-
-attr : Max Health Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : armor penetration Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : epic Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-No rarity was found... Let's guess off the amount of rolls
-Searching for : Legendary Lightfoot Boots
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : Additional Move Speed
-
-Recorded Price : [2899, 3333, 4220]
-
-Recorded Price : [2899, 3333, 4220]
-
-attr : Max Health
-
-Recorded Price : [990, 999, 999]
-
-Recorded Price : [990, 999, 999]
-
-attr : Armor Penetration
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : epic
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-Skipping already selected attr
-
-attr : Max Health Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : Armor Penetration Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-attr : epic Additional Move Speed
-
-Recorded Price : [899, 988, 988]
-
-Recorded Price : [899, 988, 988]
-
-Searching for : Rare Loose Trousers
-Recorded Price : [250, 277, 289]
-
-Recorded Price : [250, 277, 289]
-
-attr : Strength
-
-Recorded Price : [375, 400, 400]
-
-Recorded Price : [375, 400, 400]
-
-attr : Max Health
-
-Recorded Price : [433, 533, 535]
-
-Recorded Price : [433, 533, 535]
-
-Skipping already selected attr
-
-attr : Max Health Strength
-
-Recorded Price : [720, 750, 819]
-
-Recorded Price : [720, 750, 819]
-
-No rarity was found... Let's guess off the amount of rolls
-Searching for : Epic Loose Trousers
-Recorded Price : [440, 449, 450]
-
-Recorded Price : [440, 449, 450]
-
-attr : Strength
-
-Recorded Price : [530, 550, 550]
-
-Recorded Price : [530, 550, 550]
-
-attr : Max Health
-
-Recorded Price : [750, 866, 899]
-
-Recorded Price : [750, 866, 899]
-
-attr : Max Health BonusEpic
-
-Recorded Price : [440, 449, 450]
-
-Recorded Price : [440, 449, 450]
-
-Searching for : Epic Loose Trousers
-Recorded Price : [449, 450, 480]
-
-Recorded Price : [449, 450, 480]
-
-attr : Strength
-
-Recorded Price : [530, 550, 550]
-
-Recorded Price : [530, 550, 550]
-
-attr : Max Health
-
-Recorded Price : [750, 866, 899]
-
-Recorded Price : [750, 866, 899]
-
-attr : Max Health Bonus
-
-Recorded Price : [500, 500, 500]
-
-Recorded Price : [500, 500, 500]
-
-Searching for : Epic Loose Trousers
-Recorded Price : [450, 480, 490]
-
-Recorded Price : [450, 480, 490]
-
-attr : Strength
-
-Recorded Price : [530, 550, 550]
-
-Recorded Price : [530, 550, 550]
-
-attr : Max Health
-
-Recorded Price : [750, 866, 899]
-
-Recorded Price : [750, 866, 899]
-
-attr : Max Health Bonus
-
-Recorded Price : [500, 500, 500]
-
-Recorded Price : [500, 500, 500]
-
-Searching for : Epic Loose Trousers
-Recorded Price : [450, 480, 490]
-
-Recorded Price : [450, 480, 490]
-
-attr : Strength
-
-Recorded Price : [530, 550, 550]
-
-Recorded Price : [530, 550, 550]
-
-attr : Max Health
-
-Recorded Price : [750, 866, 899]
-
-Recorded Price : [750, 866, 899]
-
-attr : Max Health Bonus
-
-Recorded Price : [500, 500, 500]
-
-Recorded Price : [500, 500, 500]
-
-Max index: 0
-Searching for : Epic Loose Trousers
-Recorded Price : [450, 480, 490]
-
-Recorded Price : [450, 480, 490]
-
-attr : Strength
-
-Recorded Price : [530, 550, 550]
-
-Recorded Price : [530, 550, 550]
-
-attr : Max Health
-
-Recorded Price : [725, 750, 850]
-
-Recorded Price : [725, 750, 850]
-
-attr : Max Health Bonus
-
-Recorded Price : [500, 500, 500]
-
-Recorded Price : [500, 500, 500]
-
-Max price: [530, -1, 500]
-Max index: 0
-Searching for : Epic Loose Trousers
-Recorded Price : [399, 400, 400]
-
-Recorded Price : [399, 400, 400]
-
-attr : Strength
-
-Recorded Price : [500, 530, 533]
-
-Recorded Price : [500, 530, 533]
-
-attr : Max Health
-
-Recorded Price : [699, 750, 850]
-
-Recorded Price : [699, 750, 850]
-
-attr : Max Health Bonus
-
-Recorded Price : [440, 500, 500]
-
-Recorded Price : [440, 500, 500]
-
-Searching for : Epic Loose Trousers
-Recorded Price : [399, 400, 400]
-
-Recorded Price : [399, 400, 400]
-
-attr : Strength
-
-Recorded Price : [500, 530, 533]
-
-Recorded Price : [500, 530, 533]
-
-attr : Max Health
-
-Recorded Price : [699, 750, 850]
-
-Recorded Price : [699, 750, 850]
-
-attr : Max Health Bonus
-
-Recorded Price : [500, 500, 500]
-
-Recorded Price : [500, 500, 500]
-
-Skipping already selected attr
-
-attr : Max Health Strength
-
-Recorded Price : [1100, 1100, 1100]
-
-Recorded Price : [1100, 1100, 1100]
-
-attr : Max Health Bonus Strength
-
-Recorded Price : [555, 567, 597]
-
-Recorded Price : [555, 567, 597]
-
-Searching for : Epic Loose Trousers
-Recorded Price : [350, 387, 399]
-
-Recorded Price : [350, 387, 399]
-
-attr : Strength
-
-Recorded Price : [500, 530, 533]
-
-Recorded Price : [500, 530, 533]
-
-attr : Max Health
-
-Recorded Price : [699, 750, 866]
-
-Recorded Price : [699, 750, 866]
-
-attr : Max Health Bonus
-
-Recorded Price : [499, 500, 500]
-
-Recorded Price : [499, 500, 500]
-
-Skipping already selected attr
-
-attr : Max Health Max Health
-
-got title text: 
-
-got title text: ul
-\ eee .@ 2@ @ @
-: eee.
-
-
-Searching for: ulfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: \ eee .@ 2@ @ @from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : eee.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: eee : @: @; @: @;
-eee.
-
-
-Searching for: eee : @: @; @: @;from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: eee.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: eee : @: @; @: @;
-eee.
-
-
-Searching for: eee : @: @; @: @;from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: eee.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: eee : @: @; @: @;
-eee.
-
-
-Searching for: eee : @: @; @: @;from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: eee.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: ee : @: @; @: @;
-eee.
-
-
-Searching for: ee : @: @; @: @;from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: eee.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: ; @: @:
-I
-
-
-Searching for: ; @: @:from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: Ifrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: Tt ee _—-_
-: Stiletto Dagger
-
-
-Searching for: Tt ee _—-_from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: : Stiletto Daggerfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: ['Stiletto Dagger']
-
-got title text: pore je
-
-
-Searching for: pore jefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Checking screen for: img/selectedStash.png
-SCREEN DETECTED!
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-addX: 705.0 addY: 644.0 avg pixel val on: 0
-
-No item detected ; 0 < 110
-
-Checking screen for: img/selectedStash.png
-SCREEN DETECTED!
-addX: 0.0 addY: 0.0 avg pixel val on: 127
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 0.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 2.0 addY: 0.0 avg pixel val on: 140
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 3.0 addY: 0.0 avg pixel val on: 214
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 4.0 addY: 0.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 5.0 addY: 0.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 6.0 addY: 0.0 avg pixel val on: 227
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 7.0 addY: 0.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 8.0 addY: 0.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 9.0 addY: 0.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 0.0 addY: 1.0 avg pixel val on: 203
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 1.0 avg pixel val on: 123
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 1.0 avg pixel val on: 156
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 3.0 addY: 1.0 avg pixel val on: 107
-
-No item detected ; 107 < 110
-
-addX: 4.0 addY: 1.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 5.0 addY: 1.0 avg pixel val on: 84
-
-No item detected ; 84 < 110
-
-addX: 6.0 addY: 1.0 avg pixel val on: 156
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 7.0 addY: 1.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 8.0 addY: 1.0 avg pixel val on: 217
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 9.0 addY: 1.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 0.0 addY: 2.0 avg pixel val on: 200
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 2.0 avg pixel val on: 121
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 4.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 2.0 avg pixel val on: 240
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 6.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 7.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 8.0 addY: 2.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 9.0 addY: 2.0 avg pixel val on: 93
-
-No item detected ; 93 < 110
-
-addX: 0.0 addY: 3.0 avg pixel val on: 143
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 3.0 avg pixel val on: 121
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 4.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 3.0 avg pixel val on: 181
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 6.0 addY: 3.0 avg pixel val on: 75
-
-No item detected ; 75 < 110
-
-addX: 7.0 addY: 3.0 avg pixel val on: 75
-
-No item detected ; 75 < 110
-
-addX: 8.0 addY: 3.0 avg pixel val on: 76
-
-No item detected ; 76 < 110
-
-addX: 9.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 0.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 1.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 2.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 3.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 4.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 5.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 6.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 7.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 8.0 addY: 4.0 avg pixel val on: 282
-
-Item detected
-
-got title text: IT
-| eo e@. @.
-| e. ee
-
-
-Searching for: ITfrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | eo e@. @.from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-Searching for: | e. eefrom ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 9.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-Checking screen for: img/selectedStash.png
-SCREEN DETECTED!
-addX: 0.0 addY: 0.0 avg pixel val on: 127
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 0.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 2.0 addY: 0.0 avg pixel val on: 346
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 3.0 addY: 0.0 avg pixel val on: 253
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 4.0 addY: 0.0 avg pixel val on: 172
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 5.0 addY: 0.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 6.0 addY: 0.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 7.0 addY: 0.0 avg pixel val on: 239
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 8.0 addY: 0.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 9.0 addY: 0.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 0.0 addY: 1.0 avg pixel val on: 203
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 1.0 avg pixel val on: 123
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 1.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 3.0 addY: 1.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 4.0 addY: 1.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 5.0 addY: 1.0 avg pixel val on: 177
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 6.0 addY: 1.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 7.0 addY: 1.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 8.0 addY: 1.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 9.0 addY: 1.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 0.0 addY: 2.0 avg pixel val on: 200
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 2.0 avg pixel val on: 121
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 4.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 2.0 avg pixel val on: 199
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 6.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 7.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 8.0 addY: 2.0 avg pixel val on: 188
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 9.0 addY: 2.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 0.0 addY: 3.0 avg pixel val on: 143
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 1.0 addY: 3.0 avg pixel val on: 121
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 2.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 4.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 3.0 avg pixel val on: 165
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 6.0 addY: 3.0 avg pixel val on: 75
-
-No item detected ; 75 < 110
-
-addX: 7.0 addY: 3.0 avg pixel val on: 174
-
-Item detected
-
-got title text: * 2
-
-
-Searching for: * 2from ['Badger Pendant', 'Torq of Soul', 'Rat Pendant']
-
-Found: []
-
-addX: 8.0 addY: 3.0 avg pixel val on: 76
-
-No item detected ; 76 < 110
-
-addX: 9.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 0.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 1.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 2.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 3.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 4.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 5.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 6.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 7.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 8.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 9.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-Checking screen for: img/selectedStash.png
-SCREEN DETECTED!
-addX: 0.0 addY: 0.0 avg pixel val on: 204
-
-Item detected
-
-got title text: 
-
-addX: 1.0 addY: 0.0 avg pixel val on: 267
-
-Item detected
-
-got title text: 
-
-addX: 2.0 addY: 0.0 avg pixel val on: 177
-
-Item detected
-
-got title text: 
-
-addX: 3.0 addY: 0.0 avg pixel val on: 245
-
-Item detected
-
-got title text: 
-
-addX: 4.0 addY: 0.0 avg pixel val on: 144
-
-Item detected
-
-got title text: 
-
-addX: 5.0 addY: 0.0 avg pixel val on: 253
-
-Item detected
-
-got title text: 
-
-addX: 6.0 addY: 0.0 avg pixel val on: 194
-
-Item detected
-
-got title text: 
-
-addX: 7.0 addY: 0.0 avg pixel val on: 107
-
-No item detected ; 107 < 110
-
-addX: 8.0 addY: 0.0 avg pixel val on: 108
-
-No item detected ; 108 < 110
-
-addX: 9.0 addY: 0.0 avg pixel val on: 89
-
-No item detected ; 89 < 110
-
-addX: 0.0 addY: 1.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 1.0 addY: 1.0 avg pixel val on: 186
-
-Item detected
-
-got title text: 
-
-addX: 2.0 addY: 1.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 3.0 addY: 1.0 avg pixel val on: 217
-
-Item detected
-
-got title text: 
-
-addX: 4.0 addY: 1.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 5.0 addY: 1.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 6.0 addY: 1.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 7.0 addY: 1.0 avg pixel val on: 154
-
-Item detected
-
-got title text: 
-
-addX: 8.0 addY: 1.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 9.0 addY: 1.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 0.0 addY: 2.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 1.0 addY: 2.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 2.0 addY: 2.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 2.0 avg pixel val on: 170
-
-Item detected
-
-got title text: 
-
-addX: 4.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 6.0 addY: 2.0 avg pixel val on: 76
-
-No item detected ; 76 < 110
-
-addX: 7.0 addY: 2.0 avg pixel val on: 177
-
-Item detected
-
-got title text: 
-
-addX: 8.0 addY: 2.0 avg pixel val on: 127
-
-Item detected
-
-got title text: 
-
-addX: 9.0 addY: 2.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 0.0 addY: 3.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 1.0 addY: 3.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 2.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 3.0 addY: 3.0 avg pixel val on: 78
-
-No item detected ; 78 < 110
-
-addX: 4.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 5.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 6.0 addY: 3.0 avg pixel val on: 75
-
-No item detected ; 75 < 110
-
-addX: 7.0 addY: 3.0 avg pixel val on: 139
-
-Item detected
-
-got title text: 
-
-addX: 8.0 addY: 3.0 avg pixel val on: 129
-
-Item detected
-
-got title text: 
-
-addX: 9.0 addY: 3.0 avg pixel val on: 77
-
-No item detected ; 77 < 110
-
-addX: 0.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 1.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 2.0 addY: 4.0 avg pixel val on: 82
-
-No item detected ; 82 < 110
-
-addX: 3.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 4.0 addY: 4.0 avg pixel val on: 81
-
-No item detected ; 81 < 110
-
-addX: 5.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-
-addX: 6.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 7.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 8.0 addY: 4.0 avg pixel val on: 79
-
-No item detected ; 79 < 110
-
-addX: 9.0 addY: 4.0 avg pixel val on: 80
-
-No item detected ; 80 < 110
-

@@ -34,5 +34,4 @@ def findItem(input_string, phrase_list):
 # time.sleep(0.2)
 #weapon = ["Loose Trousers","Strength","Max Health","Max Health Bonus", "Epic"]
 #print(DAD_Utils.searchAndFindPrice(weapon))
-DAD_Utils.dumpInventory()
-print(1)
+#print(          )
