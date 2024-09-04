@@ -17,11 +17,57 @@ class NoListingSlots(Exception):
 
 
 
+# Selects item from market search and return if that worked
+def selectItemSearch():
+    #read img
+    ss = pyautogui.screenshot(region=coords.itemSearchRegion)
+    ss = ss.convert("RGB")
+    data = ss.getdata()
+    newData = []
+    for item in data:
+        avg = math.floor((item[0] + item[1] + item[2]) / 3)
+        bounds = avg * 0.05
+        if bounds > abs(avg - item[0]) and bounds > abs(avg - item[1]) and bounds > abs(avg - item[2]):
+            newData.append(item)
+        else:
+            newData.append((0,0,0))
+    ss.putdata(newData)
+    ss.save('ssDebug/testingSearch.png')
+    txt = pytesseract.image_to_string('ssDebug/testingSearch.png',config="--psm 6")
+    txt = ''.join(char for char in txt if char.isalpha() or char.isspace())
+    txt = txt.splitlines()
+    for txtLines in reversed(txt):
+        if len(txtLines) < 3:
+            txt.remove(txtLines)
+
+    #click button with lowest char count (this works since we looked up item name)
+    if len(txt) == 0:
+        logDebug("Item not found in search ... we have a problem")
+        return False
+    elif len(txt) == 1:
+        pyautogui.moveTo(coords.xItemSelect,coords.yItemSelect) 
+        pyautogui.click()
+        return True
+    lengths = []
+    for lines in txt:
+        lengths.append(len(lines))
+    minLength = min(lengths)
+    minIndex = lengths.index(minLength)
+    pyautogui.moveTo(coords.xItemSelect,coords.yItemSelect + (minIndex * 25)) 
+    pyautogui.click()
+    return True
+
+
 #Navigate to the market place
 def navToMarket():
     #Add some automation, if not on main screen FIX
+    if locateOnScreen('verifyMarket',region=coords.getMarketRegion): 
+        pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
+        pyautogui.click()
+
     if locateOnScreen('verifyTitleScreen',region=(0,0,500,333)): 
         navCharLogin()
+
     if locateOnScreen('verifyMainScreen',region=(0,0,300,300)): 
         pyautogui.moveTo(coords.xSelectTrade,coords.ySelectTrade) 
         pyautogui.click()
@@ -30,8 +76,9 @@ def navToMarket():
             pyautogui.moveTo(coords.xSelectMarket,coords.ySelectMarket) 
             pyautogui.click()
 
-        pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
-        pyautogui.click()      
+        while not locateOnScreen('selectedMyListings', region=coords.regionMarketListings):
+            pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
+            pyautogui.click()      
 
 
 
@@ -51,6 +98,7 @@ def selectStash(market=False):
     return res
 
 
+
 #moves item in coords to/from inventor
 def itemMoveInventory(x=coords.xStashStart,y=coords.yStashStart,attempt=1):
     pyautogui.moveTo(x,y)
@@ -66,6 +114,7 @@ def itemMoveInventory(x=coords.xStashStart,y=coords.yStashStart,attempt=1):
     elif getItemTitle(): 
         attempt += 1
         itemMoveInventory(attempt)
+
 
 
 #Nav to stash from market and dump into coords.dumpStash
@@ -96,14 +145,14 @@ def dumpInventory():
 
 
 
-
-
+#this is kind of obvious...
 def logDebug(txt):
     with open('debug.txt', 'a') as file:
         file.write(f"{txt}\n")    
 
 
 
+#Check to see if any listings sold and if so CLAIM WHATS OURS
 def checkForSold():
     ss = pyautogui.screenshot(region=coords.listingSoldRegion)
     ss.save("TestingGatherGold.png")
@@ -274,7 +323,7 @@ def gatherGold():
 
 
 # Get the availible listing slots
-def getAvailListings(secondRun):
+def getAvailListings(secondRun=0):
     #Take screenshot and sanitize for read text
     ss = pyautogui.screenshot(region=[coords.xGetListings,coords.yGetListings,coords.x2GetListings,coords.y2GetListings])
     ss = ss.convert("RGB")
@@ -380,12 +429,8 @@ def listItem(price):
 
 
 # Lookup and return input_string from phrase_list
-def findItem(input_string, phrase_list):
-    logDebug("Searching for: " + str(input_string) + 
-                   "from " + str(phrase_list[:3]) + "\n")
-
-    closest_match = difflib.get_close_matches(input_string, phrase_list, n=1, cutoff=0.6)
-
+def findItem(input_string, phrase_list,n=1):
+    closest_match = difflib.get_close_matches(input_string, phrase_list, n=n, cutoff=0.6)
     logDebug("Found: " + str(closest_match) + "\n")
     return closest_match[0] if closest_match else None
 
@@ -400,8 +445,9 @@ def sanitizeNumerRead(num):
 
 # return to market
 def returnMarketStash():
-    pyautogui.moveTo(coords.xMyListings, coords.yMyListings, duration=0.1) 
-    pyautogui.click()  
+    while not locateOnScreen('selectedMyListings', region=coords.regionMarketListings):
+        pyautogui.moveTo(coords.xMyListings, coords.yMyListings, duration=0.1) 
+        pyautogui.click()  
 
     time.sleep(0.25)
 
@@ -428,25 +474,25 @@ def findExecPath(appName):
 
 # Search market GUI for rarity
 def searchRarity(rarity):
-    if rarity == "Poor":
+    if rarity.lower() == "poor":
         pyautogui.moveTo(coords.xPoor, coords.yPoor, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Common":
+    elif rarity.lower() == "common":
         pyautogui.moveTo(coords.xCommon, coords.yCommon, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Uncommon":
+    elif rarity.lower() == "uncommon":
         pyautogui.moveTo(coords.xUncommon, coords.yUncommon, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Rare":
+    elif rarity.lower() == "rare":
         pyautogui.moveTo(coords.xRare, coords.yRare, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Epic":
+    elif rarity.lower() == "epic":
         pyautogui.moveTo(coords.xEpic, coords.yEpic, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Legendary":
+    elif rarity.lower() == "legendary":
         pyautogui.moveTo(coords.xLegend, coords.yLegend, duration=0.1) 
         pyautogui.click()
-    elif rarity == "Unique":
+    elif rarity.lower() == "unique":
         pyautogui.moveTo(coords.xUnique, coords.yUnique, duration=0.1) 
         pyautogui.click() 
     else:
@@ -459,8 +505,9 @@ def searchRarity(rarity):
 # return int>0 price, 0 if nothing, -1 if NICE LOOT
 def searchAndFindPrice(weapon):
     #reset filters and search rarity
-    pyautogui.moveTo(coords.xViewMarket, coords.yViewMarket, duration=0.1) 
-    pyautogui.click()  
+    while not locateOnScreen('selectedViewMarket', region=coords.regionMarketListings):
+        pyautogui.moveTo(coords.xViewMarket, coords.yViewMarket, duration=0.1) 
+        pyautogui.click()  
 
     pyautogui.moveTo(coords.xResetFilters, coords.yResetFilters, duration=0.5) 
     pyautogui.click() 
@@ -496,8 +543,7 @@ def searchAndFindPrice(weapon):
     pyautogui.click() 
     pyautogui.typewrite(weapon[0], interval=0.01)
 
-    pyautogui.moveTo(coords.xItemSelect, coords.yItemSelect, duration=0.1) 
-    pyautogui.click() 
+    selectItemSearch() 
 
     #Start reading price for each attribute starting with base item
     price = []
@@ -528,12 +574,11 @@ def searchAndFindPrice(weapon):
         pyautogui.moveTo(coords.xSearchPrice, coords.ySearchPrice, duration=0.1) 
         pyautogui.click()
         time.sleep(1)
-        price.append(getItemCost(basePrice))
-    
-    #Check for NICE LOOT
-    for prices in price:
-        if prices == -1:
+        foundPrice = getItemCost(basePrice)
+        if foundPrice < 0:
             return -1
+        else:
+            price.append(foundPrice)
 
     # If only one attr, skip more comps and return found price if signficant increase else basePrice
     if len(price) == 1:
@@ -544,7 +589,8 @@ def searchAndFindPrice(weapon):
     maxPrice = max(price)
     maxIndex = price.index(maxPrice)
     bestAttr = weapon[maxIndex + 1]
-    if maxIndex != 0 and ((maxPrice > basePrice + (basePrice * 0.25)) or (maxPrice > basePrice + 50)):
+
+    if maxPrice > basePrice + (basePrice * 0.25) or maxPrice > basePrice + 50:
         pyautogui.moveTo(coords.xResetAttribute, coords.yResetAttribute, duration=.2) 
         pyautogui.click()
 
@@ -562,7 +608,7 @@ def searchAndFindPrice(weapon):
         twoPrice = []
         for index, attr in enumerate(weapon[1:-1]):
 
-            if index + 1 == maxIndex:
+            if index == maxIndex:
                 logDebug('Skipping already selected attr')
                 continue
 
@@ -578,7 +624,11 @@ def searchAndFindPrice(weapon):
             pyautogui.moveTo(coords.xSearchPrice, coords.ySearchPrice, duration=.2) 
             pyautogui.click()
             time.sleep(1)
-            twoPrice.append(getItemCost(basePrice))
+            found2Price = getItemCost(basePrice)
+            if found2Price < 0:
+                return -1
+            else:
+                twoPrice.append(found2Price)
 
             pyautogui.moveTo(coords.xAttribute, coords.yAttribute, duration=.2) 
             pyautogui.click()
@@ -586,11 +636,6 @@ def searchAndFindPrice(weapon):
             pyautogui.moveTo(coords.xAttrSelect, coords.yAttrSelect + 25, duration=.2) 
             pyautogui.click()
 
-        #Check for NICE LOOT
-        for twoPrices in twoPrice:
-            if twoPrices == -1:
-                return -1
-            
         return max(maxPrice,max(twoPrice))
     else:
         return maxPrice
@@ -639,7 +684,7 @@ def getItemCost(basePrice=None):
             if newNums[i] == newNums[0]:
                 break
             if newNums[i] < newNums[i-1]:
-                newNums[i].pop(i)
+                newNums.pop(i)
 
         #if we are missing value or read 0 reread with more comps
         divCheck = len(newNums)
@@ -721,16 +766,14 @@ def getItemDetails():
             newData.append((0,0,0))
 
     img.putdata(newData)
-
     rawItemData = pytesseract.image_to_string(img)
-    logDebug(rawItemData)
-
+    logDebug(f"Raw Item Data:\n{rawItemData}")
     img.save('final.png')
     return rawItemData
 
 
 
-#
+# remove junk text and get food item reading
 def filterItemText(rawItem):
     weaponToSell = []
     rawItem = rawItem.splitlines()
@@ -750,9 +793,8 @@ def filterItemText(rawItem):
     weaponToSell.append(itemName)
 
     for textLines in rawItem:
-        #print(textLines)
+        txt = ''.join(char for char in textLines if char.isalpha() or char == ' ')
         found = findItem(textLines,allRolls)
-
         if found:
             if found == 'Move Speed' or found == 'Weapon Damage':
                 continue
@@ -760,6 +802,8 @@ def filterItemText(rawItem):
         else:
             continue
     
+    itemRarity = getItemRarity()
+    weaponToSell.append(itemRarity)
     print("selling: ...")
     print(weaponToSell)
     return(weaponToSell)
@@ -830,7 +874,7 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
     time.sleep(0.05)   
     pyautogui.mouseUp()          # Release the mouse button
-
+    pyautogui.moveTo(coords.xStashStart, coords.yStashStart)
 
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
@@ -841,34 +885,44 @@ def searchStash():
 
                 xHome = coords.xStashStart
                 yHome = coords.yStashStart
+                undercut = coords.undercutValue
                 newYCoord = yHome + (40 *y)
                 newXCoord = xHome +(40 *x)
+
                 if not detectItem(41 * x,41 * y):
                     continue
-                clickAndDrag(newXCoord,newYCoord, xHome - 20, yHome - 20,0.2)
-                    
+                else:
+                    for i in range (5):
+                        if not x and not y: break
+                        clickAndDrag(newXCoord,newYCoord, xHome - 20, yHome - 20,0.2)
+                        if not detectItem(41 * x,41 * y):
+                            break
+                
+                pyautogui.moveTo(xHome, yHome)
                 rawWeapon = getItemDetails()
                 weapon = filterItemText(rawWeapon)
                 if weapon == None:
                     logDebug("No Weapon found ... going next cube")
                     continue
                 price = searchAndFindPrice(weapon)
+                print(price)
+                sellPrice = price + undercut if undercut < 0 else int(price - (price * (0.01 * undercut)))
                 returnMarketStash()
 
                 # handle goot loot / inventory dump
-                if price <= 15:
+                if sellPrice <= 15:
                     itemMoveInventory()
                     if getItemTitle():
                         dumpInventory()
                         navToMarket()
+                else:
+                    success = listItem(sellPrice)
 
-                success = listItem(price)
-
+                    if not success:
+                        raise NoListingSlots
+                    logDebug("SUCCESS!!! " + str(weapon[0]) + 
+                                " Listed at " + str(price) + "\n")
                 returnMarketStash()
-                if not success:
-                    raise NoListingSlots
-                logDebug("SUCCESS!!! " + str(weapon[0]) + 
-                         " Listed at " + str(price) + "\n")
                     
     except NoListingSlots:
         logDebug("No Weapon found ... its actually over bro ...")

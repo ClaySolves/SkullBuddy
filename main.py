@@ -37,19 +37,10 @@ import coords
 import subprocess
 import keyboard
 
-
-running = True
-
-def stopScript():
-    global running
-    running = False
-    print("HOTKEY PRESSED ENDING SCRIPT!!!!!!!!\n")
-
-keyboard.add_hotkey("ctrl+shift+q",stopScript)
-
 def main():
+    global running
     launchedGame = 0
-    while running:
+    while True:
         if DAD_Utils.is_game_running():
             print(f"{coords.GAME_NAME} is running.")
             

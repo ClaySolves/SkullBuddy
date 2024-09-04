@@ -1,6 +1,6 @@
 #storage for GUI navigation
 GAME_NAME = "DungeonCrawler.exe"
-undercutPercent = 10
+undercutValue = 10
 
 execSearchPaths = [
     r'C:\Program Files',
@@ -38,14 +38,14 @@ xLeaveTrading, yLeaveTrading = 145, 139
 xPlay, yPlay = 315, 37
 xChangeClass, yChangeClass = 1852, 1010
 StashCoords = (1289, 0, 620, 1059)
-xStashStart, yStashStart = 1390, 213
+xStashStart, yStashStart = 1386, 209
 xTitleAdd, yTitleAdd = 352, 75
 xPriceCoords, yPriceCoords = 1452, 324 # for add its x + 60 y + 150
 xResetFilters, yResetFilters = 1790, 201
 xSearchPrice, ySearchPrice = 1788, 273
 numComps = 3
 totalListings = 10
-valueThreshold = 1000
+valueThreshold = 1250
 xGetListings, yGetListings = 242, 509
 x2GetListings, y2GetListings = 110, 500
 xCanOrTransfer, yCanOrTransfer = 960, 660
@@ -60,6 +60,8 @@ xExitMarket,yExitMarket = 150,40
 xExitMarketYes,yExitMarketYes = 855,615
 getStashRegion = (1284, 172, 80, 371)
 getMarketRegion = (800,0,400,80)
+itemSearchRegion = (73, 262, 192, 250)
+regionMarketListings = (700, 60, 440, 100)
 
 stashDump = 3 # put -1 for shared stash
-stashSell = -1 # put -1 for shared stash 
+stashSell = 2 # put -1 for shared stash 

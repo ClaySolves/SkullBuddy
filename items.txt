@@ -36,7 +36,7 @@ Flanged Mace
 Halberd
 Hatchet
 Heater Shield
-Horsemans Axe
+Horseman's Axe
 Kris Dagger
 Longbow
 Longsword
@@ -149,3 +149,4 @@ Wizard Shoes
 Mercurial Cloak
 Visored Sallet
 Topfhelm
+Copperlight Sanctum Plate Armor

@@ -35,3 +35,6 @@ def findItem(input_string, phrase_list):
 #weapon = ["Loose Trousers","Strength","Max Health","Max Health Bonus", "Epic"]
 #print(DAD_Utils.searchAndFindPrice(weapon))
 #print(          )
+# print(DAD_Utils.locateOnScreen('selected iewMarket',region=coords.regionMarketListings))
+# ss = pyautogui.screenshot(region=coords.regionMarketListings)
+# ss.save('LOL.png')
