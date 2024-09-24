@@ -1,6 +1,6 @@
 #storage for GUI navigation
 GAME_NAME = "DungeonCrawler.exe"
-undercutValue = 10
+undercutValue = 13
 
 execSearchPaths = [
     r'C:\Program Files',
@@ -64,4 +64,4 @@ itemSearchRegion = (73, 262, 192, 250)
 regionMarketListings = (700, 60, 440, 100)
 
 stashDump = 3 # put -1 for shared stash
-stashSell = 2 # put -1 for shared stash 
+stashSell = 0 # put -1 for shared stash  

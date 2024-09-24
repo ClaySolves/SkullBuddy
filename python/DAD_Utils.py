@@ -32,8 +32,8 @@ def selectItemSearch():
         else:
             newData.append((0,0,0))
     ss.putdata(newData)
-    ss.save('ssDebug/testingSearch.png')
-    txt = pytesseract.image_to_string('ssDebug/testingSearch.png',config="--psm 6")
+    ss.save('debug/testingSearch.png')
+    txt = pytesseract.image_to_string('debug/testingSearch.png',config="--psm 6")
     txt = ''.join(char for char in txt if char.isalpha() or char.isspace())
     txt = txt.splitlines()
     for txtLines in reversed(txt):
@@ -155,7 +155,7 @@ def logDebug(txt):
 #Check to see if any listings sold and if so CLAIM WHATS OURS
 def checkForSold():
     ss = pyautogui.screenshot(region=coords.listingSoldRegion)
-    ss.save("TestingGatherGold.png")
+    ss.save("debug/TestingGatherGold.png")
     soldLocation = locateOnScreen("betterSoldItem",coords.listingSoldRegion,True,0.95)
     if soldLocation:
         pyautogui.moveTo(int(soldLocation[0] + 30), int(soldLocation[1]), duration=0.05) 
@@ -195,8 +195,8 @@ def confirmRarity(img,rarity):
     height = int(img.height)
     ssRegion=(left, top, width, height)
     ss = pyautogui.screenshot(region=ssRegion)
-    ss.save('readText.png')
-    txt = pytesseract.image_to_string('readText.png', config="--psm 6")
+    ss.save('debug/readText.png')
+    txt = pytesseract.image_to_string('debug/readText.png', config="--psm 6")
     if rarity.lower() in txt.lower():
         return 1
     else:
@@ -339,9 +339,9 @@ def getAvailListings(secondRun=0):
             newData.append((0,0,0))
 
     ss.putdata(newData)
-    ss.save('testingTitle.png')
-    ss.save('testingListItem.png')
-    txt = pytesseract.image_to_string('testingListItem.png',config="--psm 6")
+    ss.save('debug/testingTitle.png')
+    ss.save('debug/testingListItem.png')
+    txt = pytesseract.image_to_string('debug/testingListItem.png',config="--psm 6")
     txt = txt.splitlines()
 
     #Read for listing slots and report if any avial, and #of slots
@@ -384,12 +384,12 @@ def getItemTitle():
             newData.append((0,0,0))
 
     ss.putdata(newData)
-    ss.save('testingTitle.png')
-    txt = pytesseract.image_to_string("testingTitle.png",config="--psm 6")
+    ss.save('debug/testingTitle.png')
+    txt = pytesseract.image_to_string("debug/testingTitle.png",config="--psm 6")
     logDebug("got title text: " + str(txt) + "\n")
 
     # Search for item from txt and return result
-    with open("items.txt", 'r') as file:
+    with open("config/items.txt", 'r') as file:
         lines = file.readlines()
     allItems = [line.strip() for line in lines]
 
@@ -672,10 +672,10 @@ def getItemCost(basePrice=None):
                 newData.append((0,0,0))
 
         ss.putdata(newData)
-        ss.save('testing.png')
+        ss.save('debug/testing.png')
 
         # Read and sanitize text
-        txt = pytesseract.image_to_string("testing.png",config="--psm 6")
+        txt = pytesseract.image_to_string("debug/testing.png",config="--psm 6")
         numList = txt.split()
         newNums = [int(num.replace(',','')) for num in numList if sanitizeNumerRead(num)]  
 
@@ -748,8 +748,8 @@ def getItemDetails():
     targetColor = 150
     limitWhite = 200
     screenshot = pyautogui.screenshot(region=coords.StashCoords)
-    screenshot.save('test.png')
-    img = Image.open('test.png')
+    screenshot.save('debug/test.png')
+    img = Image.open('debug/test.png')
 
     #Mask with blue to see attributes
     img = img.convert("RGB")
@@ -768,7 +768,7 @@ def getItemDetails():
     img.putdata(newData)
     rawItemData = pytesseract.image_to_string(img)
     logDebug(f"Raw Item Data:\n{rawItemData}")
-    img.save('final.png')
+    img.save('debug/final.png')
     return rawItemData
 
 
@@ -778,11 +778,11 @@ def filterItemText(rawItem):
     weaponToSell = []
     rawItem = rawItem.splitlines()
 
-    with open("items.txt", 'r') as file:
+    with open("config/items.txt", 'r') as file:
         lines = file.readlines()
     allItems = [line.strip() for line in lines]
 
-    with open("rolls.txt", 'r') as file:
+    with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
 
@@ -870,7 +870,7 @@ def filterGarbage(text):
 def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xStart, yStart)  # Move to the starting position
     pyautogui.mouseDown()        # Press and hold the mouse button
-    time.sleep(0.1)              # Optional: Wait a moment for the cursor to settle
+    time.sleep(0.05)              # Optional: Wait a moment for the cursor to settle
     pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
     time.sleep(0.05)   
     pyautogui.mouseUp()          # Release the mouse button
@@ -880,7 +880,7 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash():
     try:
-        for y in range(20):
+        for y in range(6):
             for x in range(12):
 
                 xHome = coords.xStashStart
@@ -894,7 +894,7 @@ def searchStash():
                 else:
                     for i in range (5):
                         if not x and not y: break
-                        clickAndDrag(newXCoord,newYCoord, xHome - 20, yHome - 20,0.2)
+                        clickAndDrag(newXCoord,newYCoord, xHome - 15, yHome - 20,0.2)
                         if not detectItem(41 * x,41 * y):
                             break
                 

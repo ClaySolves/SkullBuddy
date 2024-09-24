@@ -3,6 +3,8 @@ Torq of Soul
 Rat Pendant
 Dashing Boots
 Bear Pendant 
+Low Boots
+Crusader Armor
 Wind Locket
 Fangs of Death Necklace 
 Fox Pendant 
@@ -39,6 +41,7 @@ Heater Shield
 Horseman's Axe
 Kris Dagger
 Longbow
+Spangenhelm
 Longsword
 Magic Wand
 Morning Star
@@ -102,6 +105,7 @@ Loose Trousers
 Cobalt Loose Trousers
 Marauder Outfit
 Mystic Vestments
+Mystic Gloves
 Rubysilver Mystic Vestments
 Northern Full Tunic
 Occultist Hood

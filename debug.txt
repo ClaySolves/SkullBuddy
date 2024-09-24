@@ -1,0 +1,546 @@
+reset
+Found: verifyMarket
+
+verifyTitleScreen was not found
+
+verifyMainScreen was not found
+
+stash0Market was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 1.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 2.0 addY: 0.0 avg pixel val on: 260
+
+Item detected
+
+addX: 2.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+Raw Item Data:
+We
+ye
+
+i
+i
+
+- +2 Knowledge
+- +3 Physical Power
+: +6 Magic Resistance
+
+Looted
+
+Epic
+ACittLe matectio nis bette
+
+wotection
+
+t
+
+Keri
+
+” Found by iDarkPhenom ”
+
+
+got title text: «ot a e eo ARS
+: Padded Leggings
+
+
+Found: []
+
+Found: ['Padded Leggings']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Knowledge']
+
+Found: ['Physical Power']
+
+Found: ['Magic Resistance']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+selectedViewMarket was not found
+
+Found: selectedViewMarket
+
+Searching for : epic Padded Leggings
+Recorded Price : [100, 100, 100]
+
+Recorded Price : [100, 100, 100]
+
+attr : Knowledge
+Recorded Price : [122, 123, 133]
+
+Recorded Price : [122, 123, 133]
+
+attr : Physical Power
+Recorded Price : [143, 143, 150]
+
+Recorded Price : [143, 143, 150]
+
+attr : Magic Resistance
+Recorded Price : [100, 100, 120]
+
+Recorded Price : [100, 100, 120]
+
+attr : Knowledge Physical Power
+Recorded Price : [178, 198, 200]
+
+Recorded Price : [178, 198, 200]
+
+Skipping already selected attr
+attr : Magic Resistance Physical Power
+Recorded Price : [160, 180, 249]
+
+Recorded Price : [160, 180, 249]
+
+selectedMyListings was not found
+
+selectedMyListings was not found
+
+Found: selectedMyListings
+
+YES! 3 listings availible
+
+SUCCESS!!! Padded Leggings Listed at 178
+
+Found: selectedMyListings
+
+addX: 3.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 4.0 addY: 0.0 avg pixel val on: 254
+
+Item detected
+
+addX: 4.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+Raw Item Data:
+Stisl
+
+Plate Pants
+
+- #2 Additional Memory Capacity -
+-  +6.8% Memory Capacity Bonus -
+
+Required Class .
+Fighter, Cleric '
+be
+te
+Exticuely remy, cous otisisns seed ty:
+extinct tar
+4 oe
+; oe
+We i
+
+yk
+a
+
+
+got title text: ' wd ee ARS
+i Plate Pants
+
+
+Found: []
+
+Found: ['Plate Pants']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Memory Capacity Bonus']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+Found: rare
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+Found rare item
+
+selectedViewMarket was not found
+
+Found: selectedViewMarket
+
+Searching for : rare Plate Pants
+Recorded Price : [42, 42, 45]
+
+Recorded Price : [42, 42, 45]
+
+attr : Additional Memory Capacity
+Recorded Price : [44, 44, 46]
+
+Recorded Price : [44, 44, 46]
+
+attr : Memory Capacity Bonus
+Recorded Price : [42, 42, 45]
+
+Recorded Price : [42, 42, 45]
+
+selectedMyListings was not found
+
+Found: selectedMyListings
+
+YES! 2 listings availible
+
+SUCCESS!!! Plate Pants Listed at 44
+
+Found: selectedMyListings
+
+addX: 5.0 addY: 0.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 173
+
+Item detected
+
+addX: 6.0 addY: 0.0 avg pixel val on: 83
+
+No item detected ; 83 < 110
+
+Raw Item Data:
+Stisl
+
+Regal Gambeson
+
+4
+a z
+‘ - +5.9% Memory Capacity Bonus -
+- +6 Additional Armor Rating -
+Coest
+Corr
+Handled |
+Rare :
+'
+. Bewutituly dyed quilting woo! wil sagt’ .
+fe oath hes shia esd odd tit i
+So
+S oe
+i ‘
+i We i
+4 \ :
+
+
+got title text: JUNE | ee
+Regal Gambeson
+
+
+Found: []
+
+Found: ['Regal Gambeson']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Memory Capacity Bonus']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+Found: rare
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+Found rare item
+
+selectedViewMarket was not found
+
+Found: selectedViewMarket
+
+Searching for : rare Regal Gambeson
+Recorded Price : [40, 40, 40]
+
+Recorded Price : [40, 40, 40]
+
+attr : Memory Capacity Bonus
+Recorded Price : [40, 45, 48]
+
+Recorded Price : [40, 45, 48]
+
+attr : Additional Memory Capacity
+Recorded Price : [40, 45, 45]
+
+Recorded Price : [40, 45, 45]
+
+selectedMyListings was not found
+
+Found: selectedMyListings
+
+YES! 1 listings availible
+
+SUCCESS!!! Regal Gambeson Listed at 40
+
+Found: selectedMyListings
+
+addX: 7.0 addY: 0.0 avg pixel val on: 83
+
+No item detected ; 83 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 244
+
+Item detected
+
+addX: 8.0 addY: 0.0 avg pixel val on: 83
+
+No item detected ; 83 < 110
+
+Raw Item Data:
+Stisl
+
+a - +6.4% Regular Interaction Speed -
+
+Hee nds
+
+he
+Looted
+
+Uncommon
+
+yyes Lisied will Hae softest wiv fr |
+ehitosced lewis with wistincchigto
+. '
+
+“Found by BULLFROGZmlem *
+
+&
+wp
+
+
+got title text: I
+_ Riveted Gloves
+
+
+Found: []
+
+Found: ['Riveted Gloves']
+
+Found: []
+
+Found: []
+
+Found: ['Regular Interaction Speed']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+poor was not found
+
+common was not found
+
+Found: uncommon
+
+rare was not found
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+Found uncommon item
+
+selectedViewMarket was not found
+
+Found: selectedViewMarket
+
+Searching for : uncommon Riveted Gloves
+Recorded Price : [40, 44, 44]
+
+Recorded Price : [40, 44, 44]
+
+attr : Regular Interaction Speed
+Recorded Price : [65, 75, 75]
+
+Recorded Price : [65, 75, 75]
+
+selectedMyListings was not found
+
+Found: selectedMyListings
+
+NO LISTING SLOTS!, CLEAR GOLD 
+betterSoldItem was not found
+
+Nothing found
+NO LISTING SLOTS!, CLEAR GOLD 
+No Weapon found ... its actually over bro ...
