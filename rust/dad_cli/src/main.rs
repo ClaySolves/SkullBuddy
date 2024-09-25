@@ -16,15 +16,25 @@ struct MyApp {
     check1: bool,
     check2: bool,
     check3: bool,
+    sell_stash: String,
+    store_stash: String,
 }
 
 impl App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("Squire-Bot");
+
             ui.checkbox(&mut self.check1, "Checkbox 1: Placeholder Text 1");
             ui.checkbox(&mut self.check2, "Checkbox 2: Placeholder Text 2");
             ui.checkbox(&mut self.check3, "Checkbox 3: Placeholder Text 3");
+
+            ui.label("Sell from stash: ");
+            ui.text_edit_singleline(&mut self.sell_stash);
+
+            ui.label("Store in stash: ");
+            ui.text_edit_singleline(&mut self.store_stash);
+
             if ui.button("Sell Items").clicked() {
                 println!("Running Script...");
 
