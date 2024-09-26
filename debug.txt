@@ -544,3 +544,209 @@ betterSoldItem was not found
 Nothing found
 NO LISTING SLOTS!, CLEAR GOLD 
 No Weapon found ... its actually over bro ...
+Checking screen for: img/slotType.png
+NOT FOUND: 
+Checking screen for: img/slotType.png
+SCREEN DETECTED!
+Checking screen for: img/slotType.png
+SCREEN DETECTED!
+Checking screen for: img/slotType.png
+SCREEN DETECTED!
+Checking screen for: img/slotType.png
+SCREEN DETECTED!
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+slotType was not found
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+fillInAllStash was not found
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+Found: fillInAllStash
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+fillInAllStash was not found
+
+Found: fillInAllStash
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 331
+
+Item detected
+
+addX: 0.0 addY: 0.0 avg pixel val on: 331
+
+Item detected
+
+addX: 1.2195121951219512 addY: 0.0 avg pixel val on: 188
+
+Item detected
+
+addX: 0.0 addY: 1.2195121951219512 avg pixel val on: 98
+
+No item detected ; 98 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 331
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 331
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 166
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 166
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 166
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 342
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 342
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 263
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 191
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 191
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 191
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 193
+
+Item detected
+
+fillInAllStash was not found
+
+addX: 0.0 addY: 0.0 avg pixel val on: 193
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 193
+
+Item detected
+
+Found: fillInAllStash
+
+addX: 0.0 addY: 0.0 avg pixel val on: 83
+
+No item detected ; 83 < 110
+

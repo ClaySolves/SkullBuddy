@@ -58,10 +58,16 @@ listingSoldRegion = (20,500,45,515)
 xInventory,yInvetory = 705, 644
 xExitMarket,yExitMarket = 150,40
 xExitMarketYes,yExitMarketYes = 855,615
+getDungeonInvRegion = (656, 509, 400, 200)
+getExpressmanRegion = (1169, 335, 400, 200)
 getStashRegion = (1284, 172, 80, 371)
 getMarketRegion = (800,0,400,80)
+getScreenRegion = (0, 0, 1920, 1080)
 itemSearchRegion = (73, 262, 192, 250)
 regionMarketListings = (700, 60, 440, 100)
+xCollectExpressman, yCollectExpressman = 69, 256
+xPayGetExpressman, yPayGetExpressman = 953,926
+
 
 stashDump = 3 # put -1 for shared stash
 stashSell = 0 # put -1 for shared stash  

@@ -17,6 +17,36 @@ class NoListingSlots(Exception):
 
 
 
+def gatherExpressman():
+    while detectItem(0,0,coords.xCollectExpressman,coords.yCollectExpressman):
+        pyautogui.moveTo(coords.xCollectExpressman,coords.yCollectExpressman,duration=0.2) 
+        pyautogui.click()
+
+        if locateOnScreen("fillInAllStash",grayscale=False,confidence=0.998):
+            pyautogui.moveTo(coords.xPayGetExpressman,coords.yPayGetExpressman,duration=0.2) 
+            pyautogui.click()
+
+        pyautogui.moveTo(coords.xPayGetExpressman,coords.yPayGetExpressman+70,duration=0.2) 
+        pyautogui.click()
+        
+
+
+# Returns slot type of highlighted item
+def getItemSlotType():
+    pyautogui.moveTo(coords.xStashStart,coords.yStashStart,duration=0.2) 
+    location = locateOnScreen("slotType",confidence=0.9)
+    if not location:
+        return None
+    
+    ssRegion = (int(location[0]), int(location[1]), 250, 25)
+
+    ss = pyautogui.screenshot(region=ssRegion)
+    ss = ss.convert("RGB")
+    ss.save('debug/itemSlot.png')
+    txt = pytesseract.image_to_string('debug/itemSlot.png',config="--psm 6")
+    print(txt)
+
+
 # Selects item from market search and return if that worked
 def selectItemSearch():
     #read img
@@ -56,6 +86,7 @@ def selectItemSearch():
     pyautogui.moveTo(coords.xItemSelect,coords.yItemSelect + (minIndex * 25)) 
     pyautogui.click()
     return True
+
 
 
 #Navigate to the market place
@@ -173,11 +204,11 @@ def checkForSold():
 
 
 #return 1 if img on screen else return location
-def getCurrentScreen(img):
+def getCurrentScreen(img, confidence = 0.98):
     logDebug(f'Checking screen for: img/{img}.png')
 
     try:
-        pyautogui.locateOnScreen(f'img/{img}.png', confidence=0.98)
+        pyautogui.locateOnScreen(f'img/{img}.png', confidence=confidence)
         logDebug("SCREEN DETECTED!")
         return 1
     except pyautogui.ImageNotFoundException as e:
@@ -205,7 +236,7 @@ def confirmRarity(img,rarity):
 
 
 # Return location and santize ImageNotFound error
-def locateOnScreen(img,region,grayscale=False,confidence=0.99):
+def locateOnScreen(img,region=coords.getScreenRegion,grayscale=False,confidence=0.99):
     try:
         res = pyautogui.locateOnScreen(f'img/{img}.png', region = region, 
                                        confidence = confidence, grayscale = grayscale)

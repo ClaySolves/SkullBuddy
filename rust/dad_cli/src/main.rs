@@ -38,10 +38,12 @@ impl App for MyApp {
             if ui.button("Sell Items").clicked() {
                 println!("Running Script...");
 
-                let script_output = Command::new("python3")
-                    .arg("C:\\main/darkAndDarker/autoTradingPost/python/main.py")
+                let script_path = r"C:\\main/darkAndDarker/autoTradingPost/python/main.py";
+                let script_output = Command::new("runas")
+                    .arg("/user:Administrator")
+                    .arg(format!("python {}", script_path))
                     .output()
-                    .expect("Failed");
+                    .expect("Failed to execute script");
 
                 let stdout = str::from_utf8(&script_output.stdout).expect("Failed to parse output");
                 let stderr = str::from_utf8(&script_output.stderr).expect("Failed to parse error");
