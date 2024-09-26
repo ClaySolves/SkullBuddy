@@ -750,3 +750,3581 @@ addX: 0.0 addY: 0.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
+addX: 0.0 addY: 0.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+fillInAllStash was not found
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+Found: slotType
+
+slotType was not found
+
+Found: slotType
+
+addX: 17.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 15.707317073170731 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 16.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 17.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 18.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 17.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 18.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 19.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 20.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 21.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 22.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 23.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 24.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 25.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 26.195121951219512 addY: 19.70731707317073 avg pixel val on: 0
+
+No item detected ; 0 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 245
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 235
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 94
+
+No item detected ; 94 < 110
+
+addX: 4.0 addY: 0.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 126
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 0.0 avg pixel val on: 111
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 1.0 avg pixel val on: 206
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 2.0 addY: 1.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 3.0 addY: 1.0 avg pixel val on: 110
+
+No item detected ; 110 < 110
+
+addX: 4.0 addY: 1.0 avg pixel val on: 70
+
+No item detected ; 70 < 110
+
+addX: 5.0 addY: 1.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 51
+
+No item detected ; 51 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 1.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+addX: 0.0 addY: 2.0 avg pixel val on: 114
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 131
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 148
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 164
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 120
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 2.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 2.0 avg pixel val on: 103
+
+No item detected ; 103 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 86
+
+No item detected ; 86 < 110
+
+addX: 1.0 addY: 3.0 avg pixel val on: 114
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 146
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 3.0 avg pixel val on: 179
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 3.0 avg pixel val on: 122
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 3.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 3.0 avg pixel val on: 155
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 4.0 avg pixel val on: 112
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 123
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 124
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 4.0 avg pixel val on: 118
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 4.0 avg pixel val on: 105
+
+No item detected ; 105 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 124
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 4.0 avg pixel val on: 137
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 0.0 avg pixel val on: 245
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 235
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 94
+
+No item detected ; 94 < 110
+
+addX: 4.0 addY: 0.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 126
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 0.0 avg pixel val on: 111
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 1.0 avg pixel val on: 206
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 2.0 addY: 1.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 3.0 addY: 1.0 avg pixel val on: 110
+
+No item detected ; 110 < 110
+
+addX: 4.0 addY: 1.0 avg pixel val on: 70
+
+No item detected ; 70 < 110
+
+addX: 5.0 addY: 1.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 51
+
+No item detected ; 51 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 1.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+addX: 0.0 addY: 2.0 avg pixel val on: 114
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 131
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 148
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 164
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 120
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 2.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 2.0 avg pixel val on: 103
+
+No item detected ; 103 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 86
+
+No item detected ; 86 < 110
+
+addX: 1.0 addY: 3.0 avg pixel val on: 114
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 146
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 3.0 avg pixel val on: 179
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 3.0 avg pixel val on: 122
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 3.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 3.0 avg pixel val on: 155
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 4.0 avg pixel val on: 112
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 123
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 124
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 4.0 avg pixel val on: 118
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 4.0 avg pixel val on: 105
+
+No item detected ; 105 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 52
+
+No item detected ; 52 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 42
+
+No item detected ; 42 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 124
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 4.0 avg pixel val on: 137
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 0.0 avg pixel val on: 245
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 217
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 250
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 235
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 106
+
+No item detected ; 106 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 94
+
+No item detected ; 94 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 85
+
+No item detected ; 85 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 0.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 223
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 169
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 159
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 166
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 268
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 269
+
+Item detected
+
+Found: slotType
+
+addX: 6.0 addY: 1.0 avg pixel val on: 176
+
+Item detected
+
+Found: slotType
+
+addX: 7.0 addY: 1.0 avg pixel val on: 156
+
+Item detected
+
+Found: slotType
+
+addX: 8.0 addY: 1.0 avg pixel val on: 153
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 1.0 avg pixel val on: 136
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 206
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 86
+
+No item detected ; 86 < 110
+
+addX: 2.0 addY: 2.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 2.0 avg pixel val on: 89
+
+No item detected ; 89 < 110
+
+addX: 4.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 84
+
+No item detected ; 84 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 110
+
+No item detected ; 110 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 73
+
+No item detected ; 73 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 70
+
+No item detected ; 70 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 66
+
+No item detected ; 66 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 128
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 125
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 124
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 3.0 avg pixel val on: 113
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 3.0 avg pixel val on: 117
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 3.0 avg pixel val on: 120
+
+Item detected
+
+Found: slotType
+
+addX: 6.0 addY: 3.0 avg pixel val on: 107
+
+No item detected ; 107 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 104
+
+No item detected ; 104 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 120
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 3.0 avg pixel val on: 95
+
+No item detected ; 95 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 114
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 123
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 131
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 4.0 avg pixel val on: 142
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 4.0 avg pixel val on: 148
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 4.0 avg pixel val on: 149
+
+Item detected
+
+Found: slotType
+
+addX: 6.0 addY: 4.0 avg pixel val on: 164
+
+Item detected
+
+Found: slotType
+
+addX: 7.0 addY: 4.0 avg pixel val on: 142
+
+Item detected
+
+Found: slotType
+
+addX: 8.0 addY: 4.0 avg pixel val on: 120
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 4.0 avg pixel val on: 94
+
+No item detected ; 94 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 297
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 238
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 334
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 232
+
+Item detected
+
+Found: slotType
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 297
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 238
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 334
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 297
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 238
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 334
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 0.0 addY: 0.0 avg pixel val on: 293
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 0.0 avg pixel val on: 292
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 0.0 avg pixel val on: 240
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 0.0 avg pixel val on: 242
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 0.0 avg pixel val on: 216
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 0.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 0.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 0.0 avg pixel val on: 90
+
+No item detected ; 90 < 110
+
+addX: 9.0 addY: 0.0 avg pixel val on: 100
+
+No item detected ; 100 < 110
+
+addX: 0.0 addY: 1.0 avg pixel val on: 239
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 1.0 avg pixel val on: 207
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 1.0 avg pixel val on: 251
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 1.0 avg pixel val on: 325
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 1.0 avg pixel val on: 303
+
+Item detected
+
+Found: slotType
+
+addX: 5.0 addY: 1.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 6.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 7.0 addY: 1.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 8.0 addY: 1.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 9.0 addY: 1.0 avg pixel val on: 234
+
+Item detected
+
+Found: slotType
+
+addX: 0.0 addY: 2.0 avg pixel val on: 229
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 2.0 avg pixel val on: 262
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 2.0 avg pixel val on: 215
+
+Item detected
+
+Found: slotType
+
+addX: 3.0 addY: 2.0 avg pixel val on: 322
+
+Item detected
+
+Found: slotType
+
+addX: 4.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 7.0 addY: 2.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 2.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 2.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 3.0 avg pixel val on: 184
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 3.0 avg pixel val on: 185
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 3.0 addY: 3.0 avg pixel val on: 78
+
+No item detected ; 78 < 110
+
+addX: 4.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 5.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 6.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 7.0 addY: 3.0 avg pixel val on: 75
+
+No item detected ; 75 < 110
+
+addX: 8.0 addY: 3.0 avg pixel val on: 76
+
+No item detected ; 76 < 110
+
+addX: 9.0 addY: 3.0 avg pixel val on: 77
+
+No item detected ; 77 < 110
+
+addX: 0.0 addY: 4.0 avg pixel val on: 152
+
+Item detected
+
+Found: slotType
+
+addX: 1.0 addY: 4.0 avg pixel val on: 154
+
+Item detected
+
+Found: slotType
+
+addX: 2.0 addY: 4.0 avg pixel val on: 82
+
+No item detected ; 82 < 110
+
+addX: 3.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 4.0 addY: 4.0 avg pixel val on: 81
+
+No item detected ; 81 < 110
+
+addX: 5.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+
+addX: 6.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 7.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 8.0 addY: 4.0 avg pixel val on: 79
+
+No item detected ; 79 < 110
+
+addX: 9.0 addY: 4.0 avg pixel val on: 80
+
+No item detected ; 80 < 110
+

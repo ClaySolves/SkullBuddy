@@ -17,6 +17,21 @@ class NoListingSlots(Exception):
 
 
 
+def stashExpressman():
+    xStart = coords.xInventory
+    yStart = coords.yInventory
+    for y in range(5):
+        for x in range(10):
+            newX = (x * 41) + xStart
+            newY = (y * 41) + yStart
+            if detectItem(x * 41,y * 41,xStart,yStart):
+                pyautogui.moveTo(newX,newY) 
+                if getItemSlotType() == "Invalid":
+                    clickAndDrag(newX, newY, coords.xStartExpressmanInv + (x * 41), coords.yStartExpressmanInv + (y * 41),duration=0.05)
+
+    return True
+
+
 def gatherExpressman():
     while detectItem(0,0,coords.xCollectExpressman,coords.yCollectExpressman):
         pyautogui.moveTo(coords.xCollectExpressman,coords.yCollectExpressman,duration=0.2) 
@@ -28,12 +43,13 @@ def gatherExpressman():
 
         pyautogui.moveTo(coords.xPayGetExpressman,coords.yPayGetExpressman+70,duration=0.2) 
         pyautogui.click()
+
+    return True
         
 
 
 # Returns slot type of highlighted item
 def getItemSlotType():
-    pyautogui.moveTo(coords.xStashStart,coords.yStashStart,duration=0.2) 
     location = locateOnScreen("slotType",confidence=0.9)
     if not location:
         return None
@@ -45,6 +61,15 @@ def getItemSlotType():
     ss.save('debug/itemSlot.png')
     txt = pytesseract.image_to_string('debug/itemSlot.png',config="--psm 6")
     print(txt)
+    txtRemove = "Slot Type"
+    try:
+        keyword_index = txt.index(txtRemove) + len(txtRemove)
+        ret = txt[keyword_index:].lstrip()
+        finalRet = ''.join(char for char in ret if char.isalpha())
+        return finalRet
+    except ValueError:
+        return None  
+
 
 
 # Selects item from market search and return if that worked
@@ -167,7 +192,7 @@ def dumpInventory():
     for y in range(5):
         for x in range(10):
             xInv = coords.xInventory
-            yInv = coords.yInvetory
+            yInv = coords.yInventory
             if not detectItem(41 * x, 41 * y,xInv,yInv):
                 print(f'Continue{x}{y}')
                 continue
@@ -314,7 +339,7 @@ def getItemRarity():
 def detectItem(xAdd,yAdd,xStart=coords.xStashDetect,yStart=coords.yStashDetect):
     ss = pyautogui.screenshot(region=[xStart + xAdd,yStart + yAdd,20,20])
     ss = ss.convert("RGB")
-    # ss.save(f"ssDebug/seeStash_x_{xAdd/41}_y_{yAdd/41}.png")
+    # ss.save(f"debug/seeStash_x_{xAdd/41}_y_{yAdd/41}.png")
     w, h = ss.size
     data = ss.getdata()
     total = 0

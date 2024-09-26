@@ -36,6 +36,7 @@ def findItem(input_string, phrase_list):
 #print(DAD_Utils.searchAndFindPrice(weapon))
 #print(          )
 # print(DAD_Utils.locateOnScreen('selected iewMarket',region=coords.regionMarketListings))
+
 # ss = pyautogui.screenshot(region=coords.regionMarketListings)
 # ss.save('LOL.png')
 # print(DAD_Utils.getItemSlotType())
@@ -44,6 +45,6 @@ def findItem(input_string, phrase_list):
 
 # ss = pyautogui.screenshot(region=coords.getDungeonInvRegion)
 # ss.save('LOL2.png')
-DAD_Utils.gatherExpressman()
+# DAD_Utils.gatherExpressman()
 
-print(DAD_Utils.locateOnScreen("fillInAllStash",grayscale=False,confidence=0.998))
+DAD_Utils.stashExpressman()

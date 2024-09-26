@@ -39,9 +39,8 @@ impl App for MyApp {
                 println!("Running Script...");
 
                 let script_path = r"C:\\main/darkAndDarker/autoTradingPost/python/main.py";
-                let script_output = Command::new("runas")
-                    .arg("/user:Administrator")
-                    .arg(format!("python {}", script_path))
+                let script_output = Command::new("python")
+                    .arg(script_path)
                     .output()
                     .expect("Failed to execute script");
 
