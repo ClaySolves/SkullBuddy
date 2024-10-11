@@ -12,11 +12,19 @@ import random
 import os
 from pynput import keyboard, mouse
 
+#exception
 class NoListingSlots(Exception):
     pass
 
+#item class
+class item():
+    def __init__(self, name, rolls, rarity):
+        item.name = name
+        item.rolls = rolls
+        item.rarity = rarity
 
 
+#Sends all treasure to expressman
 def stashExpressman():
     xStart = coords.xInventory
     yStart = coords.yInventory
@@ -32,6 +40,8 @@ def stashExpressman():
     return True
 
 
+
+#Gathers all items from expressman
 def gatherExpressman():
     while detectItem(0,0,coords.xCollectExpressman,coords.yCollectExpressman):
         pyautogui.moveTo(coords.xCollectExpressman,coords.yCollectExpressman,duration=0.2) 
@@ -933,6 +943,7 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(coords.xStashStart, coords.yStashStart)
 
 
+
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash():
     try:
@@ -982,3 +993,44 @@ def searchStash():
                     
     except NoListingSlots:
         logDebug("No Weapon found ... its actually over bro ...")
+
+
+
+
+def getItemInfo():
+
+    ss = pyautogui.screenshot(region=)
+
+    return 1
+
+
+# Main Loop for selling items
+def mainLoop():
+    global running
+    launchedGame = 0
+    while True:
+        if is_game_running():
+            print(f"{coords.GAME_NAME} is running.")
+            
+            with open('debug.txt', 'w') as file:
+                file.write('reset\n')
+            navToMarket()
+            time.sleep(0.3)
+            selectStash(True)
+            time.sleep(0.3)
+            searchStash()
+            break  
+        else:
+            if not launchedGame:
+                print(f"{coords.GAME_NAME} is not running. Launching...\n")
+
+                # Ironshield doesn't like this solution ... 
+                # subprocess.Popen(DAD_Utils.findExecPath(coords.GAME_NAME))
+                # launchedGame = 1
+
+                sys.exit(f"{coords.GAME_NAME} is NOT running. Launch Dark and Darker\n")
+                return 0
+
+        time.sleep(5)  # Wait 5 seconds before checking again
+
+    return 1

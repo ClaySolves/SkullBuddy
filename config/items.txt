@@ -8,6 +8,7 @@ Crusader Armor
 Wind Locket
 Fangs of Death Necklace 
 Fox Pendant 
+Great Helm
 Troll's Bane
 Frost Amulet 
 Monkey Pendant 
@@ -26,6 +27,8 @@ Grimsmile Ring
 Crystal Sword
 Arming Sword
 Bardiche	
+Lute
+Hand Crossbow
 Club
 Battle Axe		
 Buckler	
@@ -42,12 +45,14 @@ Horseman's Axe
 Kris Dagger
 Longbow
 Spangenhelm
+Dark Leather Leggings
 Longsword
 Magic Wand
 Morning Star
 Pavise
 Quarterstaff
 Rapier
+Flute
 Recurve Bow
 Rondel Dagger
 Round Shield
@@ -80,6 +85,9 @@ Feathered Hat
 Forest hood
 Rubysilver Fine Cuirass
 Frock
+Pourpoint
+Studded Leather
+Light Gauntlets
 Cobalt Frock
 Gjermundbu
 Cobalt Wizard Hat
@@ -106,12 +114,15 @@ Cobalt Loose Trousers
 Marauder Outfit
 Mystic Vestments
 Mystic Gloves
+Norman Nasal Helm
 Rubysilver Mystic Vestments
 Northern Full Tunic
 Occultist Hood
 Occultist Robe
 Occultist Tunic
 Old Shoes
+Shoes of Darkness
+Open Sallet
 Oracle Robe
 Padded Leggings
 Ornate Jazerant

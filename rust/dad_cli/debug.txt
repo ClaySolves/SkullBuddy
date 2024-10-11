@@ -1,5 +1,1 @@
 reset
-addX: 0.0 addY: 0.0 avg pixel val on: 106
-
-No item detected ; 106 < 110
-
