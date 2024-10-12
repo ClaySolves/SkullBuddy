@@ -1,4 +1,5 @@
 import math
+import re
 import sys
 import numbers
 import psutil
@@ -22,6 +23,24 @@ class item():
         item.name = name
         item.rolls = rolls
         item.rarity = rarity
+
+    def printItem(self):
+        print(f"{item.name}")
+        print(f"{item.rolls}")
+        print(f"{item.rarity}")
+
+
+def loadTextFiles():
+    global allItems
+    global allRolls
+
+    with open("config/items.txt", 'r') as file:
+        lines = file.readlines()
+    allItems = [line.strip() for line in lines]
+
+    with open("config/rolls.txt", 'r') as file:
+        lines = file.readlines()
+    allRolls = [line.strip() for line in lines]
 
 
 #Sends all treasure to expressman
@@ -283,58 +302,43 @@ def locateOnScreen(img,region=coords.getScreenRegion,grayscale=False,confidence=
         
 
 # Returns the rarity of the item in top left 
-def getItemRarity():
-    pyautogui.moveTo(coords.xStashStart,coords.yStashStart,duration=0.1)
+def getItemRarity(region=coords.firstSlotItemDisplayRegion):
     ret = None
 
-    poorDetect = locateOnScreen('poor', region=coords.firstSlotItemDisplayRegion)
+    poorDetect = locateOnScreen('poor', region=region)
     if poorDetect:
         if confirmRarity(poorDetect,'poor'):
-            print('its poor\n')
             ret = 'poor'
-    time.sleep(0.002)
 
-    commonDetect = locateOnScreen('common', region=coords.firstSlotItemDisplayRegion)
+    commonDetect = locateOnScreen('common', region=region)
     if commonDetect:
         if confirmRarity(commonDetect,'common'):
-            print('its common\n')
             ret = 'common'
-    time.sleep(0.002)
 
-    uncommonDetect = locateOnScreen('uncommon', region=coords.firstSlotItemDisplayRegion)
+    uncommonDetect = locateOnScreen('uncommon', region=region)
     if uncommonDetect:
         if confirmRarity(uncommonDetect,'uncommon'):
-            print('its uncommon\n')
             ret = 'uncommon'
-    time.sleep(0.002)
 
-    rareDetect = locateOnScreen('rare', region=coords.firstSlotItemDisplayRegion)
+    rareDetect = locateOnScreen('rare', region=region)
     if rareDetect:
         if confirmRarity(rareDetect,'rare'):
-            print('its rare\n')
             ret = 'rare'
-    time.sleep(0.002)
 
-    epicDetect = locateOnScreen('epic', region=coords.firstSlotItemDisplayRegion)
+    epicDetect = locateOnScreen('epic', region=region)
     if epicDetect:
         if confirmRarity(epicDetect,'epic'):
-            print('its epic\n')
             ret = 'epic'
-    time.sleep(0.002)
 
-    legendaryDetect = locateOnScreen('legendary', region=coords.firstSlotItemDisplayRegion)
+    legendaryDetect = locateOnScreen('legendary', region=region)
     if legendaryDetect:
         if confirmRarity(legendaryDetect,'legendary'):
-            print('its legendary\n')
             ret = 'legendary'
-    time.sleep(0.002)
 
-    uniqueDetect = locateOnScreen('unique', region=coords.firstSlotItemDisplayRegion)
+    uniqueDetect = locateOnScreen('unique', region=region)
     if uniqueDetect:
         if confirmRarity(uniqueDetect,'unique'):
-            print('its unique\n')
             ret = 'unique'
-    time.sleep(0.002)
 
     if ret:
         logDebug(f"Found {ret} item\n")  
@@ -516,6 +520,17 @@ def returnMarketStash():
         pyautogui.click()  
 
     time.sleep(0.25)
+
+
+
+def seperateRollValues(s):
+    # Use re.findall to extract both numbers and text in order
+    parts = re.findall(r'\d+|[%]|[^%]+', s)
+    
+    # Clean up the parts by trimming extra whitespace from text
+    parts = [part.strip() for part in parts if part.strip()]
+
+    return parts
 
 
 
@@ -888,50 +903,6 @@ def changeClass():
 
 
 
-# Get rid of this garbage unused function
-def filterGarbage(text):
-    keywords = [
-        "Bane", "Strength", "Agility", "Dexterity", "Will", "Knowledge", "Vigor", "Resourcefulness",
-        "Armor", "Penetration", "Additional", "Physical", "Damage", "Bonus", "Weapon", "Add",
-        "Power", "Magic", "True", "Rating", "Resistance", "Reduction", "Projectile", "Mod", "Action",
-        "Speed", "Move", "Regular", "Interaction", "Magical", "Spell", "Casting", "Buff", "Duration",
-        "Max", "Health", "Luck", "Healing", "Debuff", "Memory", "Capacity", "Arming", "Sword", "Crystal",
-        "Falchion", "Heater", "Shield", "Longsword", "Rapier", "Lantern", "Short", "Zweihander",
-        "Viking", "Buckler", "Round", "Club", "Flanged", "Mace", "Lute", "Pavise", "Morning", "Star",
-        "Quarterstaff", "Torch", "War", "Hammer", "Maul", "Castillon", "Dagger", "Kris", "Rondel",
-        "Stiletto", "Bardiche", "Halberd", "Spear", "Ball", "Battle", "Axe", "Double", "Recurve",
-        "Bow", "Spellbook", "Felling", "Hatchet", "Staff", "Horseman's", "Ceremonial", "Longbow",
-         "Crossbow", "Windlass", "Fighter", "Survival", "Armet", "Barbuta", "Helm", "Chapel",
-        "De", "Fer", "Chaperon", "Crusader", "Darkgrove", "Hood", "Elkwood", "Crown", "Feathered",
-        "Forest", "Gjermundbu", "Great", "Hounskull", "Kettle", "Leather", "Bonnet", "Cap", "Norman",
-        "Nasal", "Occultist", "Open", "Sallet", "Ranger", "Rogue", "Cowl", "Shadow", "Mask",
-        "Spangenhelm", "Straw", "Topfhelm", "Visored", "Wizard", "Adventurer", "Tunic",
-        "Champion", "Dark", "Cuirass", "Plate", "Robe", "Doublet", "Fine", "Frock", "Grand",
-        "Brigandine", "Heavy", "Gambeson", "Light", "Aketon", "Marauder", "Outfit", "Mystic", "Vestments",
-        "Northern", "Full", "Oracle", "Ornate", "Jazerant", "Padded", "Pourpoint", "Regal", "Ritual",
-        "Studded", "Chausses", "Loose", "Trousers", "Leggings", "Bardic", "Cloth", "Copperlight",
-        "Pants", "Gloves", "Utility", "Gauntlets", "Rawhide", "Reinforced", "Riveted", "Runestone",
-        "Boots", "Buckled", "Darkleaf", "Dashing", "Laced", "Lightfoot", "Low", "Old",
-        "Rugged", "Stitched", "Turnshoe", "Shoes", "Mercurial", "Radiant", "Splendid",
-        "Tattered", "Vigilant", "Watchman", "Badger", "Pendant", "Bear", "Fangs", "Death", "Necklace",
-        "Fox", "Frost", "Amulet", "Monkey", "Peace", "Owl", "Ox", "Phoenix", "Choker", "Wisdom",
-        "Vitality", "Resolve", "Quickness", "Finesse", "Courage", "Grimsmile", "Legendary", "Epic", "Rare", "Uncommon", "Common", "Poor"
-    ]
-    
-    filteredText = []
-
-    if len(text) != 1:
-        for line in text:
-            if any(keyword in line for keyword in keywords):
-                filteredText.append(line)
-    else:
-        if any(keyword in line for keyword in keywords):
-                filteredText.append(line)
-
-    return filteredText
-
-
-
 # moves mouse from start to end
 def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xStart, yStart)  # Move to the starting position
@@ -997,11 +968,46 @@ def searchStash():
 
 
 
-def getItemInfo():
+def getItemInfo() -> item:
+    #vars
+    global allItems
+    global allRolls
+    name = ""
+    rolls = []
+    foundName = False
 
-    ss = pyautogui.screenshot(region=)
+    #check if item is on screen
+    space = locateOnScreen('findItem',confidence=0.95)
+    if not space: return None
 
-    return 1
+    #screenshot for text & rarity
+    ssRegion = (int(space[0]) - 110, int(space[1]) - 340, 335, 550)
+    rarity = getItemRarity(ssRegion)
+    ss = pyautogui.screenshot(region=ssRegion)
+    text = pytesseract.image_to_string(ss)
+    name = ""
+    rolls = []
+    text = ''.join(char for char in text if char.isalnum() or char.isspace())
+    lines = text.splitlines()
+
+    #iterate read text
+    for line in lines:
+        if not foundName:
+            found = findItem(line, allItems)
+            if found: 
+                name = found
+                foundName = True
+
+        if foundName:
+            found = findItem(line, allRolls)
+            if(found):
+                roll = seperateRollValues(line)
+                if roll[0].isdigit():
+                    rolls.append(roll)
+
+    #make item and return
+    foundItem = item(name,rolls,rarity)
+    return foundItem
 
 
 # Main Loop for selling items

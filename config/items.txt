@@ -70,6 +70,7 @@ Adventurer Tunic
 Adventurers Cloak
 Armet
 Barbuta Helm
+Stitched Turnshoe
 Rubysilver Barbuta Helm
 Chapel De Fer
 Bardic Pants

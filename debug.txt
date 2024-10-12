@@ -496,3 +496,1047 @@ addX: 11.0 addY: 5.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
 
+findItem was not found
+
+findItem was not found
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+findItem was not found
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+findItem was not found
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: findItem
+
+Found: []
+
+Found: []
+
+Found: ['Laced Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+Found: ['Visored Sallet']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Projectile Damage Reduction']
+
+Found: ['Magical Damage Reduction']
+
+Found: ['Move Speed']
+
+Found: ['Agility']
+
+Found: ['Dexterity']
+
+Found: ['Strength']
+
+Found: ['Magic Resistance']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+findItem was not found
+
+Found: findItem
+
+Found: []
+
+Found: []
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+findItem was not found
+
+Found: findItem
+
+Found: []
+
+Found: []
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+Found: []
+
+Found: []
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+ERROR!!! NO RARITY FOUND
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+Found: rare
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+Found rare item
+
+Found: ['Padded Tunic']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Strength']
+
+Found: ['Magical Interaction Speed']
+
+Found: ['Magical Damage Bonus']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: []
+
+Found: []
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Stitched Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: []
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+Found: rare
+
+epic was not found
+
+legendary was not found
+
+unique was not found
+
+Found rare item
+
+Found: ['Padded Tunic']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Strength']
+
+Found: ['Magical Interaction Speed']
+
+Found: ['Magical Damage Bonus']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: ['Round Shield']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Buff Duration Bonus']
+
+Found: ['Magical Damage Reduction']
+
+Found: ['Additional Weapon Damage']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: ['Round Shield']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Buff Duration Bonus']
+
+Found: ['Magical Damage Reduction']
+
+Found: ['Additional Weapon Damage']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: findItem
+
+poor was not found
+
+common was not found
+
+uncommon was not found
+
+rare was not found
+
+Found: epic
+
+legendary was not found
+
+unique was not found
+
+Found epic item
+
+Found: ['Round Shield']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Buff Duration Bonus']
+
+Found: ['Magical Damage Reduction']
+
+Found: ['Additional Weapon Damage']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
