@@ -30,6 +30,7 @@ class item():
         print(f"{item.rarity}")
 
 
+#Load global variables must be ran
 def loadTextFiles():
     global allItems
     global allRolls
@@ -41,6 +42,7 @@ def loadTextFiles():
     with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
+
 
 
 #Sends all treasure to expressman
@@ -230,12 +232,15 @@ def dumpInventory():
 
 
 
-#this is kind of obvious...
+#two obv logging func
 def logDebug(txt):
     with open('debug.txt', 'a') as file:
         file.write(f"{txt}\n")    
 
+def logGui(txt):
+    print(txt)
 
+    
 
 #Check to see if any listings sold and if so CLAIM WHATS OURS
 def checkForSold():
@@ -308,37 +313,37 @@ def getItemRarity(region=coords.firstSlotItemDisplayRegion):
     poorDetect = locateOnScreen('poor', region=region)
     if poorDetect:
         if confirmRarity(poorDetect,'poor'):
-            ret = 'poor'
+            ret = 'Poor'
 
     commonDetect = locateOnScreen('common', region=region)
     if commonDetect:
         if confirmRarity(commonDetect,'common'):
-            ret = 'common'
+            ret = 'Common'
 
     uncommonDetect = locateOnScreen('uncommon', region=region)
     if uncommonDetect:
         if confirmRarity(uncommonDetect,'uncommon'):
-            ret = 'uncommon'
+            ret = 'Uncommon'
 
     rareDetect = locateOnScreen('rare', region=region)
     if rareDetect:
         if confirmRarity(rareDetect,'rare'):
-            ret = 'rare'
+            ret = 'Rare'
 
     epicDetect = locateOnScreen('epic', region=region)
     if epicDetect:
         if confirmRarity(epicDetect,'epic'):
-            ret = 'epic'
+            ret = 'Epic'
 
     legendaryDetect = locateOnScreen('legendary', region=region)
     if legendaryDetect:
         if confirmRarity(legendaryDetect,'legendary'):
-            ret = 'legendary'
+            ret = 'Legendary'
 
     uniqueDetect = locateOnScreen('unique', region=region)
     if uniqueDetect:
         if confirmRarity(uniqueDetect,'unique'):
-            ret = 'unique'
+            ret = 'Unique'
 
     if ret:
         logDebug(f"Found {ret} item\n")  
@@ -525,7 +530,7 @@ def returnMarketStash():
 
 def seperateRollValues(s):
     # Use re.findall to extract both numbers and text in order
-    parts = re.findall(r'\d+|[%]|[^%]+', s)
+    parts = re.findall(r'\d+%?|\D+', s)
     
     # Clean up the parts by trimming extra whitespace from text
     parts = [part.strip() for part in parts if part.strip()]
@@ -967,7 +972,7 @@ def searchStash():
 
 
 
-
+# creates and returns item class from hovered item 
 def getItemInfo() -> item:
     #vars
     global allItems
@@ -1008,6 +1013,7 @@ def getItemInfo() -> item:
     #make item and return
     foundItem = item(name,rolls,rarity)
     return foundItem
+
 
 
 # Main Loop for selling items

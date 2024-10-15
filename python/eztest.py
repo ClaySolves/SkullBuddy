@@ -50,7 +50,8 @@ def findItem(input_string, phrase_list):
 time.sleep(1)
 DAD_Utils.loadTextFiles()
 item = DAD_Utils.getItemInfo()
-item.printItem()
+if item:
+    item.printItem()
 
 # ret = DAD_Utils.seperateRollValues("Agility 66 Armor Rating")
 # print(ret)

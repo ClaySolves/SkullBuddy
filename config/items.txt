@@ -78,6 +78,7 @@ Cobalt Chapel De Fer
 Chaperon
 Cloth Pants
 Dark Plate Armor
+Gold Coin Bag
 Doublet
 Rubysilver Doublet
 Short Sword

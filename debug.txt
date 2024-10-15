@@ -12,23 +12,25 @@ addX: 0.0 addY: 0.0 avg pixel val on: 242
 Item detected
 
 Raw Item Data:
-Stisl
+Je legs
+’ .
 
--  #1.4% Spell Casting Speed
+Catn
 
-Corr
-Hanatled
-Uncommoen
+Handled
 
-Fatieue!y igtit, sort ine
+Fxtiouely agit, sort beat este
 
-collar base: s
+No
+* ay
 
-* Found by OrugAbusingWeed ”
+~ t
+
+me
 
 
-got title text: ‘rae | ee
-| Loose Trousers
+got title text: ae ee ee
+4 Loose Trousers
 
 
 Found: []
@@ -39,8 +41,6 @@ Found: []
 
 Found: []
 
-Found: ['Spell Casting Speed']
-
 Found: []
 
 Found: []
@@ -63,11 +63,17 @@ Found: []
 
 Found: []
 
-poor was not found
+Found: []
+
+Found: []
+
+Found: []
+
+Found: poor
 
 common was not found
 
-Found: uncommon
+uncommon was not found
 
 rare was not found
 
@@ -77,30 +83,25 @@ legendary was not found
 
 unique was not found
 
-Found uncommon item
+Found Poor item
 
 selectedViewMarket was not found
 
 Found: selectedViewMarket
 
-Searching for : uncommon Loose Trousers
-Recorded Price : [69, 69, 70]
+Searching for : Poor Loose Trousers
+Didn't get to 3 but we got a price, so use it
+Recorded Price : [42, 48]
 
-Recorded Price : [69, 69, 70]
-
-attr : Spell Casting Speed
-Recorded Price : [70, 15, 15]
-
-Removing undercut value
-Recorded Price : [0, 15, 15]
+Recorded Price : [42, 48]
 
 selectedMyListings was not found
 
 Found: selectedMyListings
 
-YES! 4 listings availible
+YES! 7 listings availible
 
-SUCCESS!!! Loose Trousers Listed at 69
+SUCCESS!!! Loose Trousers Listed at 42
 
 Found: selectedMyListings
 
@@ -119,7 +120,7 @@ Stisl
 got title text: 
 
 No Weapon found ... going next cube
-addX: 2.0 addY: 0.0 avg pixel val on: 258
+addX: 2.0 addY: 0.0 avg pixel val on: 170
 
 Item detected
 
@@ -128,30 +129,45 @@ addX: 2.0 addY: 0.0 avg pixel val on: 84
 No item detected ; 84 < 110
 
 Raw Item Data:
-Stisl
-
-Looted
-
+ Clenic, Wes oc, Di aid
+Portis y W
+Two |
+Mace, Start
+Handled
 Uncommon
 
-Good quitity te
+teed
 
-hes wil’ douse Stites
+¢
 
-for velar ce uesit, se
+ated thou ke dwood, Eis va
 
-ests
+eos natt isa
 
-“Found by w3tdrd3d *
+Folio, end oe!
+
+soaweesarncnd bow
+
+No
 
 
 got title text: I
-- Leather Gloves
+Quarterstaff
 
 
 Found: []
 
-Found: ['Leather Gloves']
+Found: ['Quarterstaff']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
 
 Found: []
 
@@ -199,24 +215,24 @@ legendary was not found
 
 unique was not found
 
-Found uncommon item
+Found Uncommon item
 
 selectedViewMarket was not found
 
 Found: selectedViewMarket
 
-Searching for : uncommon Leather Gloves
-Recorded Price : [55, 59, 60]
+Searching for : Uncommon Quarterstaff
+Recorded Price : [45, 69, 70]
 
-Recorded Price : [55, 59, 60]
+Recorded Price : [45, 69, 70]
 
 selectedMyListings was not found
 
 Found: selectedMyListings
 
-YES! 3 listings availible
+YES! 6 listings availible
 
-SUCCESS!!! Leather Gloves Listed at 55
+SUCCESS!!! Quarterstaff Listed at 45
 
 Found: selectedMyListings
 
@@ -495,1048 +511,4 @@ No item detected ; 83 < 110
 addX: 11.0 addY: 5.0 avg pixel val on: 83
 
 No item detected ; 83 < 110
-
-findItem was not found
-
-findItem was not found
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-findItem was not found
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-findItem was not found
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: findItem
-
-Found: []
-
-Found: []
-
-Found: ['Laced Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-Found: ['Visored Sallet']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Projectile Damage Reduction']
-
-Found: ['Magical Damage Reduction']
-
-Found: ['Move Speed']
-
-Found: ['Agility']
-
-Found: ['Dexterity']
-
-Found: ['Strength']
-
-Found: ['Magic Resistance']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-findItem was not found
-
-Found: findItem
-
-Found: []
-
-Found: []
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-findItem was not found
-
-Found: findItem
-
-Found: []
-
-Found: []
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-Found: []
-
-Found: []
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-epic was not found
-
-legendary was not found
-
-unique was not found
-
-ERROR!!! NO RARITY FOUND
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-Found: rare
-
-epic was not found
-
-legendary was not found
-
-unique was not found
-
-Found rare item
-
-Found: ['Padded Tunic']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: ['Strength']
-
-Found: ['Magical Interaction Speed']
-
-Found: ['Magical Damage Bonus']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: []
-
-Found: []
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: ['Stitched Turnshoe']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: []
-
-Found: ['Resourcefulness']
-
-Found: ['Additional Memory Capacity']
-
-Found: ['Max Health']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-Found: rare
-
-epic was not found
-
-legendary was not found
-
-unique was not found
-
-Found rare item
-
-Found: ['Padded Tunic']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: ['Strength']
-
-Found: ['Magical Interaction Speed']
-
-Found: ['Magical Damage Bonus']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: ['Round Shield']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: ['Buff Duration Bonus']
-
-Found: ['Magical Damage Reduction']
-
-Found: ['Additional Weapon Damage']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: ['Round Shield']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: ['Buff Duration Bonus']
-
-Found: ['Magical Damage Reduction']
-
-Found: ['Additional Weapon Damage']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: findItem
-
-poor was not found
-
-common was not found
-
-uncommon was not found
-
-rare was not found
-
-Found: epic
-
-legendary was not found
-
-unique was not found
-
-Found epic item
-
-Found: ['Round Shield']
-
-Found: []
-
-Found: []
-
-Found: ['Armor Rating']
-
-Found: ['Move Speed']
-
-Found: ['Buff Duration Bonus']
-
-Found: ['Magical Damage Reduction']
-
-Found: ['Additional Weapon Damage']
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
-
-Found: []
 
