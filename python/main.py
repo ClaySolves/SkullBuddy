@@ -8,7 +8,6 @@ import pytesseract
 from PIL import Image, ImageOps
 import difflib
 import DAD_Utils
-import python.config as config
 import subprocess
 import keyboard
 import gui

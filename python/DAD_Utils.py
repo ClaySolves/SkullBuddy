@@ -8,7 +8,7 @@ import time
 import pytesseract
 from PIL import Image, ImageOps
 import difflib
-import python.config as config
+import config
 import random
 import os
 from pynput import keyboard, mouse
@@ -24,13 +24,18 @@ class item():
         item.rolls = rolls
         item.rarity = rarity
 
+    #Print item
     def printItem(self):
-        print(f"{item.name}")
-        print(f"{item.rolls}")
-        print(f"{item.rarity}")
+        print(f"{item.rarity} {item.name}")
+        for roll in item.rolls:
+            if roll[2]:
+                if int(roll[0]) == 1: print(f"+{roll[0]}.0% {roll[1]}")
+                else: print(f"+{int(roll[0])/10:.1f}% {roll[1]}")
+            else:
+                 print(f"+{roll[0]} {roll[1]}")
 
-    def listItem(self):
-        
+    def findPrice(self): # Assume that View Market tab is open
+        pass
 
 
 #Load global variables must be ran

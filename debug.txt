@@ -33,3 +33,287 @@ addX: 1.0 addY: 0.0 avg pixel val on: 201
 
 Item detected
 
+Searching For Image: findItem... 
+Failed
+Searching For Image: findItem... 
+Success
+Searching For Image: poor... 
+Failed
+Searching For Image: common... 
+Failed
+Searching For Image: uncommon... 
+Failed
+Searching For Image: rare... 
+Failed
+Searching For Image: epic... 
+Failed
+Searching For Image: legendary... 
+Success
+Searching For Image: unique... 
+Failed
+Found Legendary item
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Vigor']
+
+Found: ['Agility']
+
+Found: ['Strength']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching For Image: findItem... 
+Success
+Searching For Image: poor... 
+Failed
+Searching For Image: common... 
+Failed
+Searching For Image: uncommon... 
+Failed
+Searching For Image: rare... 
+Failed
+Searching For Image: epic... 
+Failed
+Searching For Image: legendary... 
+Success
+Searching For Image: unique... 
+Failed
+Found Legendary item
+
+Found: []
+
+Found: []
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Vigor']
+
+Found: ['Agility']
+
+Found: ['Strength']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching For Image: findItem... 
+Success
+Searching For Image: poor... 
+Failed
+Searching For Image: common... 
+Failed
+Searching For Image: uncommon... 
+Failed
+Searching For Image: rare... 
+Failed
+Searching For Image: epic... 
+Failed
+Searching For Image: legendary... 
+Success
+Searching For Image: unique... 
+Failed
+Found Legendary item
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Vigor']
+
+Found: ['Agility']
+
+Found: ['Strength']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching For Image: findItem... 
+Success
+Searching For Image: poor... 
+Failed
+Searching For Image: common... 
+Failed
+Searching For Image: uncommon... 
+Failed
+Searching For Image: rare... 
+Failed
+Searching For Image: epic... 
+Failed
+Searching For Image: legendary... 
+Success
+Searching For Image: unique... 
+Failed
+Found Legendary item
+
+Found: ['Open Sallet']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['%Projectile Damage Reduction']
+
+Found: ['%Magical Damage Reduction']
+
+Found: ['Move Speed']
+
+Found: ['Will']
+
+Found: ['Knowledge']
+
+Found: ['Resourcefulness']
+
+Found: ['Additional Memory Capacity']
+
+Found: ['%Physical Damage Bonus']
+
+Found: ['%Physical Damage Reduction']
+
+Found: []
+
+Found: ['Magical Power']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching For Image: findItem... 
+Success
+Searching For Image: poor... 
+Failed
+Searching For Image: common... 
+Failed
+Searching For Image: uncommon... 
+Failed
+Searching For Image: rare... 
+Failed
+Searching For Image: epic... 
+Failed
+Searching For Image: legendary... 
+Success
+Searching For Image: unique... 
+Failed
+Found Legendary item
+
+Found: []
+
+Found: []
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Knowledge']
+
+Found: ['%Physical Damage Bonus']
+
+Found: ['%Memory Capacity Bonus']
+
+Found: ['%Magical Damage Bonus']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
