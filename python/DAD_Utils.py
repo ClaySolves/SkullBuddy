@@ -8,7 +8,7 @@ import time
 import pytesseract
 from PIL import Image, ImageOps
 import difflib
-import coords
+import python.config as config
 import random
 import os
 from pynput import keyboard, mouse
@@ -29,6 +29,9 @@ class item():
         print(f"{item.rolls}")
         print(f"{item.rarity}")
 
+    def listItem(self):
+        
+
 
 #Load global variables must be ran
 def loadTextFiles():
@@ -47,8 +50,8 @@ def loadTextFiles():
 
 #Sends all treasure to expressman
 def stashExpressman():
-    xStart = coords.xInventory
-    yStart = coords.yInventory
+    xStart = config.xInventory
+    yStart = config.yInventory
     for y in range(5):
         for x in range(10):
             newX = (x * 41) + xStart
@@ -56,7 +59,7 @@ def stashExpressman():
             if detectItem(x * 41,y * 41,xStart,yStart):
                 pyautogui.moveTo(newX,newY) 
                 if getItemSlotType() == "Invalid":
-                    clickAndDrag(newX, newY, coords.xStartExpressmanInv + (x * 41), coords.yStartExpressmanInv + (y * 41),duration=0.05)
+                    clickAndDrag(newX, newY, config.xStartExpressmanInv + (x * 41), config.yStartExpressmanInv + (y * 41),duration=0.05)
 
     return True
 
@@ -64,15 +67,15 @@ def stashExpressman():
 
 #Gathers all items from expressman
 def gatherExpressman():
-    while detectItem(0,0,coords.xCollectExpressman,coords.yCollectExpressman):
-        pyautogui.moveTo(coords.xCollectExpressman,coords.yCollectExpressman,duration=0.2) 
+    while detectItem(0,0,config.xCollectExpressman,config.yCollectExpressman):
+        pyautogui.moveTo(config.xCollectExpressman,config.yCollectExpressman,duration=0.2) 
         pyautogui.click()
 
         if locateOnScreen("fillInAllStash",grayscale=False,confidence=0.998):
-            pyautogui.moveTo(coords.xPayGetExpressman,coords.yPayGetExpressman,duration=0.2) 
+            pyautogui.moveTo(config.xPayGetExpressman,config.yPayGetExpressman,duration=0.2) 
             pyautogui.click()
 
-        pyautogui.moveTo(coords.xPayGetExpressman,coords.yPayGetExpressman+70,duration=0.2) 
+        pyautogui.moveTo(config.xPayGetExpressman,config.yPayGetExpressman+70,duration=0.2) 
         pyautogui.click()
 
     return True
@@ -106,7 +109,7 @@ def getItemSlotType():
 # Selects item from market search and return if that worked
 def selectItemSearch():
     #read img
-    ss = pyautogui.screenshot(region=coords.itemSearchRegion)
+    ss = pyautogui.screenshot(region=config.itemSearchRegion)
     ss = ss.convert("RGB")
     data = ss.getdata()
     newData = []
@@ -131,7 +134,7 @@ def selectItemSearch():
         logDebug("Item not found in search ... we have a problem")
         return False
     elif len(txt) == 1:
-        pyautogui.moveTo(coords.xItemSelect,coords.yItemSelect) 
+        pyautogui.moveTo(config.xItemSelect,config.yItemSelect) 
         pyautogui.click()
         return True
     lengths = []
@@ -139,7 +142,7 @@ def selectItemSearch():
         lengths.append(len(lines))
     minLength = min(lengths)
     minIndex = lengths.index(minLength)
-    pyautogui.moveTo(coords.xItemSelect,coords.yItemSelect + (minIndex * 25)) 
+    pyautogui.moveTo(config.xItemSelect,config.yItemSelect + (minIndex * 25)) 
     pyautogui.click()
     return True
 
@@ -148,23 +151,23 @@ def selectItemSearch():
 #Navigate to the market place
 def navToMarket():
     #Add some automation, if not on main screen FIX
-    if locateOnScreen('verifyMarket',region=coords.getMarketRegion): 
-        pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
+    if locateOnScreen('verifyMarket',region=config.getMarketRegion): 
+        pyautogui.moveTo(config.xMyListings,config.yMyListings) 
         pyautogui.click()
 
     if locateOnScreen('verifyTitleScreen',region=(0,0,500,333)): 
         navCharLogin()
 
     if locateOnScreen('verifyMainScreen',region=(0,0,300,300)): 
-        pyautogui.moveTo(coords.xSelectTrade,coords.ySelectTrade) 
+        pyautogui.moveTo(config.xSelectTrade,config.ySelectTrade) 
         pyautogui.click()
 
-        while not locateOnScreen('verifyMarket',region=coords.getMarketRegion):
-            pyautogui.moveTo(coords.xSelectMarket,coords.ySelectMarket) 
+        while not locateOnScreen('verifyMarket',region=config.getMarketRegion):
+            pyautogui.moveTo(config.xSelectMarket,config.ySelectMarket) 
             pyautogui.click()
 
-        while not locateOnScreen('selectedMyListings', region=coords.regionMarketListings):
-            pyautogui.moveTo(coords.xMyListings,coords.yMyListings) 
+        while not locateOnScreen('selectedMyListings', region=config.regionMarketListings):
+            pyautogui.moveTo(config.xMyListings,config.yMyListings) 
             pyautogui.click()      
 
 
@@ -172,13 +175,13 @@ def navToMarket():
 #Returns coords of selected stash
 def selectStash(market=False): 
     if market:
-        stashNum = coords.stashSell
+        stashNum = config.stashSell
     else:
-        stashNum = coords.stashDump
+        stashNum = config.stashDump
     txt = 'SharedMenu' if stashNum < 0 else str(stashNum)
     search = txt + "Market" if market else txt
     print(search)
-    res = locateOnScreen(f"stash{search}", region=coords.getStashRegion)
+    res = locateOnScreen(f"stash{search}", region=config.getStashRegion)
     if res:
         pyautogui.moveTo(res[0]+15,res[1]+15)
         pyautogui.click()
@@ -187,7 +190,7 @@ def selectStash(market=False):
 
 
 #moves item in coords to/from inventor
-def itemMoveInventory(x=coords.xStashStart,y=coords.yStashStart,attempt=1):
+def itemMoveInventory(x=config.xStashStart,y=config.yStashStart,attempt=1):
     pyautogui.moveTo(x,y)
 
     mouseKey = mouse.Controller()
@@ -206,14 +209,14 @@ def itemMoveInventory(x=coords.xStashStart,y=coords.yStashStart,attempt=1):
 
 #Nav to stash from market and dump into coords.dumpStash
 def dumpInventory():
-    pyautogui.moveTo(coords.xExitMarket,coords.yExitMarket) 
+    pyautogui.moveTo(config.xExitMarket,config.yExitMarket) 
     pyautogui.click()
 
-    pyautogui.moveTo(coords.xExitMarketYes,coords.yExitMarketYes,duration=0.1) 
+    pyautogui.moveTo(config.xExitMarketYes,config.yExitMarketYes,duration=0.1) 
     pyautogui.click()
     time.sleep(0.5)
 
-    pyautogui.moveTo(coords.xStashSelect,coords.yStashSelect,duration=0.1) 
+    pyautogui.moveTo(config.xStashSelect,config.yStashSelect,duration=0.1) 
     pyautogui.click()
 
     if not getCurrentScreen('selectedStash'): dumpInventory()
@@ -222,8 +225,8 @@ def dumpInventory():
 
     for y in range(5):
         for x in range(10):
-            xInv = coords.xInventory
-            yInv = coords.yInventory
+            xInv = config.xInventory
+            yInv = config.yInventory
             if not detectItem(41 * x, 41 * y,xInv,yInv):
                 print(f'Continue{x}{y}')
                 continue
@@ -244,14 +247,14 @@ def logGui(txt):
 
 #Check to see if any listings sold and if so CLAIM WHATS OURS
 def checkForSold():
-    ss = pyautogui.screenshot(region=coords.listingSoldRegion)
+    ss = pyautogui.screenshot(region=config.listingSoldRegion)
     ss.save("debug/TestingGatherGold.png")
-    soldLocation = locateOnScreen("betterSoldItem",coords.listingSoldRegion,True,0.95)
+    soldLocation = locateOnScreen("betterSoldItem",config.listingSoldRegion,True,0.95)
     if soldLocation:
         pyautogui.moveTo(int(soldLocation[0] + 30), int(soldLocation[1]), duration=0.05) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xCanOrTransfer, coords.yCanOrTransfer, duration=0.05) 
+        pyautogui.moveTo(config.xCanOrTransfer, config.yCanOrTransfer, duration=0.05) 
         pyautogui.click()
 
         logDebug("gathered gold")
@@ -276,17 +279,29 @@ def getCurrentScreen(img, confidence = 0.98):
 
 
 
+# Return location and santize ImageNotFound error
+def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=0.99):
+    logDebug(f"Searching For Image: {img}... ")
+    try:
+        res = pyautogui.locateOnScreen(f'img/{img}.png', region = region, 
+                                       confidence = confidence, grayscale = grayscale)
+        logDebug("Success")
+        return res 
+    except pyautogui.ImageNotFoundException as e:
+        logDebug("Failed")
+        return None
+        
+
+
 # Read image text and confirm the rarity
 def confirmRarity(img,rarity):
-
     left = int(img.left)
     top = int(img.top)
     width = int(img.width)
     height = int(img.height)
     ssRegion=(left, top, width, height)
     ss = pyautogui.screenshot(region=ssRegion)
-    ss.save('debug/readText.png')
-    txt = pytesseract.image_to_string('debug/readText.png', config="--psm 6")
+    txt = pytesseract.image_to_string(ss, config="--psm 6")
     if rarity.lower() in txt.lower():
         return 1
     else:
@@ -294,20 +309,8 @@ def confirmRarity(img,rarity):
 
 
 
-# Return location and santize ImageNotFound error
-def locateOnScreen(img,region=coords.getScreenRegion,grayscale=False,confidence=0.99):
-    try:
-        res = pyautogui.locateOnScreen(f'img/{img}.png', region = region, 
-                                       confidence = confidence, grayscale = grayscale)
-        logDebug(f"Found: {img}\n") 
-        return res 
-    except pyautogui.ImageNotFoundException as e:
-        logDebug(f"{img} was not found\n") 
-        return None
-        
-
 # Returns the rarity of the item in top left 
-def getItemRarity(region=coords.firstSlotItemDisplayRegion):
+def getItemRarity(region=config.firstSlotItemDisplayRegion):
     ret = None
 
     poorDetect = locateOnScreen('poor', region=region)
@@ -355,7 +358,7 @@ def getItemRarity(region=coords.firstSlotItemDisplayRegion):
 
 
 # detects if item is in stash on given coord offset
-def detectItem(xAdd,yAdd,xStart=coords.xStashDetect,yStart=coords.yStashDetect):
+def detectItem(xAdd,yAdd,xStart=config.xStashDetect,yStart=config.yStashDetect):
     ss = pyautogui.screenshot(region=[xStart + xAdd,yStart + yAdd,20,20])
     ss = ss.convert("RGB")
     # ss.save(f"debug/seeStash_x_{xAdd/41}_y_{yAdd/41}.png")
@@ -386,13 +389,13 @@ def detectItem(xAdd,yAdd,xStart=coords.xStashDetect,yStart=coords.yStashDetect):
 def gatherGold():
     for i in range(10):
         time.sleep(0.1)
-        pyautogui.moveTo(coords.xGatherGold, coords.yGatherGold - (i * 51), duration=0.1) 
+        pyautogui.moveTo(config.xGatherGold, config.yGatherGold - (i * 51), duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xCanOrTransfer, coords.yCanOrTransfer, duration=0.1) 
+        pyautogui.moveTo(config.xCanOrTransfer, config.yCanOrTransfer, duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xConfirmNo, coords.yConfirmNo, duration=0.1) 
+        pyautogui.moveTo(config.xConfirmNo, config.yConfirmNo, duration=0.1) 
         pyautogui.click()
 
 
@@ -400,7 +403,7 @@ def gatherGold():
 # Get the availible listing slots
 def getAvailListings(secondRun=0):
     #Take screenshot and sanitize for read text
-    ss = pyautogui.screenshot(region=[coords.xGetListings,coords.yGetListings,coords.x2GetListings,coords.y2GetListings])
+    ss = pyautogui.screenshot(region=[config.xGetListings,config.yGetListings,config.x2GetListings,config.y2GetListings])
     ss = ss.convert("RGB")
     data = ss.getdata()
     newData = []
@@ -447,7 +450,7 @@ def getAvailListings(secondRun=0):
 def getItemTitle():
     # Take screenshot of title and filter data for text read
     targetColor = 130    
-    ss = pyautogui.screenshot(region=[coords.xStashStart,coords.yStashStart,coords.xTitleAdd,coords.yTitleAdd])
+    ss = pyautogui.screenshot(region=[config.xStashStart,config.yStashStart,config.xTitleAdd,config.yTitleAdd])
     ss = ss.convert("RGB")
     data = ss.getdata()
     newData = []
@@ -484,18 +487,18 @@ def listItem(price):
     avail, slots = getAvailListings(0)
 
     if(avail):
-        pyautogui.moveTo(coords.xStashStart, coords.yStashStart, duration=0.1) 
+        pyautogui.moveTo(config.xStashStart, config.yStashStart, duration=0.1) 
         pyautogui.click()
         time.sleep(0.4)
 
-        pyautogui.moveTo(coords.xSellingPrice, coords.ySellingPrice, duration=0.1) 
+        pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
         pyautogui.click()
         pyautogui.typewrite(str(price), interval=0.01)
 
-        pyautogui.moveTo(coords.xCreateListing, coords.yCreateListing, duration=0.1) 
+        pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xConfirmListing, coords.yConfirmListing, duration=0.1) 
+        pyautogui.moveTo(config.xConfirmListing, config.yConfirmListing, duration=0.1) 
         pyautogui.click()
         return 1
     else:
@@ -520,8 +523,8 @@ def sanitizeNumerRead(num):
 
 # return to market
 def returnMarketStash():
-    while not locateOnScreen('selectedMyListings', region=coords.regionMarketListings):
-        pyautogui.moveTo(coords.xMyListings, coords.yMyListings, duration=0.1) 
+    while not locateOnScreen('selectedMyListings', region=config.regionMarketListings):
+        pyautogui.moveTo(config.xMyListings, config.yMyListings, duration=0.1) 
         pyautogui.click()  
 
     time.sleep(0.25)
@@ -542,7 +545,7 @@ def seperateRollValues(s):
 # return if dark and darker is running
 def is_game_running():
     for process in psutil.process_iter(['pid', 'name']):
-        if process.info['name'] == coords.GAME_NAME:
+        if process.info['name'] == config.GAME_NAME:
             return True
     return False
 
@@ -550,7 +553,7 @@ def is_game_running():
 
 # find .exe path
 def findExecPath(appName):
-    for path in coords.execSearchPaths:
+    for path in config.execSearchPaths:
         for root, dirs, files in os.walk(path):
             if appName in files:
                 return os.path.join(root, appName)
@@ -561,25 +564,25 @@ def findExecPath(appName):
 # Search market GUI for rarity
 def searchRarity(rarity):
     if rarity.lower() == "poor":
-        pyautogui.moveTo(coords.xPoor, coords.yPoor, duration=0.1) 
+        pyautogui.moveTo(config.xPoor, config.yPoor, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "common":
-        pyautogui.moveTo(coords.xCommon, coords.yCommon, duration=0.1) 
+        pyautogui.moveTo(config.xCommon, config.yCommon, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "uncommon":
-        pyautogui.moveTo(coords.xUncommon, coords.yUncommon, duration=0.1) 
+        pyautogui.moveTo(config.xUncommon, config.yUncommon, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "rare":
-        pyautogui.moveTo(coords.xRare, coords.yRare, duration=0.1) 
+        pyautogui.moveTo(config.xRare, config.yRare, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "epic":
-        pyautogui.moveTo(coords.xEpic, coords.yEpic, duration=0.1) 
+        pyautogui.moveTo(config.xEpic, config.yEpic, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "legendary":
-        pyautogui.moveTo(coords.xLegend, coords.yLegend, duration=0.1) 
+        pyautogui.moveTo(config.xLegend, config.yLegend, duration=0.1) 
         pyautogui.click()
     elif rarity.lower() == "unique":
-        pyautogui.moveTo(coords.xUnique, coords.yUnique, duration=0.1) 
+        pyautogui.moveTo(config.xUnique, config.yUnique, duration=0.1) 
         pyautogui.click() 
     else:
         return 0
@@ -591,14 +594,14 @@ def searchRarity(rarity):
 # return int>0 price, 0 if nothing, -1 if NICE LOOT
 def searchAndFindPrice(weapon):
     #reset filters and search rarity
-    while not locateOnScreen('selectedViewMarket', region=coords.regionMarketListings):
-        pyautogui.moveTo(coords.xViewMarket, coords.yViewMarket, duration=0.1) 
+    while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
+        pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
         pyautogui.click()  
 
-    pyautogui.moveTo(coords.xResetFilters, coords.yResetFilters, duration=0.5) 
+    pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.5) 
     pyautogui.click() 
 
-    pyautogui.moveTo(coords.xRarity, coords.yRarity, duration=0.1) 
+    pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
     pyautogui.click()
 
     # If no rarity, add one. search market
@@ -622,10 +625,10 @@ def searchAndFindPrice(weapon):
     logDebug("Searching for : " + str(weapon[-1]) + ' ' + str(weapon[0]))
 
     #search Item
-    pyautogui.moveTo(coords.xItemName, coords.yItemName, duration=0.1) 
+    pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
     pyautogui.click()  
 
-    pyautogui.moveTo(coords.xItemSearch, coords.yItemSearch, duration=0.1) 
+    pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
     pyautogui.click() 
     pyautogui.typewrite(weapon[0], interval=0.01)
 
@@ -633,7 +636,7 @@ def searchAndFindPrice(weapon):
 
     #Start reading price for each attribute starting with base item
     price = []
-    pyautogui.moveTo(coords.xSearchPrice, coords.ySearchPrice, duration=0.1) 
+    pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
     pyautogui.click()
     time.sleep(1)
 
@@ -642,22 +645,22 @@ def searchAndFindPrice(weapon):
     if len(weapon) == 2: return basePrice
 
     for weaponRolls in weapon[1:-1]:
-        pyautogui.moveTo(coords.xResetAttribute, coords.yResetAttribute, duration=0.1) 
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xAttribute, coords.yAttribute, duration=0.1) 
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xAttrSearch, coords.yAttrSearch, duration=0.1) 
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.1) 
         pyautogui.click()
         pyautogui.typewrite(weaponRolls, interval=0.01)
 
         logDebug("attr : " + str(weaponRolls))
 
-        pyautogui.moveTo(coords.xAttrSelect, coords.yAttrSelect, duration=0.1) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.1) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xSearchPrice, coords.ySearchPrice, duration=0.1) 
+        pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
         pyautogui.click()
         time.sleep(1)
         foundPrice = getItemCost(basePrice)
@@ -677,17 +680,17 @@ def searchAndFindPrice(weapon):
     bestAttr = weapon[maxIndex + 1]
 
     if maxPrice > basePrice + (basePrice * 0.25) or maxPrice > basePrice + 50:
-        pyautogui.moveTo(coords.xResetAttribute, coords.yResetAttribute, duration=.2) 
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=.2) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xAttribute, coords.yAttribute, duration=.2) 
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
         pyautogui.click()
 
-        pyautogui.moveTo(coords.xAttrSearch, coords.yAttrSearch, duration=.2) 
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
         pyautogui.click()
         pyautogui.typewrite(bestAttr, interval=0.01)
 
-        pyautogui.moveTo(coords.xAttrSelect, coords.yAttrSelect, duration=.2) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=.2) 
         pyautogui.click()
 
         #add other attr to selected attr
@@ -700,14 +703,14 @@ def searchAndFindPrice(weapon):
 
             logDebug("attr : " + str(attr) + " " + str(bestAttr))
 
-            pyautogui.moveTo(coords.xAttrSearch, coords.yAttrSearch, duration=.2) 
+            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
             pyautogui.click()
             pyautogui.typewrite(attr, interval=0.01)
 
-            pyautogui.moveTo(coords.xAttrSelect, coords.yAttrSelect + 25, duration=.2) 
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
             pyautogui.click()
 
-            pyautogui.moveTo(coords.xSearchPrice, coords.ySearchPrice, duration=.2) 
+            pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=.2) 
             pyautogui.click()
             time.sleep(1)
             found2Price = getItemCost(basePrice)
@@ -716,10 +719,10 @@ def searchAndFindPrice(weapon):
             else:
                 twoPrice.append(found2Price)
 
-            pyautogui.moveTo(coords.xAttribute, coords.yAttribute, duration=.2) 
+            pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
             pyautogui.click()
 
-            pyautogui.moveTo(coords.xAttrSelect, coords.yAttrSelect + 25, duration=.2) 
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
             pyautogui.click()
 
         return max(maxPrice,max(twoPrice))
@@ -732,8 +735,8 @@ def searchAndFindPrice(weapon):
 def getItemCost(basePrice=None):
     targetColor = 120
     getRidCoin = 50
-    numCompares = coords.numComps
-    totalListings = coords.totalListings
+    numCompares = config.numComps
+    totalListings = config.totalListings
     attempts = 10
     count = 1
     avgPrice = 0
@@ -743,10 +746,10 @@ def getItemCost(basePrice=None):
     # Goal is return the lowest reasonable price
     while(count < attempts):
         # get coords for price read and filter ss
-        coords.xPriceCoords
+        config.xPriceCoords
         xCoordadd = 140 + random.randint(1,50)
         yCoordadd = (65 * numCompares) + random.randint(1,30) 
-        ss = pyautogui.screenshot(region=[coords.xPriceCoords,coords.yPriceCoords,xCoordadd,yCoordadd])
+        ss = pyautogui.screenshot(region=[config.xPriceCoords,config.yPriceCoords,xCoordadd,yCoordadd])
         ss = ss.convert("RGB")
         data = ss.getdata()
         newData = []
@@ -774,10 +777,10 @@ def getItemCost(basePrice=None):
 
         #if we are missing value or read 0 reread with more comps
         divCheck = len(newNums)
-        if divCheck < coords.numComps:
+        if divCheck < config.numComps:
             if count + 1 == attempts:
                 if sum(newNums):
-                    logDebug(f"Didn't get to {coords.numComps} but we got a price, so use it")
+                    logDebug(f"Didn't get to {config.numComps} but we got a price, so use it")
                 else: 
                     break
             else:    
@@ -801,7 +804,7 @@ def getItemCost(basePrice=None):
 
         if basePrice:
             for nums in newNums:
-                if nums > basePrice * 1.6 and nums > coords.valueThreshold:
+                if nums > basePrice * 1.6 and nums > config.valueThreshold:
                     return -1
 
         for nums in newNums:
@@ -833,7 +836,7 @@ def getItemDetails():
     targetFilter = 315
     targetColor = 150
     limitWhite = 200
-    screenshot = pyautogui.screenshot(region=coords.StashCoords)
+    screenshot = pyautogui.screenshot(region=config.StashCoords)
     screenshot.save('debug/test.png')
     img = Image.open('debug/test.png')
 
@@ -859,7 +862,7 @@ def getItemDetails():
 
 
 
-# remove junk text and get food item reading
+# remove junk text and get good item reading
 def filterItemText(rawItem):
     weaponToSell = []
     rawItem = rawItem.splitlines()
@@ -898,10 +901,10 @@ def filterItemText(rawItem):
 
 # Change class 
 def changeClass():
-    pyautogui.moveTo(coords.xPlay, coords.yPlay, duration=0.1)  
+    pyautogui.moveTo(config.xPlay, config.yPlay, duration=0.1)  
     pyautogui.click()  # Perform a mouse click
 
-    pyautogui.moveTo(coords.xChangeClass,coords.yChangeClass,duration=0.1)
+    pyautogui.moveTo(config.xChangeClass,config.yChangeClass,duration=0.1)
     pyautogui.click()
 
     time.sleep(3)
@@ -916,7 +919,7 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
     time.sleep(0.05)   
     pyautogui.mouseUp()          # Release the mouse button
-    pyautogui.moveTo(coords.xStashStart, coords.yStashStart)
+    pyautogui.moveTo(config.xStashStart, config.yStashStart)
 
 
 
@@ -926,9 +929,9 @@ def searchStash():
         for y in range(6):
             for x in range(12):
 
-                xHome = coords.xStashStart
-                yHome = coords.yStashStart
-                undercut = coords.undercutValue
+                xHome = config.xStashStart
+                yHome = config.yStashStart
+                undercut = config.undercutValue
                 newYCoord = yHome + (40 *y)
                 newXCoord = xHome +(40 *x)
 
@@ -986,9 +989,10 @@ def getItemInfo() -> item:
     if not space: return None
 
     #screenshot for text & rarity
-    ssRegion = (int(space[0]) - 110, int(space[1]) - 340, 335, 550)
+    ssRegion = (int(space[0]) - 110, int(space[1]) - 360, 335, 550)
     rarity = getItemRarity(ssRegion)
     ss = pyautogui.screenshot(region=ssRegion)
+    ss.save("lestest.png")
     text = pytesseract.image_to_string(ss)
     name = ""
     rolls = []
@@ -1007,6 +1011,10 @@ def getItemInfo() -> item:
             found = findItem(line, allRolls)
             if(found):
                 roll = seperateRollValues(line)
+                if "%" in found:
+                    roll.append(1)
+                else:
+                    roll.append(0)
                 if roll[0].isdigit():
                     rolls.append(roll)
 
@@ -1022,7 +1030,7 @@ def mainLoop():
     launchedGame = 0
     while True:
         if is_game_running():
-            print(f"{coords.GAME_NAME} is running.")
+            print(f"{config.GAME_NAME} is running.")
             
             with open('debug.txt', 'w') as file:
                 file.write('reset\n')
@@ -1034,13 +1042,13 @@ def mainLoop():
             break  
         else:
             if not launchedGame:
-                print(f"{coords.GAME_NAME} is not running. Launching...\n")
+                print(f"{config.GAME_NAME} is not running. Launching...\n")
 
                 # Ironshield doesn't like this solution ... 
                 # subprocess.Popen(DAD_Utils.findExecPath(coords.GAME_NAME))
                 # launchedGame = 1
 
-                sys.exit(f"{coords.GAME_NAME} is NOT running. Launch Dark and Darker\n")
+                sys.exit(f"{config.GAME_NAME} is NOT running. Launch Dark and Darker\n")
                 return 0
 
         time.sleep(5)  # Wait 5 seconds before checking again

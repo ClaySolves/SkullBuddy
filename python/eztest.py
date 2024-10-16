@@ -1,6 +1,6 @@
 import difflib
 import DAD_Utils
-import coords
+import python.config as config
 import time
 import pyautogui
 
