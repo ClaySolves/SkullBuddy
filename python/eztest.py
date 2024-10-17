@@ -47,11 +47,27 @@ def findItem(input_string, phrase_list):
 # ss.save('LOL2.png')
 # DAD_Utils.gatherExpressman()
 
-time.sleep(1)
-DAD_Utils.loadTextFiles()
-item = DAD_Utils.getItemInfo()
-if item:
-    item.printItem()
+# time.sleep(1)
+# DAD_Utils.loadTextFiles()
+# item = DAD_Utils.getItemInfo()
+# if item:
+#     item.printItem()
 
 # ret = DAD_Utils.seperateRollValues("Agility 66 Armor Rating")
 # print(ret)
+
+# time1 = time.time()
+# slots = DAD_Utils.getAvailListings()
+# DAD_Utils.checkForSold(slots)
+# time2 = time.time()
+# print(time2-time1)
+
+
+# DAD_Utils.gatherSoldListings()
+DAD_Utils.gatherSoldListings()
+
+
+# var1 = "str"
+# var2 = pyautogui.screenshot()
+
+# print(f"{type(var1)} {type(var2)}")
