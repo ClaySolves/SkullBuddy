@@ -34,8 +34,174 @@ class item():
             else:
                  print(f"+{roll[0]} {roll[1]}")
 
-    def findPrice(self): # Assume that View Market tab is open
-        pass
+    #Search market for item price # Assume that View Market tab is open
+    def findPrice(self) -> bool: # True/False select
+    
+            s = f"Searching for {item.printItem(self)}"
+            logGui(s) 
+            logDebug(s)
+
+            # reset filters, search rarity
+            while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
+                pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
+                pyautogui.click()  
+            pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.3) 
+            pyautogui.click() 
+            pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
+            pyautogui.click()
+            searchRarity(item.rarity)
+
+            #search Item
+            pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
+            pyautogui.click()  
+            pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
+            pyautogui.click() 
+            pyautogui.typewrite(item.name, interval=0.01)
+            selectItemSearch() 
+
+           
+
+
+
+# Search market for item and find price
+# return int>0 price, 0 if nothing, -1 if NICE LOOT
+def searchAndFindPrice(weapon):
+
+    #reset filters and search rarity
+    while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
+        pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
+        pyautogui.click()  
+
+    pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.5) 
+    pyautogui.click() 
+
+    pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
+    pyautogui.click()
+
+    # If no rarity, add one. search market
+    if not searchRarity(weapon[-1]):
+        logDebug("No rarity was found... Let's guess off the amount of rolls")
+        length = len(weapon)
+        if length == 1:
+            weapon.append("Common")
+        if length == 2:
+            weapon.append("Uncommon")
+        if length == 3:
+            weapon.append("Rare")
+        if length == 4:
+            weapon.append("Epic")
+        if length == 5:
+            weapon.append("Legendary")
+        if length == 6:
+            weapon.append("Unique")
+        searchRarity(weapon[-1])
+    
+    logDebug("Searching for : " + str(weapon[-1]) + ' ' + str(weapon[0]))
+
+    #search Item
+    pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
+    pyautogui.click()  
+
+    pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
+    pyautogui.click() 
+    pyautogui.typewrite(weapon[0], interval=0.01)
+
+    selectItemSearch() 
+
+    #Start reading price for each attribute starting with base item
+    price = []
+    pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
+    pyautogui.click()
+    time.sleep(1)
+
+    # Record base price, if no attr's than return
+    basePrice = getItemCost()
+    if len(weapon) == 2: return basePrice
+
+    for weaponRolls in weapon[1:-1]:
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.1) 
+        pyautogui.click()
+        pyautogui.typewrite(weaponRolls, interval=0.01)
+
+        logDebug("attr : " + str(weaponRolls))
+
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.1) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
+        pyautogui.click()
+        time.sleep(1)
+        foundPrice = getItemCost(basePrice)
+        if foundPrice < 0:
+            return -1
+        else:
+            price.append(foundPrice)
+
+    # If only one attr, skip more comps and return found price if signficant increase else basePrice
+    if len(price) == 1:
+        return basePrice if price[0] < basePrice + (basePrice * .10) else price[0]
+
+    #If attr raises baseprice >25%, we're gonna comp it with other attr's
+    #Get max index and search that
+    maxPrice = max(price)
+    maxIndex = price.index(maxPrice)
+    bestAttr = weapon[maxIndex + 1]
+
+    if maxPrice > basePrice + (basePrice * 0.25) or maxPrice > basePrice + 50:
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
+        pyautogui.click()
+        pyautogui.typewrite(bestAttr, interval=0.01)
+
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=.2) 
+        pyautogui.click()
+
+        #add other attr to selected attr
+        twoPrice = []
+        for index, attr in enumerate(weapon[1:-1]):
+
+            if index == maxIndex:
+                logDebug('Skipping already selected attr')
+                continue
+
+            logDebug("attr : " + str(attr) + " " + str(bestAttr))
+
+            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
+            pyautogui.click()
+            pyautogui.typewrite(attr, interval=0.01)
+
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
+            pyautogui.click()
+
+            pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=.2) 
+            pyautogui.click()
+            time.sleep(1)
+            found2Price = getItemCost(basePrice)
+            if found2Price < 0:
+                return -1
+            else:
+                twoPrice.append(found2Price)
+
+            pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
+            pyautogui.click()
+
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
+            pyautogui.click()
+
+        return max(maxPrice,max(twoPrice))
+    else:
+        return maxPrice
 
 
 #Load global variables must be ran
@@ -107,8 +273,8 @@ def getItemSlotType():
         return None  
 
 
-# Selects item from market search and return if that worked
-def selectItemSearch():
+# Selects item with shortest name from market gui 
+def selectItemSearch() -> bool: # True/False selected
     #read img
     ss = pyautogui.screenshot(region=config.itemSearchRegion)
     ss = ss.convert("RGB")
@@ -122,8 +288,7 @@ def selectItemSearch():
         else:
             newData.append((0,0,0))
     ss.putdata(newData)
-    ss.save('debug/testingSearch.png')
-    txt = pytesseract.image_to_string('debug/testingSearch.png',config="--psm 6")
+    txt = pytesseract.image_to_string(ss,config="--psm 6")
     txt = ''.join(char for char in txt if char.isalpha() or char.isspace())
     txt = txt.splitlines()
     for txtLines in reversed(txt):
@@ -358,20 +523,6 @@ def detectItem(xAdd,yAdd,xStart=config.xStashDetect,yStart=config.yStashDetect):
     return ret
 
 
-# Gathers gold from sold listings
-def gatherGold():
-    for i in range(10):
-        time.sleep(0.1)
-        pyautogui.moveTo(config.xGatherGold, config.yGatherGold - (i * 51), duration=0.1) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xCanOrTransfer, config.yCanOrTransfer, duration=0.1) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xConfirmNo, config.yConfirmNo, duration=0.1) 
-        pyautogui.click()
-
-
 # Get the availible listing slots
 def getAvailListings():
     #Take screenshot and sanitize for read text
@@ -529,8 +680,8 @@ def findExecPath(appName):
     return None
 
 
-# Search market GUI for rarity
-def searchRarity(rarity):
+# Select Rarity from market gui
+def searchRarity(rarity) -> bool: # True/False select
     if rarity.lower() == "poor":
         pyautogui.moveTo(config.xPoor, config.yPoor, duration=0.1) 
         pyautogui.click()
@@ -553,148 +704,8 @@ def searchRarity(rarity):
         pyautogui.moveTo(config.xUnique, config.yUnique, duration=0.1) 
         pyautogui.click() 
     else:
-        return 0
-    return 1
-
-
-# Search market for item and find price
-# return int>0 price, 0 if nothing, -1 if NICE LOOT
-def searchAndFindPrice(weapon):
-    #reset filters and search rarity
-    while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
-        pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
-        pyautogui.click()  
-
-    pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.5) 
-    pyautogui.click() 
-
-    pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
-    pyautogui.click()
-
-    # If no rarity, add one. search market
-    if not searchRarity(weapon[-1]):
-        logDebug("No rarity was found... Let's guess off the amount of rolls")
-        length = len(weapon)
-        if length == 1:
-            weapon.append("Common")
-        if length == 2:
-            weapon.append("Uncommon")
-        if length == 3:
-            weapon.append("Rare")
-        if length == 4:
-            weapon.append("Epic")
-        if length == 5:
-            weapon.append("Legendary")
-        if length == 6:
-            weapon.append("Unique")
-        searchRarity(weapon[-1])
-    
-    logDebug("Searching for : " + str(weapon[-1]) + ' ' + str(weapon[0]))
-
-    #search Item
-    pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
-    pyautogui.click()  
-
-    pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
-    pyautogui.click() 
-    pyautogui.typewrite(weapon[0], interval=0.01)
-
-    selectItemSearch() 
-
-    #Start reading price for each attribute starting with base item
-    price = []
-    pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
-    pyautogui.click()
-    time.sleep(1)
-
-    # Record base price, if no attr's than return
-    basePrice = getItemCost()
-    if len(weapon) == 2: return basePrice
-
-    for weaponRolls in weapon[1:-1]:
-        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.1) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.1) 
-        pyautogui.click()
-        pyautogui.typewrite(weaponRolls, interval=0.01)
-
-        logDebug("attr : " + str(weaponRolls))
-
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.1) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.1) 
-        pyautogui.click()
-        time.sleep(1)
-        foundPrice = getItemCost(basePrice)
-        if foundPrice < 0:
-            return -1
-        else:
-            price.append(foundPrice)
-
-    # If only one attr, skip more comps and return found price if signficant increase else basePrice
-    if len(price) == 1:
-        return basePrice if price[0] < basePrice + (basePrice * .10) else price[0]
-
-    #If attr raises baseprice >25%, we're gonna comp it with other attr's
-    #Get max index and search that
-    maxPrice = max(price)
-    maxIndex = price.index(maxPrice)
-    bestAttr = weapon[maxIndex + 1]
-
-    if maxPrice > basePrice + (basePrice * 0.25) or maxPrice > basePrice + 50:
-        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=.2) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
-        pyautogui.click()
-        pyautogui.typewrite(bestAttr, interval=0.01)
-
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=.2) 
-        pyautogui.click()
-
-        #add other attr to selected attr
-        twoPrice = []
-        for index, attr in enumerate(weapon[1:-1]):
-
-            if index == maxIndex:
-                logDebug('Skipping already selected attr')
-                continue
-
-            logDebug("attr : " + str(attr) + " " + str(bestAttr))
-
-            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=.2) 
-            pyautogui.click()
-            pyautogui.typewrite(attr, interval=0.01)
-
-            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
-            pyautogui.click()
-
-            pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=.2) 
-            pyautogui.click()
-            time.sleep(1)
-            found2Price = getItemCost(basePrice)
-            if found2Price < 0:
-                return -1
-            else:
-                twoPrice.append(found2Price)
-
-            pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=.2) 
-            pyautogui.click()
-
-            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + 25, duration=.2) 
-            pyautogui.click()
-
-        return max(maxPrice,max(twoPrice))
-    else:
-        return maxPrice
+        return False
+    return True
 
 
 # get average cost of displayed item in market lookup

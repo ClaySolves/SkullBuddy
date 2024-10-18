@@ -47,11 +47,10 @@ def findItem(input_string, phrase_list):
 # ss.save('LOL2.png')
 # DAD_Utils.gatherExpressman()
 
-# time.sleep(1)
-# DAD_Utils.loadTextFiles()
-# item = DAD_Utils.getItemInfo()
-# if item:
-#     item.printItem()
+time.sleep(1)
+DAD_Utils.loadTextFiles()
+item = DAD_Utils.getItemInfo()
+item.findPrice()
 
 # ret = DAD_Utils.seperateRollValues("Agility 66 Armor Rating")
 # print(ret)

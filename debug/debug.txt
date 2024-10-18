@@ -10258,3 +10258,252 @@ Searching for Image soldItem...
 Searching for Image soldItem...
 Searching for Image soldItem...
 Searching for Image soldItem...
+Searching for Image soldItem...
+Searching for Image soldItem...
+Searching for Image soldItem...
+Searching for Image soldItem...
+Searching for Image findItem...
+Searching for Image poor...
+Failed!
+Searching for Image common...
+Failed!
+Searching for Image uncommon...
+Failed!
+Searching for Image rare...
+Failed!
+Searching for Image epic...
+Failed!
+Searching for Image legendary...
+Searching for Image unique...
+Failed!
+Found Legendary item
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Vigor']
+
+Found: ['Agility']
+
+Found: ['Strength']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching for Image findItem...
+Searching for Image poor...
+Failed!
+Searching for Image common...
+Failed!
+Searching for Image uncommon...
+Failed!
+Searching for Image rare...
+Failed!
+Searching for Image epic...
+Failed!
+Searching for Image legendary...
+Searching for Image unique...
+Failed!
+Found Legendary item
+
+Found: ['Wizard Shoes']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Magical Power']
+
+Found: ['Vigor']
+
+Found: ['Agility']
+
+Found: ['Strength']
+
+Found: ['Additional Memory Capacity']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching for None
+Searching for Image selectedViewMarket...
+Failed!
+Searching for Image selectedViewMarket...
+Searching for Image soldItem...
+Searching for Image findItem...
+Searching for Image poor...
+Failed!
+Searching for Image common...
+Failed!
+Searching for Image uncommon...
+Searching for Image rare...
+Failed!
+Searching for Image epic...
+Failed!
+Searching for Image legendary...
+Failed!
+Searching for Image unique...
+Failed!
+Found Uncommon item
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Laced Turnshoe']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Move Speed']
+
+Found: ['Agility']
+
+Found: ['%Move Speed Bonus']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching for None
+Searching for Image selectedViewMarket...
+Failed!
+Searching for Image selectedViewMarket...
+Searching for Image soldItem...
+Searching for Image findItem...
+Searching for Image poor...
+Failed!
+Searching for Image common...
+Failed!
+Searching for Image uncommon...
+Failed!
+Searching for Image rare...
+Searching for Image epic...
+Failed!
+Searching for Image legendary...
+Failed!
+Searching for Image unique...
+Failed!
+Found Rare item
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: ['Reinforced Gloves']
+
+Found: []
+
+Found: []
+
+Found: ['Armor Rating']
+
+Found: ['Vigor']
+
+Found: ['%Action Speed']
+
+Found: ['Max Health']
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Found: []
+
+Searching for None
+Searching for Image selectedViewMarket...
+Failed!
+Searching for Image selectedViewMarket...
+Searching for Image soldItem...
