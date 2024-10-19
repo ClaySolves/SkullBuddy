@@ -1,6 +1,9 @@
 #storage for GUI navigation
 GAME_NAME = "DungeonCrawler.exe"
 undercutValue = 13
+# values for sellMethod:
+# 1 -> avg First 3
+sellMethod = 1
 
 execSearchPaths = [
     r'C:\Program Files',
@@ -8,8 +11,10 @@ execSearchPaths = [
     r'C:\Games',
 ]
 
-ssComp1 = [700,400,500,400]
-ssComp2 = [650,350,600,500]
+ssComp1 = [700, 400, 500, 400]
+ssComp2 = [650, 350, 600, 500]
+ssGold = [1488, 340, 72, 620]
+
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40
 xGatherGold, yGatherGold = 300, 988

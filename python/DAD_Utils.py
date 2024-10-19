@@ -30,10 +30,10 @@ class item():
         print(f"{item.rarity} {item.name}")
         for roll in item.rolls:
             if roll[2]:
-                if int(roll[0]) == 1: print(f"+{roll[0]}.0% {roll[1]}")
-                else: print(f"+{int(roll[0])/10:.1f}% {roll[1]}")
+                if int(roll[0]) == 1: print(f"+ {roll[0]}.0% {roll[1]}")
+                else: print(f"+ {int(roll[0])/10:.1f}% {roll[1]}")
             else:
-                 print(f"+{roll[0]} {roll[1]}")
+                 print(f"+ {roll[0]} {roll[1]}")
 
     # search market gui for all item rolls
     def searchAllRolls(self):
@@ -68,7 +68,10 @@ class item():
         pyautogui.click()
         pyautogui.typewrite(roll[1], interval=0.01)
 
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.15) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.15)
         pyautogui.click()
 
     #Search market for item price # Assume that View Market tab is open
@@ -99,11 +102,10 @@ class item():
         pyautogui.typewrite(item.name, interval=0.01)
         selectItemSearch() 
 
-
         self.searchAllRolls()
 
            
-# take compare 
+# compare ss and confirm change in game state
 def confirmGameScreenChange(ss1):
     noInfiniteLOL = 0
     while noInfiniteLOL < 65:
@@ -256,6 +258,57 @@ def searchAndFindPrice(weapon):
         return maxPrice
 
 
+# read displayed prices from market
+def readPrices() -> list: # return list of prices
+    ss = pyautogui.screenshot(region=config.ssGold)
+    data = ss.getdata()
+    newData = []
+
+    for item in data:
+        if (item[0] >= 120 or item[1] >= 120):
+            newData.append(item)
+        else:
+            newData.append((0,0,0))
+
+    ss.putdata(newData)
+    ss.save('testAfter.png')
+
+    numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
+    txt = pytesseract.image_to_string(ss,config=numConfig)
+    prices = txt.split()
+    
+    return prices
+                                
+
+# compute price from list of item prices
+def calcItemPrice(prices, method):
+    priceLen = len(prices)
+
+    #Avg first 3
+    if method is 1:
+        useLen = priceLen if priceLen < 3 else 3
+
+        total = 0
+        for price in prices[:useLen]:
+            total += int(price)
+        return int(total / useLen)
+    
+    #Lowest
+    elif method is 2:
+        lowest = int(prices[0])
+        if priceLen > 1:
+            for price in prices[1:]:
+                price = int(price)
+                if price < lowest: lowest = price
+        return lowest
+
+    #Lowest remove outliers
+    elif method is 3:
+        avg = 0
+        for price in prices:
+            avg += int(price)
+        avg = int(avg/priceLen)
+
 # get average cost of displayed item in market lookup
 def getItemCost(basePrice=None):
     targetColor = 120
@@ -341,7 +394,7 @@ def getItemCost(basePrice=None):
     return 0
 
 
-#Load global variables must be ran
+#Load global variables and clear debug file. MUST BE RAN!
 def loadTextFiles():
     global allItems
     global allRolls
