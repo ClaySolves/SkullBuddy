@@ -8,6 +8,8 @@ execSearchPaths = [
     r'C:\Games',
 ]
 
+ssComp1 = [700,400,500,400]
+ssComp2 = [650,350,600,500]
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40
 xGatherGold, yGatherGold = 300, 988

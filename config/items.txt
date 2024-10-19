@@ -67,7 +67,7 @@ Zweihander
 Adventurer Boots
 Rubysilver Adventurer Boots
 Adventurer Tunic
-Adventurers Cloak
+Adventurer Cloak
 Armet
 Barbuta Helm
 Stitched Turnshoe
@@ -146,6 +146,7 @@ Riveted Gloves
 Copperlight Riveted Gloves
 Rogue Cowl
 Rugged Boots
+Viking Sword
 Runestome Gloves
 Shadow Hood
 Shadow Mask

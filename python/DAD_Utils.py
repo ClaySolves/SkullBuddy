@@ -6,7 +6,7 @@ import psutil
 import pyautogui
 import time
 import pytesseract
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageChops
 import difflib
 import config
 import random
@@ -19,6 +19,7 @@ class NoListingSlots(Exception):
 
 #item class
 class item():
+    # constructor
     def __init__(self, name, rolls, rarity):
         item.name = name
         item.rolls = rolls
@@ -34,33 +35,84 @@ class item():
             else:
                  print(f"+{roll[0]} {roll[1]}")
 
+    # search market gui for all item rolls
+    def searchAllRolls(self):
+        for i, roll in enumerate(item.rolls):
+            if i == 0:
+                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+            else:
+                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute - 50, duration=0.1) 
+            pyautogui.click()                
+
+            pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
+            pyautogui.click()
+
+            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+            pyautogui.click()
+            pyautogui.typewrite(roll[1], interval=0.01)
+
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+            pyautogui.click()
+
+            if i + 1 == len(item.rolls):
+                pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.15)
+                pyautogui.click()
+
+    # search market gui for indexed item roll
+    def searchRoll(self,i):
+        roll = item.rolls[i]
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+        pyautogui.click()
+        pyautogui.typewrite(roll[1], interval=0.01)
+
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+        pyautogui.click()
+
     #Search market for item price # Assume that View Market tab is open
     def findPrice(self) -> bool: # True/False select
-    
-            s = f"Searching for {item.printItem(self)}"
-            logGui(s) 
-            logDebug(s)
+        s = f"Searching for {item.printItem(self)}"
+        logGui(s) 
+        logDebug(s)
 
-            # reset filters, search rarity
-            while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
-                pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
-                pyautogui.click()  
-            pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.3) 
-            pyautogui.click() 
-            pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
+        # reset filters, search rarity
+        while not locateOnScreen('selectedViewMarket', region=config.regionMarketListings):
+            pyautogui.moveTo(config.xViewMarket, config.yViewMarket, duration=0.1) 
             pyautogui.click()
-            searchRarity(item.rarity)
 
-            #search Item
-            pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
-            pyautogui.click()  
-            pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
-            pyautogui.click() 
-            pyautogui.typewrite(item.name, interval=0.01)
-            selectItemSearch() 
+        ss = pyautogui.screenshot(region=config.ssComp1)
+        res = confirmGameScreenChange(ss)
+
+        pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.3) 
+        pyautogui.click() 
+        pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
+        pyautogui.click()
+        searchRarity(item.rarity)
+
+        #search Item
+        pyautogui.moveTo(config.xItemName, config.yItemName, duration=0.1) 
+        pyautogui.click()  
+        pyautogui.moveTo(config.xItemSearch, config.yItemSearch, duration=0.1) 
+        pyautogui.click() 
+        pyautogui.typewrite(item.name, interval=0.01)
+        selectItemSearch() 
+
+
+        self.searchAllRolls()
 
            
+# take compare 
+def confirmGameScreenChange(ss1):
+    noInfiniteLOL = 0
+    while noInfiniteLOL < 65:
+        check = locateOnScreen(ss1,region=config.ssComp2)
+        if not check: return True
+        time.sleep(0.05)
+        noInfiniteLOL += 1
 
+    return False
 
 
 # Search market for item and find price
@@ -204,10 +256,98 @@ def searchAndFindPrice(weapon):
         return maxPrice
 
 
+# get average cost of displayed item in market lookup
+def getItemCost(basePrice=None):
+    targetColor = 120
+    getRidCoin = 50
+    numCompares = config.numComps
+    totalListings = config.totalListings
+    attempts = 10
+    count = 1
+    avgPrice = 0
+    
+    # Take screenshot of price area and record attempts. If issues getting price, increase the amount recorded.
+    # If can't find good price, return negative highest value found
+    # Goal is return the lowest reasonable price
+    while(count < attempts):
+        # get coords for price read and filter ss
+        config.xPriceCoords
+        xCoordadd = 140 + random.randint(1,50)
+        yCoordadd = (65 * numCompares) + random.randint(1,30) 
+        ss = pyautogui.screenshot(region=[config.xPriceCoords,config.yPriceCoords,xCoordadd,yCoordadd])
+        ss = ss.convert("RGB")
+        data = ss.getdata()
+        newData = []
+
+        for item in data:
+            if (item[0] >= targetColor or item[1] >= targetColor) and item[2] < getRidCoin:
+                newData.append(item)
+            else:
+                newData.append((0,0,0))
+
+        ss.putdata(newData)
+        ss.save('debug/testing.png')
+
+        # Read and sanitize text
+        txt = pytesseract.image_to_string("debug/testing.png",config="--psm 6")
+        numList = txt.split()
+        newNums = [int(num.replace(',','')) for num in numList if sanitizeNumerRead(num)]  
+
+        # Value correction, check for improper reads and remove
+        for i in range(len(newNums)-1,-1,-1):
+            if newNums[i] == newNums[0]:
+                break
+            if newNums[i] < newNums[i-1]:
+                newNums.pop(i)
+
+        #if we are missing value or read 0 reread with more comps
+        divCheck = len(newNums)
+        if divCheck < config.numComps:
+            if count + 1 == attempts:
+                if sum(newNums):
+                    logDebug(f"Didn't get to {config.numComps} but we got a price, so use it")
+                else: 
+                    break
+            else:    
+                count += 1
+                numCompares += 1
+                continue
+
+        logDebug("Recorded Price : " + str((newNums)) + '\n')
+        avgPrice = math.floor(sum(newNums) / divCheck)
+
+        # get rid of outliers
+        for i, nums in enumerate(newNums):
+            if nums == newNums[-1]:
+                break
+            else:
+                if abs(nums - newNums[i+1]) > avgPrice * 0.4:
+                    logDebug("Removing undercut value")
+                    newNums[i] = 0
+
+        logDebug("Recorded Price : " + str((newNums)) + '\n')
+
+        if basePrice:
+            for nums in newNums:
+                if nums > basePrice * 1.6 and nums > config.valueThreshold:
+                    return -1
+
+        for nums in newNums:
+            if nums != 0:
+                return nums
+    
+    logDebug("Not Enough Legit Comps for this roll:" + str(newNums) + '\n')
+    
+    return 0
+
+
 #Load global variables must be ran
 def loadTextFiles():
     global allItems
     global allRolls
+
+    with open("debug/debug.txt", 'w') as file:
+        pass
 
     with open("config/items.txt", 'r') as file:
         lines = file.readlines()
@@ -414,7 +554,7 @@ def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=
         if strKey:
             res = pyautogui.locateOnScreen(f'img/{img}.png', region = region, confidence = confidence, grayscale = grayscale)
         else:
-            res = res = pyautogui.locateOnScreen(img, region = region, confidence = confidence, grayscale = grayscale)
+            res = pyautogui.locateOnScreen(img, region = region, confidence = confidence, grayscale = grayscale)
         return res 
     except pyautogui.ImageNotFoundException as e:
         logDebug("Failed!")
@@ -708,91 +848,6 @@ def searchRarity(rarity) -> bool: # True/False select
     return True
 
 
-# get average cost of displayed item in market lookup
-def getItemCost(basePrice=None):
-    targetColor = 120
-    getRidCoin = 50
-    numCompares = config.numComps
-    totalListings = config.totalListings
-    attempts = 10
-    count = 1
-    avgPrice = 0
-    
-    # Take screenshot of price area and record attempts. If issues getting price, increase the amount recorded.
-    # If can't find good price, return negative highest value found
-    # Goal is return the lowest reasonable price
-    while(count < attempts):
-        # get coords for price read and filter ss
-        config.xPriceCoords
-        xCoordadd = 140 + random.randint(1,50)
-        yCoordadd = (65 * numCompares) + random.randint(1,30) 
-        ss = pyautogui.screenshot(region=[config.xPriceCoords,config.yPriceCoords,xCoordadd,yCoordadd])
-        ss = ss.convert("RGB")
-        data = ss.getdata()
-        newData = []
-
-        for item in data:
-            if (item[0] >= targetColor or item[1] >= targetColor) and item[2] < getRidCoin:
-                newData.append(item)
-            else:
-                newData.append((0,0,0))
-
-        ss.putdata(newData)
-        ss.save('debug/testing.png')
-
-        # Read and sanitize text
-        txt = pytesseract.image_to_string("debug/testing.png",config="--psm 6")
-        numList = txt.split()
-        newNums = [int(num.replace(',','')) for num in numList if sanitizeNumerRead(num)]  
-
-        # Value correction, check for improper reads and remove
-        for i in range(len(newNums)-1,-1,-1):
-            if newNums[i] == newNums[0]:
-                break
-            if newNums[i] < newNums[i-1]:
-                newNums.pop(i)
-
-        #if we are missing value or read 0 reread with more comps
-        divCheck = len(newNums)
-        if divCheck < config.numComps:
-            if count + 1 == attempts:
-                if sum(newNums):
-                    logDebug(f"Didn't get to {config.numComps} but we got a price, so use it")
-                else: 
-                    break
-            else:    
-                count += 1
-                numCompares += 1
-                continue
-
-        logDebug("Recorded Price : " + str((newNums)) + '\n')
-        avgPrice = math.floor(sum(newNums) / divCheck)
-
-        # get rid of outliers
-        for i, nums in enumerate(newNums):
-            if nums == newNums[-1]:
-                break
-            else:
-                if abs(nums - newNums[i+1]) > avgPrice * 0.4:
-                    logDebug("Removing undercut value")
-                    newNums[i] = 0
-
-        logDebug("Recorded Price : " + str((newNums)) + '\n')
-
-        if basePrice:
-            for nums in newNums:
-                if nums > basePrice * 1.6 and nums > config.valueThreshold:
-                    return -1
-
-        for nums in newNums:
-            if nums != 0:
-                return nums
-    
-    logDebug("Not Enough Legit Comps for this roll:" + str(newNums) + '\n')
-    
-    return 0
-
-
 # Navigate char login screen
 def navCharLogin():
     xChar, yChar = 1750, 200 # coords for char location
@@ -971,6 +1026,7 @@ def getItemInfo() -> item:
 
     #iterate read text
     for line in lines:
+        logDebug(f"lines: {lines}")
         if not foundName:
             found = findItem(line, allItems)
             if found: 
