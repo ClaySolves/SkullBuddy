@@ -3,7 +3,7 @@ GAME_NAME = "DungeonCrawler.exe"
 undercutValue = 13
 # values for sellMethod:
 # 1 -> avg First 3
-sellMethod = 1
+sellMethod = 3
 
 execSearchPaths = [
     r'C:\Program Files',
