@@ -5,7 +5,7 @@ import time
 import keyboard
 import subprocess
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 
 #basic exception
@@ -55,24 +55,42 @@ class MainWindow(QMainWindow):
         self.setGeometry(100, 100, 800, 400)
 
         # button
-        self.button = QPushButton("Sell Items", self)
-        self.button.clicked.connect(self.on_button_click)
+        self.sellButton = QPushButton("Sell Items", self)
+        self.sellButton.clicked.connect(self.on_button_click)
 
         # log
         self.output_log = QTextEdit(self)
         self.output_log.setReadOnly(True)
 
-        #label
+        #labels
         self.helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
+        self.methodLabel = QLabel("Select Selling Method:")
 
-        # Layout
-        layout = QHBoxLayout()
-        layout.addWidget(self.output_log)
-        layout.addWidget(self.button)
-        layout.addWidget(self.helpLabel)
+        #Checkboxes
+        self.checkboxMethod1 = QCheckBox("Lowest Price")
+        self.checkboxMethod2 = QCheckBox("Lowest Price w/o Outliers")
+        self.checkboxMethod3 = QCheckBox("Lowest 3 Price Avg")
+
+        # Log Layout
+        logLayout = QVBoxLayout()
+        logLayout.addWidget(self.helpLabel)
+        logLayout.addWidget(self.output_log)
+
+        # Settings Layout
+        settingsLayout = QVBoxLayout()
+        settingsLayout.addWidget(self.checkboxMethod1)
+        settingsLayout.addWidget(self.checkboxMethod2)
+        settingsLayout.addWidget(self.checkboxMethod3)
+        settingsLayout.addWidget(self.sellButton)
+
+        # Main Layout
+        mainLayout = QHBoxLayout()
+        mainLayout.addLayout(logLayout)
+        mainLayout.addLayout(settingsLayout)
+
  
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(mainLayout)
         self.setCentralWidget(container)
 
     def on_button_click(self):
@@ -87,10 +105,6 @@ class MainWindow(QMainWindow):
 
     def appendLog(self, txt): # append output to QTextEdit log
         self.output_log.append(txt)
-
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            self.stopScript()
 
     def stopScript(self):
         print("Exiting...")
