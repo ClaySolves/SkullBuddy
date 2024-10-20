@@ -5,7 +5,7 @@ import time
 import pyautogui
 
 DAD_Utils.loadTextFiles()
-# pyautogui.mouseInfo()
+pyautogui.mouseInfo()
 
 time.sleep(2)
 item = DAD_Utils.getItemInfo()

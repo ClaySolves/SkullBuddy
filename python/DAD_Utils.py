@@ -85,8 +85,7 @@ class item():
         if confirmGameScreenChange(ss): pass 
         else: return False
 
-        pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.3) 
-        pyautogui.click() 
+        refreshMarketItem()
         pyautogui.moveTo(config.xRarity, config.yRarity, duration=0.1) 
         pyautogui.click()
         searchRarity(item.rarity)
@@ -99,9 +98,18 @@ class item():
         pyautogui.typewrite(item.name, interval=0.01)
         selectItemSearch() 
 
+        #store base price
+        foundPrice = getItemCost()
+        if foundPrice: prices.append(foundPrice)
+
         #Search rolls
         self.searchAllRolls()
         refreshMarketSearch()
+
+        #store all roll price
+        foundPrice = getItemCost()
+        if foundPrice: prices.append(foundPrice)
+
 
            
 # compare ss and confirm change in game state
@@ -123,6 +131,12 @@ def refreshMarketSearch() -> bool: # True/False Success
     pyautogui.click()
     ret = confirmGameScreenChange(ss)
     return ret
+
+
+# Refresh market search query
+def refreshMarketItem():
+    pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.10)
+    pyautogui.click()
 
 
 # Search market for item and find price
@@ -269,8 +283,13 @@ def searchAndFindPrice(weapon):
 # get average cost of displayed item in market lookup
 def getItemCost(basePrice=None):
     prices = readPrices()
-    price = calcItemPrice(prices,config.sellMethod)
-    return price
+    if prices:
+        price = calcItemPrice(prices,config.sellMethod)
+    else:
+        return None
+    if price:
+        return price
+    else: return None
 
 
 # read displayed prices from market
