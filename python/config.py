@@ -1,12 +1,19 @@
 #storage for GUI navigation
 GAME_NAME = "DungeonCrawler.exe"
+
+pytessConfig = "--psm 6"
+
 undercutValue = 13
 
 
 # values for sellMethod:
-# 1 -> avg First 3
+# 1 -> Lowest Price
+# 2 -> Lowest w/o outliers
+# 3 -> Lowest 3 avg
 sellMethod = 1
-
+rollMethod = 1
+stashDump = 3 # put -1 for shared stash
+stashSell = 0 # put -1 for shared stash  
 execSearchPaths = [
     r'C:\Program Files',
     r'C:\Program Files (x86)',
@@ -18,6 +25,10 @@ ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
 ssMarketItem = [200,200,100,100]
 ssMarketRoll = [1450, 175, 250, 245]
+ssMarketExpireTime = [1262, 322, 200, 630]
+ssMarketRollSearch = [1470, 231, 130, 20]
+ssRaritySearch = [286, 193, 130, 22]
+ssItemNameSearch = [49, 192, 130, 22]
 
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40
@@ -80,7 +91,3 @@ itemSearchRegion = (73, 262, 192, 250)
 regionMarketListings = (700, 60, 440, 100)
 xCollectExpressman, yCollectExpressman = 69, 256
 xPayGetExpressman, yPayGetExpressman = 953,926
-
-
-stashDump = 3 # put -1 for shared stash
-stashSell = 0 # put -1 for shared stash  

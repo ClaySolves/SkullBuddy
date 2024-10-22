@@ -43,7 +43,7 @@ class item():
                 pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
                 pyautogui.click()                
 
-                pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
+                pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
                 pyautogui.click()
 
             pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
@@ -55,20 +55,24 @@ class item():
 
     # search market gui for indexed item roll
     def searchRoll(self,i):
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+        pyautogui.click() 
+
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+        pyautogui.click()
+
         roll = item.rolls[i]
         pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
         pyautogui.click()
         pyautogui.typewrite(roll[1], interval=0.01)
 
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.15) 
         pyautogui.click()
-
 
     #remove roll from market gui search 
     def removeSearchRoll(self,i):
         pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
         pyautogui.click()
-
 
     #Search market for item price # Assume that View Market tab is open
     def findPrice(self) -> bool: # True/False Success
@@ -99,17 +103,46 @@ class item():
         selectItemSearch() 
 
         #store base price
-        foundPrice = getItemCost()
+        foundPrice = recordDisplayedPrice()
         if foundPrice: prices.append(foundPrice)
 
-        #Search rolls
-        self.searchAllRolls()
-        refreshMarketSearch()
+        #store price of each roll
+        for i, roll in enumerate(item.rolls):
+            item.searchRoll(self,i)
+            foundPrice = recordDisplayedPrice()
+            if foundPrice: prices.append(foundPrice)
 
         #store all roll price
-        foundPrice = getItemCost()
+        item.searchAllRolls(self)
+        foundPrice = recordDisplayedPrice()
         if foundPrice: prices.append(foundPrice)
 
+        return prices
+
+# clears searched item rolls
+def clearSearchRoll():
+    ss = pyautogui.screenshot(region=config.ssMarketRollSearch)
+    txt = pytesseract.image_to_string(ss,config="--psm 6")
+    if not txt:
+        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+        pyautogui.click()
+    checks = locateAllOnScreen('marketChecked',region=config.ssMarketRoll)
+    myChecks = list(checks)
+    for i in range(len(checks)):
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.2) 
+        pyautogui.click()
+    checks = locateAllOnScreen('marketChecked',region=config.ssMarketRoll)
+    if not checks:
+        return True
+    clearSearchRoll()
+
+# searches market and finds price
+def recordDisplayedPrice() -> int: # Price/None
+    searched = refreshMarketSearch()
+    if searched:
+        price = getItemCost()
+        return price
+    else: return None
            
 # compare ss and confirm change in game state
 def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Success
@@ -129,13 +162,20 @@ def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Suc
 
     return False
 
+# take ss and read txt
+def readSSTxt(region,config=config.pytessConfig):
+    ss = pyautogui.screenshot(region=region)
+    ss.save('LOLtest.png')
+    txt = pytesseract.image_to_string(ss,config=config)
+    if txt: return txt
+    else: return None
 
 # send market request and confirm response
 def refreshMarketSearch() -> bool: # True/False Success
-    ss = pyautogui.screenshot(region=config.ssComp1)
+    ss = pyautogui.screenshot(region=config.ssMarketExpireTime)
     pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.15)
     pyautogui.click()
-    ret = confirmGameScreenChange(ss)
+    ret = confirmGameScreenChange(ss,region=config.ssMarketExpireTime)
     return ret
 
 
@@ -494,9 +534,12 @@ def selectItemSearch() -> bool: # True/False selected
         lengths.append(len(lines))
     minLength = min(lengths)
     minIndex = lengths.index(minLength)
+
+    ss = pyautogui.screenshot(region=config.ssItemNameSearch)
     pyautogui.moveTo(config.xItemSelect,config.yItemSelect + (minIndex * 25)) 
     pyautogui.click()
-    return True
+    ret = confirmGameScreenChange(ss,region=config.ssItemNameSearch)
+    return ret
 
 
 #Navigate to the market place
@@ -870,28 +913,28 @@ def findExecPath(appName):
 def searchRarity(rarity) -> bool: # True/False select
     if rarity.lower() == "poor":
         pyautogui.moveTo(config.xPoor, config.yPoor, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "common":
         pyautogui.moveTo(config.xCommon, config.yCommon, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "uncommon":
         pyautogui.moveTo(config.xUncommon, config.yUncommon, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "rare":
         pyautogui.moveTo(config.xRare, config.yRare, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "epic":
         pyautogui.moveTo(config.xEpic, config.yEpic, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "legendary":
         pyautogui.moveTo(config.xLegend, config.yLegend, duration=0.1) 
-        pyautogui.click()
     elif rarity.lower() == "unique":
         pyautogui.moveTo(config.xUnique, config.yUnique, duration=0.1) 
-        pyautogui.click() 
+    
+    ss = pyautogui.screenshot(region=config.ssRaritySearch)
+    pyautogui.click()
+    ret = confirmGameScreenChange(ss,region=config.ssRaritySearch)
+
+    if ret:
+        logging.debug(f"Searching... {rarity}")
     else:
-        return False
-    return True
+        logging.debug("FAILED! Search Rarity... Retrying")
+    return ret
 
 
 # Navigate char login screen

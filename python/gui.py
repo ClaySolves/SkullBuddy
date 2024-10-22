@@ -4,6 +4,7 @@ import sys
 import time
 import keyboard
 import subprocess
+import logging
 from io import StringIO
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
@@ -31,7 +32,6 @@ class GuiScriptStream():
 
 # worker for gui stream
 class WorkerThread(QThread):
-
     outputSignal = pyqtSignal(str)  # var for output
 
     def run(self): # run function
@@ -63,16 +63,17 @@ class MainWindow(QMainWindow):
         self.output_log = QTextEdit(self)
         self.output_log.setReadOnly(True)
 
-        #labels
+        # labels
         self.helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
         self.methodLabel = QLabel("Select Selling Method:")
 
-        #Checkboxes
+        # Radio Buttons
         self.radioMethodSelect = {
             1 : QRadioButton("Lowest Price"),
             2 : QRadioButton("Lowest Price w/o Outliers"),
             3 : QRadioButton("Lowest 3 Price Avg")
         }
+        self.radioMethodSelect[1].setChecked(True)
         
         # Log Layout
         logLayout = QVBoxLayout()
@@ -90,11 +91,12 @@ class MainWindow(QMainWindow):
         mainLayout.addLayout(logLayout)
         mainLayout.addLayout(settingsLayout)
 
- 
+        # Finalize GUI
         container = QWidget()
         container.setLayout(mainLayout)
         self.setCentralWidget(container)
 
+    # Sell Items Button
     def handleSellItemButton(self):
         updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
         
@@ -110,10 +112,12 @@ class MainWindow(QMainWindow):
         except error:
             print("Error, Exiting!")  
 
+    # Log txt to GUI log
     def appendLog(self, txt): # append output to QTextEdit log
         self.output_log.append(txt)
 
-    def stopScript(self):
+    # Close GUI
+    def closeApp(self):
         print("Exiting...")
         QApplication.quit()
             

@@ -4,8 +4,9 @@ import config
 import time
 import pyautogui
 
-# DAD_Utils.loadTextFiles()
-# pyautogui.mouseInfo()
+
+pyautogui.mouseInfo()
+
 
 # time.sleep(2)
 # item = DAD_Utils.getItemInfo()
@@ -20,14 +21,16 @@ import pyautogui
 #     time.sleep(1)
 
 # _________________________________________________________________________________________
-mytime =time.time()
-s = DAD_Utils.locateAllOnScreen('marketChecked',region=config.ssMarketRoll)
-if s:
-    print(len(s))
-else:
-    print("NO")
 
-mytime2 = time.time()
+# time.sleep(2)
+# mytime =time.time()
+# myItem = DAD_Utils.getItemInfo()
+# price = myItem.findPrice()
+# if price:
+#     print(price)
+# else:
+#     print("NO")
 
+# mytime2 = time.time()
 
-print(mytime2-mytime)
+# print(mytime2-mytime)
