@@ -40,12 +40,10 @@ class item():
         for i, roll in enumerate(item.rolls):
             if i == 0:
                 pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
-            else:
-                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute - 50, duration=0.1) 
-            pyautogui.click()                
+                pyautogui.click()                
 
-            pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
-            pyautogui.click()
+                pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
+                pyautogui.click()
 
             pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
             pyautogui.click()
@@ -53,7 +51,6 @@ class item():
 
             pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
             pyautogui.click()
-
 
     # search market gui for indexed item roll
     def searchRoll(self,i):
@@ -66,6 +63,12 @@ class item():
         pyautogui.typewrite(roll[1], interval=0.01)
 
         pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.15) 
+        pyautogui.click()
+
+
+    #remove roll from market gui search 
+    def removeSearchRoll(self,i):
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
         pyautogui.click()
 
 
@@ -110,13 +113,19 @@ class item():
         foundPrice = getItemCost()
         if foundPrice: prices.append(foundPrice)
 
-
            
 # compare ss and confirm change in game state
-def confirmGameScreenChange(ss1) -> bool: #True/False Success
+def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Success
     noInfiniteLOL = 0
+    newRegion = [0,0,0,0]
+    for i, val in enumerate(region):
+        if i < 2:
+            newRegion[i] = val - 50
+        else:
+            newRegion[i] = val + 100
+
     while noInfiniteLOL < 65:
-        check = locateOnScreen(ss1,region=config.ssComp2)
+        check = locateOnScreen(ss1,region=newRegion)
         if not check: return True
         time.sleep(0.05)
         noInfiniteLOL += 1
@@ -380,6 +389,22 @@ def loadTextFiles():
     with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
+
+
+#update config.py
+def updateConfig(var,newVal) -> bool: # ret True/False updated
+    with open("python/config.py","r") as file:
+        lines = file.readlines()
+
+    with open("python/config.py","w") as file:
+        for line in lines:
+            if line.startswith(var):
+                if isinstance(newVal,str):
+                    file.write(f'{var} = "{newVal}"\n')
+                else:
+                    file.write(f'{var} = {newVal}\n')
+            else:
+                file.write(line)
 
 
 #Sends all treasure to expressman

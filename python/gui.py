@@ -5,7 +5,7 @@ import time
 import keyboard
 import subprocess
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import QIcon
 
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
 
         # button
         self.sellButton = QPushButton("Sell Items", self)
-        self.sellButton.clicked.connect(self.on_button_click)
+        self.sellButton.clicked.connect(self.handleSellItemButton)
 
         # log
         self.output_log = QTextEdit(self)
@@ -68,10 +68,12 @@ class MainWindow(QMainWindow):
         self.methodLabel = QLabel("Select Selling Method:")
 
         #Checkboxes
-        self.checkboxMethod1 = QCheckBox("Lowest Price")
-        self.checkboxMethod2 = QCheckBox("Lowest Price w/o Outliers")
-        self.checkboxMethod3 = QCheckBox("Lowest 3 Price Avg")
-
+        self.radioMethodSelect = {
+            1 : QRadioButton("Lowest Price"),
+            2 : QRadioButton("Lowest Price w/o Outliers"),
+            3 : QRadioButton("Lowest 3 Price Avg")
+        }
+        
         # Log Layout
         logLayout = QVBoxLayout()
         logLayout.addWidget(self.helpLabel)
@@ -79,9 +81,8 @@ class MainWindow(QMainWindow):
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
-        settingsLayout.addWidget(self.checkboxMethod1)
-        settingsLayout.addWidget(self.checkboxMethod2)
-        settingsLayout.addWidget(self.checkboxMethod3)
+        for value in self.radioMethodSelect.values():
+            settingsLayout.addWidget(value)
         settingsLayout.addWidget(self.sellButton)
 
         # Main Layout
@@ -94,8 +95,13 @@ class MainWindow(QMainWindow):
         container.setLayout(mainLayout)
         self.setCentralWidget(container)
 
-    def on_button_click(self):
-        print("Button Press!") 
+    def handleSellItemButton(self):
+        updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
+        
+        if updateMethod: 
+            DAD_Utils.logDebug(f"Updating sellMethod ... METHOD: {updateMethod}")
+            DAD_Utils.updateConfig("sellMethod",updateMethod)
+ 
         try:
             self.thread = WorkerThread()
             self.thread.outputSignal.connect(self.appendLog)

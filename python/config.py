@@ -5,7 +5,7 @@ undercutValue = 13
 
 # values for sellMethod:
 # 1 -> avg First 3
-sellMethod = 3
+sellMethod = 1
 
 execSearchPaths = [
     r'C:\Program Files',
@@ -17,6 +17,7 @@ ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
 ssMarketItem = [200,200,100,100]
+ssMarketRoll = [1450, 175, 250, 245]
 
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40

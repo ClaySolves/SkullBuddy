@@ -11,6 +11,7 @@ import DAD_Utils
 import subprocess
 import keyboard
 import gui
+import shutil
 
 def main():
     app = gui.QApplication(sys.argv)  # Create the application
@@ -20,5 +21,6 @@ def main():
     sys.exit(app.exec_())          # Start the event loop
 
 if __name__ == "__main__":
+    shutil.copyfile("python/config.py", "python/configBackup,py")
     main()
     print("Finished/n")
