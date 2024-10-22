@@ -20,4 +20,14 @@ import pyautogui
 #     time.sleep(1)
 
 # _________________________________________________________________________________________
+mytime =time.time()
+s = DAD_Utils.locateAllOnScreen('marketChecked',region=config.ssMarketRoll)
+if s:
+    print(len(s))
+else:
+    print("NO")
 
+mytime2 = time.time()
+
+
+print(mytime2-mytime)

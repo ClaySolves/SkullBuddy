@@ -11,6 +11,7 @@ import difflib
 import config
 import random
 import os
+import logging
 from pynput import keyboard, mouse
 
 #exception
@@ -55,14 +56,11 @@ class item():
     # search market gui for indexed item roll
     def searchRoll(self,i):
         roll = item.rolls[i]
-        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.15) 
-        pyautogui.click()
-
         pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
         pyautogui.click()
         pyautogui.typewrite(roll[1], interval=0.01)
 
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.15) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
         pyautogui.click()
 
 
@@ -74,9 +72,8 @@ class item():
 
     #Search market for item price # Assume that View Market tab is open
     def findPrice(self) -> bool: # True/False Success
-        s = f"Searching for {item.printItem(self)}"
-        logGui(s) 
-        logDebug(s)
+        print("Searching for ...")
+        item.printItem(self) 
         prices = []
 
         # reset filters, search rarity
@@ -588,8 +585,7 @@ def dumpInventory():
 
 #two obv logging func
 def logDebug(txt):
-    with open('debug.txt', 'a') as file:
-        file.write(f"{txt}\n")    
+    logging.debug(txt) 
 
 def logGui(txt):
     print(txt)
@@ -605,7 +601,7 @@ def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=
         else:
             res = pyautogui.locateOnScreen(img, region = region, confidence = confidence, grayscale = grayscale)
         return res 
-    except pyautogui.ImageNotFoundException as e:
+    except:
         logDebug("Failed!")
         return None
     
@@ -617,8 +613,9 @@ def locateAllOnScreen(img,region=config.getScreenRegion,grayscale=False,confiden
             res = pyautogui.locateAllOnScreen(f'img/{img}.png', region = region, confidence = confidence, grayscale = grayscale)
         else:
             res = pyautogui.locateAllOnScreen(img, region = region, confidence = confidence, grayscale = grayscale)
-        return res 
-    except pyautogui.ImageNotFoundException as e:
+        listRes = list(res)
+        return listRes
+    except:
         logDebug("Failed!")
         return None
         

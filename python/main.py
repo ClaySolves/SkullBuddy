@@ -12,6 +12,16 @@ import subprocess
 import keyboard
 import gui
 import shutil
+import logging
+
+logging.basicConfig(
+    filename = 'debug.log',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
+logging.info("Starting Program ...")
 
 def main():
     app = gui.QApplication(sys.argv)  # Create the application
@@ -22,5 +32,6 @@ def main():
 
 if __name__ == "__main__":
     shutil.copyfile("python/config.py", "python/configBackup,py")
+    logging.debug("Starting Program ...")
     main()
     print("Finished/n")
