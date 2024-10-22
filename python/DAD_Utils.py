@@ -588,7 +588,7 @@ def dumpInventory():
 
 #two obv logging func
 def logDebug(txt):
-    with open('debug/debug.txt', 'a') as file:
+    with open('debug.txt', 'a') as file:
         file.write(f"{txt}\n")    
 
 def logGui(txt):
