@@ -5,8 +5,8 @@ import time
 import pyautogui
 
 
-pyautogui.mouseInfo()
-
+# pyautogui.mouseInfo()
+DAD_Utils.loadTextFiles()
 
 # time.sleep(2)
 # item = DAD_Utils.getItemInfo()
@@ -22,15 +22,15 @@ pyautogui.mouseInfo()
 
 # _________________________________________________________________________________________
 
-# time.sleep(2)
-# mytime =time.time()
-# myItem = DAD_Utils.getItemInfo()
-# price = myItem.findPrice()
-# if price:
-#     print(price)
-# else:
-#     print("NO")
+time.sleep(2)
+mytime =time.time()
+myItem = DAD_Utils.getItemInfo()
+price = myItem.findPrice()
+if price:
+    print(price)
+else:
+    print("NO")
 
-# mytime2 = time.time()
+mytime2 = time.time()
 
-# print(mytime2-mytime)
+print(f"price found in :{mytime2-mytime} seconds")

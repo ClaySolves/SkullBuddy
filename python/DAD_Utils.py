@@ -351,8 +351,6 @@ def readPrices() -> list: # return list of prices
             newData.append((0,0,0))
 
     ss.putdata(newData)
-    ss.save('testAfter.png')
-
     numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
     txt = pytesseract.image_to_string(ss,config=numConfig)
     prices = txt.split()
@@ -378,18 +376,9 @@ def calcItemPrice(prices, method, ascending=True):
                 prev = price
 
     print(prices)
-
-    #Avg first 3
-    if method == 1:
-        useLen = priceLen if priceLen < 3 else 3
-
-        avg = 0
-        for price in prices[:useLen]:
-            avg += int(price)
-        return int(avg / useLen)
     
     #Lowest
-    elif method == 2:
+    if method == 1:
         lowest = int(prices[0])
         if priceLen > 1:
             for price in prices[1:]:
@@ -398,7 +387,7 @@ def calcItemPrice(prices, method, ascending=True):
         return lowest
 
     #Lowest, but remove outliers
-    elif method == 3:
+    elif method == 2:
         avg = 0
         useLen = priceLen if priceLen < 4 else 4
         for price in prices[:useLen]:
@@ -409,6 +398,15 @@ def calcItemPrice(prices, method, ascending=True):
             ret = int(price)
             if abs(ret - avg) < avg * 0.37:
                 return ret
+            
+    #Avg first 3
+    elif method == 3:
+        useLen = priceLen if priceLen < 3 else 3
+
+        avg = 0
+        for price in prices[:useLen]:
+            avg += int(price)
+        return int(avg / useLen)
 
 
 #Load global variables and clear debug file. MUST BE RAN!
