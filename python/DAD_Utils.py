@@ -21,12 +21,13 @@ class NoListingSlots(Exception):
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity):
+    def __init__(self, name, rolls, rarity, coords):
         item.name = name # item name
         item.rolls = rolls # item rolls
         item.rarity = rarity # item rarity
         item.price = None # item price
-        item.stashLocation = [None,None,None] # item location
+        item.coords = coords # item location
+        item.sold = False
 
     #Print item
     def printItem(self):
@@ -108,7 +109,7 @@ class item():
         pyautogui.click()
 
     #Search market for item price # Assume that View Market tab is open
-    def findPrice(self) -> bool: # True/False Success
+    def findPrice(self) -> bool: # True/False Price Find Success
         print("Searching for ...")
         item.printItem(self) 
         prices = []
@@ -157,6 +158,30 @@ class item():
         item.printItem(self) 
 
         return prices
+
+    #Lists item for found price
+    def listItem(self) -> bool: # True/False Listing Success
+        if item.price:
+            slots = getAvailSlots(0)
+            if(slots):
+                pyautogui.moveTo(item.stashLocation[1], item.stashLocation[0], duration=0.1) 
+                pyautogui.click()
+                time.sleep(0.4)
+
+                pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
+                pyautogui.click()
+                pyautogui.typewrite(str(item.price), interval=0.01)
+
+                pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
+                pyautogui.click()
+
+                pyautogui.moveTo(config.xConfirmListing, config.yConfirmListing, duration=0.1) 
+                pyautogui.click()
+                return True
+            else:
+                return False
+        return False
+
 
 # clears searched item rolls
 def clearSearchRoll():
@@ -460,7 +485,7 @@ def loadTextFiles():
     global allItems
     global allRolls
 
-    with open("debug/debug.txt", 'w') as file:
+    with open("debug.log", 'w') as file:
         pass
 
     with open("config/items.txt", 'r') as file:
@@ -617,7 +642,7 @@ def selectStash(market=False):
         stashNum = config.stashDump
     txt = 'SharedMenu' if stashNum < 0 else str(stashNum)
     search = txt + "Market" if market else txt
-    print(search)
+    logDebug(f"selecting stash: {search}.png")
     res = locateOnScreen(f"stash{search}", region=config.getStashRegion)
     if res:
         pyautogui.moveTo(res[0]+15,res[1]+15)
@@ -797,7 +822,7 @@ def detectItem(xAdd,yAdd,xStart=config.xStashDetect,yStart=config.yStashDetect):
 
 
 # Get the availible listing slots
-def getAvailListings():
+def getAvailSlots():
     #Take screenshot and sanitize for read text
     ss = pyautogui.screenshot(region=[config.xGetListings,config.yGetListings,config.x2GetListings,config.y2GetListings])
     ss = ss.convert("RGB")
@@ -883,9 +908,9 @@ def getItemTitle():
 
 #Listen item at price
 def listItem(price):
-    avail, slots = getAvailListings(0)
+    slots = getAvailSlots()
 
-    if(avail):
+    if(slots):
         pyautogui.moveTo(config.xStashStart, config.yStashStart, duration=0.1) 
         pyautogui.click()
         time.sleep(0.4)
@@ -1138,6 +1163,7 @@ def getItemInfo() -> item:
     #vars
     global allItems
     global allRolls
+    coords = []
     name = ""
     rolls = []
     foundName = False
@@ -1146,6 +1172,8 @@ def getItemInfo() -> item:
     space = locateOnScreen('findItem',confidence=0.95)
     if not space: return None
 
+    x, y = pyautogui.position()
+    coords = [x,y]
     #screenshot for text & rarity
     ssRegion = (int(space[0]) - 110, int(space[1]) - 360, 335, 550)
     rarity = getItemRarity(ssRegion)
@@ -1179,7 +1207,7 @@ def getItemInfo() -> item:
                     rolls.append(roll)
 
     #make item and return
-    foundItem = item(name,rolls,rarity)
+    foundItem = item(name,rolls,rarity,coords)
     return foundItem
 
 

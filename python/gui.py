@@ -5,6 +5,7 @@ import time
 import keyboard
 import subprocess
 import logging
+import eztest
 from io import StringIO
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
@@ -40,7 +41,7 @@ class WorkerThread(QThread):
         sys.stdout = GuiScriptStream(self.outputSignal)
 
         print("calling main loop")
-        DAD_Utils.mainLoop()
+        eztest.mainLoop()
         print("Done")
     
         sys.stdout = oldStdout
