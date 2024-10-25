@@ -22,18 +22,17 @@ DAD_Utils.loadTextFiles()
 
 # _________________________________________________________________________________________
 def mainLoop():
-    # DAD_Utils.loadTextFiles()
-    # time.sleep(2)
-    # mytime =time.time()
-    # myItem = DAD_Utils.getItemInfo()
-    # price = myItem.findPrice()
-    # if price:
-    #     print(price)
-    # else:
-    #     print("NO")
+    DAD_Utils.loadTextFiles()
+    time.sleep(2)
+    mytime =time.time()
+    myItem = DAD_Utils.getItemInfo()
+    myItem.findPrice()
+    DAD_Utils.returnMarketStash()
+    print(myItem.listItem())
 
-    # mytime2 = time.time()
 
-    # print(f"price found in {mytime2-mytime} seconds")
+    mytime2 = time.time()
 
-    print(DAD_Utils.selectStash(True))
+    print(f"price found in {mytime2-mytime} seconds")
+
+    # print(DAD_Utils.selectStash(True))

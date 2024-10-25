@@ -69,7 +69,6 @@ class item():
                 pyautogui.click()
                 numSearch += 1
 
-
     # search market gui for all item rolls
     def searchAllRolls(self):
         for i, roll in enumerate(item.rolls):
@@ -162,9 +161,10 @@ class item():
     #Lists item for found price
     def listItem(self) -> bool: # True/False Listing Success
         if item.price:
-            slots = getAvailSlots(0)
+            slots = getAvailSlots()
+            print(slots)
             if(slots):
-                pyautogui.moveTo(item.stashLocation[1], item.stashLocation[0], duration=0.1) 
+                pyautogui.moveTo(item.coords[1], item.coords[0], duration=0.1) 
                 pyautogui.click()
                 time.sleep(0.4)
 
@@ -635,7 +635,7 @@ def navToMarket():
 
 
 #Returns coords of selected stash
-def selectStash(market=False): 
+def selectStash(market=False) -> bool: # success/fail stash select
     if market:
         stashNum = config.stashSell
     else:
@@ -647,7 +647,9 @@ def selectStash(market=False):
     if res:
         pyautogui.moveTo(res[0]+15,res[1]+15)
         pyautogui.click()
-    return res
+        return True
+    else:
+        return False
 
 
 #moves item in coords to/from inventor
@@ -826,18 +828,19 @@ def getAvailSlots():
     #Take screenshot and sanitize for read text
     ss = pyautogui.screenshot(region=[config.xGetListings,config.yGetListings,config.x2GetListings,config.y2GetListings])
     ss = ss.convert("RGB")
-    data = ss.getdata()
-    newData = []
+    # data = ss.getdata()
+    # newData = []
 
-    for item in data:
-        avg = math.floor((item[0] + item[1] + item[2]) / 3)
-        bounds = avg * 0.05
-        if bounds > abs(avg - item[0]) and bounds > abs(avg - item[1]) and bounds > abs(avg - item[2]):
-            newData.append(item)
-        else:
-            newData.append((0,0,0))
+    # for item in data:
+    #     avg = math.floor((item[0] + item[1] + item[2]) / 3)
+    #     bounds = avg * 0.05
+    #     if bounds > abs(avg - item[0]) and bounds > abs(avg - item[1]) and bounds > abs(avg - item[2]):
+    #         newData.append(item)
+    #     else:
+    #         newData.append((0,0,0))
 
-    ss.putdata(newData)
+    # ss.putdata(newData)
+    ss.save('loltest.png')
     txt = pytesseract.image_to_string(ss,config="--psm 6")
     txt = txt.splitlines()
 
@@ -948,10 +951,9 @@ def returnMarketStash():
         pyautogui.moveTo(config.xMyListings, config.yMyListings, duration=0.1) 
         pyautogui.click()  
 
-    time.sleep(0.25)
 
-
-def seperateRollValues(s):
+# return value, roll name
+def seperateRollValues(s) -> list: #[val, rollName]
     # Use re.findall to extract both numbers and text in order
     parts = re.findall(r'\d+%?|\D+', s)
     

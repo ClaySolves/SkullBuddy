@@ -13,7 +13,7 @@ sigRollIncrease = [100, 0.4]
 sellMethod = 1
 rollMethod = 1
 stashDump = 2 # put -1 for shared stash
-stashSell = 2 # put -1 for shared stash  
+stashSell = 0 # put -1 for shared stash  
 execSearchPaths = [
     r'C:\Program Files',
     r'C:\Program Files (x86)',
