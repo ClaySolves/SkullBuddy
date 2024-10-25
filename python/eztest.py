@@ -33,4 +33,4 @@ else:
 
 mytime2 = time.time()
 
-print(f"price found in :{mytime2-mytime} seconds")
+print(f"price found in {mytime2-mytime} seconds")

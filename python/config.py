@@ -4,7 +4,7 @@ GAME_NAME = "DungeonCrawler.exe"
 pytessConfig = "--psm 6"
 
 undercutValue = 13
-
+sigRollIncrease = [100, 0.4]
 
 # values for sellMethod:
 # 1 -> Lowest Price

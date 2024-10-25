@@ -22,19 +22,52 @@ class NoListingSlots(Exception):
 class item():
     # constructor
     def __init__(self, name, rolls, rarity):
-        item.name = name
-        item.rolls = rolls
-        item.rarity = rarity
+        item.name = name # item name
+        item.rolls = rolls # item rolls
+        item.rarity = rarity # item rarity
+        item.price = None # item price
+        item.stashLocation = [None,None,None] # item location
 
     #Print item
     def printItem(self):
         print(f"{item.rarity} {item.name}")
         for roll in item.rolls:
+            rollPrint = ""
+            #check for % for print format
             if roll[2]:
-                if int(roll[0]) == 1: print(f"+ {roll[0]}.0% {roll[1]}")
-                else: print(f"+ {int(roll[0])/10:.1f}% {roll[1]}")
+                if int(roll[0]) == 1: rollPrint = f"+ {roll[0]}.0% {roll[1]}"
+                else: rollPrint = f"+ {int(roll[0])/10:.1f}% {roll[1]}"
             else:
-                 print(f"+ {roll[0]} {roll[1]}")
+                 rollPrint = f"+ {roll[0]} {roll[1]}"
+            #check for good roll (added after price check)
+            if roll[3]:
+                rollPrint += " <-- GOOD ROLL FOUND!"
+            print(rollPrint)
+
+            if item.price:
+                print(f"Found Price: {item.price} Gold")
+
+# search market gui for all item rolls
+    def searchGoodRolls(self):
+        numSearch = 0
+        for i, roll in enumerate(item.rolls):
+
+            if i == 0:
+                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+                pyautogui.click()                
+
+                pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+                pyautogui.click()
+
+            if roll[3]:
+                pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+                pyautogui.click()
+                pyautogui.typewrite(roll[1], interval=0.01)
+
+                pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch), duration=0.15) 
+                pyautogui.click()
+                numSearch += 1
+
 
     # search market gui for all item rolls
     def searchAllRolls(self):
@@ -110,12 +143,18 @@ class item():
         for i, roll in enumerate(item.rolls):
             item.searchRoll(self,i)
             foundPrice = recordDisplayedPrice()
-            if foundPrice: prices.append(foundPrice)
+            if foundPrice: 
+                prices.append(foundPrice)
+                good = checkPriceRoll(prices[0],foundPrice)
+                if not roll[3]: item.rolls[i][3] = good
 
         #store all roll price
-        item.searchAllRolls(self)
+        item.searchGoodRolls(self)
         foundPrice = recordDisplayedPrice()
-        if foundPrice: prices.append(foundPrice)
+        if foundPrice: item.price = foundPrice
+        else: item.price = min(prices)
+        
+        item.printItem(self) 
 
         return prices
 
@@ -135,6 +174,13 @@ def clearSearchRoll():
     if not checks:
         return True
     clearSearchRoll()
+
+# check price for significant increase
+def checkPriceRoll(basePrice, rollPrice) -> bool: # True/False good item roll
+    if basePrice + config.sigRollIncrease[0] < rollPrice or basePrice + int(config.sigRollIncrease[1] * basePrice) < rollPrice:
+        return True
+    else:
+        return False
 
 # searches market and finds price
 def recordDisplayedPrice() -> int: # Price/None
@@ -1129,6 +1175,7 @@ def getItemInfo() -> item:
                 else:
                     roll.append(0)
                 if roll[0].isdigit():
+                    roll.append(None)
                     rolls.append(roll)
 
     #make item and return
