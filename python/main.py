@@ -24,14 +24,14 @@ logging.basicConfig(
 logging.info("Starting Program ...")
 
 def main():
+    shutil.copyfile("python/config.py", "python/configBackup,py")
+    logging.debug("Starting Program ...")
     app = gui.QApplication(sys.argv)  # Create the application
     main_window = gui.MainWindow()     # Create an instance of MainWindow
     main_window.show()              # Show the window
     keyboard.add_hotkey('ctrl+q', main_window.closeApp())
     sys.exit(app.exec_())          # Start the event loop
+    print("App Closed/n")
 
 if __name__ == "__main__":
-    shutil.copyfile("python/config.py", "python/configBackup,py")
-    logging.debug("Starting Program ...")
     main()
-    print("Finished/n")

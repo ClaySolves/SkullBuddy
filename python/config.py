@@ -3,7 +3,7 @@ GAME_NAME = "DungeonCrawler.exe"
 
 pytessConfig = "--psm 6"
 
-undercutValue = 13
+undercutValue = -1 # -1 for -1 under price, float val for percent undercut, int for static undercut
 sigRollIncrease = [100, 0.4]
 
 # values for sellMethod:
@@ -29,7 +29,7 @@ ssMarketExpireTime = [1262, 322, 200, 630]
 ssMarketRollSearch = [1470, 231, 130, 20]
 ssRaritySearch = [286, 193, 130, 22]
 ssItemNameSearch = [49, 192, 130, 22]
-
+xMarketSearchNameRairty, yMarketSearchNameRairty = 945,469
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40
 xGatherGold, yGatherGold = 300, 988

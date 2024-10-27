@@ -7,7 +7,7 @@ import pyautogui
 
 # pyautogui.mouseInfo()
 DAD_Utils.loadTextFiles()
-
+# pyautogui.mouseInfo()
 # time.sleep(2)
 # item = DAD_Utils.getItemInfo()
 # item.findPrice()
@@ -22,17 +22,15 @@ DAD_Utils.loadTextFiles()
 
 # _________________________________________________________________________________________
 def mainLoop():
-    DAD_Utils.loadTextFiles()
+
     time.sleep(2)
-    mytime =time.time()
+    mytime = time.time()
     myItem = DAD_Utils.getItemInfo()
     myItem.findPrice()
     DAD_Utils.returnMarketStash()
-    print(myItem.listItem())
-
-
+    myItem.listItem()
     mytime2 = time.time()
+    myItem.printItem()
+    print(f"Listed item in {mytime2-mytime:0.1f} seconds")
 
-    print(f"price found in {mytime2-mytime} seconds")
-
-    # print(DAD_Utils.selectStash(True))
+    # print(DAD_Utils.returnMarketStash())
