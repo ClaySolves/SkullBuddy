@@ -41,7 +41,7 @@ class WorkerThread(QThread):
         sys.stdout = GuiScriptStream(self.outputSignal)
 
         print("calling main loop")
-        eztest.mainLoop()
+        DAD_Utils.searchStash()
         print("Done")
     
         sys.stdout = oldStdout

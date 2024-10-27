@@ -22,8 +22,6 @@ DAD_Utils.loadTextFiles()
 
 # _________________________________________________________________________________________
 def mainLoop():
-
-    time.sleep(2)
     mytime = time.time()
     myItem = DAD_Utils.getItemInfo()
     myItem.findPrice()

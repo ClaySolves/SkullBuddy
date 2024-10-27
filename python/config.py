@@ -14,12 +14,8 @@ sellMethod = 1
 rollMethod = 1
 stashDump = 2 # put -1 for shared stash
 stashSell = 0 # put -1 for shared stash  
-execSearchPaths = [
-    r'C:\Program Files',
-    r'C:\Program Files (x86)',
-    r'C:\Games',
-]
-
+sellWidth = 12
+sellHeight = 6
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
