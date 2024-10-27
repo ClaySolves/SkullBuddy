@@ -9,7 +9,9 @@ import eztest
 from io import StringIO
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator
+
+logger = logging.getLogger()  # Get the root logger configured in main.py
 
 #basic exception
 class error(Exception):
@@ -40,9 +42,9 @@ class WorkerThread(QThread):
         oldStdout = sys.stdout
         sys.stdout = GuiScriptStream(self.outputSignal)
 
-        print("calling main loop")
+        DAD_Utils.logGui("Starting Squirebot...")
         DAD_Utils.searchStash()
-        print("Done")
+        DAD_Utils.logGui("Finished!")
     
         sys.stdout = oldStdout
 
@@ -67,6 +69,29 @@ class MainWindow(QMainWindow):
         # labels
         self.helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
         self.methodLabel = QLabel("Select Selling Method:")
+        self.stashLabel = QLabel("Enter Stash Info:")
+
+        # line edits
+        intValidIndex = QIntValidator(-1,10)
+        intValidHeight = QIntValidator(0,20)
+        intValidWidth = QIntValidator(0,12)
+        doubleValid = QDoubleValidator(-1.0,100.0,1)
+
+        self.undercut = QLineEdit()
+        self.undercut.setPlaceholderText("Enter Undercut Value")
+        self.undercut.setValidator(doubleValid)
+
+        self.stashIndex = QLineEdit()
+        self.stashIndex.setPlaceholderText("Enter Sell Stash")    
+        self.stashIndex.setValidator(intValidIndex) 
+
+        self.stashHeight = QLineEdit()
+        self.stashHeight.setPlaceholderText("Enter Sell Height")
+        self.stashHeight.setValidator(intValidHeight)  
+
+        self.stashWidth = QLineEdit()
+        self.stashWidth.setPlaceholderText("Enter Sell Width")
+        self.stashWidth.setValidator(intValidWidth)
 
         # Radio Buttons
         self.radioMethodSelect = {
@@ -83,8 +108,15 @@ class MainWindow(QMainWindow):
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
+        settingsLayout.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
+        settingsLayout.addWidget(self.undercut)
+
+        settingsLayout.addWidget(self.stashLabel)
+        settingsLayout.addWidget(self.stashIndex)
+        settingsLayout.addWidget(self.stashHeight)
+        settingsLayout.addWidget(self.stashWidth)
         settingsLayout.addWidget(self.sellButton)
 
         # Main Layout
@@ -99,19 +131,37 @@ class MainWindow(QMainWindow):
 
     # Sell Items Button
     def handleSellItemButton(self):
+        #handle config updates from settings
         updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
-        
         if updateMethod: 
             DAD_Utils.logDebug(f"Updating sellMethod ... METHOD: {updateMethod}")
             DAD_Utils.updateConfig("sellMethod",updateMethod)
- 
-        try:
+
+        txtRead = self.stashIndex.text()
+        if txtRead:
+            DAD_Utils.updateConfig("stashSell",int(txtRead))
+
+        txtRead = self.stashWidth.text()
+        if txtRead:
+            DAD_Utils.updateConfig("sellWidth",int(txtRead))
+
+        txtRead = self.stashHeight.text()
+        if txtRead:
+            DAD_Utils.updateConfig("sellHeight",int(txtRead))
+
+        txtRead = self.undercut.text()
+        if txtRead:
+            DAD_Utils.updateConfig("undercutValue",int(txtRead))
+
+        # Run thread
+        try:    
+            logger.debug("Starting thread...")
             self.thread = WorkerThread()
             self.thread.outputSignal.connect(self.appendLog)
             self.thread.start()
-            print("Thread started!")  
         except error:
-            print("Error, Exiting!")  
+            logger.debug("Error starting thread!")
+            DAD_Utils.logGui("Error, Exiting!")
 
     # Log txt to GUI log
     def appendLog(self, txt): # append output to QTextEdit log
@@ -119,6 +169,6 @@ class MainWindow(QMainWindow):
 
     # Close GUI
     def closeApp(self):
-        print("Exiting...")
+        DAD_Utils.logGui("Exiting...")
         QApplication.quit()
             

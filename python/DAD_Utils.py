@@ -169,7 +169,7 @@ class item():
                 else:
                     finalPrice = price - undercut
             logger.debug(f"{finalPrice} found")
-            
+
             slots = getAvailSlots()
           
             if(slots):
@@ -682,7 +682,7 @@ def gatherSoldListings():
 # Lookup and return input_string from phrase_list
 def findItem(input_string, phrase_list,n=1):
     closest_match = difflib.get_close_matches(input_string, phrase_list, n=n, cutoff=0.6)
-    logger.debug("Found: " + str(closest_match) + "\n")
+    logger.debug(f"Found: {closest_match}")
     return closest_match[0] if closest_match else None
 
 

@@ -2,20 +2,22 @@
 GAME_NAME = "DungeonCrawler.exe"
 
 pytessConfig = "--psm 6"
-
-undercutValue = -1 # -1 for -1 under price, float val for percent undercut, int for static undercut
+# -1 for -1 under price, float val for percent undercut, int for static undercut
+undercutValue = -1 
 sigRollIncrease = [100, 0.4]
 
 # values for sellMethod:
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 2
+sellMethod = 1
 rollMethod = 1
-stashDump = 2 # put -1 for shared stash
-stashSell = 0 # put -1 for shared stash  
+# stashDump: -1 for shared stash, 0-10 are numbered with 0 default
+stashDump = 2 
+# stashSell: -1 for shared stash, 0-10 are numbered with 0 default
+stashSell = 2
 sellWidth = 12
-sellHeight = 6
+sellHeight = 8
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
@@ -58,7 +60,7 @@ xChangeClass, yChangeClass = 1852, 1010
 StashCoords = (1289, 0, 620, 1059)
 xStashStart, yStashStart = 1386, 209
 xTitleAdd, yTitleAdd = 352, 75
-xPriceCoords, yPriceCoords = 1452, 324 # for add its x + 60 y + 150
+xPriceCoords, yPriceCoords = 1452, 324 
 xResetFilters, yResetFilters = 1790, 201
 xSearchPrice, ySearchPrice = 1788, 273
 numComps = 3
