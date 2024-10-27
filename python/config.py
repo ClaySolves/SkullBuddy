@@ -10,7 +10,7 @@ sigRollIncrease = [100, 0.4]
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 1
+sellMethod = 2
 rollMethod = 1
 stashDump = 2 # put -1 for shared stash
 stashSell = 0 # put -1 for shared stash  

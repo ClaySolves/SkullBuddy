@@ -168,8 +168,10 @@ class item():
                     finalPrice = price - (price * undercut)
                 else:
                     finalPrice = price - undercut
+            logger.debug(f"{finalPrice} found")
+            
             slots = getAvailSlots()
-            print(slots)
+          
             if(slots):
                 pyautogui.moveTo(item.coords[0], item.coords[1], duration=0.1) 
                 pyautogui.click()
@@ -177,14 +179,14 @@ class item():
 
                 pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
                 pyautogui.click()
-                pyautogui.typewrite(str(item.price), interval=0.01)
+                pyautogui.typewrite(str(finalPrice), interval=0.01)
 
                 pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
                 pyautogui.click()
 
                 pyautogui.moveTo(config.xConfirmListing, config.yConfirmListing, duration=0.1) 
                 pyautogui.click()
-                logger.debug(f"Listed for ")
+                logger.debug(f"Listed for {finalPrice}")
                 return True
             else:
                 logger.debug(f"No Slots Available, can't list")
@@ -691,6 +693,7 @@ def returnMarketStash():
         pyautogui.moveTo(config.xMyListings, config.yMyListings, duration=0.1) 
         pyautogui.click()  
         if not confirmGameScreenChange(ss):
+            logger.debug("attempting to switch to market listings...")
             work()
         else: 
             return True
