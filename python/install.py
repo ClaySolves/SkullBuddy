@@ -52,3 +52,6 @@ def install():
     # Step 3: Write the path to the config file
     writeConfig("pytessPath",tessPath)
     print("Installation complete.")
+
+if __name__ == "__main__":
+    install()
