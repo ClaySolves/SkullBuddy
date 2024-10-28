@@ -35,17 +35,14 @@ def writeConfig(var,newVal):
     with open("python/config.py","w") as file:
         for line in lines:
             if line.startswith(var):
-                if isinstance(newVal,str):
-                    file.write(f'{var} = "{newVal}"\n')
-                else:
-                    file.write(f'{var} = {newVal}\n')
+                file.write(f'{var} = {newVal}\n')
             else:
                 file.write(line)
 
 def findPytessPath():
     """Locate the Tesseract OCR executable path."""
     # find pytess path
-    tessPath = "r" + shutil.which(findTesseractInstall())
+    tessPath = 'r"' + shutil.which(findTesseractInstall()) + '"'
     
     # if can't find exit
     if not tessPath:
