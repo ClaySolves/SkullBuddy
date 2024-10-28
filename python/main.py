@@ -37,7 +37,7 @@ def closeHotkey(app):
 
 
 def main():
-    shutil.copyfile("python/config.py", "python/configBackup,py")
+    shutil.copyfile("python/config.py", "config/configBackup.py")
     logging.debug("Starting Program ...")
     app = gui.QApplication(sys.argv)  # Create the application
     main_window = gui.MainWindow()     # Create an instance of MainWindow
