@@ -23,7 +23,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-pytesseract.pytesseract.tesseract_cmd = config.pytessPath
+pytesseract.pytesseract.tesseract_cmd = shutil.which("tesseract")
 
 # Close GUI
 def closeApp(app):
