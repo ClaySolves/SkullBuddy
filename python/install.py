@@ -1,6 +1,23 @@
 import shutil
 import subprocess
 import sys
+import os
+
+tessPaths = [
+    r"C:\Program Files\Tesseract-OCR",
+    r"C:\Program Files (x86)\Tesseract-OCR",
+    r"C:\Tesseract-OCR",
+]
+
+
+# Function to find Tesseract installation
+def findTesseractInstall():
+    for path in tessPaths:
+        tessExe = os.path.join(path, "tesseract.exe")
+        if os.path.isfile(tessExe):
+            return tessExe
+    return None
+
 
 def installRequirements():
     # install requirements.txt
@@ -28,11 +45,11 @@ def writeConfig(var,newVal):
 def findPytessPath():
     """Locate the Tesseract OCR executable path."""
     # find pytess path
-    tessPath = shutil.which("tesseract")
+    tessPath = shutil.which(findTesseractInstall())
     
     # if can't find exit
     if not tessPath:
-        print("NO PYTESS???? run 'pip install pytesseract' in your terminal right now and restart ")
+        print("NO TESSERACT???? Go download tesseract-OCR RIGHT NOW!!  ")
         sys.exit(1)
     
     return tessPath

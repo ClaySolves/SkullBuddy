@@ -1,6 +1,6 @@
 #storage for GUI navigation
 GAME_NAME = "DungeonCrawler.exe"
-pytessPath = ""
+pytessPath = "C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 undercutValue = -1
