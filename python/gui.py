@@ -1,11 +1,11 @@
 from PyQt5.QtGui import QKeyEvent
 import DAD_Utils
 import sys
+import config
 import time
 import keyboard
 import subprocess
 import logging
-import eztest
 from io import StringIO
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
@@ -75,22 +75,26 @@ class MainWindow(QMainWindow):
         intValidIndex = QIntValidator(-1,10)
         intValidHeight = QIntValidator(0,20)
         intValidWidth = QIntValidator(0,12)
-        doubleValid = QDoubleValidator(-1.0,100.0,1)
+        doubleValid = QDoubleValidator(-1.0,100.0,2)
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
+        self.undercut.setText(str(config.undercutValue))
         self.undercut.setValidator(doubleValid)
 
         self.stashIndex = QLineEdit()
-        self.stashIndex.setPlaceholderText("Enter Sell Stash")    
+        self.stashIndex.setPlaceholderText("Enter Sell Stash")
+        self.stashIndex.setText(str(config.stashSell))
         self.stashIndex.setValidator(intValidIndex) 
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
+        self.stashHeight.setText(str(config.sellHeight))
         self.stashHeight.setValidator(intValidHeight)  
 
         self.stashWidth = QLineEdit()
         self.stashWidth.setPlaceholderText("Enter Sell Width")
+        self.stashWidth.setText(str(config.sellWidth))
         self.stashWidth.setValidator(intValidWidth)
 
         # Radio Buttons

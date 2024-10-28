@@ -161,6 +161,7 @@ class item():
         price = item.price
         if price:
             undercut = config.undercutValue
+            logger.debug(f"{undercut} undercut value")
             if undercut < 0:
                 finalPrice = price - 1
             else:
@@ -169,28 +170,23 @@ class item():
                 else:
                     finalPrice = price - undercut
             logger.debug(f"{finalPrice} found")
+    
+            pyautogui.moveTo(item.coords[0], item.coords[1], duration=0.1) 
+            pyautogui.click()
+            time.sleep(0.4)
 
-            slots = getAvailSlots()
-          
-            if(slots):
-                pyautogui.moveTo(item.coords[0], item.coords[1], duration=0.1) 
-                pyautogui.click()
-                time.sleep(0.4)
+            pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
+            pyautogui.click()
+            pyautogui.typewrite(str(finalPrice), interval=0.01)
 
-                pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
-                pyautogui.click()
-                pyautogui.typewrite(str(finalPrice), interval=0.01)
+            pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
+            pyautogui.click()
 
-                pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
-                pyautogui.click()
+            pyautogui.moveTo(config.xConfirmListing, config.yConfirmListing, duration=0.1) 
+            pyautogui.click()
+            logger.debug(f"Listed for {finalPrice}")
+            return True
 
-                pyautogui.moveTo(config.xConfirmListing, config.yConfirmListing, duration=0.1) 
-                pyautogui.click()
-                logger.debug(f"Listed for {finalPrice}")
-                return True
-            else:
-                logger.debug(f"No Slots Available, can't list")
-                return False
         logger.debug(f"CANNOT LIST AN ITEM WITH NO PRICE!")
         return False
 
@@ -228,6 +224,7 @@ def recordDisplayedPrice() -> int: # Price/None
     if searched:
         price = getItemCost()
         logger.debug(f"found price {price}!")
+        logGui(f"Researching prices... Found {price}...")
         return price
     else: return None
 
@@ -526,7 +523,7 @@ def logGui(txt):
 
 # Return location and santize ImageNotFound error
 def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=0.99):
-    logger.debug(f"Searching for Image {img}...")
+    logger.debug(f"Searching for Image...")
     strKey = isinstance(img, str)
     try:
         if strKey:
@@ -609,9 +606,9 @@ def getItemRarity(region=config.firstSlotItemDisplayRegion):
             ret = 'Unique'
 
     if ret:
-        logger.debug(f"Found {ret} item\n")  
+        logger.debug(f"Found {ret} item")  
     else:
-        logger.debug("ERROR!!! NO RARITY FOUND\n") 
+        logger.debug("ERROR!!! NO RARITY FOUND") 
 
     return ret   
 
@@ -656,7 +653,7 @@ def getAvailSlots():
         else:
             continue
 
-    logger.debug(f"{slots} listings availible\n")
+    logger.debug(f"{slots} listings availible")
 
     return slots
 
@@ -751,21 +748,27 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash():
-    for y in range(config.sellHeight):
-        for x in range(config.sellWidth):
-      
-            xHome = config.xStashStart
-            yHome = config.yStashStart
-            newY = yHome + (40 *y)
-            newX = xHome +(40 *x)
-            logger.debug("Searching stash at x:{newX} y:{newY}")
-            if not detectItem(newX,newY):
-                continue
-
-            pyautogui.moveTo(newX, newY)
-            sucess = mainLoop()
-            logGui(f"listed item: {sucess}")
-            
+    loadTextFiles()
+    if getAvailSlots():
+        for y in range(config.sellHeight):
+            for x in range(config.sellWidth):
+                
+                xHome = config.xStashStart
+                yHome = config.yStashStart
+                newY = yHome + (40 *y)
+                newX = xHome +(40 *x)
+                logger.debug(f"Searching stash at x:{newX} y:{newY}")
+                if not detectItem(newX,newY):
+                    continue
+                #Item found, hover and check listing slot
+                pyautogui.moveTo(newX, newY)
+                sucess = mainLoop()
+                logGui(f"listed item: {sucess}")
+                if getAvailSlots(): pass 
+                else: return False
+             
+    else:
+        logGui(f"No Listing slots avialible...")
 
 
 # creates and returns item class from hovered item 
@@ -777,19 +780,20 @@ def getItemInfo() -> item:
     name = ""
     rolls = []
     foundName = False
+    logGui("Reading item...")
 
     #check if item is on screen
     space = locateOnScreen('findItem',confidence=0.95)
     if not space: return None
-
+    
     x, y = pyautogui.position()
     coords = [x,y]
-    print(f"found coords {coords}")
+    
     #screenshot for text & rarity
     ssRegion = (int(space[0]) - 110, int(space[1]) - 360, 335, 550)
+    logGui("Getting item info...")
     rarity = getItemRarity(ssRegion)
     ss = pyautogui.screenshot(region=ssRegion)
-    ss.save("lestest.png")
     text = pytesseract.image_to_string(ss)
     name = ""
     rolls = []
@@ -797,6 +801,7 @@ def getItemInfo() -> item:
     lines = text.splitlines()
 
     #iterate read text
+    logGui("Getting item rolls...")
     for line in lines:
         logDebug(f"lines: {lines}")
         if not foundName:
@@ -824,7 +829,7 @@ def getItemInfo() -> item:
 # main function
 # reads hovered item info, lists on market
 def mainLoop() -> bool: # True/False listing success
-    time.sleep(2)
+    time.sleep(config.sleepTime / 5)
     mytime = time.time()
     myItem = getItemInfo()
     myItem.findPrice()
@@ -833,4 +838,5 @@ def mainLoop() -> bool: # True/False listing success
     mytime2 = time.time()
     myItem.printItem()
     logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")
+    time.sleep(config.sleepTime)
     return True
