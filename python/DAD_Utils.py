@@ -164,11 +164,15 @@ class item():
             logger.debug(f"{undercut} undercut value")
             if undercut < 0:
                 finalPrice = price - 1
+                print("happen1")
             else:
-                if undercut is float:
-                    finalPrice = price - (price * undercut)
+                if isinstance(undercut,float):
+                    finalPrice = int(price - (price * undercut))
+                    finalPrice = int(finalPrice)
+                    print("happen2")
                 else:
                     finalPrice = price - undercut
+                    print("happen3")
             logger.debug(f"{finalPrice} found")
     
             pyautogui.moveTo(item.coords[0], item.coords[1], duration=0.1) 
@@ -177,7 +181,8 @@ class item():
 
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
-            pyautogui.typewrite(str(finalPrice), interval=0.01)
+            logGui(f"Listing item for {finalPrice}")
+            pyautogui.typewrite(str(finalPrice), interval=0.06)
 
             pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
             pyautogui.click()

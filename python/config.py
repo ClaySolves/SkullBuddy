@@ -3,7 +3,7 @@ GAME_NAME = "DungeonCrawler.exe"
 
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
-undercutValue = 20
+undercutValue = 0.12
 sleepTime = 1.5
 sigRollIncrease = [100, 0.4]
 
@@ -11,7 +11,7 @@ sigRollIncrease = [100, 0.4]
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 1
+sellMethod = 3
 rollMethod = 1
 # stashDump: -1 for shared stash, 0-10 are numbered with 0 default
 stashDump = 2 

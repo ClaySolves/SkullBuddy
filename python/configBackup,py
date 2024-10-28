@@ -3,7 +3,7 @@ GAME_NAME = "DungeonCrawler.exe"
 
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
-undercutValue = 20
+undercutValue = 0.12
 sleepTime = 1.5
 sigRollIncrease = [100, 0.4]
 

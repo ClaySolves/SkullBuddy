@@ -7,9 +7,9 @@ import keyboard
 import subprocess
 import logging
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
 
@@ -107,11 +107,11 @@ class MainWindow(QMainWindow):
         
         # Log Layout
         logLayout = QVBoxLayout()
-        logLayout.addWidget(self.helpLabel)
         logLayout.addWidget(self.output_log)
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
+        settingsLayout.addWidget(self.helpLabel)
         settingsLayout.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
@@ -155,7 +155,10 @@ class MainWindow(QMainWindow):
 
         txtRead = self.undercut.text()
         if txtRead:
-            DAD_Utils.updateConfig("undercutValue",int(txtRead))
+            if "." in txtRead:
+                DAD_Utils.updateConfig("undercutValue",float(txtRead))
+            else:
+                DAD_Utils.updateConfig("undercutValue",int(txtRead))
 
         # Run thread
         try:    
@@ -171,8 +174,4 @@ class MainWindow(QMainWindow):
     def appendLog(self, txt): # append output to QTextEdit log
         self.output_log.append(txt)
 
-    # Close GUI
-    def closeApp(self):
-        DAD_Utils.logGui("Exiting...")
-        QApplication.quit()
-            
+      
