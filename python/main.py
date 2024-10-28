@@ -1,6 +1,7 @@
 import math
 import sys
 import numbers
+import config
 import psutil
 import pyautogui
 import time
@@ -21,6 +22,8 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+pytesseract.pytesseract.tesseract_cmd = config.pytessPath
 
 # Close GUI
 def closeApp(app):
