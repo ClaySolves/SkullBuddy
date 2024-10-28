@@ -46,7 +46,7 @@ def findPytessPath():
     
     # if can't find exit
     if not tessPath:
-        print("NO TESSERACT???? Go download tesseract-OCR RIGHT NOW!!  ")
+        print("NO TESSERACT?????????? Bro can you not follow simple instructions? what are you even doing...\n Go download tesseract installer from https://github.com/UB-Mannheim/tesseract/releases NOW!")
         sys.exit(1)
     
     return tessPath
