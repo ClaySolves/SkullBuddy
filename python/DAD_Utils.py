@@ -45,8 +45,9 @@ class item():
             if roll[3]:
                 rollPrint += " <-- GOOD ROLL FOUND!"
             logGui(rollPrint)
-            if item.price:
-                logGui(f"Found Price: {item.price} Gold")
+            
+        if item.price:
+            logGui(f"Found Price: {item.price} Gold")
 
 # search market gui for all item rolls
     def searchGoodRolls(self) -> bool: #True/False searched anything

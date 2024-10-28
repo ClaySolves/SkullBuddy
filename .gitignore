@@ -7,3 +7,5 @@ python/*.pyc
 
 toDoList.txt
 
+debug.log
+python/eztest.py
