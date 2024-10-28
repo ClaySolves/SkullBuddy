@@ -1,7 +1,6 @@
 import shutil
 import subprocess
 import sys
-import DAD_Utils
 
 def installRequirements():
     # install requirements.txt
@@ -11,6 +10,20 @@ def installRequirements():
     except subprocess.CalledProcessError:
         print("Failed to install dependencies from requirements.txt.")
         sys.exit(1)
+
+def writeConfig(var,newVal):
+    with open("python/config.py","r") as file:
+        lines = file.readlines()
+
+    with open("python/config.py","w") as file:
+        for line in lines:
+            if line.startswith(var):
+                if isinstance(newVal,str):
+                    file.write(f'{var} = "{newVal}"\n')
+                else:
+                    file.write(f'{var} = {newVal}\n')
+            else:
+                file.write(line)
 
 def findPytessPath():
     """Locate the Tesseract OCR executable path."""
@@ -37,5 +50,5 @@ def install():
         sys.exit(1)
     
     # Step 3: Write the path to the config file
-    DAD_Utils.updateConfig("pytessPath",tessPath)
+    writeConfig("pytessPath",tessPath)
     print("Installation complete.")
