@@ -2,6 +2,7 @@ import shutil
 import subprocess
 import sys
 import os
+import time
 
 tessPaths = [
     r"C:\Program Files\Tesseract-OCR",
@@ -18,6 +19,14 @@ def findTesseractInstall():
             return tessExe
     return None
 
+def buildExec():
+    try:
+        print("Building Executable...")
+        subprocess.check_call([sys.executable, "-m", "PyInstaller", "main.spec"])
+        print("Build Complete!")
+    except subprocess.CalledProcessError:
+        print("Failed to build executable")
+        sys.exit(1)
 
 def installRequirements():
     # install requirements.txt
@@ -53,6 +62,7 @@ def findPytessPath():
 
 def install():
     # Step 1: Install dependencies from requirements.txt
+    time1 = time.time()
     print("Installing dependencies...")
     installRequirements()
     
@@ -65,7 +75,10 @@ def install():
     
     # Step 3: Write the path to the config file
     writeConfig("pytessPath",tessPath)
-    print("Installation complete.")
+
+    buildExec()
+    time2 = time.time()
+    print(f"Installation complete in {time2-time1:.1f} seconds. Check dist for SquireBot.exe")
 
 if __name__ == "__main__":
     install()
