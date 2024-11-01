@@ -20,20 +20,20 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 class item():
     # constructor
     def __init__(self, name, rolls, rarity, coords):
-        item.name = name # item name
-        item.rolls = rolls # item rolls
-        item.rarity = rarity # item rarity
-        item.price = None # item price
-        item.coords = coords # item location
-        item.sold = False
-        item.goodRoll = None
+        self.name = name # item name
+        self.rolls = rolls # item rolls
+        self.rarity = rarity # item rarity
+        self.price = None # item price
+        self.coords = coords # item location
+        self.sold = False
+        self.goodRoll = None
 
         logger.debug("New item created")
 
     #Print item
     def printItem(self):
-        logGui(f"{item.rarity} {item.name}")
-        for roll in item.rolls:
+        logGui(f"{self.rarity} {self.name}")
+        for roll in self.rolls:
             rollPrint = ""
             #check for % for print format
             if roll[2]:
@@ -46,8 +46,12 @@ class item():
                 rollPrint += " <-- GOOD ROLL FOUND!"
             logGui(rollPrint)
             
-        if item.price:
-            logGui(f"Found Price: {item.price} Gold")
+        if self.price:
+            logGui(f"Found Price: {self.price} Gold")
+
+    def getItem(self):
+        value = [self.name, self.rolls, self.rarity, self.coords]
+        return value
 
 # search market gui for all item rolls
     def searchGoodRolls(self) -> bool: #True/False searched anything
@@ -58,7 +62,7 @@ class item():
         pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
         pyautogui.click()
 
-        for roll in item.rolls:
+        for roll in self.rolls:
             if roll[3]:
                 pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
                 pyautogui.click()
@@ -72,7 +76,7 @@ class item():
 
     # search market gui for all item rolls
     def searchAllRolls(self):
-        for i, roll in enumerate(item.rolls):
+        for i, roll in enumerate(self.rolls):
             if i == 0:
                 pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
                 pyautogui.click()                
@@ -96,7 +100,7 @@ class item():
         pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
         pyautogui.click()
 
-        roll = item.rolls[i]
+        roll = self.rolls[i]
         pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
         pyautogui.click()
         pyautogui.typewrite(roll[1], interval=0.01)
@@ -107,7 +111,7 @@ class item():
 
     # search item name and rairty from market stash GUI
     def searchFromMarketStash(self):
-        pyautogui.moveTo(item.coords[0], item.coords[1]) 
+        pyautogui.moveTo(self.coords[0], self.coords[1]) 
         pyautogui.click() 
         time.sleep(0.1)
 
@@ -123,13 +127,13 @@ class item():
         
     #Search market for item price # Assume that View Market tab is open
     def findPrice(self) -> bool: # True/False Price Find Success
-        logger.debug(f"Searching for {item.name} price")
-        logGui(f"Searching market for {item.rarity} {item.name}")
+        logger.debug(f"Searching for {self.name} price")
+        logGui(f"Searching market for {self.rarity} {self.name}")
 
         prices = []
         foundPrice = None
         # reset filters, search rarity
-        item.searchFromMarketStash(self)
+        self.searchFromMarketStash(self)
 
         #store base price
         while foundPrice is None:
@@ -138,28 +142,28 @@ class item():
         logger.debug(f"Found price {foundPrice} base price")
 
         #store price of each roll
-        for i, roll in enumerate(item.rolls):
-            item.searchRoll(self,i)
+        for i, roll in enumerate(self.rolls):
+            self.searchRoll(self,i)
             foundPrice = recordDisplayedPrice()
             if foundPrice: 
                 prices.append(foundPrice)
                 good = checkPriceRoll(prices[0],foundPrice)
-                if good and item.goodRoll is None: item.goodRoll = good
-                if not roll[3]: item.rolls[i][3] = good
+                if good and self.goodRoll is None: self.goodRoll = good
+                if not roll[3]: self.rolls[i][3] = good
             logger.debug(f"Found price {foundPrice} for roll {i+1}")
 
         #store all roll price
-        if item.goodRoll and len(item.rolls) > 1: 
-            item.searchGoodRolls(self)
+        if self.goodRoll and len(self.rolls) > 1: 
+            self.searchGoodRolls(self)
             foundPrice = recordDisplayedPrice()
-            if foundPrice: item.price = foundPrice
+            if foundPrice: self.price = foundPrice
             logger.debug(f"Found price {foundPrice} for good rolls")
-        else: item.price = min(prices)
-        logger.debug(f"Found price {item.price} for {item.rarity} {item.name}")
+        else: self.price = min(prices)
+        logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
 
     #Lists item for found price
     def listItem(self) -> bool: # True/False Listing Success
-        price = item.price
+        price = self.price
         if price:
             undercut = config.undercutValue
             logger.debug(f"{undercut} undercut value")
@@ -176,7 +180,7 @@ class item():
                     print("happen3")
             logger.debug(f"{finalPrice} found")
     
-            pyautogui.moveTo(item.coords[0], item.coords[1], duration=0.1) 
+            pyautogui.moveTo(self.coords[0], self.coords[1], duration=0.1) 
             pyautogui.click()
             time.sleep(0.4)
 
