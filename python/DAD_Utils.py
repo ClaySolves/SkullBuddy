@@ -49,9 +49,14 @@ class item():
         if self.price:
             logGui(f"Found Price: {self.price} Gold")
 
-    def getItem(self):
-        value = [self.name, self.rolls, self.rarity, self.coords]
-        return value
+    def getItemStoreDetails(self):
+        rollStr = ""
+        for roll in self.rolls:    
+            dataStr = ",".join(str(data) for data in roll)
+            rollStr += "|" + dataStr
+       
+        return [self.name, self.rarity, rollStr,]
+        
 
 # search market gui for all item rolls
     def searchGoodRolls(self) -> bool: #True/False searched anything

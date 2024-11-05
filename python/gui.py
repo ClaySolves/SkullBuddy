@@ -7,11 +7,13 @@ import keyboard
 import subprocess
 import logging
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
+
+
 
 #basic exception
 class error(Exception):
@@ -34,7 +36,7 @@ class GuiScriptStream():
 
 
 # worker for gui stream
-class WorkerThread(QThread):
+class logThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
 
     def run(self): # run function
@@ -45,24 +47,33 @@ class WorkerThread(QThread):
         DAD_Utils.logGui("Starting Squirebot...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
-    
         sys.stdout = oldStdout
 
+class listHistoryThread(QThread):
+    outputSignal = pyqtSignal(str)  # var for output
+
+    def run(self):
+        pass
 
 #gui design
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
-        # gui element setup
+        self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
+        self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
+        # gui title/dimensions
         self.setWindowTitle("SquireBot")
         self.setGeometry(100, 100, 800, 400)
+
+        # img pixmap
+        self.deathSkullLabel = QLabel()
+        self.deathSkullLabel.setPixmap( self.deathSkullPixmapTalk)
 
         # button
         self.sellButton = QPushButton("Sell Items", self)
         self.sellButton.clicked.connect(self.handleSellItemButton)
 
-        # log
+        # logs
         self.output_log = QTextEdit(self)
         self.output_log.setReadOnly(True)
 
@@ -123,6 +134,9 @@ class MainWindow(QMainWindow):
         settingsLayout.addWidget(self.stashWidth)
         settingsLayout.addWidget(self.sellButton)
 
+        # Graphics Setup
+        logLayout.addWidget(self.deathSkullLabel)
+
         # Main Layout
         mainLayout = QHBoxLayout()
         mainLayout.addLayout(logLayout)
@@ -135,10 +149,14 @@ class MainWindow(QMainWindow):
 
     # Sell Items Button
     def handleSellItemButton(self):
+        # gui death skull update
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
+        self.deathSkullLabel.repaint()
+        
+
         #handle config updates from settings
         updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
         if updateMethod: 
-            DAD_Utils.logDebug(f"Updating sellMethod ... METHOD: {updateMethod}")
             DAD_Utils.updateConfig("sellMethod",updateMethod)
 
         txtRead = self.stashIndex.text()
@@ -163,9 +181,12 @@ class MainWindow(QMainWindow):
         # Run thread
         try:    
             logger.debug("Starting thread...")
-            self.thread = WorkerThread()
+            self.thread = logThread()
             self.thread.outputSignal.connect(self.appendLog)
             self.thread.start()
+            time.sleep(0.2)
+            self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+            self.deathSkullLabel.repaint()
         except error:
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")

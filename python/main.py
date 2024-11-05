@@ -12,7 +12,7 @@ import config
 import random
 import os
 import logging
-from pynput import keyboard, mouse
+import keyboard
 import subprocess
 from io import StringIO
 from PyQt5.QtGui import QKeyEvent, QIcon, QIntValidator, QDoubleValidator, QKeySequence
