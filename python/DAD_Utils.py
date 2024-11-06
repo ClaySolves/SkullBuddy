@@ -20,11 +20,11 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity, coords):
+    def __init__(self, name, rolls, rarity, coords, price=None):
         self.name = name # item name
         self.rolls = rolls # item rolls
         self.rarity = rarity # item rarity
-        self.price = None # item price
+        self.price = price # item price
         self.coords = coords # item location
         self.sold = False
         self.goodRoll = None
