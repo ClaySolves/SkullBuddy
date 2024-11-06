@@ -7,7 +7,7 @@ import keyboard
 import subprocess
 import logging
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
 
@@ -59,107 +59,15 @@ class listHistoryThread(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
-        self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
-        # gui title/dimensions
+        
+        # Create tabs
+        self.tabs = QTabWidget()
+        self.utilityTab()
+        self.historyTab()
+
+        self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
         self.setGeometry(100, 100, 800, 400)
-
-        # deathskull
-        self.deathSkullLabel = QLabel()
-        self.deathSkullText = QPainter(self.deathSkullPixmapTalk)
-        self.deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        self.deathSkullText.setPen(QColor("red"))      # Set the color of the text
-        self.deathSkullText.drawText(167, 183, "Greetings ... I sell your stuff...")
-        self.deathSkullText.drawText(145, 200, "Go to market... Put items in stash...")
-        self.deathSkullText.drawText(152, 217, "Adjust settings... Click button!")
-        self.deathSkullText.end()
-        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
-        self.deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        self.deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
-        self.deathSkullThinkText.drawText(167, 183, "Selling your items...")
-        self.deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
-        self.deathSkullThinkText.end()
-        
-        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
-
-        # button
-        self.sellButton = QPushButton("Sell Items", self)
-        self.sellButton.clicked.connect(self.handleSellItemButton)
-
-        # logs
-        self.output_log = QTextEdit(self)
-        self.output_log.setReadOnly(True)
-
-        # labels
-        self.helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
-        self.methodLabel = QLabel("Select Selling Method:")
-        self.stashLabel = QLabel("Enter Stash Info:")
-
-        # line edits
-        intValidIndex = QIntValidator(-1,10)
-        intValidHeight = QIntValidator(0,20)
-        intValidWidth = QIntValidator(0,12)
-        doubleValid = QDoubleValidator(-1.0,100.0,2)
-
-        self.undercut = QLineEdit()
-        self.undercut.setPlaceholderText("Enter Undercut Value")
-        self.undercut.setText(str(config.undercutValue))
-        self.undercut.setValidator(doubleValid)
-
-        self.stashIndex = QLineEdit()
-        self.stashIndex.setPlaceholderText("Enter Sell Stash")
-        self.stashIndex.setText(str(config.stashSell))
-        self.stashIndex.setValidator(intValidIndex) 
-
-        self.stashHeight = QLineEdit()
-        self.stashHeight.setPlaceholderText("Enter Sell Height")
-        self.stashHeight.setText(str(config.sellHeight))
-        self.stashHeight.setValidator(intValidHeight)  
-
-        self.stashWidth = QLineEdit()
-        self.stashWidth.setPlaceholderText("Enter Sell Width")
-        self.stashWidth.setText(str(config.sellWidth))
-        self.stashWidth.setValidator(intValidWidth)
-
-        # Radio Buttons
-        self.radioMethodSelect = {
-            1 : QRadioButton("Lowest Price"),
-            2 : QRadioButton("Lowest Price w/o Outliers"),
-            3 : QRadioButton("Lowest 3 Price Avg")
-        }
-        self.radioMethodSelect[1].setChecked(True)
-        
-        # Log Layout
-        logLayout = QVBoxLayout()
-        logLayout.addWidget(self.output_log)
-
-        # Settings Layout
-        settingsLayout = QVBoxLayout()
-        settingsLayout.addWidget(self.helpLabel)
-        settingsLayout.addWidget(self.methodLabel)
-        for value in self.radioMethodSelect.values():
-            settingsLayout.addWidget(value)
-        settingsLayout.addWidget(self.undercut)
-
-        settingsLayout.addWidget(self.stashLabel)
-        settingsLayout.addWidget(self.stashIndex)
-        settingsLayout.addWidget(self.stashHeight)
-        settingsLayout.addWidget(self.stashWidth)
-        settingsLayout.addWidget(self.sellButton)
-
-        # Graphics Setup
-        logLayout.addWidget(self.deathSkullLabel)
-
-        # Main Layout
-        mainLayout = QHBoxLayout()
-        mainLayout.addLayout(logLayout)
-        mainLayout.addLayout(settingsLayout)
-
-        # Finalize GUI
-        container = QWidget()
-        container.setLayout(mainLayout)
-        self.setCentralWidget(container)
 
     # Sell Items Button
     def handleSellItemButton(self):
@@ -209,5 +117,109 @@ class MainWindow(QMainWindow):
             self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
             self.deathSkullLabel.repaint()
         
+    def utilityTab(self):
+        #tab creation
+        tab = QWidget()
 
+        # deathskull
+        self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
+        self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
+        self.deathSkullLabel = QLabel()
+
+        deathSkullText = QPainter(self.deathSkullPixmapTalk)
+        deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        deathSkullText.setPen(QColor("red"))      # Set the color of the text
+        deathSkullText.drawText(167, 183, "Greetings ... I sell your stuff...")
+        deathSkullText.drawText(145, 200, "Go to market... Put items in stash...")
+        deathSkullText.drawText(152, 217, "Adjust settings... Click button!")
+        deathSkullText.end()
+        deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
+        deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        deathSkullThinkText.drawText(167, 183, "Selling your items...")
+        deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
+        deathSkullThinkText.end()
+        
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+
+        # button
+        self.sellButton = QPushButton("Sell Items", self)
+        self.sellButton.clicked.connect(self.handleSellItemButton)
+
+        # logs
+        self.output_log = QTextEdit(self)
+        self.output_log.setReadOnly(True)
+
+        # labels
+        helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
+        methodLabel = QLabel("Select Selling Method:")
+        stashLabel = QLabel("Enter Stash Info:")
+
+        # line edits
+        intValidIndex = QIntValidator(-1,10)
+        intValidHeight = QIntValidator(0,20)
+        intValidWidth = QIntValidator(0,12)
+        doubleValid = QDoubleValidator(-1.0,100.0,2)
+
+        self.undercut = QLineEdit()
+        self.undercut.setPlaceholderText("Enter Undercut Value")
+        self.undercut.setText(str(config.undercutValue))
+        self.undercut.setValidator(doubleValid)
+
+        self.stashIndex = QLineEdit()
+        self.stashIndex.setPlaceholderText("Enter Sell Stash")
+        self.stashIndex.setText(str(config.stashSell))
+        self.stashIndex.setValidator(intValidIndex) 
+
+        self.stashHeight = QLineEdit()
+        self.stashHeight.setPlaceholderText("Enter Sell Height")
+        self.stashHeight.setText(str(config.sellHeight))
+        self.stashHeight.setValidator(intValidHeight)  
+
+        self.stashWidth = QLineEdit()
+        self.stashWidth.setPlaceholderText("Enter Sell Width")
+        self.stashWidth.setText(str(config.sellWidth))
+        self.stashWidth.setValidator(intValidWidth)
+
+        # Radio Buttons
+        self.radioMethodSelect = {
+            1 : QRadioButton("Lowest Price"),
+            2 : QRadioButton("Lowest Price w/o Outliers"),
+            3 : QRadioButton("Lowest 3 Price Avg")
+        }
+        self.radioMethodSelect[1].setChecked(True)
+        
+        # Log Layout
+        logLayout = QVBoxLayout()
+        logLayout.addWidget(self.output_log)
+
+        # Settings Layout
+        settingsLayout = QVBoxLayout()
+        settingsLayout.addWidget(helpLabel)
+        settingsLayout.addWidget(methodLabel)
+        for value in self.radioMethodSelect.values():
+            settingsLayout.addWidget(value)
+        settingsLayout.addWidget(self.undercut)
+
+        settingsLayout.addWidget(stashLabel)
+        settingsLayout.addWidget(self.stashIndex)
+        settingsLayout.addWidget(self.stashHeight)
+        settingsLayout.addWidget(self.stashWidth)
+        settingsLayout.addWidget(self.sellButton)
+
+        # Graphics Setup
+        logLayout.addWidget(self.deathSkullLabel)
+
+        # Main Layout
+        mainLayout = QHBoxLayout()
+        mainLayout.addLayout(logLayout)
+        mainLayout.addLayout(settingsLayout)
+        tab.setLayout(mainLayout)
+
+        self.tabs.addTab(tab,"Utility")
+
+    def historyTab(self):
+        tab = QWidget()
+
+        self.tabs.addTab(tab,"History")
       
