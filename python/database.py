@@ -8,8 +8,8 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 # Insert item into the database
 def insertItem(cursor,values):
     sql = """
-        INSERT INTO items (name, rarity, rolls, price)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO items (name, rarity, rolls, price, goodRoll)
+        VALUES (?, ?, ?, ?, ?)
     """
     cursor.execute(sql,values)
 
@@ -20,6 +20,7 @@ def getStoredItems(cursor):
         for row in rows:
             print(row)
     else: logger.debug("empty database")
+    return rows
 
 
 def closeDatabase(conn):
@@ -37,10 +38,11 @@ def connectDatabase():
     # Create the items table if it doesn't exist
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Items (
-        name TEXT NOT NULL,
-        rarity TEXT NOT NULL,
-        rolls TEXT NOT NULL,
-        price INTEGER
+        name TEXT,
+        rarity TEXT,
+        rolls TEXT,
+        price INTEGER,
+        goodRoll INTEGER
     );
     """)
 

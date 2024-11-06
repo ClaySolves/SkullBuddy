@@ -3,6 +3,7 @@ import re
 import sys
 import numbers
 import psutil
+import database
 import pyautogui
 import time
 import pytesseract
@@ -32,7 +33,22 @@ class item():
 
     #Print item
     def printItem(self):
-        logGui(f"{self.rarity} {self.name}")
+        printColor = "Black"
+        if self.rarity:
+            if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
+                printColor = 'gray'
+            elif self.rarity.lower() == 'uncommon':
+                printColor = 'green'
+            elif self.rarity.lower() == 'rare':
+                printColor = 'MediumBlue'
+            elif self.rarity.lower() == 'epic':
+                printColor = 'Orchid'
+            elif self.rarity.lower() == 'legendary':
+                printColor = 'Gold'
+            elif self.rarity.lower() == 'unique':
+                printColor = 'Yellow'
+
+        logGui(f"{self.rarity} {self.name}",printColor)
         for roll in self.rolls:
             rollPrint = ""
             #check for % for print format
@@ -44,18 +60,18 @@ class item():
             #check for good roll (added after price check)
             if roll[3]:
                 rollPrint += " <-- GOOD ROLL FOUND!"
-            logGui(rollPrint)
+            logGui(rollPrint,"DeepSkyBlue")
             
         if self.price:
-            logGui(f"Found Price: {self.price} Gold")
+            logGui(f"Price: {self.price} Gold","Goldenrod")
 
     def getItemStoreDetails(self):
         rollStr = ""
         for roll in self.rolls:    
             dataStr = ",".join(str(data) for data in roll)
             rollStr += "|" + dataStr
-       
-        return [self.name, self.rarity, rollStr,]
+        good = 1 if self.goodRoll else 0
+        return [self.name, self.rarity, rollStr, self.price, good]
         
 
 # search market gui for all item rolls
@@ -138,7 +154,7 @@ class item():
         prices = []
         foundPrice = None
         # reset filters, search rarity
-        self.searchFromMarketStash(self)
+        self.searchFromMarketStash()
 
         #store base price
         while foundPrice is None:
@@ -148,7 +164,7 @@ class item():
 
         #store price of each roll
         for i, roll in enumerate(self.rolls):
-            self.searchRoll(self,i)
+            self.searchRoll(i)
             foundPrice = recordDisplayedPrice()
             if foundPrice: 
                 prices.append(foundPrice)
@@ -159,7 +175,7 @@ class item():
 
         #store all roll price
         if self.goodRoll and len(self.rolls) > 1: 
-            self.searchGoodRolls(self)
+            self.searchGoodRolls()
             foundPrice = recordDisplayedPrice()
             if foundPrice: self.price = foundPrice
             logger.debug(f"Found price {foundPrice} for good rolls")
@@ -174,15 +190,12 @@ class item():
             logger.debug(f"{undercut} undercut value")
             if undercut < 0:
                 finalPrice = price - 1
-                print("happen1")
             else:
                 if isinstance(undercut,float):
                     finalPrice = int(price - (price * undercut))
                     finalPrice = int(finalPrice)
-                    print("happen2")
                 else:
                     finalPrice = price - undercut
-                    print("happen3")
             logger.debug(f"{finalPrice} found")
     
             pyautogui.moveTo(self.coords[0], self.coords[1], duration=0.1) 
@@ -191,7 +204,7 @@ class item():
 
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
-            logGui(f"Listing item for {finalPrice}")
+            logGui(f"Listing item for {finalPrice}","Goldenrod")
             pyautogui.typewrite(str(finalPrice), interval=0.06)
 
             pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
@@ -532,8 +545,8 @@ def logDebug(txt):
     logger.debug(txt) 
 
 
-def logGui(txt):
-    print(txt)
+def logGui(txt,color='black'):
+    print(f"<span style='color: {color};'>{txt}</span>")
 
 
 # Return location and santize ImageNotFound error
@@ -765,6 +778,9 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 def searchStash():
     loadTextFiles()
     if getAvailSlots():
+
+        conn, cursor = database.connectDatabase()
+
         for y in range(config.sellHeight):
             for x in range(config.sellWidth):
                 
@@ -777,11 +793,13 @@ def searchStash():
                     continue
                 #Item found, hover and check listing slot
                 pyautogui.moveTo(newX, newY)
-                sucess = mainLoop()
-                logGui(f"listed item: {sucess}")
-                if getAvailSlots(): pass 
-                else: return False
-             
+                sucess = mainLoop(cursor)
+                if not sucess:
+                    logGui(f"Item listing failure ... go next")
+                if not getAvailSlots(): 
+                    database.closeDatabase(conn)
+                    return False
+        database.closeDatabase(conn)        
     else:
         logGui(f"No Listing slots avialible...")
 
@@ -843,15 +861,19 @@ def getItemInfo() -> item:
 
 # main function
 # reads hovered item info, lists on market
-def mainLoop() -> bool: # True/False listing success
+def mainLoop(cursor) -> bool: # True/False listing success
     time.sleep(config.sleepTime / 5)
     mytime = time.time()
-    myItem = getItemInfo()
-    myItem.findPrice()
-    returnMarketStash()
-    myItem.listItem()
-    mytime2 = time.time()
-    myItem.printItem()
-    logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")
-    time.sleep(config.sleepTime)
-    return True
+    myItem = getItemInfo()                                              # read item info
+    if myItem:
+        myItem.printItem()                                              # print item to gui
+        myItem.findPrice()
+        database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
+        returnMarketStash()                                             # return market stash
+        myItem.listItem()                                               # list item
+        mytime2 = time.time()
+        logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
+        time.sleep(config.sleepTime)
+        return True
+    else:
+        return False

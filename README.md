@@ -1,11 +1,11 @@
 # Dark And Darker Auto-Squire
 
 ## Description
-DaD SquireBot is an automation tool to quickly list loot on the marketplace.
+Skull Buddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
 
-SquireBot utilizes the PyAutoGUI library for game navigation.
+Skull Buddy utilizes the PyAutoGUI library for game navigation.
 
-SquireBot ONLY interacts with gameplay outside of the dungeon
+Skull Buddy ONLY interacts with gameplay outside of the dungeon
 and does not allow the user to hack, cheat, abuse, manipulate, 
 change or otherwise obtain unauthorised access to any benefits or features in-game 
 and does not automate gameplay mechanisms, only menu navigation. 
@@ -20,16 +20,17 @@ https://github.com/UB-Mannheim/tesseract/releases
 Download and Install Python:
 https://www.python.org/downloads/
 
-Clone Repo:
+Download and Install Git:
+https://git-scm.com/downloads
+
+Clone Repo and run installer:
 ```bash
 git clone https://github.com/clayScarCodes/DaD_Automation.git
 cd DaD_Automation
 python python\install.py
+cp dist\SkullBuddy.exe .
 ```
 
-After successful install, run program
-```bash
-python python\main.py
-```
+Run SkullBuddy.exe
 
 Enjoy!

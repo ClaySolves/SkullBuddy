@@ -78,7 +78,7 @@ def install():
 
     buildExec()
     time2 = time.time()
-    print(f"Installation complete in {time2-time1:.1f} seconds. Check dist for SquireBot.exe")
+    print(f"Installation complete in {time2-time1:.1f} seconds. Check dist for SkullBuddy.exe")
 
 if __name__ == "__main__":
     install()

@@ -47,12 +47,12 @@ def main():
     shutil.copyfile("python/config.py", "config/configBackup.py")
     logging.debug("Starting Program ...")
     app = gui.QApplication(sys.argv)  # Create the application
+    app.setWindowIcon(QIcon("img/SkullBuddy.ico"))
     main_window = gui.MainWindow()     # Create an instance of MainWindow
     main_window.show()              # Show the window
 
     hotkey_thread = threading.Thread(target=closeHotkey, args=(app,), daemon=True)
     hotkey_thread.start()
-
 
     sys.exit(app.exec_())          # Start the event loop
     print("App Closed/n")

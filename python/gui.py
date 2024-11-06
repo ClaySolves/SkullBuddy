@@ -9,7 +9,7 @@ import logging
 from io import StringIO
 from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
 
@@ -44,7 +44,7 @@ class logThread(QThread):
         oldStdout = sys.stdout
         sys.stdout = GuiScriptStream(self.outputSignal)
 
-        DAD_Utils.logGui("Starting Squirebot...")
+        DAD_Utils.logGui("Listing Items...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
         sys.stdout = oldStdout
@@ -62,12 +62,26 @@ class MainWindow(QMainWindow):
         self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
         self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
         # gui title/dimensions
-        self.setWindowTitle("SquireBot")
+        self.setWindowTitle("SkullBuddy")
         self.setGeometry(100, 100, 800, 400)
 
-        # img pixmap
+        # deathskull
         self.deathSkullLabel = QLabel()
-        self.deathSkullLabel.setPixmap( self.deathSkullPixmapTalk)
+        self.deathSkullText = QPainter(self.deathSkullPixmapTalk)
+        self.deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        self.deathSkullText.setPen(QColor("red"))      # Set the color of the text
+        self.deathSkullText.drawText(167, 183, "Greetings ... I sell your stuff...")
+        self.deathSkullText.drawText(145, 200, "Go to market... Put items in stash...")
+        self.deathSkullText.drawText(152, 217, "Adjust settings... Click button!")
+        self.deathSkullText.end()
+        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
+        self.deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        self.deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        self.deathSkullThinkText.drawText(167, 183, "Selling your items...")
+        self.deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
+        self.deathSkullThinkText.end()
+        
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
 
         # button
         self.sellButton = QPushButton("Sell Items", self)
@@ -184,9 +198,6 @@ class MainWindow(QMainWindow):
             self.thread = logThread()
             self.thread.outputSignal.connect(self.appendLog)
             self.thread.start()
-            time.sleep(0.2)
-            self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
-            self.deathSkullLabel.repaint()
         except error:
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
@@ -194,5 +205,9 @@ class MainWindow(QMainWindow):
     # Log txt to GUI log
     def appendLog(self, txt): # append output to QTextEdit log
         self.output_log.append(txt)
+        if self.thread.isFinished():
+            self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+            self.deathSkullLabel.repaint()
+        
 
       
