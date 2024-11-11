@@ -391,8 +391,8 @@ def loadTextFiles():
     global allItems
     global allRolls
 
-    with open("debug.log", 'w') as file:
-        pass
+    # with open("debug.log", 'w') as file:
+    #     pass
 
     with open("config/items.txt", 'r') as file:
         lines = file.readlines()

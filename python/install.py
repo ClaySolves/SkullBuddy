@@ -25,8 +25,6 @@ def buildExec():
         subprocess.check_call([sys.executable, "-m", "PyInstaller", "main.spec"])
         print("Build Complete!")
         time.sleep(1)
-        subprocess.check_call(["cp", "dist/SkullBuddy.exe", "."])
-        print("Build Complete!")
     except subprocess.CalledProcessError:
         print("Failed to build executable")
         sys.exit(1)
