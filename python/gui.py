@@ -4,6 +4,7 @@ import sys
 import config
 import time
 import database
+import config
 import keyboard
 import subprocess
 import logging
@@ -52,13 +53,16 @@ class logThread(QThread):
 
 class listHistoryThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
+    listedGoldTotal = pyqtSignal(int)
 
     def run(self):
         oldStdout = sys.stdout
         sys.stdout = GuiScriptStream(self.outputSignal)
-
-        conn, cur = database.connectDatabase()
-        database.printDatabase(cur)
+        
+        _, cur = database.connectDatabase()
+        totalGold = database.printDatabase(cur)
+        print(totalGold)
+        self.listedGoldTotal.emit(totalGold)
 
         sys.stdout = oldStdout
 
@@ -85,11 +89,14 @@ class MainWindow(QMainWindow):
         try:    
             logger.debug("Starting thread...")
             self.historyThread = listHistoryThread()
+            self.historyThread.finished.connect(self.resetSkullyTxt)
             self.historyThread.outputSignal.connect(self.appendHistoryLog)
+            self.historyThread.listedGoldTotal.connect(self.updateGoldText)
             self.historyThread.start()
         except error:
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
+
 
     # Sell Items Button
     def handleSellItemButton(self):
@@ -126,6 +133,7 @@ class MainWindow(QMainWindow):
         try:    
             logger.debug("Starting thread...")
             self.thread = logThread()
+            self.thread.finished.connect(self.resetSkullyTxt)
             self.thread.outputSignal.connect(self.appendSellLog)
             self.thread.start()
         except error:
@@ -135,9 +143,6 @@ class MainWindow(QMainWindow):
     # Log txt to GUI log
     def appendSellLog(self, txt): # append output to QTextEdit log
         self.sellLog.append(txt)
-        if self.thread.isFinished():
-            self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
-            self.deathSkullLabel.repaint()
 
     # log txt to GUI history log
     def appendHistoryLog(self,txt):
@@ -249,7 +254,6 @@ class MainWindow(QMainWindow):
         tab = QWidget()
 
         #skully setup
-        skullyLayout = QHBoxLayout()
         self.deathSkullHistory = QPixmap('img/DeathSkullTalking.png')
         self.deathSkullFetchHistory = QPixmap('img/DeathSkullThinking.png')
         self.skully = QLabel()
@@ -267,28 +271,62 @@ class MainWindow(QMainWindow):
         deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
         deathSkullThinkText.drawText(167, 183, "...let me think...")
         deathSkullThinkText.end()
+        self.skully.setPixmap(self.deathSkullHistory)
 
         #skully history button
         self.historyButton = QPushButton("View Listing History", self)
         self.historyButton.clicked.connect(self.handleViewHistoryButton)
-        
-        self.skully.setPixmap(self.deathSkullHistory)
-        skullyLayout.addWidget(self.skully)
-        skullyLayout.addWidget(self.historyButton)
 
+        #Total gold label
+        self.totalGoldLabel = QLabel()
+        self.totalGoldLabel.setFont(QFont("Monotype Corsiva",12))
+        self.totalGoldLabel.setText("Total Value Listed:")
+
+        #Total gold Number
+        self.totalGoldNumber = QLabel()
+        self.totalGoldNumber.setFont(QFont("Monotype Corsiva",36))
+        self.totalGoldNumber.setStyleSheet("color: #DAA520")
+        self.totalGoldNumber.setText(f"{0}")
+
+        #add all
+        skullyLayoutTotal = QHBoxLayout()
+        skullyLayoutImg = QHBoxLayout()
+        skullyLayoutButtons = QVBoxLayout()
+        skullyLayoutImg.addWidget(self.skully)
+        skullyLayoutButtons.addWidget(self.totalGoldLabel)
+        skullyLayoutButtons.addWidget(self.totalGoldNumber)
+        skullyLayoutButtons.addWidget(self.historyButton)
+        skullyLayoutTotal.addLayout(skullyLayoutImg)
+        skullyLayoutTotal.addLayout(skullyLayoutButtons)
+
+        #history layout
         historyLayout = QVBoxLayout()
 
         #history log
         self.historyLog = QTextEdit(self)
         self.historyLog.setReadOnly(True)
-
         historyLayout.addWidget(self.historyLog)
 
+        # BUILD ALL GUI
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(historyLayout)
-        mainLayout.addLayout(skullyLayout)
-
+        mainLayout.addLayout(skullyLayoutTotal)
         tab.setLayout(mainLayout)
-
         self.tabs.addTab(tab,"History")
+
+
+    def resetSkullyTxt(self):
+        time.sleep(0.1)
+
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+        self.deathSkullLabel.repaint()
+
+        self.skully.setPixmap(self.deathSkullHistory)
+        self.skully.repaint()
+
+    def updateGoldText(self,totalGold):
+        if isinstance(totalGold,int):
+            self.totalGoldNumber.setText(f"{totalGold}")
+        else:
+            self.totalGoldNumber.setText(f"{0}")
       

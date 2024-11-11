@@ -32,7 +32,7 @@ class item():
         logger.debug("New item created")
 
     #Print item
-    def printItem(self):
+    def printItem(self,newline=False):
         printColor = "Black"
         if self.rarity:
             if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
@@ -64,6 +64,7 @@ class item():
             
         if self.price:
             logGui(f"Price: {self.price} Gold","Goldenrod")
+        if newline: logGui("\n")
 
     def getItemStoreDetails(self):
         rollStr = ""

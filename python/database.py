@@ -4,6 +4,9 @@ import logging
 import time
 import sqlite3
 
+class error(Exception):
+    pass
+
 # Insert item into the database
 def insertItem(cursor,values):
     sql = """
@@ -16,27 +19,35 @@ def getStoredItems(cursor):
     cursor.execute("SELECT * FROM items")
     rows = cursor.fetchall()
     if rows:
-        for row in rows:
-            print(row)
-    else: DAD_Utils.logDebug("empty database")
-    return rows
-
-
+        return rows
+    else: 
+        DAD_Utils.logDebug("empty database")
+        return None
+   
 def closeDatabase(conn):
     conn.commit()
     conn.close()
 
 def printDatabase(cursor):
     time1 = time.time()
+    totalGold = 0
+
     data = getStoredItems(cursor)
-    for items in data:
-        newString = items[2].strip('|')
-        newList = newString.split('|')
-        newNewList = [ele.split(",") for ele in newList]
-        myItem = DAD_Utils.item(items[0],newNewList,items[1],(0,0),items[3])
-        myItem.printItem()
+    if data:
+        for items in data:
+            try:
+                newString = items[2].strip('|')
+                newList = newString.split('|')
+                newNewList = [ele.split(",") for ele in newList]
+                myItem = DAD_Utils.item(items[0],newNewList,items[1],(-1,-1),items[3])
+                myItem.printItem(True)
+                totalGold += int(items[3])
+            except Exception as e:
+                DAD_Utils.logDebug(f"{e} Corrupted/invalid item read in database")
 
     DAD_Utils.logDebug(f"Retrieved listed items in {time.time() - time1} seconds")
+    
+    return totalGold
 
 
 # Define the database connection
