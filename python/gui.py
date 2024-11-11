@@ -61,7 +61,6 @@ class listHistoryThread(QThread):
         
         _, cur = database.connectDatabase()
         totalGold = database.printDatabase(cur)
-        print(totalGold)
         self.listedGoldTotal.emit(totalGold)
 
         sys.stdout = oldStdout
@@ -75,6 +74,7 @@ class MainWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.utilityTab()
         self.historyTab()
+        self.helpTab()
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
@@ -109,10 +109,6 @@ class MainWindow(QMainWindow):
         updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
         if updateMethod: 
             DAD_Utils.updateConfig("sellMethod",updateMethod)
-
-        txtRead = self.stashIndex.text()
-        if txtRead:
-            DAD_Utils.updateConfig("stashSell",int(txtRead))
 
         txtRead = self.stashWidth.text()
         if txtRead:
@@ -188,20 +184,14 @@ class MainWindow(QMainWindow):
         stashLabel = QLabel("Enter Stash Info:")
 
         # line edits
-        intValidIndex = QIntValidator(-1,10)
         intValidHeight = QIntValidator(0,20)
         intValidWidth = QIntValidator(0,12)
-        doubleValid = QDoubleValidator(-1.0,100.0,2)
+        doubleValidundercut = QDoubleValidator(0,100.0,2)
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
         self.undercut.setText(str(config.undercutValue))
-        self.undercut.setValidator(doubleValid)
-
-        self.stashIndex = QLineEdit()
-        self.stashIndex.setPlaceholderText("Enter Sell Stash")
-        self.stashIndex.setText(str(config.stashSell))
-        self.stashIndex.setValidator(intValidIndex) 
+        self.undercut.setValidator(doubleValidundercut)
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
@@ -234,7 +224,6 @@ class MainWindow(QMainWindow):
         settingsLayout.addWidget(self.undercut)
 
         settingsLayout.addWidget(stashLabel)
-        settingsLayout.addWidget(self.stashIndex)
         settingsLayout.addWidget(self.stashHeight)
         settingsLayout.addWidget(self.stashWidth)
         settingsLayout.addWidget(self.sellButton)
@@ -263,8 +252,8 @@ class MainWindow(QMainWindow):
         deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
         deathSkullText.setPen(QColor("red"))      # Set the color of the text
         deathSkullText.drawText(167, 183, "view your item listing history...")
-        deathSkullText.drawText(145, 200, "i can remember everything...")
-        deathSkullText.drawText(152, 217, "just ask...")
+        deathSkullText.drawText(165, 200, "i can remember everything...")
+        deathSkullText.drawText(172, 217, "just ask...")
         deathSkullText.end()
         deathSkullThinkText = QPainter(self.deathSkullFetchHistory)
         deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
@@ -314,6 +303,64 @@ class MainWindow(QMainWindow):
         tab.setLayout(mainLayout)
         self.tabs.addTab(tab,"History")
 
+    def helpTab(self):
+        tab = QWidget()
+
+        #help widget
+        helpLog = QTextEdit()
+        helpLog.setReadOnly(True)
+        helpLog.setText(f"""
+        How to use SkullBuddy:
+        
+        Launch Dark and Darker
+        Navigate to Trade -> Marketplace -> My Listings
+        Adjust Settings
+        Click Sell Items
+
+                                    
+
+        Selling Method: 
+        Determines calculated item price
+        Lowest Price:                          Lists with lowest recorded price
+        Lowest Price w/o Outliers:      Lists with lowest recorded price, removing low/mislisted recorded prices
+        Lowest 3 Price Avg:                Lists with the average of the lowest 3 prices
+
+                        
+        Undercut Value: 
+        Decreases recorded price to sell faster
+        Enter a number (1 - 100) to undercut the recorded price by a static value
+        Enter a decimal value (0.01 - 0.99) to undercut the recorded price by a percentage
+                        
+        Example: Listing at 100
+        Undercut Value: 20          100 - 20 = 80, list at 80 gold
+        Undercut Value: .11         100 - (100 * .11) = 89, list at 89 gold    
+            
+                        
+        Sell Height and Width: 
+        Creates a box from top left corner to include items being sold
+                        
+        Examples:
+        Sell Hieght:  4 & Sell Width: 12        includes first 4 rows of stash boxes
+        Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
+        Sell Hieght: 10 & Sell Width: 6         includes first quadrant of stash boxes              
+                        """)
+        helpLog.setAlignment(Qt.AlignLeft)
+
+        devLabel = QLabel('<a href="https://github.com/ClaySolves">Dev</a>')
+        devLabel.setOpenExternalLinks(True)
+        devLabel.setAlignment(Qt.AlignCenter)
+
+        donateLabel = QLabel('<a href="https://paypal.me/SolvingClay">Donate</a>')
+        donateLabel.setOpenExternalLinks(True)
+        donateLabel.setAlignment(Qt.AlignCenter)
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(helpLog)
+        mainLayout.addWidget(devLabel)
+        mainLayout.addWidget(donateLabel)
+        tab.setLayout(mainLayout)
+
+        self.tabs.addTab(tab,"Help")
 
     def resetSkullyTxt(self):
         time.sleep(0.1)

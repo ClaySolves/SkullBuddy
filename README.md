@@ -25,11 +25,15 @@ https://git-scm.com/downloads
 
 Clone Repo and run installer:
 ```bash
-git clone https://github.com/clayScarCodes/DaD_Automation.git
+git clone https://github.com/ClaySolves/DaD_Automation.git
 cd DaD_Automation
 python python\install.py
-cp dist\SkullBuddy.exe .
 ```
+
+After successful run, SkullBuddy.exe is generated in 
+...PATH_TO_REPO/DaD_Automation/dist/SkullBuddy.exe
+move SkullBuddy.exe out of dist folder and into repo root path. Example:
+...PATH_TO_REPO/DaD_Automation/SkullBuddy.exe
 
 Run SkullBuddy.exe
 
