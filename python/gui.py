@@ -3,6 +3,7 @@ import DAD_Utils
 import sys
 import config
 import time
+import database
 import keyboard
 import subprocess
 import logging
@@ -53,7 +54,13 @@ class listHistoryThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
 
     def run(self):
-        pass
+        oldStdout = sys.stdout
+        sys.stdout = GuiScriptStream(self.outputSignal)
+
+        conn, cur = database.connectDatabase()
+        database.printDatabase(cur)
+
+        sys.stdout = oldStdout
 
 #gui design
 class MainWindow(QMainWindow):
@@ -67,7 +74,22 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
-        self.setGeometry(100, 100, 800, 400)
+        self.setGeometry(100, 100, 400, 800)
+
+
+    # Update History Button
+    def handleViewHistoryButton(self):
+        self.skully.setPixmap(self.deathSkullFetchHistory)
+        self.skully.repaint()
+
+        try:    
+            logger.debug("Starting thread...")
+            self.historyThread = listHistoryThread()
+            self.historyThread.outputSignal.connect(self.appendHistoryLog)
+            self.historyThread.start()
+        except error:
+            logger.debug("Error starting thread!")
+            DAD_Utils.logGui("Error, Exiting!")
 
     # Sell Items Button
     def handleSellItemButton(self):
@@ -104,19 +126,23 @@ class MainWindow(QMainWindow):
         try:    
             logger.debug("Starting thread...")
             self.thread = logThread()
-            self.thread.outputSignal.connect(self.appendLog)
+            self.thread.outputSignal.connect(self.appendSellLog)
             self.thread.start()
         except error:
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
 
     # Log txt to GUI log
-    def appendLog(self, txt): # append output to QTextEdit log
-        self.output_log.append(txt)
+    def appendSellLog(self, txt): # append output to QTextEdit log
+        self.sellLog.append(txt)
         if self.thread.isFinished():
             self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
             self.deathSkullLabel.repaint()
-        
+
+    # log txt to GUI history log
+    def appendHistoryLog(self,txt):
+        self.historyLog.append(txt)
+
     def utilityTab(self):
         #tab creation
         tab = QWidget()
@@ -129,10 +155,11 @@ class MainWindow(QMainWindow):
         deathSkullText = QPainter(self.deathSkullPixmapTalk)
         deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
         deathSkullText.setPen(QColor("red"))      # Set the color of the text
-        deathSkullText.drawText(167, 183, "Greetings ... I sell your stuff...")
-        deathSkullText.drawText(145, 200, "Go to market... Put items in stash...")
-        deathSkullText.drawText(152, 217, "Adjust settings... Click button!")
+        deathSkullText.drawText(167, 183, "greetings ... i list items...")
+        deathSkullText.drawText(145, 200, "navigate to your market stash...")
+        deathSkullText.drawText(152, 217, "adjust settings on right... and go...")
         deathSkullText.end()
+
         deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
         deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
         deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
@@ -147,8 +174,8 @@ class MainWindow(QMainWindow):
         self.sellButton.clicked.connect(self.handleSellItemButton)
 
         # logs
-        self.output_log = QTextEdit(self)
-        self.output_log.setReadOnly(True)
+        self.sellLog = QTextEdit(self)
+        self.sellLog.setReadOnly(True)
 
         # labels
         helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
@@ -191,7 +218,7 @@ class MainWindow(QMainWindow):
         
         # Log Layout
         logLayout = QVBoxLayout()
-        logLayout.addWidget(self.output_log)
+        logLayout.addWidget(self.sellLog)
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
@@ -220,6 +247,48 @@ class MainWindow(QMainWindow):
 
     def historyTab(self):
         tab = QWidget()
+
+        #skully setup
+        skullyLayout = QHBoxLayout()
+        self.deathSkullHistory = QPixmap('img/DeathSkullTalking.png')
+        self.deathSkullFetchHistory = QPixmap('img/DeathSkullThinking.png')
+        self.skully = QLabel()
+
+        #skully txt
+        deathSkullText = QPainter(self.deathSkullHistory)
+        deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        deathSkullText.setPen(QColor("red"))      # Set the color of the text
+        deathSkullText.drawText(167, 183, "view your item listing history...")
+        deathSkullText.drawText(145, 200, "i can remember everything...")
+        deathSkullText.drawText(152, 217, "just ask...")
+        deathSkullText.end()
+        deathSkullThinkText = QPainter(self.deathSkullFetchHistory)
+        deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        deathSkullThinkText.drawText(167, 183, "...let me think...")
+        deathSkullThinkText.end()
+
+        #skully history button
+        self.historyButton = QPushButton("View Listing History", self)
+        self.historyButton.clicked.connect(self.handleViewHistoryButton)
+        
+        self.skully.setPixmap(self.deathSkullHistory)
+        skullyLayout.addWidget(self.skully)
+        skullyLayout.addWidget(self.historyButton)
+
+        historyLayout = QVBoxLayout()
+
+        #history log
+        self.historyLog = QTextEdit(self)
+        self.historyLog.setReadOnly(True)
+
+        historyLayout.addWidget(self.historyLog)
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addLayout(historyLayout)
+        mainLayout.addLayout(skullyLayout)
+
+        tab.setLayout(mainLayout)
 
         self.tabs.addTab(tab,"History")
       

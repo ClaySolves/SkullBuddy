@@ -1,9 +1,8 @@
 import sqlite3
 import DAD_Utils
 import logging
+import time
 import sqlite3
-
-logger = logging.getLogger()  # Get the root logger configured in main.py
 
 # Insert item into the database
 def insertItem(cursor,values):
@@ -19,7 +18,7 @@ def getStoredItems(cursor):
     if rows:
         for row in rows:
             print(row)
-    else: logger.debug("empty database")
+    else: DAD_Utils.logDebug("empty database")
     return rows
 
 
@@ -27,11 +26,23 @@ def closeDatabase(conn):
     conn.commit()
     conn.close()
 
+def printDatabase(cursor):
+    time1 = time.time()
+    data = getStoredItems(cursor)
+    for items in data:
+        newString = items[2].strip('|')
+        newList = newString.split('|')
+        newNewList = [ele.split(",") for ele in newList]
+        myItem = DAD_Utils.item(items[0],newNewList,items[1],(0,0),items[3])
+        myItem.printItem()
+
+    DAD_Utils.logDebug(f"Retrieved listed items in {time.time() - time1} seconds")
+
 
 # Define the database connection
 def connectDatabase():
     # Connect to the database 
-    logger.debug("Connecting to database...")
+    DAD_Utils.logDebug("Connecting to database...")
     conn = sqlite3.connect("user.db")
     cursor = conn.cursor()
 
