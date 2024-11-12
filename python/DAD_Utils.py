@@ -157,10 +157,17 @@ class item():
         # reset filters, search rarity
         self.searchFromMarketStash()
 
-        #store base price
-        while foundPrice is None:
-            foundPrice = recordDisplayedPrice()
-        prices.append(foundPrice)
+        #store base price, 5 attempts
+        attempts = 5
+        for attempt in range(attempts):
+            foundPrice = recordDisplayedPrice(True)
+            if foundPrice:
+                prices.append(foundPrice)
+                break
+
+        #If none found or <15, something is wrong. Go next
+        if foundPrice < 15:
+            return False
         logger.debug(f"Found price {foundPrice} base price")
 
         #store price of each roll
@@ -180,8 +187,9 @@ class item():
             foundPrice = recordDisplayedPrice()
             if foundPrice: self.price = foundPrice
             logger.debug(f"Found price {foundPrice} for good rolls")
-        else: self.price = min(prices)
+        else: self.price = max(prices)
         logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+        return True
 
     #Lists item for found price
     def listItem(self) -> bool: # True/False Listing Success
@@ -248,14 +256,14 @@ def checkPriceRoll(basePrice, rollPrice) -> bool: # True/False good item roll
 
 
 # searches market and finds price
-def recordDisplayedPrice() -> int: # Price/None
-    searched = refreshMarketSearch()
-    if searched:
-        price = getItemCost()
-        logger.debug(f"found price {price}!")
-        logGui(f"Researching prices... Found {price}...")
-        return price
-    else: return None
+def recordDisplayedPrice(baseprice=False) -> int: # Price/None
+    if not baseprice:
+        refreshMarketSearch()
+    price = getItemCost()
+    logger.debug(f"found price {price}!")
+    logGui(f"Researching prices... Found {price}...")
+    return price
+
 
 
 # compare ss and confirm change in game state
@@ -290,6 +298,7 @@ def readSSTxt(region,config=config.pytessConfig):
 def refreshMarketSearch() -> bool: # True/False Success
     logger.debug("refreshing market Search...")
     ss = pyautogui.screenshot(region=config.ssMarketExpireTime)
+    ss.save("debug/refreshMarketSearch.png")
     pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.15)
     pyautogui.click()
     ret = confirmGameScreenChange(ss,region=config.ssMarketExpireTime)
@@ -307,11 +316,22 @@ def refreshMarketItem():
 
 # get average cost of displayed item in market lookup
 def getItemCost():
-    prices = readPrices()
-    if prices:
-        price = calcItemPrice(prices,config.sellMethod)
-        return price
-    else: return None
+    attempts = 5
+    for i in range(attempts):
+        prices = readPrices()
+        if prices:
+            price = calcItemPrice(prices,config.sellMethod)
+            return price
+        else:
+            if i == 0: 
+                pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
+                pyautogui.click()
+            pyautogui.moveTo(config.xAttrSearch + 60, config.yAttrSearch  + 160)
+            pyautogui.moveTo(config.xAttrSearch + 60, config.yAttrSearch  + 560,duration=0.05)
+    #If no read, return 0
+    return 0
+
+
 
 
 # read displayed prices from market
@@ -340,7 +360,7 @@ def readPrices() -> list: # return list of prices
 def calcItemPrice(prices, method, ascending=True):
     priceLen = len(prices)
     if priceLen == 0:
-        return None
+        return 0
 
     #make sure list is ascending order
     if ascending:
@@ -549,6 +569,10 @@ def logDebug(txt):
 def logGui(txt,color='black'):
     print(f"<span style='color: {color};'>{txt}</span>")
 
+
+#find if text is clear in item attr search on market
+def clearAttrSearch():
+    pass
 
 # Return location and santize ImageNotFound error
 def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=0.99):
@@ -797,6 +821,13 @@ def searchStash():
                 sucess = mainLoop(cursor)
                 if not sucess:
                     logGui(f"Item listing failure ... go next")
+                    #attempt to stash item in inventory
+                    pyautogui.moveTo(newX, newY)
+                    time.sleep(0.35)
+                    pyautogui.click(button='right')
+                    time.sleep(0.15)
+                    pyautogui.click(button='right')
+
                 if not getAvailSlots(): 
                     database.closeDatabase(conn)
                     return False
@@ -866,16 +897,19 @@ def getItemInfo() -> item:
 def mainLoop(cursor) -> bool: # True/False listing success
     time.sleep(config.sleepTime / 5)
     mytime = time.time()
-    myItem = getItemInfo()                                              # read item info
+    myItem = getItemInfo()                                                  # read item info
     if myItem:
-        myItem.printItem()                                              # print item to gui
-        myItem.findPrice()
-        database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
-        returnMarketStash()                                             # return market stash
-        myItem.listItem()                                               # list item
-        mytime2 = time.time()
-        logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
-        time.sleep(config.sleepTime)
-        return True
-    else:
-        return False
+        myItem.printItem()                                                  # print item to gui
+        foundPrice = myItem.findPrice()                                     # if price found, continue loop || return false
+        if foundPrice:
+            database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
+            returnMarketStash()                                             # return market stash
+            myItem.listItem()                                               # list item
+            mytime2 = time.time()
+            logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
+            time.sleep(config.sleepTime)
+            return True
+        else: 
+            returnMarketStash()                                             # return market stash
+
+    return False                                                            # if we fail any part of loop, return false

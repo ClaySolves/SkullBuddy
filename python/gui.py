@@ -275,7 +275,7 @@ class MainWindow(QMainWindow):
         self.totalGoldNumber = QLabel()
         self.totalGoldNumber.setFont(QFont("Monotype Corsiva",36))
         self.totalGoldNumber.setStyleSheet("color: #DAA520")
-        self.totalGoldNumber.setText(f"{0}")
+        self.totalGoldNumber.setText(f"{config.totalListedGold}")
 
         #add all
         skullyLayoutTotal = QHBoxLayout()
@@ -372,8 +372,6 @@ class MainWindow(QMainWindow):
         self.skully.repaint()
 
     def updateGoldText(self,totalGold):
-        if isinstance(totalGold,int):
-            self.totalGoldNumber.setText(f"{totalGold}")
-        else:
-            self.totalGoldNumber.setText(f"{0}")
+        self.totalGoldNumber.setText(f"{totalGold}")
+        DAD_Utils.updateConfig("totalListedGold",totalGold)
       

@@ -6,9 +6,7 @@ pytessConfig = "--psm 6"
 undercutValue = 10
 sleepTime = 1.5
 sigRollIncrease = [100, 0.4]
-totalListedGold = 0
-# 0, 1, ... n | poor, common ... unique
-totalListedRarity = [0,0,0,0,0,0,0]
+totalListedGold = 9732
 
 # values for sellMethod:
 # 1 -> Lowest Price
