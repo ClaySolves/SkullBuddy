@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
-        self.setGeometry(100, 100, 400, 800)
+        self.setGeometry(100, 100, 420, 800)
 
 
     # Update History Button
@@ -275,7 +275,8 @@ class MainWindow(QMainWindow):
         self.totalGoldNumber = QLabel()
         self.totalGoldNumber.setFont(QFont("Monotype Corsiva",36))
         self.totalGoldNumber.setStyleSheet("color: #DAA520")
-        self.totalGoldNumber.setText(f"{config.totalListedGold}")
+        skullyGoldCount = f"{config.totalListedGold:,}"
+        self.totalGoldNumber.setText(skullyGoldCount)
 
         #add all
         skullyLayoutTotal = QHBoxLayout()
@@ -372,5 +373,5 @@ class MainWindow(QMainWindow):
         self.skully.repaint()
 
     def updateGoldText(self,totalGold):
-        self.totalGoldNumber.setText(f"{totalGold}")
+        self.totalGoldNumber.setText(f"{totalGold:,}")
         DAD_Utils.updateConfig("totalListedGold",totalGold)

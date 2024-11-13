@@ -196,7 +196,6 @@ class item():
                 if not roll[3]: self.rolls[i][3] = good
             logger.debug(f"Found price {foundPrice} for roll {i+1}")
         
-        print(prices)
         #store all roll price if there are many good rolls
         if manyGoodRolls: 
             self.searchGoodRolls()
@@ -206,7 +205,6 @@ class item():
         else:
             if prices: 
                 finalPrice = max(prices)
-                print(finalPrice)
                 # to do, add each rarity sell off but for now just check to make the listing fee
                 if finalPrice < 15:
                     return False
@@ -541,7 +539,6 @@ def getItemSlotType():
     ss = ss.convert("RGB")
     ss.save('debug/itemSlot.png')
     txt = pytesseract.image_to_string('debug/itemSlot.png',config="--psm 6")
-    print(txt)
     txtRemove = "Slot Type"
     try:
         keyword_index = txt.index(txtRemove) + len(txtRemove)
