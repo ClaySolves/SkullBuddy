@@ -19,6 +19,7 @@ def findTesseractInstall():
             return tessExe
     return None
 
+
 def buildExec():
     try:
         print("Building Executable...")
@@ -29,6 +30,7 @@ def buildExec():
         print("Failed to build executable")
         sys.exit(1)
 
+
 def installRequirements():
     # install requirements.txt
     try:
@@ -37,6 +39,7 @@ def installRequirements():
     except subprocess.CalledProcessError:
         print("Failed to install dependencies from requirements.txt.")
         sys.exit(1)
+
 
 def writeConfig(var,newVal):
     with open("python/config.py","r") as file:
@@ -49,6 +52,7 @@ def writeConfig(var,newVal):
             else:
                 file.write(line)
 
+
 def findPytessPath():
     """Locate the Tesseract OCR executable path."""
     # find pytess path
@@ -60,6 +64,7 @@ def findPytessPath():
         sys.exit(1)
     
     return tessPath
+
 
 def install():
     # Step 1: Install dependencies from requirements.txt
@@ -80,6 +85,7 @@ def install():
     buildExec()
     time2 = time.time()
     print(f"Installation complete in {time2-time1:.1f} seconds. Check dist for SkullBuddy.exe")
+
 
 if __name__ == "__main__":
     install()

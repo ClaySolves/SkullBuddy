@@ -5,6 +5,7 @@ import numbers
 import psutil
 import database
 import pyautogui
+import importlib
 import time
 import pytesseract
 from PIL import Image, ImageOps, ImageChops
@@ -86,6 +87,7 @@ class item():
 
         for roll in self.rolls:
             if roll[3]:
+                clearAttrSearch()
                 pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
                 pyautogui.click()
                 pyautogui.typewrite(roll[1], interval=0.01)
@@ -106,6 +108,7 @@ class item():
                 pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
                 pyautogui.click()
 
+            clearAttrSearch()
             pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
             pyautogui.click()
             pyautogui.typewrite(roll[1], interval=0.01)
@@ -122,6 +125,7 @@ class item():
         pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
         pyautogui.click()
 
+        clearAttrSearch()
         roll = self.rolls[i]
         pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
         pyautogui.click()
@@ -158,38 +162,60 @@ class item():
         self.searchFromMarketStash()
 
         #store base price, 5 attempts
-        attempts = 5
+        attempts = 3
         for attempt in range(attempts):
             foundPrice = recordDisplayedPrice(True)
             if foundPrice:
                 prices.append(foundPrice)
                 break
+            else:
+                foundPrice = 0
 
         #If none found or <15, something is wrong. Go next
+        goodBaseRead = True
         if foundPrice < 15:
-            return False
+            logger.debug(f"!!!!!!!!!WEIRD LOW PRICE FOUND!!!!!!!!!!")
+            goodBaseRead = False
+            if self.rarity == 'poor' or self.rarity == 'common':
+                return False
         logger.debug(f"Found price {foundPrice} base price")
 
         #store price of each roll
+        manyGoodRolls = False
+        goodRolls = 0
         for i, roll in enumerate(self.rolls):
             self.searchRoll(i)
             foundPrice = recordDisplayedPrice()
             if foundPrice: 
                 prices.append(foundPrice)
                 good = checkPriceRoll(prices[0],foundPrice)
-                if good and self.goodRoll is None: self.goodRoll = good
+                if good and self.goodRoll is None and goodBaseRead:
+                    self.goodRoll = good
+                    goodRolls += 1
+                    manyGoodRolls = goodRolls >= 2
                 if not roll[3]: self.rolls[i][3] = good
             logger.debug(f"Found price {foundPrice} for roll {i+1}")
-
-        #store all roll price
-        if self.goodRoll and len(self.rolls) > 1: 
+        
+        print(prices)
+        #store all roll price if there are many good rolls
+        if manyGoodRolls: 
             self.searchGoodRolls()
             foundPrice = recordDisplayedPrice()
             if foundPrice: self.price = foundPrice
             logger.debug(f"Found price {foundPrice} for good rolls")
-        else: self.price = max(prices)
-        logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
-        return True
+        else:
+            if prices: 
+                finalPrice = max(prices)
+                print(finalPrice)
+                # to do, add each rarity sell off but for now just check to make the listing fee
+                if finalPrice < 15:
+                    return False
+                else:
+                    self.price = finalPrice
+                    logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                    return True
+            else:
+                return False
 
     #Lists item for found price
     def listItem(self) -> bool: # True/False Listing Success
@@ -332,8 +358,6 @@ def getItemCost():
     return 0
 
 
-
-
 # read displayed prices from market
 def readPrices() -> list: # return list of prices
     ss = pyautogui.screenshot(region=config.ssGold)
@@ -438,6 +462,39 @@ def updateConfig(var,newVal) -> bool: # ret True/False updated
                     file.write(f'{var} = {newVal}\n')
             else:
                 file.write(line)
+
+
+# make sure updated config variables are correct
+def enforceSellConfig() -> bool: # ret True/False correct config
+    #relaod config
+    importlib.reload(config)
+    def boundsCheck(val,int1,int2):
+        if val < int1 or val > int2:
+            return False
+        else:
+            return True
+
+    #check each instance and bounds
+    check = config.sellMethod
+    if not boundsCheck(check,1,3): return False
+    if not isinstance(check,int): return False
+    
+    check = config.sellWidth
+    if not boundsCheck(check,1,12): return False
+    if not isinstance(check,int): return False
+        
+    check = config.sellHeight
+    if not boundsCheck(check,1,20): return False
+    if not isinstance(check,int): return False
+        
+    check = config.undercutValue
+    if isinstance(check,int): 
+        if not boundsCheck(check,1,99): return False
+    if isinstance(check,float):
+        if not boundsCheck(check,.01,.99): return False
+
+    #all checks pass
+    return True 
 
 
 #Sends all treasure to expressman
@@ -572,8 +629,14 @@ def logGui(txt,color='black'):
 
 #find if text is clear in item attr search on market
 def clearAttrSearch():
-    pass
+    ss = pyautogui.screenshot(region=[config.xAttribute-103,config.yAttribute+22,64,32])
+    data = ss.getdata()
 
+    for item in data:
+        if (item[2] >= 230):
+            pyautogui.press('backspace')
+            return
+        
 # Return location and santize ImageNotFound error
 def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=0.99):
     logger.debug(f"Searching for Image...")
@@ -694,7 +757,6 @@ def detectItem(x,y):
 def getAvailSlots():
     #Take screenshot and sanitize for read text
     ss = pyautogui.screenshot(region=[config.xGetListings,config.yGetListings,config.x2GetListings,config.y2GetListings])
-    ss = ss.convert("RGB")
     txt = pytesseract.image_to_string(ss,config="--psm 6")
     txt = txt.splitlines()
 
@@ -800,8 +862,13 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
-def searchStash():
+def searchStash() -> bool:
+    ss = pyautogui.screenshot(region=[config.xAttribute-103,config.xAttribute+22,500,500])
+    ss.save("debug/blu1eplz.png")
     loadTextFiles()
+    if not enforceSellConfig():
+        logGui("Invalid Settings!!!","red")
+        return False
     if getAvailSlots():
 
         conn, cursor = database.connectDatabase()
@@ -820,7 +887,7 @@ def searchStash():
                 pyautogui.moveTo(newX, newY)
                 sucess = mainLoop(cursor)
                 if not sucess:
-                    logGui(f"Item listing failure ... go next")
+                    logGui(f"Item listing failure ... stash & go next")
                     #attempt to stash item in inventory
                     pyautogui.moveTo(newX, newY)
                     time.sleep(0.35)
@@ -891,6 +958,7 @@ def getItemInfo() -> item:
     #make item and return
     foundItem = item(name,rolls,rarity,coords)
     return foundItem
+
 
 # main function
 # reads hovered item info, lists on market

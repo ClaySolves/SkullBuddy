@@ -186,7 +186,7 @@ class MainWindow(QMainWindow):
         # line edits
         intValidHeight = QIntValidator(0,20)
         intValidWidth = QIntValidator(0,12)
-        doubleValidundercut = QDoubleValidator(0,100.0,2)
+        doubleValidundercut = QDoubleValidator(0,100,2)
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
@@ -374,4 +374,3 @@ class MainWindow(QMainWindow):
     def updateGoldText(self,totalGold):
         self.totalGoldNumber.setText(f"{totalGold}")
         DAD_Utils.updateConfig("totalListedGold",totalGold)
-      
