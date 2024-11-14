@@ -34,38 +34,38 @@ class item():
 
     #Print item
     def printItem(self,newline=False):
-        printColor = "Black"
-        if self.rarity:
-            if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
-                printColor = 'gray'
-            elif self.rarity.lower() == 'uncommon':
-                printColor = 'green'
-            elif self.rarity.lower() == 'rare':
-                printColor = 'MediumBlue'
-            elif self.rarity.lower() == 'epic':
-                printColor = 'Orchid'
-            elif self.rarity.lower() == 'legendary':
-                printColor = 'Gold'
-            elif self.rarity.lower() == 'unique':
-                printColor = 'Yellow'
+        if self.price and self.rarity:
+            printColor = "Black"
+            if self.rarity:
+                if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
+                    printColor = 'gray'
+                elif self.rarity.lower() == 'uncommon':
+                    printColor = 'green'
+                elif self.rarity.lower() == 'rare':
+                    printColor = 'MediumBlue'
+                elif self.rarity.lower() == 'epic':
+                    printColor = 'Orchid'
+                elif self.rarity.lower() == 'legendary':
+                    printColor = 'Gold'
+                elif self.rarity.lower() == 'unique':
+                    printColor = 'Yellow'
 
-        logGui(f"{self.rarity} {self.name}",printColor)
-        for roll in self.rolls:
-            rollPrint = ""
-            #check for % for print format
-            if roll[2]:
-                if int(roll[0]) == 1: rollPrint = f"+ {roll[0]}.0% {roll[1]}"
-                else: rollPrint = f"+ {int(roll[0])/10:.1f}% {roll[1]}"
-            else:
-                 rollPrint = f"+ {roll[0]} {roll[1]}"
-            #check for good roll (added after price check)
-            if roll[3]:
-                rollPrint += " <-- GOOD ROLL FOUND!"
-            logGui(rollPrint,"DeepSkyBlue")
-            
-        if self.price:
+            logGui(f"{self.rarity} {self.name}",printColor)
+            for roll in self.rolls:
+                rollPrint = ""
+                #check for % for print format
+                if roll[2]:
+                    if int(roll[0]) == 1: rollPrint = f"+ {roll[0]}.0% {roll[1]}"
+                    else: rollPrint = f"+ {int(roll[0])/10:.1f}% {roll[1]}"
+                else:
+                    rollPrint = f"+ {roll[0]} {roll[1]}"
+                #check for good roll (added after price check)
+                if roll[3]:
+                    rollPrint += " <-- GOOD ROLL FOUND!"
+                logGui(rollPrint,"DeepSkyBlue")
+                
             logGui(f"Price: {self.price} Gold","Goldenrod")
-        if newline: logGui("\n")
+            if newline: logGui("\n")
 
     def getItemStoreDetails(self):
         rollStr = ""
@@ -967,7 +967,8 @@ def mainLoop(cursor) -> bool: # True/False listing success
         myItem.printItem()                                                  # print item to gui
         foundPrice = myItem.findPrice()                                     # if price found, continue loop || return false
         if foundPrice:
-            database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
+            if myItem.rarity and myItem.name:
+                database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
             returnMarketStash()                                             # return market stash
             myItem.listItem()                                               # list item
             mytime2 = time.time()

@@ -179,7 +179,13 @@ class MainWindow(QMainWindow):
         self.sellLog.setReadOnly(True)
 
         # labels
-        helpLabel = QLabel("Ctrl + Q: Exit SquireBot")
+        
+        #Close layout
+        helpLabel = QLabel("Ctrl + Q: Exit SkullBuddy")
+        helpLabel.setFont(QFont("Perpetua",18))
+        helpLabel.setStyleSheet("color: red")
+        helpLabel.setAlignment(Qt.AlignCenter)
+
         methodLabel = QLabel("Select Selling Method:")
         stashLabel = QLabel("Enter Stash Info:")
 
@@ -213,11 +219,11 @@ class MainWindow(QMainWindow):
         
         # Log Layout
         logLayout = QVBoxLayout()
+        logLayout.addWidget(helpLabel)
         logLayout.addWidget(self.sellLog)
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
-        settingsLayout.addWidget(helpLabel)
         settingsLayout.addWidget(methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
