@@ -12,7 +12,7 @@ totalListedGold = 0
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = ""
+sellMethod = 1
 rollMethod = ""
 # stashDump: -1 for shared stash, 0-10 are numbered with 0 default
 stashDump = 2 
