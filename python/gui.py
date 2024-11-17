@@ -125,6 +125,8 @@ class MainWindow(QMainWindow):
             else:
                 DAD_Utils.updateConfig("undercutValue",int(txtRead))
 
+        self.updateSellLimit()
+
         # Run thread
         try:    
             logger.debug("Starting thread...")
@@ -193,11 +195,17 @@ class MainWindow(QMainWindow):
         intValidHeight = QIntValidator(0,20)
         intValidWidth = QIntValidator(0,12)
         doubleValidundercut = QDoubleValidator(0,100,2)
+        intValidSellLimit = QIntValidator(0,100000)
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
         self.undercut.setText(str(config.undercutValue))
         self.undercut.setValidator(doubleValidundercut)
+
+        self.sellLimit = QLineEdit()
+        self.sellLimit.setPlaceholderText("Enter Price Limit")
+        self.sellLimit.setText(str(config.sellLimit))
+        self.sellLimit.setValidator(intValidSellLimit)
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
@@ -227,7 +235,9 @@ class MainWindow(QMainWindow):
         settingsLayout.addWidget(methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
+
         settingsLayout.addWidget(self.undercut)
+        settingsLayout.addWidget(self.sellLimit)
 
         settingsLayout.addWidget(stashLabel)
         settingsLayout.addWidget(self.stashHeight)
@@ -381,3 +391,8 @@ class MainWindow(QMainWindow):
     def updateGoldText(self,totalGold):
         self.totalGoldNumber.setText(f"{totalGold:,}")
         DAD_Utils.updateConfig("totalListedGold",totalGold)
+
+    
+    def updateSellLimit(self):
+        if config.sellLimit != self.sellLimit.text():
+            DAD_Utils.updateConfig("sellLimit",int(self.sellLimit.text()))

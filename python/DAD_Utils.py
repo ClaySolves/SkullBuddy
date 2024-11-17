@@ -205,8 +205,9 @@ class item():
         else:
             if prices: 
                 finalPrice = max(prices)
+                #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
-                if finalPrice < 15:
+                if finalPrice < 15 or finalPrice > config.sellLimit:
                     return False
                 else:
                     self.price = finalPrice
