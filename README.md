@@ -1,11 +1,11 @@
-# Dark And Darker Auto-Squire
+# Dark And Darker SkullBuddy
 
 ## Description
-Skull Buddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
+SkullBuddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
 
-Skull Buddy utilizes the PyAutoGUI library for game navigation.
+SkullBuddy utilizes the PyAutoGUI library for game navigation.
 
-Skull Buddy ONLY interacts with gameplay outside of the dungeon
+SkullBuddy ONLY interacts with gameplay outside of the dungeon
 and does not allow the user to hack, cheat, abuse, manipulate, 
 change or otherwise obtain unauthorised access to any benefits or features in-game 
 and does not automate gameplay mechanisms, only menu navigation. 
