@@ -79,20 +79,24 @@ class item():
 # search market gui for all item rolls
     def searchGoodRolls(self) -> bool: #True/False searched anything
         numSearch = 0
-        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+        time.sleep(config.sleepTime / 15)
         pyautogui.click()                
 
-        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+        pyautogui.moveTo(config.xAttribute, config.yAttribute)
+        time.sleep(config.sleepTime / 15) 
         pyautogui.click()
 
         for roll in self.rolls:
             if roll[3]:
                 clearAttrSearch()
-                pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+                pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+                time.sleep(config.sleepTime / 15) 
                 pyautogui.click()
-                pyautogui.typewrite(roll[1], interval=0.01)
+                pyautogui.typewrite(roll[1], interval=0.004)
 
-                pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch), duration=0.15) 
+                pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch))
+                time.sleep(config.sleepTime / 15)
                 pyautogui.click()
                 numSearch += 1
         logger.debug(f"Searched for {numSearch} good rolls")
@@ -102,36 +106,44 @@ class item():
     def searchAllRolls(self):
         for i, roll in enumerate(self.rolls):
             if i == 0:
-                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+                pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+                time.sleep(config.sleepTime / 15)
                 pyautogui.click()                
 
-                pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+                pyautogui.moveTo(config.xAttribute, config.yAttribute)
+                time.sleep(config.sleepTime / 15)
                 pyautogui.click()
 
             clearAttrSearch()
-            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+            time.sleep(config.sleepTime / 15)
             pyautogui.click()
-            pyautogui.typewrite(roll[1], interval=0.01)
+            pyautogui.typewrite(roll[1], interval=0.004)
 
-            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
+            time.sleep(config.sleepTime / 15)
             pyautogui.click()
         logger.debug(f"Searched for all rolls")
 
     # search market gui for indexed item roll
     def searchRoll(self,i):
-        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute, duration=0.1) 
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+        time.sleep(config.sleepTime / 15)
         pyautogui.click() 
 
-        pyautogui.moveTo(config.xAttribute, config.yAttribute, duration=0.05) 
+        pyautogui.moveTo(config.xAttribute, config.yAttribute)
+        time.sleep(config.sleepTime / 15)
         pyautogui.click()
 
         clearAttrSearch()
         roll = self.rolls[i]
-        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch, duration=0.15) 
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+        time.sleep(config.sleepTime / 15)
         pyautogui.click()
-        pyautogui.typewrite(roll[1], interval=0.01)
+        pyautogui.typewrite(roll[1], interval=0.004)
 
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect, duration=0.15) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect)
+        time.sleep(config.sleepTime / 15)
         pyautogui.click()
         logger.debug("Searched for a roll")
 
@@ -147,7 +159,8 @@ class item():
     
     #remove roll from market gui search 
     def removeSearchRoll(self,i):
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i), duration=0.15) 
+        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
+        time.sleep(config.sleepTime / 10)
         pyautogui.click()
         logger.debug("removed searched roll")
         
@@ -234,7 +247,7 @@ class item():
     
             pyautogui.moveTo(self.coords[0], self.coords[1], duration=0.1) 
             pyautogui.click()
-            time.sleep(0.4)
+            time.sleep(config.sleepTime / 3)
 
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
@@ -304,7 +317,7 @@ def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Suc
     while noInfiniteLOL < 31:
         check = locateOnScreen(ss1,region=newRegion)
         if not check: return True
-        time.sleep(0.05)
+        time.sleep(config.sleepTime / 30)
         noInfiniteLOL += 1
 
     return False
@@ -336,7 +349,7 @@ def refreshMarketItem():
     logger.debug("refreshing market filters...")
     pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.05)
     pyautogui.click()
-    time.sleep(0.2)
+    time.sleep(config.sleepTime / 7.5)
 
 
 # get average cost of displayed item in market lookup
@@ -488,7 +501,7 @@ def enforceSellConfig() -> bool: # ret True/False correct config
         
     check = config.undercutValue
     if isinstance(check,int): 
-        if not boundsCheck(check,1,99): return False
+        if not boundsCheck(check,0,99): return False
     if isinstance(check,float):
         if not boundsCheck(check,.01,.99): return False
 
@@ -808,7 +821,7 @@ def returnMarketStash():
         else: 
             return True
     if work():
-        time.sleep(0.1)
+        time.sleep(config.sleepTime / 15)
         return True
 
 
@@ -834,7 +847,7 @@ def navCharLogin():
     pyautogui.click()  # Perform a mouse click
     
     while not locateOnScreen('verifyMainScreen', region=(0,0,300,300)):
-        time.sleep(0.3)
+        time.sleep(config.sleepTime / 7.5)
 
 
 # Change class 
@@ -845,7 +858,7 @@ def changeClass():
     pyautogui.moveTo(config.xChangeClass,config.yChangeClass,duration=0.1)
     pyautogui.click()
 
-    time.sleep(3)
+    time.sleep(config.sleepTime * 3)
 
 
 # moves mouse from start to end
@@ -974,7 +987,7 @@ def mainLoop(cursor) -> bool: # True/False listing success
             myItem.listItem()                                               # list item
             mytime2 = time.time()
             logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
-            time.sleep(config.sleepTime)
+            time.sleep(config.sleepTime / 1.2)
             return True
         else: 
             returnMarketStash()                                             # return market stash

@@ -331,6 +331,7 @@ class MainWindow(QMainWindow):
         
         Launch Dark and Darker
         Navigate to Trade -> Marketplace -> My Listings
+        Select stash to sell from
         Adjust Settings
         Click Sell Items
 
@@ -343,6 +344,7 @@ class MainWindow(QMainWindow):
         Lowest 3 Price Avg:                Lists with the average of the lowest 3 prices
 
                         
+                        
         Undercut Value: 
         Decreases recorded price to sell faster
         Enter a number (1 - 100) to undercut the recorded price by a static value
@@ -352,6 +354,7 @@ class MainWindow(QMainWindow):
         Undercut Value: 20          100 - 20 = 80, list at 80 gold
         Undercut Value: .11         100 - (100 * .11) = 89, list at 89 gold    
             
+                        
                         
         Sell Height and Width: 
         Creates a box from top left corner to include items being sold

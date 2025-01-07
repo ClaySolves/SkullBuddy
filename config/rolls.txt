@@ -38,3 +38,4 @@ True Magical Damage
 True Physical Damage
 Vigor
 Will
+All Attributes

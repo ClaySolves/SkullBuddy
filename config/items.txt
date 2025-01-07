@@ -1,170 +1,487 @@
-Badger Pendant 
-Torq of Soul
-Rat Pendant
-Dashing Boots
-Bear Pendant 
-Low Boots
-Crusader Armor
-Wind Locket
-Fangs of Death Necklace 
-Fox Pendant 
-Great Helm
-Troll's Bane
-Frost Amulet 
-Monkey Pendant 
-Necklace of Peace
-Owl Pendant 
-Ox Pendant 
-Phoenix Choker 
-Ring of Wisdom 
-Ring of Vitality 
-Ring of Survival 
-Ring of Resolve 
-Ring of Quickness 
-Ring of Finesse 
-Ring of Courage 
-Grimsmile Ring
-Crystal Sword
-Arming Sword
-Bardiche	
-Lute
-Hand Crossbow
-Club
-Battle Axe		
-Buckler	
-Castillon Dagger
-Crystal Ball
-Double Axe
-Falchion
-Felling Axe
-Flanged Mace
-Halberd
-Hatchet
-Heater Shield
-Horseman's Axe
-Kris Dagger
-Longbow
-Spangenhelm
-Dark Leather Leggings
-Longsword
-Magic Wand
-Morning Star
-Pavise
-Quarterstaff
-Rapier
-Flute
-Recurve Bow
-Rondel Dagger
-Round Shield
-Spear
-Spellbook
-Stiletto Dagger
-Survival Bow
-War Maul
-Windlass Crossbow
-Wizard Staff
-Zweihander
 Adventurer Boots
-Rubysilver Adventurer Boots
-Adventurer Tunic
 Adventurer Cloak
+Adventurer Tunic
+Ale
+Ancient Scroll
+Arcane Garb
+Arcane Gloves
+Arcane Hood
 Armet
-Barbuta Helm
-Stitched Turnshoe
-Rubysilver Barbuta Helm
-Chapel De Fer
+Arming Sword
+Armor Scrap
+Arrow
+Axe of Righteousness
+Badger Pendant
+Bandage
+Bandshee sonnet
+barbuta Helm
 Bardic Pants
-Cobalt Chapel De Fer
-Chaperon
+Bardiche
+Bat Claw
+Bat Wing
+Battle Axe
+Bear Pendant
+Beetle Wings
+Blade of Righteousness
+Bloodsap Blade
+Bloodwoven Gloves
+Bloodwoven Robe
+Blue Eyeballs
+Blue Sapphire
+Bolt
+Bone
+Boneshaper
+Bow of Righteousness
+Bowstring
+Brave Hunter's Pants
+Broken Skull
+Buckled Boots
+Buckler
+Bug Shell
+Buttoned Boots
+Buttoned Leggings
+Campfire Kit
+Candy Cane
+Candy Corn
+Caputred Mana Flakes
+Castillion Dagger
+Centaur Hoof
+Centaur Horn
+Centaur Tail
+Centaur's Madness
+Cermonial Dagger
+Cermonial Headdress
+Cermonail Staff
+Champion Armor
+Chapel De Fer
+Chaperon 
+Chocolate Chip Muffin
+Chronicles of the Cursed Crow
+Cloak of Darkness
 Cloth Pants
-Dark Plate Armor
-Gold Coin Bag
-Doublet
-Rubysilver Doublet
-Short Sword
-Fine Cuirass
-Feathered Hat
-Forest hood
-Rubysilver Fine Cuirass
-Frock
-Pourpoint
-Studded Leather
-Light Gauntlets
+Club
+Cobalt Chapel De Fer
 Cobalt Frock
+Cobalt Hat
+Cobalt Heavy Gauntlet
+Cobalt Hood
+Cobalt Ingot
+Cobalt Leather Gloves
+Cobalt Lightfoot Boots
+Cobalt Ore
+Cobalt Plate Boots
+Cobalt Plate Pants
+Cobalt Powder
+Cobalt Regal Gambeson
+Cobalt Templar Armor
+Cobalt Trousers
+Cobalt Viking Helm
+Cockatrice's Lucky Feather
+Coif
+Copper Ingot
+Copper Ore
+Copper Powder
+Copperlight Attire
+Copperlight Gauntlets
+Copperlight Kettle Hat
+Copperlight Leggings
+Copperlight Lightooft Boots
+Copperlight Outfit
+Copperlight Pants
+Copperlight Plate Boots
+Copperlight Plate Pants
+Copperlight Riveted Gloves
+Copperlight Sanctum Plate Armor
+Copperlight Shadow Hood
+Copperlight Straw Hat
+Copperlight Tunic
+Cowl of Darkness
+Crossbow
+Crusader Armor
+Crusader Helm
+Crystal Ball
+Crystal Sword
+Crystal Boots
+Cursed Crown
+Cyclops Eye
+Cyclops Rags
+Cyclops Vision Crystal
+Cyclop's Club
+Dagger of Righteousness
+Dark Curiass
+Dark Leather Leggings
+Dark Matter
+Dark Matter Tunic
+Dark Plate Armor
+Darkgrove Hood
+Darkgrove Robe
+Darkleaf Boots
+Dashing Boots
+Demon Blood
+Demon Dog Thorn
+Demon Grip Gloves
+Demon's Glee
+Demonclad Leggings
+Diamond
+Diary of the Toz
+Divine Axe
+Divine Blade
+Divine Bow
+Divine Dagger
+Divine Rod
+Divine Short Sword
+Divine Staff
+Dog Collar
+Dotted Gold Bangle
+Double Axe
+Doublet
+Dread Hood
+Drum
+Ectoplasm
+Elkwood Crown
+Elkwood Gloves
+Emerald
+Enchanted Dark Fabric
+Explosive Bottle
+Extra Thick Pelt
+Falchion
+Falchion of Honor
+Fangs of Death Necklace 
+Feathered Hat
+Felling Axe
+Fine Cuirass
+Firefly's Abdomen
+Flanged Mace
+Flute
+Forest Boots
+Forest Hood
+Foul Boots
+Fox Pendant
+Francisca Axe
+Frock
+Frost Amulet
+Frost Wyvern Egg
+Frost Wyvern's Claws
+Frost Wyvern's Hide
+Frosted Feather
+Frostlight Abyss Plate Armor
+Frostlight Aketon
+Frostlight Cloack
+Frostlight Crusader Helm
+Frostlight Crsytal Sword
+Frostlight Feathered Hat
+Frostlight Gauntlets
+Frostlight Hood
+Frostlight Lantern Shield
+Frostlight Leather leggings
+Frostlight Lightfoot Boots
+Frostlight Mystic Gloves
+Frostlight Norman Nasal Helm
+Frostlight Oracle Robe
+Frostlight Plate Boots
+Frostlight Plate Pants
+Frostlight Riveted Gloves
+Frostlight Rugged Boots
+Frostlight Runestone Gloves 
+Frostlight Spear
+Frostlight Trousers
+Frostlight Warden Outfit
+Frostlight Wizard Hat
+Frostlight Ingot
+Frostlight Ore
+Frostlight Powder
+Frozen Heart
+Frozen Iron Key
+Gem Neckalce
+Gem Ring
+Ghostdust Pouch
+Ghostly Essence
+Giant Bat Ear
+Giant Bat Hide
+Giant Toe
+Gingerbread Cookie
 Gjermundbu
-Cobalt Wizard Hat
+Glimmer Bangle
+Gloves of Utility
+Glowing Blue Ice Eyes
+Goblet
+Goblin Ear
+Gold Band
+Gold Bowl
+Gold Candelabra
+Gold Candle Holder
+Gold Candle Platter
+Gold Chalice
+Gold Coin
+Gold Coin Bag
+Gold Coin Chest
+Gold Coin Pouch
+Gold Coin Purse
+Gold Crown
+Gold Goblet
+Gold Ingot
+Gold Ore
+Gold Powder
+Gold Waterpot
+Golden Armet
+Golden Boots
+Golden Chausses
+Golden Cloack
+Golden Felling Axe
+Golden Gauntlets
+Golden Gjermundbu
+Golden Gloves
+Golden Hounskull
+Golden Key
+Golden Leaf Hood
+Golden Leggings
+Golden Padded Tunic
+Golden Plate
+Golden Plate Boots
+Golden Plate Pants
+Golden Robe
+Golden Scarf
+Golden Skull Token
+Golden Teeth
+Golden Viking Sword
+Golden Bridgandine
+Grave Essence
+Gravewolf Gloves
+Great Helm
+Great Potion of Luck
+Grimslayer
+Grimsmile Ring
+Halberd
+Hand Crossbow
+Hatchet
+Haze Blade
+Heart Candy
+Heater Shield
 Heavy Boots
-Heavy Gauntlet
-Cobalt Heavy Gauntlet 
-Rubysilver Heavy Gauntlet
+Heavy Gambeson
+Heavy Gauntlets
 Heavy Leather Leggings
-Ranger Hood
+Honeybliss Pear
+Horseman's Axe
 Hounskull
+Hunting trap
+Icefang
+Infected Flesh
+Intact Skull
+Iron Ore
+Iron Powder
 Kettle Hat
+Kobold's Ear
+Kris Dagger
 Laced Turnshoe
+Lanter 
+Lanter Shield
+Leaf Gold Bangle
 Leather Bonnet
 Leather Cap
-Rubysilver Leather Cap
-Leather Gloves
 Leather Chausses
+Leather Gloves
 Leather Leggings
+Lifeleaf
+Light Aketon
+Light Bringer
+Light Gauntlers
+Light Gold Bangle
 Lightfoot Boots
-Copperlight Lightfoot Boots
-Cobalt Lightfoot Boots
-Loose Trousers
-Cobalt Loose Trousers
+Lockpick
+Longbow
+Longsword
+Loose Trouserse
+Low Boots
+Lute
+Lyre
+Maggot
+Magic Protection Potion
+Magic Staff
+Mana Psherer
+Manuscripts of the Warlord
 Marauder Outfit
-Mystic Vestments
+Mercurial Cloak
+Mimic Tongue
+Mimic Tooth
+Moldy Bread
+Monkey Pendant 
+Morning Star
 Mystic Gloves
+Mystic Cestments 
+Mystical Gem
+Necklace of Peace
 Norman Nasal Helm
-Rubysilver Mystic Vestments
 Northern Full Tunic
+Occultist Boots
 Occultist Hood
+Occultist Pants
 Occultist Robe
 Occultist Tunic
+Oil Lantern
+Old Bloody Bandage
+Old Cloth
+Old Rusty Key
 Old Shoes
-Shoes of Darkness
 Open Sallet
 Oracle Robe
-Padded Leggings
 Ornate Jazerant
-Padded Tunic
+Owl Pendant
+Ox Pendant
+Padded Leggings
+Padded tunic
+Patterned Gold Bangle 
+Pavise
+Pearl Neckalce
+Phantom Flower
+Phoenix Choker
+Pickaxe
 Plate Boots
-Rubysilver Plate Boots
-Cobalt Plate Boots
 Plate Pants
-Cobalt Plate Pants 
-Rubysilver Plate Pants 
+Poison Vial
+Potion of Clarity
+Potion of Healing
+Potion of Invisibility
+Potion of Luck
+Potion of Protection
+Pourpoint
+Primitive Bracelet
+Quarterstaff
 Radiant Cloak
 Ranger Hood
+Rapier
+Rat Pendant
 Rawhide Gloves
-Rubysilver Rawhide Gloves
+Recurve Bow
 Regal Gambeson
-Cobalt Regal Gambeson
 Reinforced Gloves
+Ring of Courage
+Ring of Finesse
+Ring of Quickness
+Ring of Resolve
+Ring of Survival
+Ring of Vitality
+Ring of Wisdom
+Ritual Robe
 Riveted Gloves
-Copperlight Riveted Gloves
+Robe of Darkness
+Rod of Righteousness
 Rogue Cowl
+Rondel Dagger
+Rotten Fluids
+Round Shield
+Ruby
+Rubysilver Adventurer Boots
+Rubysilver Barbute Helm
+Rubysilver Cap
+Rubysilver Cuirass
+Rubysilver Doublet
+Rubysilver Gauntlets
+Rubysilver Hood
+Rubysilver Ingot
+Rubysilver Leggings
+Rubysilver Ore
+Rubysilver Plate Boots
+Rubysilver Plate Pants
+Rubysilver Powder
+Rubysilver Rawhide Gloves
+Rubysilver Vestments
 Rugged Boots
-Viking Sword
-Runestome Gloves
-Shadow Hood
+Runestone Gloves
+Rusty Broken Sword
+Sallet
+Shaow Hood
 Shadow Mask
+Shine Bangle
+Shoes of Darkness
+Short Sword
+Short Sword of Righteousness
+Silver Chalice
+Silver Coin
+Silver Ingot
+Silver Ore
+Silver Powder
+Silver Skull Token
+Simple Gold Bangle
+Skull Key
+Sleek Hide Pants
+SLim Bandle
+Sovereign's Ghostblade
+Spangenhlem
+Spear 
+Spear of Rot
+Spectral Coinbag
+Spectral Fabric
+Spectral Hilt
+Spellbook
+Spellplunder Rod
+Spider Silk
 Splendid Cloak
+Staff of Righteousness
+Sterling Axe
+Sterling Blade
+Sterling Bow
+Sterling Dagger
+Sterling Rod
+Sterling Short Sword
+Sterling Staff
+Stiletto Dagger
+Stilmend Boots
+Stitched Turnshoes
 Straw Hat
+Studded Leather
+Sunburt Orb
+Surgical Kit
+Suvival Bow
+Tanglethread Trousers
+Tar Flask
 Tattered Cloak
-Watchman Cloak
 Templar Armor
-Cobalt Templar Armor 
+Thorn Shield
+Throwing Knife
+Token of Honor
+Topfhelm
+Torch
+Torn Bat Wing
+Torq of Soul
+Trap Disarming Kit
+Tri-Pelt Doublet
+Tri-Pelt Northern Full Tunic
+Triple Gem Bangle
+Troll Pelt
+Troll's Blood
+Troll's Club
+Troll's Bane
 Troubadour Outfit
+Turnshoe
+Turquoise Gem Bangklle
+Vigilant Cloak
 Viking Helm
-Cobalt Viking Helm
+Viking Sword
 Visored Barbuta Helm
+Visored Sallet
+Void Blade
+Volcanic Ash
 Wanderer Attire
+Wanderlight Lantern
+War Hammer
+War Maul
 Warden Outfit
+Wardweed
+Warlord's Armor Shard
+Warlord's Broken Swrod Blade
+Watchman Cloak
+Wendigo's Antler Fragment
+Wendigo's Entrails
+Wendigo's Hoof
+Wendigo's Sharp Claws
+Wind Locket
+Windlass Crossbow
 Wizard Hat
 Wizard Shoes
-Mercurial Cloak
-Visored Sallet
-Topfhelm
-Copperlight Sanctum Plate Armor
+Wolf Claw
+Wolf Fang
+Wolf Hunter Leggings
+Wolf Pelt
+Yeti's Teeth
+Zweihander
