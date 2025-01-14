@@ -1,20 +1,14 @@
 import math
 import re
-import sys
-import numbers
-import psutil
 import database
 import pyautogui
 import importlib
 import time
 import pytesseract
-from PIL import Image, ImageOps, ImageChops
 import difflib
 import config
-import random
-import os
 import logging
-from pynput import keyboard, mouse
+
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
 
@@ -151,7 +145,7 @@ class item():
     def searchFromMarketStash(self):
         pyautogui.moveTo(self.coords[0], self.coords[1]) 
         pyautogui.click() 
-        time.sleep(0.1)
+        time.sleep(config.sleepTime / 13)
 
         pyautogui.moveTo(config.xMarketSearchNameRairty, config.yMarketSearchNameRairty, duration=0.1) 
         pyautogui.click()
@@ -163,6 +157,78 @@ class item():
         time.sleep(config.sleepTime / 10)
         pyautogui.click()
         logger.debug("removed searched roll")
+
+    #Search market for item price # Assume that View Market tab is open
+    #Rewrite for optimization
+    def findPrice2(self) -> bool: #True/Flase Price Find Success
+        logger.debug(f"Searching for {self.name} price")
+        logGui(f"Searching market for {self.rarity} {self.name}")
+
+        # Search for item from Listings Stash
+        ss = pyautogui.screenshot(region=config.ssComp2)
+        self.searchFromMarketStash()
+        confirmGameScreenChange(ss,region=config.ssComp2)
+
+        # record price of all rolls
+        self.searchAllRolls()
+        foundPrice = recordDisplayedPrice()
+
+        # found price on all attr search, return and log
+        if foundPrice:
+            logGui(f"Found {foundPrice} for {self.name}")
+            logDebug(f"Found {foundPrice} for {self.name}")
+            self.price = foundPrice
+            return True
+        
+        # no matching listing for all attr, search all attr 1 @ at a time
+        prices = []
+
+        # reset attr and get baseprice
+        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+        time.sleep(config.sleepTime / 15)
+        pyautogui.click() 
+
+        foundPrice = recordDisplayedPrice()
+        prices.append(foundPrice)
+
+        # search and store each roll
+        manyGoodRolls = False
+        goodRolls = 0
+        for i, _ in enumerate(self.rolls):
+            self.searchRoll(i)
+            foundPrice = recordDisplayedPrice()
+            if foundPrice: 
+                prices.append(foundPrice)
+                good = checkPriceRoll(prices[0],foundPrice)
+                if good and self.goodRoll is None:
+                    self.goodRoll = good
+                    goodRolls += 1
+                    manyGoodRolls = goodRolls >= 2
+            logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]}")
+
+        #store many good roll price if there are many good rolls
+        if manyGoodRolls: 
+            self.searchGoodRolls()
+            foundPrice = recordDisplayedPrice()
+            if foundPrice: prices.append(foundPrice)
+            logger.debug(f"Found price {foundPrice} for good rolls")
+
+        # assign best price 
+        if prices: 
+            finalPrice = max(prices)
+            #Check if profitable or too expensive
+            # to do, add each rarity sell off but for now just check to make the listing fee
+            if finalPrice < 15 or finalPrice > config.sellLimit:
+                return False
+            else:
+                self.price = finalPrice
+                logGui(f"Found price {self.price} for {self.rarity} {self.name}")
+                logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                return True
+        else:
+            return False
+
+        
         
     #Search market for item price # Assume that View Market tab is open
     def findPrice(self) -> bool: # True/False Price Find Success
@@ -294,12 +360,25 @@ def checkPriceRoll(basePrice, rollPrice) -> bool: # True/False good item roll
 
 
 # searches market and finds price
-def recordDisplayedPrice(baseprice=False) -> int: # Price/None
-    if not baseprice:
-        refreshMarketSearch()
-    price = getItemCost()
-    logger.debug(f"found price {price}!")
-    logGui(f"Researching prices... Found {price}...")
+def recordDisplayedPrice() -> int: # Price/None
+    pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
+    pyautogui.click()
+
+    ss = pyautogui.screenshot(region=config.ssMarketSearch)
+    changed = confirmGameScreenChange(ss,config.ssMarketSearch)
+
+    if not changed: 
+        logger.debug(f"no price found ...")
+        return None
+
+    price = readPrices()
+    if price:
+        price = calcItemPrice(price,config.sellMethod)
+    else:
+        logger.debug(f"no price found ...")
+        logGui(f"Researching prices... Found {price}...")
+        return None
+    
     return price
 
 
@@ -350,24 +429,6 @@ def refreshMarketItem():
     pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.05)
     pyautogui.click()
     time.sleep(config.sleepTime / 7.5)
-
-
-# get average cost of displayed item in market lookup
-def getItemCost():
-    attempts = 5
-    for i in range(attempts):
-        prices = readPrices()
-        if prices:
-            price = calcItemPrice(prices,config.sellMethod)
-            return price
-        else:
-            if i == 0: 
-                pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
-                pyautogui.click()
-            pyautogui.moveTo(config.xAttrSearch + 60, config.yAttrSearch  + 160)
-            pyautogui.moveTo(config.xAttrSearch + 60, config.yAttrSearch  + 560,duration=0.05)
-    #If no read, return 0
-    return 0
 
 
 # read displayed prices from market
@@ -803,8 +864,8 @@ def gatherSoldListings():
     
 
 # Lookup and return input_string from phrase_list
-def findItem(input_string, phrase_list,n=1):
-    closest_match = difflib.get_close_matches(input_string, phrase_list, n=n, cutoff=0.6)
+def findItem(input_string, phrase_list, n = 1 , cutoff = 0.6):
+    closest_match = difflib.get_close_matches(input_string, phrase_list, n = n, cutoff = cutoff)
     logger.debug(f"Found: {closest_match}")
     return closest_match[0] if closest_match else None
 
@@ -938,6 +999,7 @@ def getItemInfo() -> item:
     logGui("Getting item info...")
     rarity = getItemRarity(ssRegion)
     ss = pyautogui.screenshot(region=ssRegion)
+    ss.save("debug/testing.png")
     text = pytesseract.image_to_string(ss)
     name = ""
     rolls = []
@@ -952,6 +1014,11 @@ def getItemInfo() -> item:
             found = findItem(line, allItems)
             if found: 
                 name = found
+                foundName = True
+                continue
+            found = findItem(line, allRolls, cutoff = 0.9)
+            if found:
+                name = "NameReadError"
                 foundName = True
 
         if foundName:
@@ -979,7 +1046,7 @@ def mainLoop(cursor) -> bool: # True/False listing success
     myItem = getItemInfo()                                                  # read item info
     if myItem:
         myItem.printItem()                                                  # print item to gui
-        foundPrice = myItem.findPrice()                                     # if price found, continue loop || return false
+        foundPrice = myItem.findPrice2()                                     # if price found, continue loop || return false
         if foundPrice:
             if myItem.rarity and myItem.name:
                 database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
