@@ -447,7 +447,6 @@ def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Suc
 # take ss and read txt
 def readSSTxt(region,config=config.pytessConfig):
     ss = pyautogui.screenshot(region=region)
-    ss.save('LOLtest.png')
     txt = pytesseract.image_to_string(ss,config=config)
     if txt: return txt
     else: return None
@@ -458,7 +457,6 @@ def readSSTxt(region,config=config.pytessConfig):
 def refreshMarketSearch() -> bool: # True/False Success
     logger.debug("refreshing market Search...")
     ss = pyautogui.screenshot(region=config.ssMarketExpireTime)
-    ss.save("debug/refreshMarketSearch.png")
     pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice, duration=0.15)
     pyautogui.click()
     ret = confirmGameScreenChange(ss,region=config.ssMarketExpireTime)
@@ -555,8 +553,8 @@ def loadTextFiles():
     global allItems
     global allRolls
 
-    # with open("debug.log", 'w') as file:
-    #     pass
+    #with open("debug.log", 'w') as file:
+    #    pass
 
     with open("config/items.txt", 'r') as file:
         lines = file.readlines()
@@ -664,7 +662,6 @@ def getItemSlotType():
 
     ss = pyautogui.screenshot(region=ssRegion)
     ss = ss.convert("RGB")
-    ss.save('debug/itemSlot.png')
     txt = pytesseract.image_to_string('debug/itemSlot.png',config="--psm 6")
     txtRemove = "Slot Type"
     try:
@@ -1008,8 +1005,6 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash() -> bool:
-    ss = pyautogui.screenshot(region=[config.xAttribute-103,config.xAttribute+22,500,500])
-    ss.save("debug/blu1eplz.png")
     loadTextFiles()
     if not enforceSellConfig():
         logGui("Invalid Settings!!!","red")
@@ -1073,7 +1068,6 @@ def getItemInfo() -> item:
     logGui("Getting item info...")
     rarity = getItemRarity(ssRegion)
     ss = pyautogui.screenshot(region=ssRegion)
-    ss.save("debug/testing.png")
     text = pytesseract.image_to_string(ss)
     name = ""
     rolls = []
