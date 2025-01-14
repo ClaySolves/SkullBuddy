@@ -104,28 +104,7 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
         
-
-        #handle config updates from settings
-        updateMethod = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
-        if updateMethod: 
-            DAD_Utils.updateConfig("sellMethod",updateMethod)
-
-        txtRead = self.stashWidth.text()
-        if txtRead:
-            DAD_Utils.updateConfig("sellWidth",int(txtRead))
-
-        txtRead = self.stashHeight.text()
-        if txtRead:
-            DAD_Utils.updateConfig("sellHeight",int(txtRead))
-
-        txtRead = self.undercut.text()
-        if txtRead:
-            if "." in txtRead:
-                DAD_Utils.updateConfig("undercutValue",float(txtRead))
-            else:
-                DAD_Utils.updateConfig("undercutValue",int(txtRead))
-
-        self.updateSellLimit()
+        self.guiToConfig()
 
         # Run thread
         try:    
@@ -196,6 +175,12 @@ class MainWindow(QMainWindow):
         intValidWidth = QIntValidator(0,12)
         doubleValidundercut = QDoubleValidator(0,100,2)
         intValidSellLimit = QIntValidator(0,100000)
+        doubleValidSpeed = QDoubleValidator(0.3,5.0,2)
+
+        self.appSpeed = QLineEdit()
+        self.appSpeed.setPlaceholderText("Enter Sell Speed")
+        self.appSpeed.setText(str(config.sleepTime))
+        self.appSpeed.setValidator(doubleValidSpeed)
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
@@ -236,6 +221,7 @@ class MainWindow(QMainWindow):
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
 
+        settingsLayout.addWidget(self.appSpeed)
         settingsLayout.addWidget(self.undercut)
         settingsLayout.addWidget(self.sellLimit)
 
@@ -334,17 +320,25 @@ class MainWindow(QMainWindow):
         Select stash to sell from
         Adjust Settings
         Click Sell Items
+                        
 
-                                    
+                        
+        App Speed:
+        Controlls SkullBuddy's execution time
+        Recommended Value: 1.0
+        Lower values increase speed and higher values decrease speed
+        test and adjust accordingly for ideal performance 
+
+                                   
 
         Selling Method: 
         Determines calculated item price
         Lowest Price:                          Lists with lowest recorded price
         Lowest Price w/o Outliers:      Lists with lowest recorded price, removing low/mislisted recorded prices
         Lowest 3 Price Avg:                Lists with the average of the lowest 3 prices
+                        
+                        
 
-                        
-                        
         Undercut Value: 
         Decreases recorded price to sell faster
         Enter a number (1 - 100) to undercut the recorded price by a static value
@@ -396,6 +390,31 @@ class MainWindow(QMainWindow):
         DAD_Utils.updateConfig("totalListedGold",totalGold)
 
     
-    def updateSellLimit(self):
-        if config.sellLimit != self.sellLimit.text():
-            DAD_Utils.updateConfig("sellLimit",int(self.sellLimit.text()))
+    def guiToConfig(self):
+        #handle config updates from settings
+        txtRead = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
+        if str(config.sellMethod) != str(txtRead):
+            DAD_Utils.updateConfig("sellMethod",txtRead)
+
+        txtRead = self.appSpeed.text()
+        if str(config.sleepTime) != txtRead:
+            DAD_Utils.updateConfig("sleepTime",float(txtRead))
+
+        txtRead = self.stashWidth.text()
+        if str(config.sellWidth) != txtRead: 
+            DAD_Utils.updateConfig("sellWidth",int(txtRead))
+
+        txtRead = self.stashHeight.text()
+        if str(config.sellHeight) != txtRead:
+            DAD_Utils.updateConfig("sellHeight",int(txtRead))
+
+        txtRead = self.undercut.text()
+        if str(config.undercutValue) != txtRead:
+            if "." in txtRead:
+                DAD_Utils.updateConfig("undercutValue",float(txtRead))
+            else:
+                DAD_Utils.updateConfig("undercutValue",int(txtRead))
+
+        txtRead = self.sellLimit.text()
+        if str(config.sellLimit) != txtRead:
+            DAD_Utils.updateConfig("sellLimit",int(txtRead))

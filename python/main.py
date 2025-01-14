@@ -24,9 +24,9 @@ import threading
 import DAD_Utils
 
 logging.basicConfig(
-    filename = 'debug.log',
+    filename = 'debug/debug.log',
     level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format='%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
