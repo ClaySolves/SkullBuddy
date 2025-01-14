@@ -972,8 +972,8 @@ def searchStash() -> bool:
                     return False
         database.closeDatabase(conn)        
     else:
-        logGui(f"No Listing slots avialible...")
-        logGui(f"Clear sold listings or change characters...")
+        logGui(f"No listing slots avialible")
+        logGui(f"Clear sold listings or change characters")
 
 
 # creates and returns item class from hovered item 
