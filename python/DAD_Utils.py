@@ -15,12 +15,13 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity, coords, price=None):
+    def __init__(self, name, rolls, rarity, coords, size, price=None):
         self.name = name # item name
         self.rolls = rolls # item rolls
         self.rarity = rarity # item rarity
         self.price = price # item price
         self.coords = coords # item location
+        self.size = size # item size
         self.sold = False
         self.goodRoll = None
 
@@ -309,26 +310,36 @@ class item():
 
     #confirms item should be listed for found price:
     def confirmPrice(self) -> bool: #True/False is good to list
-        price = self.price
         rarity = self.rarity
+        size = self.size[0] * self.size[1]
         if rarity: rarity = rarity.lower()
+        priceCalc = None
+        useRolls = False
+        numRolls = len(self.rolls)
 
-        if price > config.sellLimit:
+        if self.price > config.sellLimit:
             return False
-        if rarity == None and price > 15:
-            return True
-        elif (rarity == "uncommon" or rarity == "common" or rarity == 'poor') and price > 15:
-            return True
-        elif rarity == "rare" and price > 20:
-            return True
-        elif rarity == "epic" and price > 45:
-            return True
-        elif rarity == "legendary" and price > 105:
-            return True
-        elif rarity == "unique" and price > 165:
-            return True
+        if rarity == None:
+            useRolls = True
+        elif (rarity == "uncommon" or rarity == "common" or rarity == 'poor'):
+            if size == 1: priceCalc = 7
+            else: priceCalc = 3
+        elif rarity == "rare":
+            if size == 1: priceCalc = 12
+            else: priceCalc = 6
+        elif rarity == "epic":
+            if size == 1: priceCalc = 20
+            else: priceCalc = 10
+        elif rarity == "legendary":
+            if size == 1: priceCalc = 32
+            else: priceCalc = 20
+        elif rarity == "unique":
+            if size == 1: priceCalc = 53
+            else: priceCalc = 30
+
+        if self.price - 15 > size * priceCalc: return True
         
-        logger.debug(f"{rarity} {self.name} not listed at {price}, vendor instead")
+        logger.debug(f"{rarity} {self.name} not listed at {self.price}, vendor instead")
         return False
         
 
@@ -544,6 +555,30 @@ def calcItemPrice(prices, method, ascending=True):
         for price in prices[:useLen]:
             avg += int(price)
         return int(avg / useLen)
+
+
+
+# get size of selected item, return size of 1 if error read
+def getItemSize() -> list:
+    res = locateOnScreen('topLeftCorner',grayscale=False,confidence=0.82)
+    res4 = locateOnScreen('bottomRightCorner',grayscale=False,confidence=0.82)
+    if not res4 and res:
+        res2 = locateOnScreen('topRightCorner',grayscale=False,confidence=0.82)
+        res3 = locateOnScreen('bottomLeftCorner',grayscale=False,confidence=0.82)
+
+    if res and res4:
+        xSize = round((int(res4[0])-int(res[0])) / 39)
+        ySize = round((int(res4[1])-int(res[1])) / 39)
+        logDebug(f"item area: {xSize} x {ySize}")
+        return (xSize,ySize)
+        
+    elif res2 and res3:
+        xSize = round((int(res2[0])-int(res3[0])) / 39)
+        ySize = round((int(res3[1])-int(res2[1])) / 39)
+        logDebug(f"item area: {xSize} x {ySize}")
+        return (xSize,ySize)
+
+    return (1,1)
 
 
 
@@ -1003,41 +1038,75 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 
 
 
+# shift + right click
+def clickAndShift(x,y):
+    pyautogui.keyDown('shift')   
+    pyautogui.keyDown('shift')   
+    pyautogui.keyDown('shift')   
+    pyautogui.keyDown('shift')   
+    pyautogui.keyDown('shift')   
+    pyautogui.keyDown('shift')   
+
+    pyautogui.moveTo(x,y)
+    time.sleep(config.sleepTime/10)
+    pyautogui.keyDown('shift')   
+    time.sleep(config.sleepTime/10)
+    pyautogui.click(button="right")
+    time.sleep(config.sleepTime/10)
+    pyautogui.keyUp('shift')        
+
+
+
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash() -> bool:
     loadTextFiles()
     if not enforceSellConfig():
         logGui("Invalid Settings!!!","red")
         return False
+    
     if getAvailSlots():
 
         conn, cursor = database.connectDatabase()
+        searchBlacklist = []
 
         for y in range(config.sellHeight):
             for x in range(config.sellWidth):
                 
-                xHome = config.xStashStart
-                yHome = config.yStashStart
-                newY = yHome + (40 *y)
-                newX = xHome +(40 *x)
+                newX = config.xStashStart + (40 * x)
+                newY = config.yStashStart + (40 * y)
+
+                if len(searchBlacklist):
+                    for blackList in searchBlacklist:
+                        if (newX,newY) == blackList:
+                            logDebug("Skipping blacklisted item")
+                            continue  
+                
                 logger.debug(f"Searching stash at x:{newX} y:{newY}")
                 if not detectItem(newX,newY):
                     continue
                 #Item found, hover and check listing slot
                 pyautogui.moveTo(newX, newY)
-                sucess = mainLoop(cursor)
-                if not sucess:
+
+                foundItem, success = handleItem()
+
+                if success:
+                    #insert into database
+                    if foundItem.rarity and foundItem.name:
+                        database.insertItem(cursor,foundItem.getItemStoreDetails())     
+                        
+                else:
                     logGui(f"Item listing failure ... stash & go next")
-                    #attempt to stash item in inventory
-                    pyautogui.moveTo(newX, newY)
-                    time.sleep(0.35)
-                    pyautogui.click(button='right')
-                    time.sleep(0.15)
-                    pyautogui.click(button='right')
+                    logDebug(f"Blackisting stash squares ...")
+                    for xBL in range(foundItem.size[0]):
+                        for yBL in range(foundItem.size[1]):
+                            if xBL == 0 and yBL == 0: continue
+                            searchBlacklist.append(x+xBL,y+yBL)
+                            logDebug(f"blacklisted {x+xBL},{y+yBL}")
 
                 if not getAvailSlots(): 
                     database.closeDatabase(conn)
                     return False
+                
         database.closeDatabase(conn)        
     else:
         logGui(f"No listing slots avialible")
@@ -1101,31 +1170,38 @@ def getItemInfo() -> item:
                     roll.append(None)
                     rolls.append(roll)
 
+    size = getItemSize()
+
     #make item and return
-    foundItem = item(name,rolls,rarity,coords)
+    foundItem = item(name,rolls,rarity,coords,size)
     return foundItem
 
 
 
-# main function
+# main function 
 # reads hovered item info, lists on market
-def mainLoop(cursor) -> bool: # True/False listing success
+def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
     time.sleep(config.sleepTime / 5)
     mytime = time.time()
     myItem = getItemInfo()                                                  # read item info
     if myItem:
         myItem.printItem()                                                  # print item to gui
-        foundPrice = myItem.findPrice2()                                     # if price found, continue loop || return false
+        foundPrice = myItem.findPrice2()                                    # if price found, continue loop || return false
+        returnMarketStash()                                                 # return market stash
+       
         if foundPrice:
-            if myItem.rarity and myItem.name:
-                database.insertItem(cursor,myItem.getItemStoreDetails())        # insert into database
+           
             returnMarketStash()                                             # return market stash
-            myItem.listItem()                                               # list item
-            mytime2 = time.time()
-            logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
-            time.sleep(config.sleepTime / 1.2)
-            return True
-        else: 
-            returnMarketStash()                                             # return market stash
-
-    return False                                                            # if we fail any part of loop, return false
+            listedSuccess = myItem.listItem()
+            if listedSuccess:                                               # list item
+                mytime2 = time.time()
+                logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
+                time.sleep(config.sleepTime / 1.2)
+                return myItem, True
+                        
+        logGui(f"Error listing item, stashing. Consider vendoring")
+        pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
+        pyautogui.click(button='right')     
+        time.sleep(1)
+        clickAndShift(myItem.coords[0],myItem.coords[1])
+        return myItem, False                                                            # if we fail any part of loop, return false
