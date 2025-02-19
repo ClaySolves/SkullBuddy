@@ -5,15 +5,16 @@ pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 undercutValue = 0.07
 sellLimit = 1259
-sleepTime = 1.3
-sigRollIncrease = [100, 0.4]
-totalListedGold = 69730
+sleepTime = 1.2
+sigRollIncreaseStatic = 50
+sigRollIncreasePercent = 0.2
+totalListedGold = 81888
 
 # values for sellMethod:
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 1
+sellMethod = 2
 rollMethod = ""
 # stashDump: -1 for shared stash, 0-10 are numbered with 0 default
 stashDump = 2 

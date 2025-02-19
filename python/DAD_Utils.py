@@ -86,6 +86,7 @@ class item():
         pyautogui.click()
 
         for roll in self.rolls:
+            print(roll[3])
             if roll[3]:
                 clearAttrSearch()
                 pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
@@ -159,7 +160,7 @@ class item():
 
         pyautogui.moveTo(config.xMarketSearchNameRairty, config.yMarketSearchNameRairty, duration=0.1) 
         pyautogui.click()
-        logger.debug("Searching item name, rarity form market stash")
+        logger.debug(f"Searching for {self.rarity} {self.name} form market stash")
     
 
 
@@ -173,7 +174,142 @@ class item():
 
 
     #Search market for item price # Assume that View Market tab is open
+    # Written for hotfix #79+
+    def findPrice3(self) -> bool: #True/Flase Price Find Success
+        logger.debug(f"Searching for {self.name} price")
+        logGui(f"Searching market for {self.rarity} {self.name}")
+
+        # Search for item from Listings Stash
+        ss = pyautogui.screenshot(region=config.ssMarketItem)
+        self.searchFromMarketStash()
+        confirmGameScreenChange(ss,region=config.ssMarketItem)
+
+        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+        time.sleep(config.sleepTime / 15)
+        pyautogui.click()
+
+        pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
+        time.sleep(config.sleepTime / 15)
+        pyautogui.click()
+
+        # algo for item with many rolls
+        if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique'):
+            logger.debug(f"many roll item found")
+
+            # record price of all rolls
+            allAttrPrice = recordDisplayedPrice(False)
+            
+            # reset attr and get baseprice
+            pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+            time.sleep(config.sleepTime / 15)
+            pyautogui.click() 
+
+            prices = []
+
+            foundPrice = recordDisplayedPrice()
+            prices.append(foundPrice)
+
+            if foundPrice and allAttrPrice:
+                worthLookup = checkPriceRoll(foundPrice,allAttrPrice)
+                if not worthLookup:
+                    logGui(f"Found {allAttrPrice} for {self.name}")
+                    logDebug(f"Found {allAttrPrice} for {self.name}")
+                    self.price = allAttrPrice
+                    return True
+
+            # search and store each roll
+            goodRolls = 0
+            for i, _ in enumerate(self.rolls):
+                self.searchRoll(i)
+                foundPrice = recordDisplayedPrice()
+                if foundPrice: 
+                    prices.append(foundPrice)
+                    good = checkPriceRoll(prices[0],foundPrice)
+                    self.rolls[i][3] = good
+                    if good:
+                        self.goodRoll = good
+                        goodRolls = goodRolls + 1
+                        print("Goodrolloccur")
+                logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]}")
+
+            #store many good roll price if there are many good rolls
+            print(f"goodrolls: {goodRolls}")
+            if goodRolls >= 2: 
+                print("occur")
+                self.searchGoodRolls()
+                print("done")
+                foundPrice = recordDisplayedPrice()
+                if foundPrice: prices.append(foundPrice)
+                logger.debug(f"Found price {foundPrice} for good rolls")
+
+            # assign best price 
+            if prices: 
+                finalPrice = max(prices)
+                #Check if profitable or too expensive
+                # to do, add each rarity sell off but for now just check to make the listing fee
+                self.price = finalPrice
+                logGui(f"Found price {self.price} for {self.rarity} {self.name}")
+                logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                return True
+            
+            return False
+
+        #algo for item with few rolls
+        elif(self.rarity.lower() == 'poor' or self.rarity.lower() == 'common' or self.rarity.lower() == 'uncommon' or self.rarity.lower() == 'rare'):
+            logger.debug(f"few roll item found")
+
+            # record price of all rolls
+            foundPrice = recordDisplayedPrice(False)
+
+            # found price on all attr search, return and log
+            if foundPrice:
+                logGui(f"Found {foundPrice} for {self.name}")
+                logDebug(f"Found {foundPrice} for {self.name}")
+                self.price = foundPrice
+                return True
+            
+            # no matching listing for all attr, search all attr individually
+            prices = []
+
+            # reset attr and get baseprice
+            pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
+            time.sleep(config.sleepTime / 15)
+            pyautogui.click() 
+
+            foundPrice = recordDisplayedPrice()
+            prices.append(foundPrice)
+
+            for i, _ in enumerate(self.rolls):
+                self.searchRoll(i)
+                foundPrice = recordDisplayedPrice()
+                if foundPrice: 
+                    prices.append(foundPrice)
+                    good = checkPriceRoll(prices[0],foundPrice)
+                    self.rolls[i][3] = good
+                    if good and self.goodRoll is None:
+                        self.goodRoll = good
+                logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]} on {self.name}")
+
+            if prices: 
+                finalPrice = max(prices)
+                self.price = finalPrice
+                logGui(f"Found price {self.price} for {self.rarity} {self.name}")
+                logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                return True
+        
+            return False
+
+        # this should never trigger
+        else:
+            logger.debug('BAD ITEM READ !!!')
+
+        logGui("Sleep")
+        time.sleep(5)
+
+
+    #Search market for item price # Assume that View Market tab is open
     #Rewrite for optimization
+    #Depricated
     def findPrice2(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
         logGui(f"Searching market for {self.rarity} {self.name}")
@@ -242,6 +378,7 @@ class item():
         
         
     #Search market for item price # Assume that View Market tab is open
+    #Depricated
     def findPrice(self) -> bool: # True/False Price Find Success
         logger.debug(f"Searching for {self.name} price")
         logGui(f"Searching market for {self.rarity} {self.name}")
@@ -402,8 +539,8 @@ def clearSearchRoll():
 
 
 # check price for significant increase
-def checkPriceRoll(basePrice, rollPrice) -> bool: # True/False good item roll
-    if basePrice + config.sigRollIncrease[0] < rollPrice or basePrice + int(config.sigRollIncrease[1] * basePrice) < rollPrice:
+def checkPriceRoll(basePrice, rollPrice, staticCheck=config.sigRollIncreaseStatic) -> bool: # True/False good item roll
+    if basePrice + staticCheck < rollPrice or basePrice + int(config.sigRollIncreasePercent * basePrice) < rollPrice:
         logger.debug("Good Price Found!")
         return True
     else:
@@ -412,16 +549,17 @@ def checkPriceRoll(basePrice, rollPrice) -> bool: # True/False good item roll
 
 
 # searches market and finds price
-def recordDisplayedPrice() -> int: # Price/None
-    pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
-    pyautogui.click()
+def recordDisplayedPrice(search=True) -> int: # Price/None
+    if search:
+        pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
+        pyautogui.click()
 
-    ss = pyautogui.screenshot(region=config.ssMarketSearch)
-    changed = confirmGameScreenChange(ss,config.ssMarketSearch)
+        ss = pyautogui.screenshot(region=config.ssMarketSearch)
+        changed = confirmGameScreenChange(ss,config.ssMarketSearch)
 
-    if not changed: 
-        logger.debug(f"no price found ...")
-        return None
+        if not changed: 
+            logger.debug(f"no price found ...")
+            return None
 
     price = readPrices()
     if price:
@@ -490,6 +628,7 @@ def readPrices() -> list: # return list of prices
     ss = pyautogui.screenshot(region=config.ssGold)
     data = ss.getdata()
     newData = []
+    retPrices = []
 
     for item in data:
         if (item[0] >= 120 or item[1] >= 120):
@@ -501,10 +640,14 @@ def readPrices() -> list: # return list of prices
     numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
     txt = pytesseract.image_to_string(ss,config=numConfig)
     prices = txt.split()
+
     for i, price in enumerate(prices):
-        prices[i] = int(price)
-    logger.debug(f"Found prices: {prices}")
-    return prices
+        priceAdd = int(price)
+        if priceAdd > 15:
+            retPrices.append(priceAdd)
+
+    logger.debug(f"Found prices: {retPrices}")
+    return retPrices
 
 
 
@@ -562,6 +705,8 @@ def calcItemPrice(prices, method, ascending=True):
 def getItemSize() -> list:
     res = locateOnScreen('topLeftCorner',grayscale=False,confidence=0.82)
     res4 = locateOnScreen('bottomRightCorner',grayscale=False,confidence=0.82)
+    res2 = None
+    res3 = None
     if not res4 and res:
         res2 = locateOnScreen('topRightCorner',grayscale=False,confidence=0.82)
         res3 = locateOnScreen('bottomLeftCorner',grayscale=False,confidence=0.82)
@@ -1075,11 +1220,13 @@ def searchStash() -> bool:
                 newX = config.xStashStart + (40 * x)
                 newY = config.yStashStart + (40 * y)
 
+                skip = False
                 if len(searchBlacklist):
                     for blackList in searchBlacklist:
-                        if (newX,newY) == blackList:
+                        if [x,y] == blackList:
                             logDebug("Skipping blacklisted item")
-                            continue  
+                            skip = True 
+                    if skip: continue 
                 
                 logger.debug(f"Searching stash at x:{newX} y:{newY}")
                 if not detectItem(newX,newY):
@@ -1089,19 +1236,28 @@ def searchStash() -> bool:
 
                 foundItem, success = handleItem()
 
+                # insert into database if successful read
                 if success:
-                    #insert into database
                     if foundItem.rarity and foundItem.name:
                         database.insertItem(cursor,foundItem.getItemStoreDetails())     
-                        
+
+                # if failure blacklist item slots to avoid re searching + unhover item
                 else:
                     logGui(f"Item listing failure ... stash & go next")
-                    logDebug(f"Blackisting stash squares ...")
+                    logDebug(f"Blacklisting stash squares ...")
+                    logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
+                    
+                    pyautogui.moveTo(newX,newY)
+                    pyautogui.click(button='right') 
+                    time.sleep(config.sleepTime/20)
+                    pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
+
                     for xBL in range(foundItem.size[0]):
                         for yBL in range(foundItem.size[1]):
                             if xBL == 0 and yBL == 0: continue
-                            searchBlacklist.append(x+xBL,y+yBL)
-                            logDebug(f"blacklisted {x+xBL},{y+yBL}")
+                            searchBlacklist.append([x+xBL,y+yBL])
+                            logDebug(f"blacklisted {x}+{xBL},{y}+{yBL}")
+            
 
                 if not getAvailSlots(): 
                     database.closeDatabase(conn)
@@ -1170,6 +1326,21 @@ def getItemInfo() -> item:
                     roll.append(None)
                     rolls.append(roll)
 
+    if not rarity:
+        numRolls = len(rolls)
+        if numRolls < 1:
+            rarity = 'common'
+        elif numRolls == 1:
+            rarity = 'uncommon'
+        elif numRolls == 2:
+            rarity = 'rare'
+        elif numRolls == 3:
+            rarity = 'epic'
+        elif numRolls == 4:
+            rarity = 'legendary'
+        else:
+            rarity = 'unique'
+
     size = getItemSize()
 
     #make item and return
@@ -1186,9 +1357,9 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
     myItem = getItemInfo()                                                  # read item info
     if myItem:
         myItem.printItem()                                                  # print item to gui
-        foundPrice = myItem.findPrice2()                                    # if price found, continue loop || return false
+        foundPrice = myItem.findPrice3()                                    # if price found, continue loop || return false
         returnMarketStash()                                                 # return market stash
-       
+
         if foundPrice:
            
             returnMarketStash()                                             # return market stash
@@ -1200,8 +1371,5 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
                 return myItem, True
                         
         logGui(f"Error listing item, stashing. Consider vendoring")
-        pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
-        pyautogui.click(button='right')     
-        time.sleep(1)
-        clickAndShift(myItem.coords[0],myItem.coords[1])
+
         return myItem, False                                                            # if we fail any part of loop, return false
