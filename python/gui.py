@@ -129,6 +129,7 @@ class MainWindow(QMainWindow):
         #tab creation
         tab = QWidget()
 
+
         # deathskull
         self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
         self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')

@@ -43,9 +43,9 @@ class item():
                 elif self.rarity.lower() == 'epic':
                     printColor = 'Orchid'
                 elif self.rarity.lower() == 'legendary':
-                    printColor = 'Gold'
+                    printColor = 'Goldenrod'
                 elif self.rarity.lower() == 'unique':
-                    printColor = 'Yellow'
+                    printColor = 'PaleGoldenRod'
 
             logGui(f"{self.rarity} {self.name}",printColor)
             for roll in self.rolls:
@@ -61,7 +61,7 @@ class item():
                     rollPrint += " <-- GOOD ROLL FOUND!"
                 logGui(rollPrint,"DeepSkyBlue")
                 
-            logGui(f"Price: {self.price} Gold","Goldenrod")
+            logGui(f"Price: {self.price} Gold","Gold")
             if newline: logGui("\n")
 
     def getItemStoreDetails(self):
@@ -503,7 +503,7 @@ class item():
 
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
-            logGui(f"Listing item for {finalPrice}","Goldenrod")
+            logGui(f"Listing item for {finalPrice}","Gold")
             pyautogui.typewrite(str(finalPrice), interval=0.06)
 
             pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
@@ -1245,18 +1245,19 @@ def searchStash() -> bool:
                 else:
                     logGui(f"Item listing failure ... stash & go next")
                     logDebug(f"Blacklisting stash squares ...")
-                    logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
+                    if foundItem:
+                        logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
                     
-                    pyautogui.moveTo(newX,newY)
-                    pyautogui.click(button='right') 
-                    time.sleep(config.sleepTime/20)
-                    pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
+                        pyautogui.moveTo(newX,newY)
+                        pyautogui.click(button='right') 
+                        time.sleep(config.sleepTime/20)
+                        pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
 
-                    for xBL in range(foundItem.size[0]):
-                        for yBL in range(foundItem.size[1]):
-                            if xBL == 0 and yBL == 0: continue
-                            searchBlacklist.append([x+xBL,y+yBL])
-                            logDebug(f"blacklisted {x}+{xBL},{y}+{yBL}")
+                        for xBL in range(foundItem.size[0]):
+                            for yBL in range(foundItem.size[1]):
+                                if xBL == 0 and yBL == 0: continue
+                                searchBlacklist.append([x+xBL,y+yBL])
+                                logDebug(f"blacklisted {x}+{xBL},{y}+{yBL}")
             
 
                 if not getAvailSlots(): 
@@ -1372,4 +1373,5 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
                         
         logGui(f"Error listing item, stashing. Consider vendoring")
 
-        return myItem, False                                                            # if we fail any part of loop, return false
+        return myItem, False      
+    return None, False                                                      # if we fail any part of loop, return false

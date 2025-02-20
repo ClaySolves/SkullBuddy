@@ -1,20 +1,20 @@
 #storage for GUI navigation
-GAME_NAME = "DungeonCrawler.exe"
+ExeName = "DungeonCrawler.exe"
 pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 undercutValue = 0.07
 sellLimit = 1259
-sleepTime = 1.2
+sleepTime = 1.1
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
-totalListedGold = 81888
+totalListedGold = 82152
 
 # values for sellMethod:
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 2
+sellMethod = 1
 rollMethod = ""
 # stashDump: -1 for shared stash, 0-10 are numbered with 0 default
 stashDump = 2 

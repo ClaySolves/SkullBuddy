@@ -36,10 +36,11 @@ def printDatabase(cursor):
     if data:
         for items in data:
             try:
+                DAD_Utils.logDebug(f"{items} found items in database")
                 newString = items[2].strip('|')
                 newList = newString.split('|')
                 newNewList = [ele.split(",") for ele in newList]
-                myItem = DAD_Utils.item(items[0],newNewList,items[1],(-1,-1),items[3])
+                myItem = DAD_Utils.item(items[0],newNewList,items[1],(-1,-1),None,items[3])
                 myItem.printItem(True)
                 totalGold += int(items[3])
             except Exception as e:
