@@ -9,8 +9,10 @@ import difflib
 import config
 import logging
 import win32gui
+import win32process
 import win32con
 import ctypes
+import os
 import psutil
 from screeninfo import get_monitors
 
@@ -751,18 +753,50 @@ def loadTextFiles():
 
 
 #Minimize Window
-def minimize_self():
-    """Minimize the current window"""
+def minimizeSelf():
     hwnd = ctypes.windll.kernel32.GetConsoleWindow()
     win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
 
 
 
 #restore window
-def restore_self():
-    """Restore the current window from minimized state"""
+def restoreSelf():
     hwnd = ctypes.windll.kernel32.GetConsoleWindow()
     win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+
+
+def get_current_display_number():
+    """
+    Returns which display number the current program is running on.
+    Returns: int or None (1 for first display, 2 for second, etc.)
+    """
+    # Get current process ID
+    current_pid = os.getpid()
+    
+    # Get current window position
+    def callback(hwnd, position):
+        if win32gui.IsWindowVisible(hwnd):
+            _, pid = win32process.GetWindowThreadProcessId(hwnd)
+            if pid == current_pid:
+                rect = win32gui.GetWindowRect(hwnd)
+                position.extend([rect[0], rect[1]])
+    
+    position = []
+    win32gui.EnumWindows(callback, position)
+    
+    if not position:
+        return None
+        
+    window_x, window_y = position[0], position[1]
+    
+    # Find which monitor contains the window
+    for i, monitor in enumerate(get_monitors()):
+        if (monitor.x <= window_x < monitor.x + monitor.width and
+            monitor.y <= window_y < monitor.y + monitor.height):
+            return i + 1
+            
+    return 1  # Default to first display if not found
+
 
 
 # get screen running .exe

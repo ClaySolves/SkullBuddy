@@ -95,6 +95,7 @@ class logThread(QThread):
         DAD_Utils.logGui("Listing Items...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
+
         sys.stdout = oldStdout
 
 
@@ -134,6 +135,11 @@ class MainWindow(QMainWindow):
 
 
 
+    def minimizeWindow(self):
+        self.showMinimized()
+
+
+
     # Update History Button
     def handleViewHistoryButton(self):
         self.skully.setPixmap(self.deathSkullFetchHistory)
@@ -162,13 +168,20 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
         
+        print(DAD_Utils.get_window_display(process_name=config.exeName))
+        print(DAD_Utils.get_current_display_number())
+
         self.guiToConfig()
+        if DAD_Utils.get_window_display(process_name=config.exeName) == DAD_Utils.get_current_display_number():
+            self.showMinimized()
+            time.sleep(config.sleepTime/2)
 
         # Run thread
         try:    
             logger.debug("Starting thread...")
             self.thread = logThread()
             self.thread.finished.connect(self.resetSkullyTxt)
+            self.thread.finished.connect(self.showNormal)
             self.thread.outputSignal.connect(self.appendSellLog)
             self.thread.start()
         except error:
