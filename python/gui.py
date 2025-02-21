@@ -286,7 +286,7 @@ class MainWindow(QMainWindow):
         skullyGoldCount = f"{config.totalListedGold:,}"
         self.totalGoldNumber.setText(skullyGoldCount)
 
-        #add all
+        #add all for skully
         skullyLayoutTotal = QHBoxLayout()
         skullyLayoutImg = QHBoxLayout()
         skullyLayoutButtons = QVBoxLayout()
@@ -299,6 +299,7 @@ class MainWindow(QMainWindow):
 
         #history layout
         historyLayout = QVBoxLayout()
+        historyTableHeader = QHBoxLayout()
 
         #history log
         # self.historyLog = QTextEdit()
@@ -320,10 +321,32 @@ class MainWindow(QMainWindow):
         self.historyTable.setColumnWidth(6, 81)
         self.historyTable.setColumnWidth(7, 81)
 
+        #Table search rarity & roll
+        self.tableNameSearch = QLineEdit()
+        self.tableNameSearch.setPlaceholderText("Name Search...")
+
+        self.tableRollSearch = QLineEdit()
+        self.tableRollSearch.setPlaceholderText("Rarity Search...")
+
+        #Sort by rarity button
+        self.sortRarityButton = QPushButton("Sort by Price", self)
+        self.sortRarityButton.clicked.connect(self.sortTableRarity)
+
+        #Sort by price button
+        self.sortPriceButton = QPushButton("Sort by Rarity", self)
+        self.sortPriceButton.clicked.connect(self.sortTablePrice)
+
+        historyTableHeader.addWidget(self.tableNameSearch)
+        historyTableHeader.addWidget(self.tableRollSearch)
+        historyTableHeader.addWidget(self.sortRarityButton)
+        historyTableHeader.addWidget(self.sortPriceButton)
+
+        # Add all widgets
         historyLayout.addWidget(self.historyTable)
 
         # BUILD ALL GUI
         mainLayout = QVBoxLayout()
+        mainLayout.addLayout(historyTableHeader)
         mainLayout.addLayout(historyLayout)
         mainLayout.addLayout(skullyLayoutTotal)
         tab.setLayout(mainLayout)
@@ -510,3 +533,9 @@ class MainWindow(QMainWindow):
                 self.historyTable.setItem(i, j + 3, tableItem)
 
         database.closeDatabase(conn)
+
+    def sortTablePrice(self):
+        pass
+
+    def sortTableRarity(self):
+        pass
