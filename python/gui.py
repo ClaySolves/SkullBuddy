@@ -167,12 +167,9 @@ class MainWindow(QMainWindow):
         # gui death skull update
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
-        
-        print(DAD_Utils.get_window_display(process_name=config.exeName))
-        print(DAD_Utils.get_current_display_number())
 
         self.guiToConfig()
-        if DAD_Utils.get_window_display(process_name=config.exeName) == DAD_Utils.get_current_display_number():
+        if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
             time.sleep(config.sleepTime/2)
 

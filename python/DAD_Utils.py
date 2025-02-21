@@ -765,7 +765,7 @@ def restoreSelf():
     win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
 
 
-def get_current_display_number():
+def getCurrentDisplay():
     """
     Returns which display number the current program is running on.
     Returns: int or None (1 for first display, 2 for second, etc.)
@@ -800,7 +800,7 @@ def get_current_display_number():
 
 
 # get screen running .exe
-def get_window_display(window_title=None, process_name=None):
+def getDisplay(process_name=None):
 
     def callback(hwnd, windows):
         if win32gui.IsWindowVisible(hwnd):
@@ -815,8 +815,7 @@ def get_window_display(window_title=None, process_name=None):
                 proc_name = "Unknown"
                 
             # Check if window matches criteria
-            if ((window_title and window_title.lower() in title.lower()) or
-                (process_name and process_name.lower() == proc_name.lower())):
+            if (process_name and process_name.lower() == proc_name.lower()):
                 rect = win32gui.GetWindowRect(hwnd)
                 windows.append({
                     'handle': hwnd,
