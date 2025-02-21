@@ -8,7 +8,7 @@ sellLimit = 1259
 sleepTime = 1.1
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
-totalListedGold = 82152
+totalListedGold = 82914
 
 # values for sellMethod:
 # 1 -> Lowest Price

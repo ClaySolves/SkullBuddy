@@ -34,15 +34,15 @@ def printDatabase(cursor):
 
     data = getStoredItems(cursor)
     if data:
-        for items in data:
+        for item in data:
             try:
-                DAD_Utils.logDebug(f"{items} found items in database")
-                newString = items[2].strip('|')
+                DAD_Utils.logDebug(f"{item} found items in database")
+                newString = item[2].strip('|')
                 newList = newString.split('|')
                 newNewList = [ele.split(",") for ele in newList]
-                myItem = DAD_Utils.item(items[0],newNewList,items[1],(-1,-1),None,items[3])
+                myItem = DAD_Utils.item(item[0],newNewList,item[1],(-1,-1),None,item[3])
                 myItem.printItem(True)
-                totalGold += int(items[3])
+                totalGold += int(item[3])
             except Exception as e:
                 DAD_Utils.logDebug(f"{e} Corrupted/invalid item read in database")
 

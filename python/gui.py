@@ -9,7 +9,7 @@ import keyboard
 import subprocess
 import logging
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
 
@@ -59,9 +59,10 @@ class listHistoryThread(QThread):
         oldStdout = sys.stdout
         sys.stdout = GuiScriptStream(self.outputSignal)
         
-        _, cur = database.connectDatabase()
+        conn, cur = database.connectDatabase()
         totalGold = database.printDatabase(cur)
         self.listedGoldTotal.emit(totalGold)
+        database.closeDatabase(conn)
 
         sys.stdout = oldStdout
 
@@ -78,7 +79,7 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
-        self.setGeometry(100, 100, 420, 800)
+        self.setGeometry(100, 100, 660, 700)
 
 
     # Update History Button
@@ -96,6 +97,9 @@ class MainWindow(QMainWindow):
         except error:
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
+
+        # update history table
+        self.updateHistoryTable()
 
 
     # Sell Items Button
@@ -123,7 +127,8 @@ class MainWindow(QMainWindow):
 
     # log txt to GUI history log
     def appendHistoryLog(self,txt):
-        self.historyLog.append(txt)
+        pass
+        # self.historyLog.append(txt)
 
     def utilityTab(self):
         #tab creation
@@ -296,9 +301,26 @@ class MainWindow(QMainWindow):
         historyLayout = QVBoxLayout()
 
         #history log
-        self.historyLog = QTextEdit(self)
-        self.historyLog.setReadOnly(True)
-        historyLayout.addWidget(self.historyLog)
+        # self.historyLog = QTextEdit()
+        # self.historyLog.setReadOnly(True)
+        # historyLayout.addWidget(self.historyLog)
+
+        #history table
+        self.historyTable = QTableWidget()
+        self.historyTable.setColumnCount(8)
+        self.historyTable.setRowCount(0)
+        self.historyTable.setHorizontalHeaderLabels(['Name', 'Rarity', 'Price', 'Roll 1', 'Roll 2', 'Roll 3', 'Roll 4', 'Roll 5'])
+
+        self.historyTable.setColumnWidth(0, 85)
+        self.historyTable.setColumnWidth(1, 60)
+        self.historyTable.setColumnWidth(2, 45)
+        self.historyTable.setColumnWidth(3, 81)
+        self.historyTable.setColumnWidth(4, 81)
+        self.historyTable.setColumnWidth(5, 81)
+        self.historyTable.setColumnWidth(6, 81)
+        self.historyTable.setColumnWidth(7, 81)
+
+        historyLayout.addWidget(self.historyTable)
 
         # BUILD ALL GUI
         mainLayout = QVBoxLayout()
@@ -306,6 +328,8 @@ class MainWindow(QMainWindow):
         mainLayout.addLayout(skullyLayoutTotal)
         tab.setLayout(mainLayout)
         self.tabs.addTab(tab,"History")
+
+        self.updateHistoryTable()
 
     def helpTab(self):
         tab = QWidget()
@@ -419,3 +443,70 @@ class MainWindow(QMainWindow):
         txtRead = self.sellLimit.text()
         if str(config.sellLimit) != txtRead:
             DAD_Utils.updateConfig("sellLimit",int(txtRead))
+
+    def updateHistoryTable(self):
+        conn, cur = database.connectDatabase()
+
+        data = database.getStoredItems(cur) 
+        self.historyTable.setRowCount(len(data))
+
+        for i, item in enumerate(data):
+            self.historyTable.setRowHeight(i, 40)
+
+            #Update name
+            namePrint = item[0] if item[0] else 'NameReadError'
+            tableName = QTableWidgetItem(namePrint)
+            tableName.setFont(QFont("Arial",8))
+            self.historyTable.setItem(i, 0, tableName)
+
+            #update rarity
+            printColor = 'gray'
+            if item[1]:
+                item[1][0].upper()
+                if item[1].lower() == 'poor' or item[1].lower() == 'common':
+                    printColor = 'gray'
+                elif item[1].lower() == 'uncommon':
+                    printColor = 'green'
+                elif item[1].lower() == 'rare':
+                    printColor = 'MediumBlue'
+                elif item[1].lower() == 'epic':
+                    printColor = 'Orchid'
+                elif item[1].lower() == 'legendary':
+                    printColor = 'Goldenrod'
+                elif item[1].lower() == 'unique':
+                    printColor = 'PaleGoldenRod'
+
+            rarityPrint = 'None' if not item[1] else item[1][0].upper() + item[1][1:]
+            tableRarity = QTableWidgetItem(rarityPrint)
+            tableRarity.setForeground(QColor(printColor))
+            tableRarity.setFont(QFont("Arial",8))
+            self.historyTable.setItem(i, 1, tableRarity)
+
+            #update price
+            printPrice = str(item[3]) if item[3] else 'None'
+            tablePrice = QTableWidgetItem(printPrice)
+            fontColor = QColor('Gold') if printPrice != 'None' else QColor('Black')
+            tablePrice.setForeground(fontColor)
+            tablePrice.setFont(QFont("Arial",8))
+            self.historyTable.setItem(i, 2, tablePrice)
+
+            #Update rolls
+            newString = item[2].strip('|')
+            newList = newString.split('|')
+            newNewList = [ele.split(",") for ele in newList]
+            for j, attr in enumerate(newNewList):
+                rollPrint = ""
+                if len(attr) > 2:
+                    if not (attr[2] == '0' or attr[2] == '1'): continue
+                    if int(attr[2]):
+                        if int(attr[0]) == 1: rollPrint = f"+ {attr[0]}.0%\n{attr[1]}"
+                        else: rollPrint = f"+ {int(attr[0])/10:.1f}%\n{attr[1]}"
+                    else:
+                        rollPrint = f"+ {attr[0]}\n{attr[1]}"
+
+                tableItem = QTableWidgetItem(rollPrint)
+                tableItem.setForeground(QColor('DeepSkyBlue'))
+                tableItem.setFont(QFont("Arial",7))
+                self.historyTable.setItem(i, j + 3, tableItem)
+
+        database.closeDatabase(conn)
