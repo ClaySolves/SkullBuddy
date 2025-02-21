@@ -8,7 +8,11 @@ import pytesseract
 import difflib
 import config
 import logging
-
+import win32gui
+import win32con
+import ctypes
+import psutil
+from screeninfo import get_monitors
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
 
@@ -743,6 +747,77 @@ def loadTextFiles():
     with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
+
+
+
+#Minimize Window
+def minimize_self():
+    """Minimize the current window"""
+    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+    win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
+
+
+
+#restore window
+def restore_self():
+    """Restore the current window from minimized state"""
+    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+    win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+
+
+# get screen running .exe
+def get_window_display(window_title=None, process_name=None):
+
+    def callback(hwnd, windows):
+        if win32gui.IsWindowVisible(hwnd):
+            title = win32gui.GetWindowText(hwnd)
+            
+            # Get process ID and name
+            _, pid = win32process.GetWindowThreadProcessId(hwnd)
+            try:
+                process = psutil.Process(pid)
+                proc_name = process.name()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                proc_name = "Unknown"
+                
+            # Check if window matches criteria
+            if ((window_title and window_title.lower() in title.lower()) or
+                (process_name and process_name.lower() == proc_name.lower())):
+                rect = win32gui.GetWindowRect(hwnd)
+                windows.append({
+                    'handle': hwnd,
+                    'title': title,
+                    'process': proc_name,
+                    'rect': rect,
+                    'position': (rect[0], rect[1])
+                })
+    
+    windows = []
+    win32gui.EnumWindows(callback, windows)
+    
+    if not windows:
+        return None
+        
+    # Get monitor information
+    monitors = get_monitors()
+    
+    # Find which monitor contains the window
+    for window in windows:
+        window_x, window_y = window['position']
+        
+        for i, monitor in enumerate(monitors):
+            if (monitor.x <= window_x < monitor.x + monitor.width and
+                monitor.y <= window_y < monitor.y + monitor.height):
+                ret = i + 1
+                window['display'] = {
+                    'number': i + 1,
+                    'resolution': f"{monitor.width}x{monitor.height}",
+                    'position': (monitor.x, monitor.y),
+                    'is_primary': monitor.is_primary
+                }
+                return ret
+                
+    return ret
 
 
 
