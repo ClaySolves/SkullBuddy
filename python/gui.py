@@ -3,6 +3,7 @@ import DAD_Utils
 import sys
 import config
 import time
+import re
 import database
 import config
 import keyboard
@@ -642,16 +643,18 @@ class MainWindow(QMainWindow):
     # filter text in history table
     def filterTable(self,txt,column,column2=0):
 
+        txt = re.sub(r'[^a-zA-Z0-9%]', '', txt)
         # hide column rows that do not match query
         for row in range(self.historyTable.rowCount()):
             hideRow = True 
             if column2:
                 for col in range(column,column2):
                     item = self.historyTable.item(row, col)
-
-                    if item and txt in item.text().strip().lower():
-                        hideRow = False
-                        break
+                    if item:
+                        itemTxt = re.sub(r'[^a-zA-Z0-9%]', '', item.text().strip().lower())
+                        if txt in itemTxt:
+                            hideRow = False
+                            break
             else:
                 item = self.historyTable.item(row, column)
                 if item and txt in item.text().strip().lower():
