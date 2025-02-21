@@ -298,12 +298,18 @@ class MainWindow(QMainWindow):
         settingsLayout.addWidget(self.sellButton)
 
         # Graphics Setup
-        logLayout.addWidget(self.deathSkullLabel)
+        skullyLayout = QVBoxLayout()
+        skullyLayout.addWidget(self.deathSkullLabel)
+
+        #Bottom Layout
+        BottomLayout = QHBoxLayout()
+        BottomLayout.addLayout(skullyLayout)
+        BottomLayout.addLayout(settingsLayout)
 
         # Main Layout
-        mainLayout = QHBoxLayout()
+        mainLayout = QVBoxLayout()
         mainLayout.addLayout(logLayout)
-        mainLayout.addLayout(settingsLayout)
+        mainLayout.addLayout(BottomLayout)
         tab.setLayout(mainLayout)
 
         self.tabs.addTab(tab,"Utility")
@@ -314,25 +320,25 @@ class MainWindow(QMainWindow):
     def historyTab(self):
         tab = QWidget()
 
-        #skully setup
-        self.deathSkullHistory = QPixmap('img/DeathSkullTalking.png')
-        self.deathSkullFetchHistory = QPixmap('img/DeathSkullThinking.png')
-        self.skully = QLabel()
+        # #skully setup
+        # self.deathSkullHistory = QPixmap('img/DeathSkullTalking.png')
+        # self.deathSkullFetchHistory = QPixmap('img/DeathSkullThinking.png')
+        # self.skully = QLabel()
 
-        #skully txt
-        deathSkullText = QPainter(self.deathSkullHistory)
-        deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        deathSkullText.setPen(QColor("red"))      # Set the color of the text
-        deathSkullText.drawText(167, 183, "view your item listing history...")
-        deathSkullText.drawText(165, 200, "i can remember everything...")
-        deathSkullText.drawText(172, 217, "just ask...")
-        deathSkullText.end()
-        deathSkullThinkText = QPainter(self.deathSkullFetchHistory)
-        deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
-        deathSkullThinkText.drawText(167, 183, "...let me think...")
-        deathSkullThinkText.end()
-        self.skully.setPixmap(self.deathSkullHistory)
+        # #skully txt
+        # deathSkullText = QPainter(self.deathSkullHistory)
+        # deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        # deathSkullText.setPen(QColor("red"))      # Set the color of the text
+        # deathSkullText.drawText(167, 183, "view your item listing history...")
+        # deathSkullText.drawText(165, 200, "i can remember everything...")
+        # deathSkullText.drawText(172, 217, "just ask...")
+        # deathSkullText.end()
+        # deathSkullThinkText = QPainter(self.deathSkullFetchHistory)
+        # deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        # deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        # deathSkullThinkText.drawText(167, 183, "...let me think...")
+        # deathSkullThinkText.end()
+        # self.skully.setPixmap(self.deathSkullHistory)
 
         #skully history button
         # self.historyButton = QPushButton("View Listing History", self)
@@ -345,23 +351,25 @@ class MainWindow(QMainWindow):
 
         #Total gold Number
         self.totalGoldNumber = QLabel()
-        self.totalGoldNumber.setFont(QFont("Monotype Corsiva",36))
+        self.totalGoldNumber.setFont(QFont("Monotype Corsiva",24))
         self.totalGoldNumber.setStyleSheet("color: #DAA520")
-        skullyGoldCount = f"{config.totalListedGold:,}"
-        self.totalGoldNumber.setText(skullyGoldCount)
+        # skullyGoldCount = f"{config.totalListedGold:,}"
+        # self.totalGoldNumber.setText(skullyGoldCount)
 
         #add all for skully
         skullyLayoutTotal = QHBoxLayout()
-        skullyLayoutImg = QHBoxLayout()
-        skullyLayoutButtons = QVBoxLayout()
-        skullyLayoutImg.addWidget(self.skully)
+        #skullyLayoutImg = QHBoxLayout()
+        goldDisplayLayout = QHBoxLayout()
+        #skullyLayoutImg.addWidget(self.skully)
 
-        skullyLayoutButtons.addSpacerItem(QSpacerItem(113, 150, QSizePolicy.Fixed, QSizePolicy.Fixed))
-        skullyLayoutButtons.addWidget(self.totalGoldLabel)
-        skullyLayoutButtons.addWidget(self.totalGoldNumber)
+        #goldDisplayLayout.addSpacerItem(QSpacerItem(1, 100, QSizePolicy.Fixed, QSizePolicy.Fixed))
+        goldDisplayLayout.addWidget(self.totalGoldLabel,alignment=Qt.AlignLeft)
+        goldDisplayLayout.addWidget(self.totalGoldNumber,alignment=Qt.AlignLeft)
+        goldDisplayLayout.addSpacerItem(QSpacerItem(300, 15, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        #skullyLayoutGold.addSpacerItem(QSpacerItem(1, 15, QSizePolicy.Fixed, QSizePolicy.Fixed))
         # skullyLayoutButtons.addWidget(self.historyButton)
-        skullyLayoutTotal.addLayout(skullyLayoutImg)
-        skullyLayoutTotal.addLayout(skullyLayoutButtons)
+        #skullyLayoutTotal.addLayout(skullyLayoutImg)
+        skullyLayoutTotal.addLayout(goldDisplayLayout)
 
         #history layout
         historyLayout = QVBoxLayout()
@@ -502,9 +510,6 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
         self.deathSkullLabel.repaint()
 
-        self.skully.setPixmap(self.deathSkullHistory)
-        self.skully.repaint()
-
 
 
     # update total gold
@@ -628,7 +633,6 @@ class MainWindow(QMainWindow):
     # filter history table by name
     def filterName(self):
         txt = self.tableNameSearch.text().lower()
-        logger.debug(f"filtering names with: {txt}")
         self.filterTable(txt,0)
 
 
@@ -636,7 +640,6 @@ class MainWindow(QMainWindow):
     # filter history table by name
     def filterRolls(self):
         txt = self.tableRollSearch.text().lower()
-        logger.debug(f"filtering roll with: {txt}")
         self.filterTable(txt,3,8)
     
 

@@ -23,6 +23,7 @@ import shutil
 import threading
 import DAD_Utils
 
+# Logging setup
 logging.basicConfig(
     filename = 'debug/debug.log',
     level=logging.DEBUG,
@@ -30,6 +31,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
+# Pytess setup
 pytesseract.pytesseract.tesseract_cmd = shutil.which(config.pytessPath)
 
 # Close GUI
@@ -37,25 +39,30 @@ def closeApp(app):
     DAD_Utils.logGui("Exiting...")
     app.quit()     
 
-
+# Close Hotkey
 def closeHotkey(app):
     keyboard.add_hotkey("ctrl+q",lambda: closeApp(app))
     keyboard.wait()
 
 
 def main():
-    shutil.copyfile("python/config.py", "config/configBackup.py")
     logging.debug("Starting Program ...")
-    app = gui.QApplication(sys.argv)  # Create the application
+
+    #Create app
+    app = gui.QApplication(sys.argv)  
     app.setWindowIcon(QIcon("img/SkullBuddy.ico"))
-    main_window = gui.MainWindow()     # Create an instance of MainWindow
-    main_window.show()              # Show the window
 
-    hotkey_thread = threading.Thread(target=closeHotkey, args=(app,), daemon=True)
-    hotkey_thread.start()
+    #Dispaly main window
+    mainWindow = gui.MainWindow()     
+    mainWindow.show()              
 
-    sys.exit(app.exec_())          # Start the event loop
-    print("App Closed/n")
+    #Close app hotkey setup
+    closeAppHotkey = threading.Thread(target=closeHotkey, args=(app,), daemon=True)
+    closeAppHotkey.start()
+
+    #End 
+    sys.exit(app.exec_())         
+    logging.debug("Program Shutting Down")
 
 if __name__ == "__main__":
     main()
