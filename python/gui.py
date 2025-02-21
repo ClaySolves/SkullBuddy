@@ -9,17 +9,61 @@ import keyboard
 import subprocess
 import logging
 from io import StringIO
-from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
+from PyQt5.QtWidgets import QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
 
-logger = logging.getLogger()  # Get the root logger configured in main.py
+
+
+
+ # Get the root logger configured in main.py
+logger = logging.getLogger() 
 
 
 
 #basic exception
 class error(Exception):
     pass
+
+
+
+# rarity sorting order
+RARITY_ORDER = {
+    "poor": 0,
+    "common": 1,
+    "uncommon": 2,
+    "rare": 3,
+    "epic": 4,
+    "legendary": 5,
+    "unique": 6
+}
+
+
+
+# Custom QTableWidgetItem that sorts numbers 
+class NumericTableWidgetItem(QTableWidgetItem):
+    def __lt__(self, other):
+        if isinstance(other, QTableWidgetItem):
+            try:
+                return float(self.text()) < float(other.text())  
+            except ValueError:
+                pass 
+        return super().__lt__(other)
+
+
+
+# Custom QTableWidgetItem that sorts rarities 
+class RarityTableWidgetItem(QTableWidgetItem):
+    def __lt__(self, other):
+        if isinstance(other, QTableWidgetItem):
+            rarity1 = self.text().lower()
+            rarity2 = other.text().lower()
+            try:
+                return RARITY_ORDER.get(rarity1, -1) < RARITY_ORDER.get(rarity2, -1)  
+            except ValueError:
+                pass 
+        return super().__lt__(other)
+
 
 
 #gui stream
@@ -37,6 +81,7 @@ class GuiScriptStream():
         pass
 
 
+
 # worker for gui stream
 class logThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
@@ -51,6 +96,9 @@ class logThread(QThread):
         DAD_Utils.logGui("Finished!")
         sys.stdout = oldStdout
 
+
+
+# worker for history stream
 class listHistoryThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
     listedGoldTotal = pyqtSignal(int)
@@ -66,6 +114,8 @@ class listHistoryThread(QThread):
 
         sys.stdout = oldStdout
 
+
+
 #gui design
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -79,7 +129,8 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
-        self.setGeometry(100, 100, 660, 700)
+        self.setGeometry(100, 100, 670, 670)
+
 
 
     # Update History Button
@@ -87,19 +138,21 @@ class MainWindow(QMainWindow):
         self.skully.setPixmap(self.deathSkullFetchHistory)
         self.skully.repaint()
 
-        try:    
-            logger.debug("Starting thread...")
-            self.historyThread = listHistoryThread()
-            self.historyThread.finished.connect(self.resetSkullyTxt)
-            self.historyThread.outputSignal.connect(self.appendHistoryLog)
-            self.historyThread.listedGoldTotal.connect(self.updateGoldText)
-            self.historyThread.start()
-        except error:
-            logger.debug("Error starting thread!")
-            DAD_Utils.logGui("Error, Exiting!")
+        # try:    
+        #     logger.debug("Starting thread...")
+        #     self.historyThread = listHistoryThread()
+        #     self.historyThread.finished.connect(self.resetSkullyTxt)
+        #     self.historyThread.outputSignal.connect(self.appendHistoryLog)
+        #     self.historyThread.listedGoldTotal.connect(self.updateGoldText)
+        #     self.historyThread.start()
+        # except error:
+        #     logger.debug("Error starting thread!")
+        #     DAD_Utils.logGui("Error, Exiting!")
 
         # update history table
         self.updateHistoryTable()
+        self.resetSkullyTxt()
+
 
 
     # Sell Items Button
@@ -121,15 +174,22 @@ class MainWindow(QMainWindow):
             logger.debug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
 
+
+
     # Log txt to GUI log
     def appendSellLog(self, txt): # append output to QTextEdit log
         self.sellLog.append(txt)
+
+
 
     # log txt to GUI history log
     def appendHistoryLog(self,txt):
         pass
         # self.historyLog.append(txt)
 
+
+
+    # Build utility tab
     def utilityTab(self):
         #tab creation
         tab = QWidget()
@@ -247,6 +307,9 @@ class MainWindow(QMainWindow):
 
         self.tabs.addTab(tab,"Utility")
 
+
+
+    # Build history tab
     def historyTab(self):
         tab = QWidget()
 
@@ -271,12 +334,12 @@ class MainWindow(QMainWindow):
         self.skully.setPixmap(self.deathSkullHistory)
 
         #skully history button
-        self.historyButton = QPushButton("View Listing History", self)
-        self.historyButton.clicked.connect(self.handleViewHistoryButton)
+        # self.historyButton = QPushButton("View Listing History", self)
+        # self.historyButton.clicked.connect(self.handleViewHistoryButton)
 
         #Total gold label
         self.totalGoldLabel = QLabel()
-        self.totalGoldLabel.setFont(QFont("Monotype Corsiva",12))
+        self.totalGoldLabel.setFont(QFont("Monotype Corsiva",18))
         self.totalGoldLabel.setText("Total Value Listed:")
 
         #Total gold Number
@@ -291,9 +354,11 @@ class MainWindow(QMainWindow):
         skullyLayoutImg = QHBoxLayout()
         skullyLayoutButtons = QVBoxLayout()
         skullyLayoutImg.addWidget(self.skully)
+
+        skullyLayoutButtons.addSpacerItem(QSpacerItem(113, 150, QSizePolicy.Fixed, QSizePolicy.Fixed))
         skullyLayoutButtons.addWidget(self.totalGoldLabel)
         skullyLayoutButtons.addWidget(self.totalGoldNumber)
-        skullyLayoutButtons.addWidget(self.historyButton)
+        # skullyLayoutButtons.addWidget(self.historyButton)
         skullyLayoutTotal.addLayout(skullyLayoutImg)
         skullyLayoutTotal.addLayout(skullyLayoutButtons)
 
@@ -308,8 +373,10 @@ class MainWindow(QMainWindow):
 
         #history table
         self.historyTable = QTableWidget()
+        self.historyTable.setEditTriggers(QTableWidget.NoEditTriggers)
         self.historyTable.setColumnCount(8)
         self.historyTable.setRowCount(0)
+        self.historyTable.setSortingEnabled(True)
         self.historyTable.setHorizontalHeaderLabels(['Name', 'Rarity', 'Price', 'Roll 1', 'Roll 2', 'Roll 3', 'Roll 4', 'Roll 5'])
 
         self.historyTable.setColumnWidth(0, 85)
@@ -323,23 +390,21 @@ class MainWindow(QMainWindow):
 
         #Table search rarity & roll
         self.tableNameSearch = QLineEdit()
-        self.tableNameSearch.setPlaceholderText("Name Search...")
+        self.tableNameSearch.setFixedSize(100, 20)  
+        self.tableNameSearch.setPlaceholderText("Search Items...")
+        self.tableNameSearch.textChanged.connect(self.filterName)
 
         self.tableRollSearch = QLineEdit()
-        self.tableRollSearch.setPlaceholderText("Rarity Search...")
+        self.tableRollSearch.setFixedSize(100, 20)   
+        self.tableRollSearch.setPlaceholderText("Search Rolls...")
+        self.tableRollSearch.textChanged.connect(self.filterRolls)
 
-        #Sort by rarity button
-        self.sortRarityButton = QPushButton("Sort by Price", self)
-        self.sortRarityButton.clicked.connect(self.sortTableRarity)
+        #History table header
+        historyTableHeader.addWidget(self.tableNameSearch,alignment=Qt.AlignLeft)
+        historyTableHeader.addSpacerItem(QSpacerItem(113, 12, QSizePolicy.Fixed, QSizePolicy.Fixed))
+        historyTableHeader.addWidget(self.tableRollSearch,alignment=Qt.AlignLeft)
+        historyTableHeader.addSpacerItem(QSpacerItem(800, 12, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
-        #Sort by price button
-        self.sortPriceButton = QPushButton("Sort by Rarity", self)
-        self.sortPriceButton.clicked.connect(self.sortTablePrice)
-
-        historyTableHeader.addWidget(self.tableNameSearch)
-        historyTableHeader.addWidget(self.tableRollSearch)
-        historyTableHeader.addWidget(self.sortRarityButton)
-        historyTableHeader.addWidget(self.sortPriceButton)
 
         # Add all widgets
         historyLayout.addWidget(self.historyTable)
@@ -354,6 +419,9 @@ class MainWindow(QMainWindow):
 
         self.updateHistoryTable()
 
+
+
+    # Build help tab
     def helpTab(self):
         tab = QWidget()
 
@@ -424,6 +492,9 @@ class MainWindow(QMainWindow):
 
         self.tabs.addTab(tab,"Help")
 
+
+
+     # reset skully txt
     def resetSkullyTxt(self):
         time.sleep(0.1)
 
@@ -433,11 +504,16 @@ class MainWindow(QMainWindow):
         self.skully.setPixmap(self.deathSkullHistory)
         self.skully.repaint()
 
+
+
+    # update total gold
     def updateGoldText(self,totalGold):
         self.totalGoldNumber.setText(f"{totalGold:,}")
         DAD_Utils.updateConfig("totalListedGold",totalGold)
 
     
+    
+    # update config from gui selections
     def guiToConfig(self):
         #handle config updates from settings
         txtRead = next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)
@@ -467,20 +543,28 @@ class MainWindow(QMainWindow):
         if str(config.sellLimit) != txtRead:
             DAD_Utils.updateConfig("sellLimit",int(txtRead))
 
+
+
+    # Update history table
     def updateHistoryTable(self):
         conn, cur = database.connectDatabase()
-
         data = database.getStoredItems(cur) 
-        self.historyTable.setRowCount(len(data))
 
+        numItems = 0
+        totalGold = 0
         for i, item in enumerate(data):
-            self.historyTable.setRowHeight(i, 40)
+
+            if not item[0] or not item[1] or not item[3]:
+                continue
+
+            self.historyTable.setRowCount(self.historyTable.rowCount() + 1)    
+            self.historyTable.setRowHeight(numItems, 40)
 
             #Update name
             namePrint = item[0] if item[0] else 'NameReadError'
             tableName = QTableWidgetItem(namePrint)
             tableName.setFont(QFont("Arial",8))
-            self.historyTable.setItem(i, 0, tableName)
+            self.historyTable.setItem(numItems, 0, tableName)
 
             #update rarity
             printColor = 'gray'
@@ -500,18 +584,19 @@ class MainWindow(QMainWindow):
                     printColor = 'PaleGoldenRod'
 
             rarityPrint = 'None' if not item[1] else item[1][0].upper() + item[1][1:]
-            tableRarity = QTableWidgetItem(rarityPrint)
+            tableRarity = RarityTableWidgetItem(rarityPrint)
             tableRarity.setForeground(QColor(printColor))
             tableRarity.setFont(QFont("Arial",8))
-            self.historyTable.setItem(i, 1, tableRarity)
+            self.historyTable.setItem(numItems, 1, tableRarity)
 
             #update price
+            totalGold = totalGold + item[3]
             printPrice = str(item[3]) if item[3] else 'None'
-            tablePrice = QTableWidgetItem(printPrice)
+            tablePrice = NumericTableWidgetItem(printPrice)
             fontColor = QColor('Gold') if printPrice != 'None' else QColor('Black')
             tablePrice.setForeground(fontColor)
             tablePrice.setFont(QFont("Arial",8))
-            self.historyTable.setItem(i, 2, tablePrice)
+            self.historyTable.setItem(numItems, 2, tablePrice)
 
             #Update rolls
             newString = item[2].strip('|')
@@ -530,12 +615,46 @@ class MainWindow(QMainWindow):
                 tableItem = QTableWidgetItem(rollPrint)
                 tableItem.setForeground(QColor('DeepSkyBlue'))
                 tableItem.setFont(QFont("Arial",7))
-                self.historyTable.setItem(i, j + 3, tableItem)
+                self.historyTable.setItem(numItems, j + 3, tableItem)
 
+            numItems = numItems + 1
+
+        self.updateGoldText(totalGold)
         database.closeDatabase(conn)
 
-    def sortTablePrice(self):
-        pass
 
-    def sortTableRarity(self):
-        pass
+
+    # filter history table by name
+    def filterName(self):
+        txt = self.tableNameSearch.text().lower()
+        logger.debug(f"filtering names with: {txt}")
+        self.filterTable(txt,0)
+
+
+
+    # filter history table by name
+    def filterRolls(self):
+        txt = self.tableRollSearch.text().lower()
+        logger.debug(f"filtering roll with: {txt}")
+        self.filterTable(txt,3,8)
+    
+
+    # filter text in history table
+    def filterTable(self,txt,column,column2=0):
+
+        # hide column rows that do not match query
+        for row in range(self.historyTable.rowCount()):
+            hideRow = True 
+            if column2:
+                for col in range(column,column2):
+                    item = self.historyTable.item(row, col)
+
+                    if item and txt in item.text().strip().lower():
+                        hideRow = False
+                        break
+            else:
+                item = self.historyTable.item(row, column)
+                if item and txt in item.text().strip().lower():
+                    hideRow = False
+
+            self.historyTable.setRowHidden(row, hideRow)
