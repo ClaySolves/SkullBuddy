@@ -657,7 +657,8 @@ class MainWindow(QMainWindow):
                             break
             else:
                 item = self.historyTable.item(row, column)
-                if item and txt in item.text().strip().lower():
+                itemTxt = re.sub(r'[^a-zA-Z0-9%]', '', item.text().strip().lower())
+                if item and txt in itemTxt:
                     hideRow = False
 
             self.historyTable.setRowHidden(row, hideRow)
