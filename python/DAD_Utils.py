@@ -92,7 +92,6 @@ class item():
         pyautogui.click()
 
         for roll in self.rolls:
-            print(roll[3])
             if roll[3]:
                 clearAttrSearch()
                 pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
@@ -235,15 +234,11 @@ class item():
                     if good:
                         self.goodRoll = good
                         goodRolls = goodRolls + 1
-                        print("Goodrolloccur")
                 logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]}")
 
             #store many good roll price if there are many good rolls
-            print(f"goodrolls: {goodRolls}")
             if goodRolls >= 2: 
-                print("occur")
                 self.searchGoodRolls()
-                print("done")
                 foundPrice = recordDisplayedPrice()
                 if foundPrice: prices.append(foundPrice)
                 logger.debug(f"Found price {foundPrice} for good rolls")

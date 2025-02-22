@@ -10,6 +10,9 @@ and does not allow the user to hack, cheat, abuse, manipulate,
 change or otherwise obtain unauthorised access to any benefits or features in-game 
 and does not automate gameplay mechanisms, only menu navigation. 
 
+![SkullBuddy](img/SkullBuddyUtility.png)
+![SkullBuddy](img/SkullBuddyHistory.png)
+
 
 ## How to Run
 Tutorial video: coming soon...
