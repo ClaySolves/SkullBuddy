@@ -23,20 +23,15 @@ https://github.com/UB-Mannheim/tesseract/releases
 Download and Install Python:
 https://www.python.org/downloads/
 
-Download and Install Git:
-https://git-scm.com/downloads
-
-Clone Repo and run installer:
+Download Repo and run installer:
 ```bash
-git clone https://github.com/ClaySolves/DaD_Automation.git
-cd DaD_Automation
-python python\install.py
+python3 python\install.py
 ```
 
 After successful run, SkullBuddy.exe is generated in 
-...PATH_TO_REPO/DaD_Automation/dist/SkullBuddy.exe
+.../DaD_Automation/dist/SkullBuddy.exe
 move SkullBuddy.exe out of dist folder and into repo root path. Example:
-...PATH_TO_REPO/DaD_Automation/SkullBuddy.exe
+.../DaD_Automation/SkullBuddy.exe
 
 Run SkullBuddy.exe
 
