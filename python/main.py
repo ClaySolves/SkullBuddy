@@ -49,7 +49,7 @@ def main():
     logging.debug("Starting Program ...")
 
     #Create app
-    app = gui.QApplication(sys.argv)  
+    app = gui.QApplication(sys.argv)    
     app.setWindowIcon(QIcon("img/SkullBuddy.ico"))
 
     #Dispaly main window
