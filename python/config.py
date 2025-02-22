@@ -13,7 +13,7 @@ sigRollIncreasePercent = 0.2
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 1
+sellMethod = 2
 rollMethod = ""
 # stashDump: -1 for shared stash, 0-10 are numbered with 0 default
 stashDump = 2 
