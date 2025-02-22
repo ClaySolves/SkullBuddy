@@ -739,10 +739,10 @@ def loadTextFiles():
         file.seek(0,2)
         size = file.tell()
         if size > 2000000:
-            print("Clearing debug file...")
             file.seek(0)  
             file.truncate(0) 
-        pass
+            file.write("Debug.log cleared")
+    
 
     with open("config/items.txt", 'r') as file:
         lines = file.readlines()
