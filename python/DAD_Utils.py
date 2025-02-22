@@ -734,8 +734,15 @@ def loadTextFiles():
     global allItems
     global allRolls
 
-    #with open("debug.log", 'w') as file:
-    #    pass
+    with open("debug/debug.log", 'r+') as file:
+        #Clear debug file if over 2MB
+        file.seek(0,2)
+        size = file.tell()
+        if size > 2000000:
+            print("Clearing debug file...")
+            file.seek(0)  
+            file.truncate(0) 
+        pass
 
     with open("config/items.txt", 'r') as file:
         lines = file.readlines()
