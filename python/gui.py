@@ -285,7 +285,7 @@ class MainWindow(QMainWindow):
             2 : QRadioButton("Lowest Price w/o Outliers"),
             3 : QRadioButton("Lowest 3 Price Avg")
         }
-        self.radioMethodSelect[1].setChecked(True)
+        self.radioMethodSelect[config.sellMethod].setChecked(True)
         
         # Log Layout
         logLayout = QVBoxLayout()
