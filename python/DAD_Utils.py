@@ -39,38 +39,56 @@ class item():
     #Print item
     def printItem(self,newline=False):
         if self.price and self.rarity:
-            printColor = "Black"
-            if self.rarity:
-                if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
-                    printColor = 'gray'
-                elif self.rarity.lower() == 'uncommon':
-                    printColor = 'green'
-                elif self.rarity.lower() == 'rare':
-                    printColor = 'MediumBlue'
-                elif self.rarity.lower() == 'epic':
-                    printColor = 'Orchid'
-                elif self.rarity.lower() == 'legendary':
-                    printColor = 'Goldenrod'
-                elif self.rarity.lower() == 'unique':
-                    printColor = 'PaleGoldenRod'
+            self.printRarityName()
 
-            logGui(f"{self.rarity} {self.name}",printColor)
             for roll in self.rolls:
-                rollPrint = ""
-                #check for % for print format
-                if roll[2]:
-                    if int(roll[0]) == 1: rollPrint = f"+ {roll[0]}.0% {roll[1]}"
-                    else: rollPrint = f"+ {int(roll[0])/10:.1f}% {roll[1]}"
-                else:
-                    rollPrint = f"+ {roll[0]} {roll[1]}"
-                #check for good roll (added after price check)
-                if roll[3]:
-                    rollPrint += " <-- GOOD ROLL FOUND!"
-                logGui(rollPrint,"DeepSkyBlue")
+                self.printRoll(roll)
                 
             logGui(f"Price: {self.price} Gold","Gold")
             if newline: logGui("\n")
 
+
+    # print item rarity and name
+    def printRarityName(self):
+        printColor = "Black"
+        if self.rarity:
+            if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
+                printColor = 'gray'
+            elif self.rarity.lower() == 'uncommon':
+                printColor = 'green'
+            elif self.rarity.lower() == 'rare':
+                printColor = 'MediumBlue'
+            elif self.rarity.lower() == 'epic':
+                printColor = 'Orchid'
+            elif self.rarity.lower() == 'legendary':
+                printColor = 'Goldenrod'
+            elif self.rarity.lower() == 'unique':
+                printColor = 'PaleGoldenRod'
+
+        logGui(f"{self.rarity} ",printColor,printEnd=" ")
+        logGui(f"{self.name}")
+
+
+    #print item roll
+    def printRoll(self,i):
+        roll = self.rolls[i]
+        rollPrint = ""
+        #check for % for print format
+        if roll[2]:
+            if int(roll[0]) == 1: rollPrint = f"+ {roll[0]}.0% {roll[1]}"
+            else: rollPrint = f"+ {int(roll[0])/10:.1f}% {roll[1]}"
+        else:
+            rollPrint = f"+ {roll[0]} {roll[1]}"
+        #check for good roll (added after price check)
+
+        logGui(rollPrint,"DeepSkyBlue"," ")
+        if roll[3]:
+            logGui(" <- Good Roll","DarkGoldenRod")
+        else:
+            logGui(" ")
+
+
+    # get item from database storing string
     def getItemStoreDetails(self):
         rollStr = ""
         for roll in self.rolls:    
@@ -183,7 +201,8 @@ class item():
     # Written for hotfix #79+
     def findPrice3(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
-        logGui(f"Searching market for {self.rarity} {self.name}")
+
+        self.printRarityName()
 
         # algo for item with many rolls
         if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique'):
@@ -205,9 +224,11 @@ class item():
             if foundPrice and allAttrPrice:
                 worthLookup = checkPriceRoll(foundPrice,allAttrPrice)
                 if not worthLookup:
-                    logGui(f"Found {allAttrPrice} for {self.name}")
-                    logDebug(f"Found {allAttrPrice} for {self.name}")
-                    self.price = allAttrPrice
+                    logGui(f"Found {allAttrPrice}",color="Gold",printEnd=" ")
+                    logGui(f"for ",printEnd=" ")
+                    self.printRarityName()
+
+                    self.price = foundPrice
                     return True
 
             # search and store each roll
@@ -222,14 +243,13 @@ class item():
                     if good:
                         self.goodRoll = good
                         goodRolls = goodRolls + 1
-                logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]}")
-
+                
             #store many good roll price if there are many good rolls
             if goodRolls >= 2: 
                 self.searchGoodRolls()
                 foundPrice = recordDisplayedPrice()
                 if foundPrice: prices.append(foundPrice)
-                logger.debug(f"Found price {foundPrice} for good rolls")
+
 
             # assign best price 
             if prices: 
@@ -237,23 +257,25 @@ class item():
                 #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
                 self.price = finalPrice
-                logGui(f"Found price {self.price} for {self.rarity} {self.name}")
-                logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                logGui(f"Found {finalPrice}",color="Gold",printEnd=" ")
+                logGui(f"for ",printEnd=" ")
+                self.printRarityName()
                 return True
             
             return False
 
         #algo for item with few rolls
         elif(self.rarity.lower() == 'poor' or self.rarity.lower() == 'common' or self.rarity.lower() == 'uncommon' or self.rarity.lower() == 'rare'):
-            logger.debug(f"few roll item found")
+            logDebug(f"few roll item found")
 
             # record price of all rolls
             foundPrice = recordDisplayedPrice(False)
 
             # found price on all attr search, return and log
             if foundPrice:
-                logGui(f"Found {foundPrice} for {self.name}")
-                logDebug(f"Found {foundPrice} for {self.name}")
+                logGui(f"Found {foundPrice}",color="Gold",printEnd=" ")
+                logGui(f"for ",printEnd=" ")
+                self.printRarityName()
                 self.price = foundPrice
                 return True
             
@@ -277,23 +299,23 @@ class item():
                     self.rolls[i][3] = good
                     if good and self.goodRoll is None:
                         self.goodRoll = good
-                logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]} on {self.name}")
 
             if prices: 
                 finalPrice = max(prices)
                 self.price = finalPrice
-                logGui(f"Found price {self.price} for {self.rarity} {self.name}")
-                logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
+                logGui(f"Found {finalPrice}",color="Gold",printEnd=" ")
+                logGui(f"for ",printEnd=" ")
+                self.printRarityName()
                 return True
         
             return False
 
         # this should never trigger
         else:
-            logger.debug('BAD ITEM READ !!!')
+            logDebug('BAD ITEM READ !!!')
 
-        logGui("Sleep")
-        time.sleep(5)
+        logDebug('Price Read Error')
+        return False
 
 
     #Search market for item price # Assume that View Market tab is open
@@ -539,6 +561,8 @@ def checkPriceRoll(basePrice, rollPrice, staticCheck=config.sigRollIncreaseStati
 
 # searches market and finds price
 def recordDisplayedPrice(search=True) -> int: # Price/None
+    logGui(f"finding prices... ",printEnd=" ")
+
     if search:
         pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
         pyautogui.click()
@@ -551,13 +575,16 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
             return None
 
     price = readPrices()
+
     if price:
         price = calcItemPrice(price,config.sellMethod)
-        logGui(f"Researching prices... Found {price}...")
+        logGui(f"Found ",printEnd=" ")
+        logGui(f"{price}...",color="Gold",printEnd=" ")
     else:
         logger.debug(f"no price found ...")
         return None
     
+    logger.debug(f"Found price {price}")
     return price
 
 
@@ -1026,8 +1053,9 @@ def logDebug(txt):
 
 
 
-def logGui(txt,color='black'):
-    print(f"<span style='color: {color};'>{txt}</span>")
+def logGui(txt,color='black',printEnd="\n"):
+    print(f"<span style='color: {color};'>{txt}</span>", end=printEnd)
+ 
 
 
 
@@ -1246,7 +1274,7 @@ def returnMarketStash():
 # Search for item from market stash
 def searchFromMarketStash(x,y) -> bool:
     logger.debug(f"Searching form market stash")
-    logGui("Searching...")
+    logGui("Searching...",printEnd=" ")
     ss = pyautogui.screenshot(region=config.ssMarketItem)
 
     pyautogui.moveTo(x, y) 
@@ -1390,7 +1418,8 @@ def searchStash() -> bool:
 
                 # if failure blacklist item slots to avoid re searching + unhover item
                 else:
-                    logGui(f"Item listing failure ... stash & go next")
+                    logGui(f"Item not listed",color="Red",printEnd=" ")
+                    logGui("... Skipping")
                     logDebug(f"Blacklisting stash squares ...")
                     if foundItem:
                         logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
@@ -1428,7 +1457,7 @@ def getItemInfo() -> item:
     rolls = []
     foundName = False
 
-    logGui("Reading item...")
+    logGui("Reading item...", printEnd=" ")
 
     #check if item is on screen
     space = locateOnScreen('findItem',confidence=0.95)
@@ -1439,7 +1468,7 @@ def getItemInfo() -> item:
 
     #screenshot for text & rarity
     ssRegion = (int(space[0]) - 210, int(space[1]) - 460, 535, 750)
-    logGui("Getting item info...")
+    logGui("Getting item info...", printEnd=" ")
 
     ss = pyautogui.screenshot(region=ssRegion)
     ss.save("debug/testingImage.png")
@@ -1464,7 +1493,7 @@ def getItemInfo() -> item:
     lines = text.splitlines()
 
     #iterate read text
-    logGui("Getting item rolls...")
+    logGui("Storing item rolls...", printEnd=" ")
     for line in lines:
         logDebug(f"lines: {lines}")
         if not foundName:
@@ -1532,8 +1561,6 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
                 logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
                 time.sleep(config.sleepTime / 1.2)
                 return myItem, True
-                        
-        logGui(f"Error listing item, stashing. Consider vendoring")
 
         return myItem, False      
     return None, False                                                      # if we fail any part of loop, return false

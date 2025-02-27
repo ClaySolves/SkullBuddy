@@ -91,14 +91,18 @@ class logThread(QThread):
 
         oldStdout = sys.stdout
         sys.stdout = GuiScriptStream(self.outputSignal)
+        #self.outputSignal.connect(goodPrint)
 
+        print("hi", end=" ")
+        print("hi")
         DAD_Utils.logGui("Listing Items...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
 
         sys.stdout = oldStdout
 
-
+def goodPrint(message):
+    DAD_Utils.logGui(message)
 
 # worker for history stream
 class listHistoryThread(QThread):
@@ -189,7 +193,7 @@ class MainWindow(QMainWindow):
 
     # Log txt to GUI log
     def appendSellLog(self, txt): # append output to QTextEdit log
-        self.sellLog.append(txt)
+        self.sellLog.insertHtml(txt)
 
 
 

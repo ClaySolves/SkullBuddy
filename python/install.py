@@ -54,14 +54,15 @@ def writeConfig(var,newVal):
 
 
 def findPytessPath():
-    """Locate the Tesseract OCR executable path."""
+
     # find pytess path
-    tessPath = 'r"' + shutil.which(findTesseractInstall()) + '"'
-    
-    # if can't find exit
-    if not tessPath:
+    foundPath = findTesseractInstall()
+
+    if not foundPath:
         print("NO TESSERACT?????????? Bro can you not follow simple instructions? what are you even doing...\n Go download tesseract installer from https://github.com/UB-Mannheim/tesseract/releases NOW!")
         sys.exit(1)
+
+    tessPath = 'r"' + shutil.which(findTesseractInstall()) + '"'
     
     return tessPath
 
