@@ -1076,7 +1076,7 @@ def locateAllOnScreen(img,region=config.getScreenRegion,grayscale=False,confiden
     
 def locateOnImage(imgNeedle, imgHaystack, grayscale=False,confidence=0.99):
     logger.debug(f"Searching for Image {imgNeedle} in {imgHaystack}...")
-    strKey = isinstance(imgHaystack, str)
+    strKey = isinstance(imgNeedle, str)
     try:
         if strKey:
             res = pyautogui.locate(f'img/{imgNeedle}.png', imgHaystack, confidence = confidence, grayscale = grayscale)
@@ -1090,14 +1090,12 @@ def locateOnImage(imgNeedle, imgHaystack, grayscale=False,confidence=0.99):
 
 
 # Read image text and confirm the rarity
-def confirmRarity(img,rarity):
-    left = int(img.left)
+def confirmRarity(ss, img, rarity):
+    left = int(img.left) 
     top = int(img.top)
     width = int(img.width)
     height = int(img.height)
     ssRegion=(left, top, width, height)
-    ss = pyautogui.screenshot(region=ssRegion)
-    ss.save("debug/testingRarityConfig.png")
 
     txt = pytesseract.image_to_string(ss, config="--psm 6")
     if rarity.lower() in txt.lower():
@@ -1113,37 +1111,37 @@ def getItemRarity(ss):
 
     poorDetect = locateOnImage('poor', ss)
     if poorDetect:
-        if confirmRarity(poorDetect,'poor'):
+        if confirmRarity(ss, poorDetect,'poor'):
             ret = 'Poor'
 
     commonDetect = locateOnImage('common', ss)
     if commonDetect:
-        if confirmRarity(commonDetect,'common'):
+        if confirmRarity(ss, commonDetect,'common'):
             ret = 'Common'
 
     uncommonDetect = locateOnImage('uncommon',ss)
     if uncommonDetect:
-        if confirmRarity(uncommonDetect,'uncommon'):
+        if confirmRarity(ss, uncommonDetect,'uncommon'):
             ret = 'Uncommon'
 
     rareDetect = locateOnImage('rare', ss)
     if rareDetect:
-        if confirmRarity(rareDetect,'rare'):
+        if confirmRarity(ss, rareDetect,'rare'):
             ret = 'Rare'
 
     epicDetect = locateOnImage('epic', ss)
     if epicDetect:
-        if confirmRarity(epicDetect,'epic'):
+        if confirmRarity(ss, epicDetect,'epic'):
             ret = 'Epic'
 
     legendaryDetect = locateOnImage('legendary', ss)
     if legendaryDetect:
-        if confirmRarity(legendaryDetect,'legendary'):
+        if confirmRarity(ss, legendaryDetect,'legendary'):
             ret = 'Legendary'
 
     uniqueDetect = locateOnImage('unique', ss)
     if uniqueDetect:
-        if confirmRarity(uniqueDetect,'unique'):
+        if confirmRarity(ss, uniqueDetect,'unique'):
             ret = 'Unique'
 
     if ret:
@@ -1271,7 +1269,6 @@ def searchFromMarketStash(x,y) -> bool:
     pyautogui.click()
     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
     if not res:
-        print("LOL")
         pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
         time.sleep(config.sleepTime / 15)
         pyautogui.click()
@@ -1455,8 +1452,7 @@ def getItemInfo() -> item:
 
     rarity = getItemRarity(ss)
 
-
-    textCropBox = [80,220,350,520]
+    textCropBox = [60,150,400,520]
     ssTextCrop = ss.crop(textCropBox)
     ssTextCrop.save("debug/testingRollRead.png")
     text = pytesseract.image_to_string(ssTextCrop)
