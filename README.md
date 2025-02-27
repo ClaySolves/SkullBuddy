@@ -1,27 +1,20 @@
 # Dark And Darker SkullBuddy
 
-## Description
+
+Play [Dark and Darker](https://www.darkanddarker.com/play) now for free!
+
 SkullBuddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
-
-SkullBuddy utilizes the PyAutoGUI library for game navigation.
-
-SkullBuddy ONLY interacts with gameplay outside of the dungeon
-and does not allow the user to hack, cheat, abuse, manipulate, 
-change or otherwise obtain unauthorised access to any benefits or features in-game 
-and does not automate gameplay mechanisms, only menu navigation. 
 
 ![SkullBuddy](img/SkullBuddyUtility.png)
 ![SkullBuddy](img/SkullBuddyHistory.png)
 
+## Requirements
 
-## How to Run
-Tutorial video: coming soon...
+Download and Install [Tesseract-OCR](https://github.com/UB-Mannheim/tesseract/releases)
 
-Download and Install Tesseract-OCR:
-https://github.com/UB-Mannheim/tesseract/releases
+Download and Install [Python](https://www.python.org/downloads/)
 
-Download and Install Python:
-https://www.python.org/downloads/
+## Installation
 
 Download Repo and run installer:
 ```bash
@@ -36,3 +29,13 @@ move SkullBuddy.exe out of dist folder and into repo root path. Example:
 Run SkullBuddy.exe
 
 Enjoy!
+
+
+## Disclaimer
+
+SkullBuddy does not allow the user to hack, cheat, abuse, manipulate, 
+change or otherwise obtain unauthorised access to any benefits or 
+features in-game and does not automate gameplay mechanisms, only 
+menu navigation. Skullbuddy uses the PyAutoGUI library for game navigation. 
+Skullbuddy does not read game memory or access data not availble to the player by 
+default. SkullBuddy only interacts with navigation outside of the dungeon.

@@ -12,6 +12,7 @@ import win32gui
 import win32process
 import win32con
 import ctypes
+import threading
 import os
 import psutil
 from screeninfo import get_monitors
@@ -183,19 +184,6 @@ class item():
     def findPrice3(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
         logGui(f"Searching market for {self.rarity} {self.name}")
-
-        # Search for item from Listings Stash
-        ss = pyautogui.screenshot(region=config.ssMarketItem)
-        self.searchFromMarketStash()
-        confirmGameScreenChange(ss,region=config.ssMarketItem)
-
-        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-        time.sleep(config.sleepTime / 15)
-        pyautogui.click()
-
-        pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-        time.sleep(config.sleepTime / 15)
-        pyautogui.click()
 
         # algo for item with many rolls
         if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique'):
@@ -703,14 +691,14 @@ def calcItemPrice(prices, method, ascending=True):
 
 
 # get size of selected item, return size of 1 if error read
-def getItemSize() -> list:
-    res = locateOnScreen('topLeftCorner',grayscale=False,confidence=0.82)
-    res4 = locateOnScreen('bottomRightCorner',grayscale=False,confidence=0.82)
+def getItemSize(ss) -> list:
+    res = locateOnImage('topLeftCorner', ss, grayscale=False,confidence=0.82)
+    res4 = locateOnImage('bottomRightCorner', ss, grayscale=False,confidence=0.82)
     res2 = None
     res3 = None
     if not res4 and res:
-        res2 = locateOnScreen('topRightCorner',grayscale=False,confidence=0.82)
-        res3 = locateOnScreen('bottomLeftCorner',grayscale=False,confidence=0.82)
+        res2 = locateOnImage('topRightCorner',  ss, grayscale=False,confidence=0.82)
+        res3 = locateOnImage('bottomLeftCorner',  ss, grayscale=False,confidence=0.82)
 
     if res and res4:
         xSize = round((int(res4[0])-int(res[0])) / 39)
@@ -1086,6 +1074,19 @@ def locateAllOnScreen(img,region=config.getScreenRegion,grayscale=False,confiden
         logger.debug("Failed to find any image")
         return None
     
+def locateOnImage(imgNeedle, imgHaystack, grayscale=False,confidence=0.99):
+    logger.debug(f"Searching for Image {imgNeedle} in {imgHaystack}...")
+    strKey = isinstance(imgHaystack, str)
+    try:
+        if strKey:
+            res = pyautogui.locate(f'img/{imgNeedle}.png', imgHaystack, confidence = confidence, grayscale = grayscale)
+        else:
+            res = pyautogui.locate(imgNeedle, imgHaystack, confidence = confidence, grayscale = grayscale)
+        return res
+    except:
+        logger.debug("Failed to find any image")
+        return None
+    
 
 
 # Read image text and confirm the rarity
@@ -1096,6 +1097,8 @@ def confirmRarity(img,rarity):
     height = int(img.height)
     ssRegion=(left, top, width, height)
     ss = pyautogui.screenshot(region=ssRegion)
+    ss.save("debug/testingRarityConfig.png")
+
     txt = pytesseract.image_to_string(ss, config="--psm 6")
     if rarity.lower() in txt.lower():
         return 1
@@ -1105,40 +1108,40 @@ def confirmRarity(img,rarity):
 
 
 # Returns the rarity of the item in top left 
-def getItemRarity(region=config.firstSlotItemDisplayRegion):
+def getItemRarity(ss):
     ret = None
 
-    poorDetect = locateOnScreen('poor', region=region)
+    poorDetect = locateOnImage('poor', ss)
     if poorDetect:
         if confirmRarity(poorDetect,'poor'):
             ret = 'Poor'
 
-    commonDetect = locateOnScreen('common', region=region)
+    commonDetect = locateOnImage('common', ss)
     if commonDetect:
         if confirmRarity(commonDetect,'common'):
             ret = 'Common'
 
-    uncommonDetect = locateOnScreen('uncommon', region=region)
+    uncommonDetect = locateOnImage('uncommon',ss)
     if uncommonDetect:
         if confirmRarity(uncommonDetect,'uncommon'):
             ret = 'Uncommon'
 
-    rareDetect = locateOnScreen('rare', region=region)
+    rareDetect = locateOnImage('rare', ss)
     if rareDetect:
         if confirmRarity(rareDetect,'rare'):
             ret = 'Rare'
 
-    epicDetect = locateOnScreen('epic', region=region)
+    epicDetect = locateOnImage('epic', ss)
     if epicDetect:
         if confirmRarity(epicDetect,'epic'):
             ret = 'Epic'
 
-    legendaryDetect = locateOnScreen('legendary', region=region)
+    legendaryDetect = locateOnImage('legendary', ss)
     if legendaryDetect:
         if confirmRarity(legendaryDetect,'legendary'):
             ret = 'Legendary'
 
-    uniqueDetect = locateOnScreen('unique', region=region)
+    uniqueDetect = locateOnImage('unique', ss)
     if uniqueDetect:
         if confirmRarity(uniqueDetect,'unique'):
             ret = 'Unique'
@@ -1239,6 +1242,43 @@ def returnMarketStash():
     if work():
         time.sleep(config.sleepTime / 15)
         return True
+    
+
+
+# Search for item from market stash
+def searchFromMarketStash(x,y) -> bool:
+    logger.debug(f"Searching form market stash")
+    logGui("Searching...")
+    ss = pyautogui.screenshot(region=config.ssMarketItem)
+
+    pyautogui.moveTo(x, y) 
+    pyautogui.click() 
+    time.sleep(config.sleepTime / 9)
+
+    pyautogui.moveTo(config.xMarketSearchNameRairty, config.yMarketSearchNameRairty, duration=0.1) 
+    pyautogui.click()
+
+    res = confirmGameScreenChange(ss,region=config.ssMarketItem)
+    if not res: return res
+
+    pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+    time.sleep(config.sleepTime / 15)
+    ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
+    pyautogui.click()
+
+    pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
+    time.sleep(config.sleepTime / 15)
+    pyautogui.click()
+    res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
+    if not res:
+        print("LOL")
+        pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
+        time.sleep(config.sleepTime / 15)
+        pyautogui.click()
+        res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
+
+    return res
+
 
 
 
@@ -1390,6 +1430,7 @@ def getItemInfo() -> item:
     name = ""
     rolls = []
     foundName = False
+
     logGui("Reading item...")
 
     #check if item is on screen
@@ -1398,13 +1439,29 @@ def getItemInfo() -> item:
     
     x, y = pyautogui.position()
     coords = [x,y]
-    
+
     #screenshot for text & rarity
-    ssRegion = (int(space[0]) - 110, int(space[1]) - 360, 335, 550)
+    ssRegion = (int(space[0]) - 210, int(space[1]) - 460, 535, 750)
     logGui("Getting item info...")
-    rarity = getItemRarity(ssRegion)
+
     ss = pyautogui.screenshot(region=ssRegion)
-    text = pytesseract.image_to_string(ss)
+    ss.save("debug/testingImage.png")
+
+    #start movement thread while reading data
+    searchFromStashThread = threading.Thread(target=searchFromMarketStash, args=(x,y))
+    searchFromStashThread.start()
+
+    size = getItemSize(ss)
+
+    rarity = getItemRarity(ss)
+
+
+    textCropBox = [80,220,350,520]
+    ssTextCrop = ss.crop(textCropBox)
+    ssTextCrop.save("debug/testingRollRead.png")
+    text = pytesseract.image_to_string(ssTextCrop)
+
+    # Read item data
     name = ""
     rolls = []
     text = ''.join(char for char in text if char.isalnum() or char.isspace())
@@ -1452,10 +1509,9 @@ def getItemInfo() -> item:
         else:
             rarity = 'unique'
 
-    size = getItemSize()
-
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size)
+    searchFromStashThread.join()
     return foundItem
 
 

@@ -3,9 +3,9 @@ exeName = "DungeonCrawler.exe"
 pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
-undercutValue = 0.07
+undercutValue = 0.1
 sellLimit = 1259
-sleepTime = 1.1
+sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
 
