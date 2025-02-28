@@ -65,8 +65,7 @@ class item():
             elif self.rarity.lower() == 'unique':
                 printColor = 'PaleGoldenRod'
 
-        logGui(f"{self.rarity} ",printColor,printEnd=" ")
-        logGui(f"{self.name}")
+        logGui(f"{self.rarity} {self.name}",printColor,printEnd="")
 
 
     #print item roll
@@ -224,7 +223,8 @@ class item():
             if foundPrice and allAttrPrice:
                 worthLookup = checkPriceRoll(foundPrice,allAttrPrice)
                 if not worthLookup:
-                    logGui(f"Found {allAttrPrice}",color="Gold",printEnd=" ")
+                    logGui(f"Found",printEnd=" ")
+                    logGui(f"{allAttrPrice}",color="Gold",printEnd=" ")
                     logGui(f"for ",printEnd=" ")
                     self.printRarityName()
 
@@ -257,7 +257,8 @@ class item():
                 #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
                 self.price = finalPrice
-                logGui(f"Found {finalPrice}",color="Gold",printEnd=" ")
+                logGui(f"Found",printEnd=" ")
+                logGui(f"{finalPrice}",color="Gold",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 return True
@@ -273,7 +274,8 @@ class item():
 
             # found price on all attr search, return and log
             if foundPrice:
-                logGui(f"Found {foundPrice}",color="Gold",printEnd=" ")
+                logGui(f"Found",printEnd=" ")
+                logGui(f"{foundPrice}",color="Gold",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 self.price = foundPrice
@@ -303,7 +305,8 @@ class item():
             if prices: 
                 finalPrice = max(prices)
                 self.price = finalPrice
-                logGui(f"Found {finalPrice}",color="Gold",printEnd=" ")
+                logGui(f"Found ",printEnd=" ")
+                logGui(f"{finalPrice} ",color="Gold",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 return True
@@ -561,7 +564,7 @@ def checkPriceRoll(basePrice, rollPrice, staticCheck=config.sigRollIncreaseStati
 
 # searches market and finds price
 def recordDisplayedPrice(search=True) -> int: # Price/None
-    logGui(f"finding prices... ",printEnd=" ")
+    logGui(f"Finding prices... ",printEnd=" ")
 
     if search:
         pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
@@ -578,8 +581,9 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
 
     if price:
         price = calcItemPrice(price,config.sellMethod)
-        logGui(f"Found ",printEnd=" ")
-        logGui(f"{price}...",color="Gold",printEnd=" ")
+        logGui(f"Found",printEnd=" ")
+        logGui(f"{price}",color="Gold",printEnd=" ")
+        logGui(f"...",printEnd=" ")
     else:
         logger.debug(f"no price found ...")
         return None
@@ -1054,6 +1058,11 @@ def logDebug(txt):
 
 
 def logGui(txt,color='black',printEnd="\n"):
+    #Append ^ for gui newline
+    if printEnd == "\n":
+        txt = txt + "^"
+    elif printEnd == " ":
+        txt = txt + " "
     print(f"<span style='color: {color};'>{txt}</span>", end=printEnd)
  
 
@@ -1493,7 +1502,7 @@ def getItemInfo() -> item:
     lines = text.splitlines()
 
     #iterate read text
-    logGui("Storing item rolls...", printEnd=" ")
+    logGui("Storing item rolls...")
     for line in lines:
         logDebug(f"lines: {lines}")
         if not foundName:

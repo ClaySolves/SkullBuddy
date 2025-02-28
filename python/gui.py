@@ -93,8 +93,6 @@ class logThread(QThread):
         sys.stdout = GuiScriptStream(self.outputSignal)
         #self.outputSignal.connect(goodPrint)
 
-        print("hi", end=" ")
-        print("hi")
         DAD_Utils.logGui("Listing Items...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
@@ -179,20 +177,30 @@ class MainWindow(QMainWindow):
 
         # Run thread
         try:    
-            logger.debug("Starting thread...")
+            DAD_Utils.logDebug("Starting thread...")
             self.thread = logThread()
             self.thread.finished.connect(self.resetSkullyTxt)
             self.thread.finished.connect(self.showNormal)
             self.thread.outputSignal.connect(self.appendSellLog)
             self.thread.start()
         except error:
-            logger.debug("Error starting thread!")
+            DAD_Utils.logDebug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
 
 
 
     # Log txt to GUI log
     def appendSellLog(self, txt): # append output to QTextEdit log
+        
+        if self.sellLogNewline:
+            self.sellLog.append("")
+            self.sellLogNewline = False
+
+        if "^" in txt:
+            DAD_Utils.logDebug("FoundNewline!!!")
+            self.sellLogNewline = True
+            txt = txt.replace("^","")
+        
         self.sellLog.insertHtml(txt)
 
 
@@ -237,6 +245,7 @@ class MainWindow(QMainWindow):
         self.sellButton.clicked.connect(self.handleSellItemButton)
 
         # logs
+        self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
 
