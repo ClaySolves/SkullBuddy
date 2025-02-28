@@ -65,7 +65,7 @@ class item():
             elif self.rarity.lower() == 'unique':
                 printColor = 'PaleGoldenRod'
 
-        logGui(f"{self.rarity} {self.name}",printColor,printEnd="")
+        logGui(f"{self.rarity} {self.name}",printColor)
 
 
     #print item roll
@@ -1063,6 +1063,8 @@ def logGui(txt,color='black',printEnd="\n"):
         txt = txt + "^"
     elif printEnd == " ":
         txt = txt + " "
+    if color == 'black' and config.darkMode:
+        color = 'white'
     print(f"<span style='color: {color};'>{txt}</span>", end=printEnd)
  
 
@@ -1393,6 +1395,8 @@ def searchStash() -> bool:
         logGui("Invalid Settings!!!","red")
         return False
     
+    logGui("Listing Items...")
+
     if getAvailSlots():
 
         conn, cursor = database.connectDatabase()

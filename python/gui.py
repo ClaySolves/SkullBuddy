@@ -11,7 +11,7 @@ import subprocess
 import logging
 from io import StringIO
 from PyQt5.QtWidgets import QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
+from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
 
 
@@ -93,7 +93,6 @@ class logThread(QThread):
         sys.stdout = GuiScriptStream(self.outputSignal)
         #self.outputSignal.connect(goodPrint)
 
-        DAD_Utils.logGui("Listing Items...")
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
 
@@ -124,23 +123,137 @@ class listHistoryThread(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        
+        self.darkMode = config.darkMode # to do : read from config
+
         # Create tabs
         self.tabs = QTabWidget()
-        self.utilityTab()
-        self.historyTab()
-        self.helpTab()
+        self.utilityTab(self.darkMode)
+        self.historyTab(self.darkMode)
+        self.helpTab(self.darkMode)
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
         self.setGeometry(100, 100, 670, 670)
 
+        if self.darkMode:
+            self.darkMode = False
+            self.handleDarkModeButton()
 
+        
 
     def minimizeWindow(self):
         self.showMinimized()
 
 
+
+    # Switch to dark/light mode
+    def handleDarkModeButton(self,updateConfig=True):
+        #Switching to light mode
+        if self.darkMode:
+            DAD_Utils.logDebug("Switching to light mode")
+
+            self.darkModeButton.setIcon(QIcon("img/darkModeIcon.png"))
+            oldTxtColor = "color:#ffffff"
+            newTxtColor = "color:#000000"
+            mainAppBgrdColor = "background-color: #ffffff"
+            buttonAppBgrd = "background-color: #e1e1e1"
+            buttonColor = "border: 1px solid #7a7a7a"
+
+            self.darkMode = False 
+
+        #switching to Dark Mode
+        else:
+            DAD_Utils.logDebug("Switching to Dark mode")
+
+            self.darkModeButton.setIcon(QIcon("img/darkModeIconDark.png")) 
+            oldTxtColor = "color:#000000"
+            newTxtColor = "color:#ffffff"
+            mainAppBgrdColor = "background-color: #18181b"
+            buttonAppBgrd = "background-color: #353535"
+            buttonColor = "border: 1px solid #ffffff"
+
+            self.darkMode = True
+
+        for tab in range(self.tabs.count()):
+            self.tabs.widget(tab).setStyleSheet(mainAppBgrdColor)
+        
+        #Swaping for Util tab
+        currLine = self.sellLog.toHtml()
+        newcurrLine = currLine.replace(oldTxtColor,newTxtColor)
+        self.sellLog.clear()
+        self.sellLog.insertHtml(newcurrLine)
+
+        #Label txt Swap
+        self.methodLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
+        self.stashLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
+
+        #Line txt Swap
+        self.appSpeed.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.undercut.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.sellLimit.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.stashHeight.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.stashWidth.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+
+        #Radio txt Swap
+        for i in range (1,4):
+            self.radioMethodSelect[i].setStyleSheet(f"QRadioButton {{ {newTxtColor } }}")
+
+        #button txt swap
+        self.sellButton.setStyleSheet(f"QPushButton {{ {buttonColor}; {buttonAppBgrd}; {newTxtColor}; }}")
+
+        self.paintSkully(self.darkMode)
+
+        #Swaping for History Tab
+        #Qlabel
+        self.totalGoldLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
+
+        #QTableWidget
+        #background
+        self.historyTable.setStyleSheet(f"""
+            QHeaderView::section {{
+               {mainAppBgrdColor}; {newTxtColor}; 
+            }}
+            QHeaderView::section:horizontal {{
+                {mainAppBgrdColor}; 
+            }}
+            QHeaderView::section:vertical {{
+                {mainAppBgrdColor}; 
+            }}
+            QTableCornerButton::section {{
+                {mainAppBgrdColor};  
+            }}
+            """)
+        
+        # table data
+        for row in range(self.historyTable.rowCount()):
+            for col in range(self.historyTable.columnCount()):
+                tableItem = self.historyTable.item(row, col)
+                if tableItem:
+                    QNewTxt = newTxtColor.replace("color:","")
+                    QOldtxt = oldTxtColor.replace("color:","")
+                    if QOldtxt == tableItem.foreground().color().name():
+                        tableItem.setForeground(QColor(QNewTxt))
+        
+        #QLineEdit
+        self.tableNameSearch.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.tableRollSearch.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+
+        #Swaping txt Help Tab
+        self.helpLog.setStyleSheet(f"QTextEdit {{ {newTxtColor } }}")
+
+        # super().setStyleSheet(f"""
+        #     QMainWindow {{
+        #         {mainAppBgrdColor};
+        #     }}
+        #     QMenuBar {{
+        #         {mainAppBgrdColor};
+        #     }}
+        #     QMenuBar::item:selected {{
+        #         {mainAppBgrdColor};
+        #     }}
+        # """)
+
+        DAD_Utils.updateConfig("darkMode",bool(self.darkMode))
 
     # Update History Button
     def handleViewHistoryButton(self):
@@ -197,10 +310,11 @@ class MainWindow(QMainWindow):
             self.sellLogNewline = False
 
         if "^" in txt:
-            DAD_Utils.logDebug("FoundNewline!!!")
             self.sellLogNewline = True
             txt = txt.replace("^","")
-        
+
+        DAD_Utils.logDebug(f"foundTxt: {txt}")
+
         self.sellLog.insertHtml(txt)
 
 
@@ -213,43 +327,31 @@ class MainWindow(QMainWindow):
 
 
     # Build utility tab
-    def utilityTab(self):
+    def utilityTab(self,darkMode):
         tab = QWidget()
-        
-
 
         # deathskull
         self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
         self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
         self.deathSkullLabel = QLabel()
 
-        deathSkullText = QPainter(self.deathSkullPixmapTalk)
-        deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        deathSkullText.setPen(QColor("red"))      # Set the color of the text
-        deathSkullText.drawText(167, 183, "greetings ... i list items...")
-        deathSkullText.drawText(145, 200, "navigate to your market stash...")
-        deathSkullText.drawText(152, 217, "adjust settings on right... and go...")
-        deathSkullText.end()
-
-        deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
-        deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
-        deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
-        deathSkullThinkText.drawText(167, 183, "Selling your items...")
-        deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
-        deathSkullThinkText.end()
-        
-        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+        self.paintSkully(darkMode)
 
         # button
         self.sellButton = QPushButton("Sell Items", self)
+        self.sellButton.setStyleSheet(f"QPushButton {{ border: 1px solid #7a7a7a; background-color: #e1e1e1; }}")
         self.sellButton.clicked.connect(self.handleSellItemButton)
+
+        self.darkModeButton = QPushButton(self)
+        self.darkModeButton.setIcon(QIcon("img/darkModeIcon.png"))
+        self.darkModeButton.setIconSize(QSize(38,38))
+        self.darkModeButton.clicked.connect(self.handleDarkModeButton)
+        self.darkModeButton.setFixedSize(36,36)
 
         # logs
         self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
-
-        # labels
         
         #Close layout
         helpLabel = QLabel("Ctrl + Q: Exit SkullBuddy")
@@ -257,8 +359,8 @@ class MainWindow(QMainWindow):
         helpLabel.setStyleSheet("color: red")
         helpLabel.setAlignment(Qt.AlignCenter)
 
-        methodLabel = QLabel("Select Selling Method:")
-        stashLabel = QLabel("Enter Stash Info:")
+        self.methodLabel = QLabel("Select Selling Method:")
+        self.stashLabel = QLabel("Enter Stash Info:")
 
         # line edits
         intValidHeight = QIntValidator(0,20)
@@ -302,12 +404,15 @@ class MainWindow(QMainWindow):
         
         # Log Layout
         logLayout = QVBoxLayout()
-        logLayout.addWidget(helpLabel)
+        logHeader = QHBoxLayout()
+
+        logHeader.addWidget(helpLabel)
+        logHeader.addWidget(self.darkModeButton)
         logLayout.addWidget(self.sellLog)
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
-        settingsLayout.addWidget(methodLabel)
+        settingsLayout.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
 
@@ -315,7 +420,7 @@ class MainWindow(QMainWindow):
         settingsLayout.addWidget(self.undercut)
         settingsLayout.addWidget(self.sellLimit)
 
-        settingsLayout.addWidget(stashLabel)
+        settingsLayout.addWidget(self.stashLabel)
         settingsLayout.addWidget(self.stashHeight)
         settingsLayout.addWidget(self.stashWidth)
         settingsLayout.addWidget(self.sellButton)
@@ -331,6 +436,7 @@ class MainWindow(QMainWindow):
 
         # Main Layout
         mainLayout = QVBoxLayout()
+        mainLayout.addLayout(logHeader)
         mainLayout.addLayout(logLayout)
         mainLayout.addLayout(BottomLayout)
         tab.setLayout(mainLayout)
@@ -340,7 +446,7 @@ class MainWindow(QMainWindow):
 
 
     # Build history tab
-    def historyTab(self):
+    def historyTab(self,darkMode):
         tab = QWidget()
 
         # #skully setup
@@ -380,7 +486,7 @@ class MainWindow(QMainWindow):
         # self.totalGoldNumber.setText(skullyGoldCount)
 
         #add all for skully
-        skullyLayoutTotal = QHBoxLayout()
+        totalGoldLayout = QHBoxLayout()
         #skullyLayoutImg = QHBoxLayout()
         goldDisplayLayout = QHBoxLayout()
         #skullyLayoutImg.addWidget(self.skully)
@@ -392,7 +498,7 @@ class MainWindow(QMainWindow):
         #skullyLayoutGold.addSpacerItem(QSpacerItem(1, 15, QSizePolicy.Fixed, QSizePolicy.Fixed))
         # skullyLayoutButtons.addWidget(self.historyButton)
         #skullyLayoutTotal.addLayout(skullyLayoutImg)
-        skullyLayoutTotal.addLayout(goldDisplayLayout)
+        totalGoldLayout.addLayout(goldDisplayLayout)
 
         #history layout
         historyLayout = QVBoxLayout()
@@ -420,14 +526,29 @@ class MainWindow(QMainWindow):
         self.historyTable.setColumnWidth(6, 81)
         self.historyTable.setColumnWidth(7, 81)
 
+        self.historyTable.setStyleSheet(f"""
+            QHeaderView::section {{
+               {"background-color: #ffffff"};
+            }}
+            QHeaderView::section:horizontal {{
+                {"background-color: #ffffff"}; 
+            }}
+            QHeaderView::section:vertical {{
+                {"background-color: #ffffff"}; 
+            }}
+            QTableCornerButton::section {{
+                {"background-color: #ffffff"};  
+            }}
+            """)
+
         #Table search rarity & roll
         self.tableNameSearch = QLineEdit()
-        self.tableNameSearch.setFixedSize(100, 20)  
+        self.tableNameSearch.setFixedSize(100, 25)  
         self.tableNameSearch.setPlaceholderText("Search Items...")
         self.tableNameSearch.textChanged.connect(self.filterName)
 
         self.tableRollSearch = QLineEdit()
-        self.tableRollSearch.setFixedSize(100, 20)   
+        self.tableRollSearch.setFixedSize(100, 25)   
         self.tableRollSearch.setPlaceholderText("Search Rolls...")
         self.tableRollSearch.textChanged.connect(self.filterRolls)
 
@@ -445,7 +566,7 @@ class MainWindow(QMainWindow):
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(historyTableHeader)
         mainLayout.addLayout(historyLayout)
-        mainLayout.addLayout(skullyLayoutTotal)
+        mainLayout.addLayout(totalGoldLayout)
         tab.setLayout(mainLayout)
         self.tabs.addTab(tab,"History")
 
@@ -454,13 +575,13 @@ class MainWindow(QMainWindow):
 
 
     # Build help tab
-    def helpTab(self):
+    def helpTab(self,darkMode):
         tab = QWidget()
 
         #help widget
-        helpLog = QTextEdit()
-        helpLog.setReadOnly(True)
-        helpLog.setText(f"""
+        self.helpLog = QTextEdit()
+        self.helpLog.setReadOnly(True)
+        self.helpLog.setText(f"""
         How to use SkullBuddy:
         
         Launch Dark and Darker
@@ -470,7 +591,6 @@ class MainWindow(QMainWindow):
         Click Sell Items
                         
 
-                        
         App Speed:
         Controlls SkullBuddy's execution time
         Recommended Value: 1.0
@@ -478,7 +598,6 @@ class MainWindow(QMainWindow):
         test and adjust accordingly for ideal performance 
 
                                    
-
         Selling Method: 
         Determines calculated item price
         Lowest Price:                          Lists with lowest recorded price
@@ -486,7 +605,6 @@ class MainWindow(QMainWindow):
         Lowest 3 Price Avg:                Lists with the average of the lowest 3 prices
                         
                         
-
         Undercut Value: 
         Decreases recorded price to sell faster
         Enter a number (1 - 100) to undercut the recorded price by a static value
@@ -496,8 +614,7 @@ class MainWindow(QMainWindow):
         Undercut Value: 20          100 - 20 = 80, list at 80 gold
         Undercut Value: .11         100 - (100 * .11) = 89, list at 89 gold    
             
-                        
-                        
+                                  
         Sell Height and Width: 
         Creates a box from top left corner to include items being sold
                         
@@ -506,7 +623,7 @@ class MainWindow(QMainWindow):
         Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
         Sell Hieght: 10 & Sell Width: 6         includes first quadrant of stash boxes              
                         """)
-        helpLog.setAlignment(Qt.AlignLeft)
+        self.helpLog.setAlignment(Qt.AlignLeft)
 
         devLabel = QLabel('<a href="https://github.com/ClaySolves">Dev</a>')
         devLabel.setOpenExternalLinks(True)
@@ -517,7 +634,7 @@ class MainWindow(QMainWindow):
         donateLabel.setAlignment(Qt.AlignCenter)
 
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(helpLog)
+        mainLayout.addWidget(self.helpLog)
         mainLayout.addWidget(devLabel)
         mainLayout.addWidget(donateLabel)
         tab.setLayout(mainLayout)
@@ -688,3 +805,33 @@ class MainWindow(QMainWindow):
                     hideRow = False
 
             self.historyTable.setRowHidden(row, hideRow)
+
+
+
+    # paint skully for gui
+    def paintSkully(self,darkMode):
+        if darkMode:
+            self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalkingDark.png')
+            self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinkingDark.png')
+            
+        else:
+            self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
+            self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
+
+        self.deathSkullText = QPainter(self.deathSkullPixmapTalk)
+        self.deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        self.deathSkullText.setPen(QColor("red"))      # Set the color of the text
+        self.deathSkullText.drawText(167, 183, "Greetings ... I list items ...")
+        self.deathSkullText.drawText(145, 200, "Navigate to your market stash ...")
+        self.deathSkullText.drawText(152, 217, "Adjust settings ... Click Sell Items ...")
+        self.deathSkullText.end()
+
+        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
+        self.deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        self.deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        self.deathSkullThinkText.drawText(167, 183, "Selling your items...")
+        self.deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
+        self.deathSkullThinkText.end()
+
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapTalk)
+        self.deathSkullLabel.repaint()

@@ -8,7 +8,7 @@ sellLimit = 1259
 sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
-
+darkMode = True
 # values for sellMethod:
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers

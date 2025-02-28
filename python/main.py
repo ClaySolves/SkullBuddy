@@ -36,7 +36,7 @@ pytesseract.pytesseract.tesseract_cmd = shutil.which(config.pytessPath)
 
 # Close GUI
 def closeApp(app):
-    DAD_Utils.logGui("Exiting...")
+    DAD_Utils.logDebug("Exiting via hotkey... Goodbye!")
     app.quit()     
 
 # Close Hotkey
@@ -53,7 +53,7 @@ def main():
     app.setWindowIcon(QIcon("img/SkullBuddy.ico"))
 
     #Dispaly main window
-    mainWindow = gui.MainWindow()     
+    mainWindow = gui.MainWindow() 
     mainWindow.show()              
 
     #Close app hotkey setup
