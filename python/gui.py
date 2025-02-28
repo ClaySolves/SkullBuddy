@@ -214,8 +214,8 @@ class MainWindow(QMainWindow):
 
     # Build utility tab
     def utilityTab(self):
-        #tab creation
         tab = QWidget()
+        
 
 
         # deathskull
