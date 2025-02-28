@@ -338,9 +338,11 @@ class MainWindow(QMainWindow):
         self.paintSkully(darkMode)
 
         # button
-        self.sellButton = QPushButton("Sell Items", self)
-        self.sellButton.setStyleSheet(f"QPushButton {{ border: 1px solid #7a7a7a; background-color: #e1e1e1; }}")
+        self.sellButton = QPushButton(self)
+        self.sellButton.setIcon(QIcon("img/DaDButton.png"))
+        self.sellButton.setIconSize(QSize(310,70))
         self.sellButton.clicked.connect(self.handleSellItemButton)
+        self.sellButton.setFixedSize(QSize(310,70))
 
         self.darkModeButton = QPushButton(self)
         self.darkModeButton.setIcon(QIcon("img/darkModeIcon.png"))
