@@ -1232,7 +1232,7 @@ def getAvailSlots():
         else:
             continue
 
-    logger.debug(f"{slots} listings availible")
+    logger.debug(f"{slots} listings available")
 
     return slots
 
@@ -1455,7 +1455,7 @@ def searchStash() -> bool:
                 
         database.closeDatabase(conn)        
     else:
-        logGui(f"No listing slots avialible")
+        logGui(f"No listing slots available")
         logGui(f"Clear sold listings or change characters")
 
 
