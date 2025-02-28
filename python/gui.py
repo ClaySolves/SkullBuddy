@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
             mainAppBgrdColor = "background-color: #ffffff"
             buttonAppBgrd = "background-color: #e1e1e1"
             buttonColor = "border: 1px solid #7a7a7a"
+            sellButtonPath = "img/DaDButton.png"
 
             self.darkMode = False 
 
@@ -171,6 +172,7 @@ class MainWindow(QMainWindow):
             mainAppBgrdColor = "background-color: #18181b"
             buttonAppBgrd = "background-color: #353535"
             buttonColor = "border: 1px solid #ffffff"
+            sellButtonPath = "img/DaDButtonDark.png"
 
             self.darkMode = True
 
@@ -199,7 +201,7 @@ class MainWindow(QMainWindow):
             self.radioMethodSelect[i].setStyleSheet(f"QRadioButton {{ {newTxtColor } }}")
 
         #button txt swap
-        self.sellButton.setStyleSheet(f"QPushButton {{ {buttonColor}; {buttonAppBgrd}; {newTxtColor}; }}")
+        self.sellButton.setIcon(QIcon(sellButtonPath))
 
         self.paintSkully(self.darkMode)
 
