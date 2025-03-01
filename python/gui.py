@@ -698,7 +698,10 @@ class MainWindow(QMainWindow):
     # Update history table
     def updateHistoryTable(self):
         conn, cur = database.connectDatabase()
-        data = database.getStoredItems(cur) 
+        data = database.getStoredItems(cur)
+        if not data:
+            database.closeDatabase(conn)
+            return
 
         numItems = 0
         totalGold = 0

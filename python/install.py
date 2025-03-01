@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import time
+import platform
 
 tessPaths = [
     r"C:\Program Files\Tesseract-OCR",
@@ -10,6 +11,35 @@ tessPaths = [
     r"C:\Tesseract-OCR",
 ]
 
+
+def handleMicrosoftBuild():
+    ver = platform.version()
+    verComp = int(ver.split('.')[2])
+    rel = int(platform.release())
+    buildInstallCommand = None
+
+    print(verComp, rel)
+
+    if rel == 10 and verComp < 22000:
+        print("Getting Microsoft Visual C++ build Tools for Windows 10")
+        buildInstallCommand = [
+        "winget", "install", "Microsoft.VisualStudio.2022.BuildTools",
+        "--force", "--override",
+        '"--wait --passive --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK"'
+        ]
+    elif rel == 11 and verComp >=22000:
+        print("Getting Microsoft Visual C++ build Tools for Windows 11")
+        buildInstallCommand = [
+        "winget", "install", "Microsoft.VisualStudio.2022.BuildTools",
+        "--force", "--override",
+        '"--wait --passive --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621"'
+        ]
+    else:
+        print("Download Getting Microsoft Visual C++ build Tools for Windows 11 @")
+        print("https://aka.ms/vs/17/release/vs_BuildTools.exe")
+
+    if buildInstallCommand:
+        subprocess.run(" ".join(buildInstallCommand), shell=True, check=True)
 
 # Function to find Tesseract installation
 def findTesseractInstall():
@@ -70,6 +100,9 @@ def findPytessPath():
 def install():
     # Step 1: Install dependencies from requirements.txt
     time1 = time.time()
+    print("Fetching Visual C++ Build Tools...")
+    handleMicrosoftBuild()
+    
     print("Installing dependencies...")
     installRequirements()
     
