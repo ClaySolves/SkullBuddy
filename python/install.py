@@ -34,7 +34,7 @@ def buildExec():
 def installRequirements():
     # install requirements.txt
     try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "python/requirements.txt"])
         print("Installing Libraries...")
     except subprocess.CalledProcessError:
         print("Failed to install dependencies from requirements.txt.")
