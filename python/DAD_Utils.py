@@ -65,7 +65,8 @@ class item():
             elif self.rarity.lower() == 'unique':
                 printColor = 'PaleGoldenRod'
 
-        logGui(f"{self.rarity} {self.name}",printColor)
+        rarityPrint = self.rarity[0].upper() + self.rarity[1:]
+        logGui(f"{rarityPrint} {self.name}",printColor)
 
 
     #print item roll
@@ -223,8 +224,11 @@ class item():
             if foundPrice and allAttrPrice:
                 worthLookup = checkPriceRoll(foundPrice,allAttrPrice)
                 if not worthLookup:
-                    logGui(f"Found",printEnd=" ")
-                    logGui(f"{allAttrPrice}",color="Gold",printEnd=" ")
+                    logGui(f"Found ",printEnd=" ")
+                    if isinstance(allAttrPrice,int):
+                        logGui(f"{allAttrPrice}",color="Gold",printEnd=" ")
+                    else:
+                        logGui(f"{allAttrPrice}",color="Gray",printEnd=" ")
                     logGui(f"for ",printEnd=" ")
                     self.printRarityName()
 
@@ -257,8 +261,11 @@ class item():
                 #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
                 self.price = finalPrice
-                logGui(f"Found",printEnd=" ")
-                logGui(f"{finalPrice}",color="Gold",printEnd=" ")
+                logGui(f"Found ",printEnd=" ")
+                if isinstance(finalPrice,int):
+                    logGui(f"{finalPrice}",color="Gold",printEnd=" ")
+                else:
+                    logGui(f"{finalPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 return True
@@ -274,8 +281,11 @@ class item():
 
             # found price on all attr search, return and log
             if foundPrice:
-                logGui(f"Found",printEnd=" ")
-                logGui(f"{foundPrice}",color="Gold",printEnd=" ")
+                logGui(f"Found ",printEnd=" ")
+                if isinstance(foundPrice,int):
+                    logGui(f"{foundPrice}",color="Gold",printEnd=" ")
+                else:
+                    logGui(f"{foundPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 self.price = foundPrice
@@ -306,7 +316,10 @@ class item():
                 finalPrice = max(prices)
                 self.price = finalPrice
                 logGui(f"Found ",printEnd=" ")
-                logGui(f"{finalPrice} ",color="Gold",printEnd=" ")
+                if isinstance(finalPrice,int):
+                    logGui(f"{finalPrice}",color="Gold",printEnd=" ")
+                else:
+                    logGui(f"{finalPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 return True
@@ -581,8 +594,11 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
 
     if price:
         price = calcItemPrice(price,config.sellMethod)
-        logGui(f"Found",printEnd=" ")
-        logGui(f"{price}",color="Gold",printEnd=" ")
+        logGui(f"Found ",printEnd=" ")
+        if isinstance(price,int):
+            logGui(f"{price}",color="Gold",printEnd=" ")
+        else:
+            logGui(f"{price}",color="Gray",printEnd=" ")
         logGui(f"...",printEnd=" ")
     else:
         logger.debug(f"no price found ...")
