@@ -191,7 +191,8 @@ class MainWindow(QMainWindow):
         #Line txt Swap
         self.appSpeed.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.undercut.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
-        self.sellLimit.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.sellMin.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.sellMax.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.stashHeight.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.stashWidth.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
 
@@ -369,7 +370,8 @@ class MainWindow(QMainWindow):
         intValidHeight = QIntValidator(0,20)
         intValidWidth = QIntValidator(0,12)
         doubleValidundercut = QDoubleValidator(0,100,2)
-        intValidSellLimit = QIntValidator(0,100000)
+        intValidSellMin = QIntValidator(0,100000)
+        intValidSellMax = QIntValidator(0,100000)
         doubleValidSpeed = QDoubleValidator(0.3,5.0,2)
 
         self.appSpeed = QLineEdit()
@@ -382,15 +384,15 @@ class MainWindow(QMainWindow):
         self.undercut.setText(str(config.undercutValue))
         self.undercut.setValidator(doubleValidundercut)
 
-        self.sellLimit = QLineEdit()
-        self.sellLimit.setPlaceholderText("Enter Price Limit")
-        self.sellLimit.setText(str(config.sellLimit))
-        self.sellLimit.setValidator(intValidSellLimit)
+        self.sellMin = QLineEdit()
+        self.sellMin.setPlaceholderText("Enter Sell Min")
+        self.sellMin.setText(str(config.sellMin))
+        self.sellMin.setValidator(intValidSellMin)
 
-        self.sellLimit = QLineEdit()
-        self.sellLimit.setPlaceholderText("Enter Price Limit")
-        self.sellLimit.setText(str(config.sellLimit))
-        self.sellLimit.setValidator(intValidSellLimit)
+        self.sellMax = QLineEdit()
+        self.sellMax.setPlaceholderText("Enter Sell Max")
+        self.sellMax.setText(str(config.sellMax))
+        self.sellMax.setValidator(intValidSellMax)
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
@@ -420,13 +422,17 @@ class MainWindow(QMainWindow):
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
+        settingsMinMaxLayout = QHBoxLayout()
         settingsLayout.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
 
         settingsLayout.addWidget(self.appSpeed)
         settingsLayout.addWidget(self.undercut)
-        settingsLayout.addWidget(self.sellLimit)
+
+        settingsMinMaxLayout.addWidget(self.sellMin)
+        settingsMinMaxLayout.addWidget(self.sellMax)
+        settingsLayout.addLayout(settingsMinMaxLayout)
 
         settingsLayout.addWidget(self.stashLabel)
         settingsLayout.addWidget(self.stashHeight)
@@ -700,9 +706,13 @@ class MainWindow(QMainWindow):
             else:
                 DAD_Utils.updateConfig("undercutValue",int(txtRead))
 
-        txtRead = self.sellLimit.text()
-        if str(config.sellLimit) != txtRead:
-            DAD_Utils.updateConfig("sellLimit",int(txtRead))
+        txtRead = self.sellMin.text()
+        if str(config.sellMin) != txtRead:
+            DAD_Utils.updateConfig("sellMin",int(txtRead))
+
+        txtRead = self.sellMax.text()
+        if str(config.sellMax) != txtRead:
+            DAD_Utils.updateConfig("sellMax",int(txtRead))
 
 
 

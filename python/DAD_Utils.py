@@ -448,7 +448,7 @@ class item():
                 finalPrice = max(prices)
                 #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
-                if finalPrice < 15 or finalPrice > config.sellLimit:
+                if finalPrice < 15 or finalPrice > config.sellMin:
                     return False
                 else:
                     self.price = finalPrice
@@ -468,7 +468,7 @@ class item():
         useRolls = False
         numRolls = len(self.rolls)
 
-        if self.price > config.sellLimit:
+        if self.price < config.sellMin or self.price > config.sellMax:
             return False
         if rarity == None:
             useRolls = True
