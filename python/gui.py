@@ -387,6 +387,11 @@ class MainWindow(QMainWindow):
         self.sellLimit.setText(str(config.sellLimit))
         self.sellLimit.setValidator(intValidSellLimit)
 
+        self.sellLimit = QLineEdit()
+        self.sellLimit.setPlaceholderText("Enter Price Limit")
+        self.sellLimit.setText(str(config.sellLimit))
+        self.sellLimit.setValidator(intValidSellLimit)
+
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
         self.stashHeight.setText(str(config.sellHeight))
@@ -786,19 +791,30 @@ class MainWindow(QMainWindow):
     # filter history table by name
     def filterName(self):
         txt = self.tableNameSearch.text().lower()
-        self.filterTable(txt,0)
+        self.filterHistoryTable(txt,0)
 
 
 
     # filter history table by name
     def filterRolls(self):
         txt = self.tableRollSearch.text().lower()
-        self.filterTable(txt,3,8)
+        self.filterHistoryTable(txt,3,8)
     
 
     # filter text in history table
-    def filterTable(self,txt,column,column2=0):
+    def filterHistoryTable(self,txt,column,column2=0):
         txt = re.sub(r'[^a-zA-Z0-9%]', '', txt)
+        if txt == "":
+            for row in range(self.historyTable.rowCount()):
+                for col in range(self.historyTable.columnCount()):
+                    item = self.historyTable.item(row, col)
+                    if item:
+                        if item.font().underline():
+                                font = QFont("Arial",7)
+                                font.setUnderline(False)
+                                item.setFont(font)
+            return
+
         # hide column rows that do not match query
         for row in range(self.historyTable.rowCount()):
             hideRow = True 
@@ -809,7 +825,22 @@ class MainWindow(QMainWindow):
                         itemTxt = re.sub(r'[^a-zA-Z0-9%]', '', item.text().strip().lower())
                         if txt in itemTxt:
                             hideRow = False
-                            break
+
+                            font = QFont("Arial",7)
+                            font.setUnderline(True)
+                            item.setFont(font)
+
+                            # highlightItem = "<u>" + itemTxt + "</u>"
+                            # highlightItemSet = QTableWidgetItem(highlightItem)
+                            # DAD_Utils.logDebug(f" trying to underline txt: {highlightItem}")
+                            # self.historyTable.setItem(row, col, highlightItemSet)
+                            #break
+                        else:
+                            if item.font().underline():
+                                font = QFont("Arial",7)
+                                font.setUnderline(False)
+                                item.setFont(font)
+
             else:
                 item = self.historyTable.item(row, column)
                 itemTxt = re.sub(r'[^a-zA-Z0-9%]', '', item.text().strip().lower())
