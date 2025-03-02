@@ -5,11 +5,11 @@ pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 undercutValue = 0.1
 sellMin = 35
-sellMax = 1250
+sellMax = 1000
 sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
-darkMode = True
+darkMode = False
 # values for sellMethod:
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers

@@ -356,6 +356,7 @@ class MainWindow(QMainWindow):
         self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
+        self.sellLog.ensureCursorVisible()
         
         #Close layout
         helpLabel = QLabel("Ctrl + Q: Exit SkullBuddy")

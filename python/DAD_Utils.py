@@ -202,8 +202,12 @@ class item():
     def findPrice3(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
 
-        self.printRarityName()
+        if isinstance(config.undercutValue,float):
+            quickCheckMax = config.sellMax - (config.sellMax * config.undercutValue)
+        else:
+            quickCheckMax = config.sellMax - config.undercutValue
 
+        self.printRarityName()
         # algo for item with many rolls
         if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique'):
             logger.debug(f"many roll item found")
@@ -220,8 +224,9 @@ class item():
 
             foundPrice = recordDisplayedPrice()
             prices.append(foundPrice)
-
+            
             if foundPrice and allAttrPrice:
+                if foundPrice > quickCheckMax: return False
                 worthLookup = checkPriceRoll(foundPrice,allAttrPrice)
                 if not worthLookup:
                     logGui(f"Found ",printEnd=" ")
@@ -241,6 +246,7 @@ class item():
                 self.searchRoll(i)
                 foundPrice = recordDisplayedPrice()
                 if foundPrice: 
+                    if foundPrice > quickCheckMax: return False
                     prices.append(foundPrice)
                     good = checkPriceRoll(prices[0],foundPrice)
                     self.rolls[i][3] = good
@@ -252,7 +258,9 @@ class item():
             if goodRolls >= 2: 
                 self.searchGoodRolls()
                 foundPrice = recordDisplayedPrice()
-                if foundPrice: prices.append(foundPrice)
+                if foundPrice: 
+                    if foundPrice > quickCheckMax: return False
+                    prices.append(foundPrice)
 
 
             # assign best price 
@@ -278,6 +286,8 @@ class item():
 
             # record price of all rolls
             foundPrice = recordDisplayedPrice(False)
+            if foundPrice:
+                if foundPrice > quickCheckMax: return False
 
             # found price on all attr search, return and log
             if foundPrice:
