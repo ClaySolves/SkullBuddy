@@ -18,7 +18,7 @@ Download and Install [Python](https://www.python.org/downloads/)
 
 Download Repo and run installer:
 ```bash
-python3 python\install.py
+python3 python\install.py 1
 ```
 
 After successful run, SkullBuddy.exe is generated in 
