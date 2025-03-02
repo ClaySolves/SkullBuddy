@@ -792,7 +792,6 @@ class MainWindow(QMainWindow):
 
     # filter text in history table
     def filterTable(self,txt,column,column2=0):
-
         txt = re.sub(r'[^a-zA-Z0-9%]', '', txt)
         # hide column rows that do not match query
         for row in range(self.historyTable.rowCount()):

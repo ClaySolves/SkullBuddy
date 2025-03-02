@@ -18,8 +18,6 @@ def handleMicrosoftBuild():
     rel = int(platform.release())
     buildInstallCommand = None
 
-    print(verComp, rel)
-
     if rel == 10 and verComp < 22000:
         print("Getting Microsoft Visual C++ build Tools for Windows 10")
         buildInstallCommand = [
@@ -84,7 +82,6 @@ def writeConfig(var,newVal):
 
 
 def findPytessPath():
-
     # find pytess path
     foundPath = findTesseractInstall()
 
@@ -97,11 +94,13 @@ def findPytessPath():
     return tessPath
 
 
-def install():
+def install(requestVisualStudio):
     # Step 1: Install dependencies from requirements.txt
     time1 = time.time()
-    print("Fetching Visual C++ Build Tools...")
-    handleMicrosoftBuild()
+
+    if requestVisualStudio == '1':
+        print("Fetching Visual C++ Build Tools...")
+        handleMicrosoftBuild()
     
     print("Installing dependencies...")
     installRequirements()
@@ -122,4 +121,5 @@ def install():
 
 
 if __name__ == "__main__":
-    install()
+    requestVisualStudio = sys.argv[1]
+    install(requestVisualStudio)

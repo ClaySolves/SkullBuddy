@@ -7,56 +7,18 @@ a = Analysis(
     binaries=[],
     datas=[('python/DAD_Utils.py', '.'), ('python/gui.py', '.'), ('python/config.py', '.')],
     hidden_imports = [
-        "beautifulsoup4",
-        "certifi",
-        "charset_normalizer",
-        "filelock",
-        "fsspec",
-        "html5lib",
-        "idna",
-        "jinja2",
-        "keyboard",
-        "lxml",
-        "MarkupSafe",
-        "MouseInfo",
-        "mpmath",
-        "networkx",
-        "numpy",
-        "opencv_python",
-        "packaging",
-        "pillow",
-        "psutil",
-        "PyAutoGUI",
-        "pygame",
-        "pygame_gui",
-        "PyGetWindow",
-        "PyMsgBox",
-        "pynput",
-        "pyperclip",
-        "PyQt5",
-        "PyQt5.QtCore",
-        "PyQt5.QtGui",
-        "PyQt5.QtWidgets",
-        "PyQt6",
-        "PyQt6.QtCore",
-        "PyQt6.QtGui",
-        "PyQt6.QtWidgets",
-        "PyRect",
-        "PyScreeze",
-        "pytesseract",
-        "python_i18n",
-        "pytweening",
-        "requests",
-        "screeninfo",
-        "setuptools",
-        "six",
-        "soupsieve",
-        "sympy",
-        "torch",
-        "torchvision",
-        "typing_extensions",
-        "urllib3",
-        "webencodings"
+        "psutil"
+        "pyautogui"
+        "pytesseract"
+        "pillow"
+        "pynput"
+        "PyQt5"
+        "PyQt5-Qt5"
+        "PyQt5_sip"
+        "pyinstaller"
+        "keyboard"
+        "pywin32"
+        "screeninfo"
     ],
     hookspath=[],
     hooksconfig={},
