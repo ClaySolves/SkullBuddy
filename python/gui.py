@@ -98,8 +98,7 @@ class logThread(QThread):
 
         sys.stdout = oldStdout
 
-def goodPrint(message):
-    DAD_Utils.logGui(message)
+
 
 # worker for history stream
 class listHistoryThread(QThread):
@@ -530,18 +529,25 @@ class MainWindow(QMainWindow):
         self.historyTable.setColumnWidth(6, 81)
         self.historyTable.setColumnWidth(7, 81)
 
+        if darkMode:
+            mainAppBgrdColor = "background-color: #18181b"
+            newTxtColor = "color:#ffffff"
+        else:
+            mainAppBgrdColor = "background-color: #ffffff"
+            newTxtColor = "color:#000000"
+
         self.historyTable.setStyleSheet(f"""
             QHeaderView::section {{
-               {"background-color: #ffffff"};
+               {mainAppBgrdColor}; {newTxtColor}; 
             }}
             QHeaderView::section:horizontal {{
-                {"background-color: #ffffff"}; 
+                {mainAppBgrdColor}; 
             }}
             QHeaderView::section:vertical {{
-                {"background-color: #ffffff"}; 
+                {mainAppBgrdColor}; 
             }}
             QTableCornerButton::section {{
-                {"background-color: #ffffff"};  
+                {mainAppBgrdColor};  
             }}
             """)
 
