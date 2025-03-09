@@ -1,6 +1,5 @@
 # Dark And Darker SkullBuddy
 
-
 Play [Dark and Darker](https://www.darkanddarker.com/play) now for free!
 
 SkullBuddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
@@ -29,7 +28,6 @@ move SkullBuddy.exe out of dist folder and into repo root path. Example:
 Run SkullBuddy.exe
 
 Enjoy!
-
 
 ## Disclaimer
 
