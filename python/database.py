@@ -15,6 +15,9 @@ def insertItem(cursor,values):
     """
     cursor.execute(sql,values)
 
+def updateAppConfig(cursor):
+    pass
+
 def getStoredItems(cursor):
     cursor.execute("SELECT * FROM items")
     rows = cursor.fetchall()
@@ -58,7 +61,7 @@ def connectDatabase():
     conn = sqlite3.connect("user.db")
     cursor = conn.cursor()
 
-    # Create the items table if it doesn't exist
+    # Create items table if it doesn't exist
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Items (
         name TEXT,
@@ -66,6 +69,20 @@ def connectDatabase():
         rolls TEXT,
         price INTEGER,
         goodRoll INTEGER
+    );
+    """)
+
+    # Create config table if it doesnt exist
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Config (
+        sellMin INTEGER,
+        sellmax INTEGER,
+        sellWidth INTEGER,
+        sellHeight INTEGER,
+        sellMethod INTEGER,
+        sellUndercut INTEGER,
+        sleepTime INTEGER,
+        darkMode INTEGER
     );
     """)
 

@@ -210,13 +210,13 @@ class item():
 
         self.printRarityName()
         # algo for item with many rolls
-        if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique'):
+        if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique' or self.rarity.lower() == 'rare'):
             logger.debug(f"many roll item found")
 
             # record price of all rolls
             allAttrPrice = recordDisplayedPrice(False)
             if allAttrPrice:
-                if allAttrPrice < quickCheckMin: return False
+                if allAttrPrice < quickCheckMin or allAttrPrice > quickCheckMax: return False
             
             # reset attr and get baseprice
             pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
@@ -286,7 +286,7 @@ class item():
             return False
 
         #algo for item with few rolls
-        elif(self.rarity.lower() == 'poor' or self.rarity.lower() == 'common' or self.rarity.lower() == 'uncommon' or self.rarity.lower() == 'rare'):
+        elif(self.rarity.lower() == 'poor' or self.rarity.lower() == 'common' or self.rarity.lower() == 'uncommon'):
             logDebug(f"few roll item found")
 
             # record price of all rolls
@@ -307,7 +307,7 @@ class item():
                 return True
             
             # no matching listing for all attr, search all attr individually
-            prices = []
+            price = None
 
             # reset attr and get baseprice
             pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
@@ -315,26 +315,14 @@ class item():
             pyautogui.click() 
 
             foundPrice = recordDisplayedPrice()
-            prices.append(foundPrice)
 
-            for i, _ in enumerate(self.rolls):
-                self.searchRoll(i)
-                foundPrice = recordDisplayedPrice()
-                if foundPrice: 
-                    prices.append(foundPrice)
-                    good = checkPriceRoll(prices[0],foundPrice)
-                    self.rolls[i][3] = good
-                    if good and self.goodRoll is None:
-                        self.goodRoll = good
-
-            if prices: 
-                finalPrice = max(prices)
-                self.price = finalPrice
+            if foundPrice: 
+                self.price = foundPrice
                 logGui(f"Found ",printEnd=" ")
-                if isinstance(finalPrice,int):
-                    logGui(f"{finalPrice}",color="Gold",printEnd=" ")
+                if isinstance(foundPrice,int):
+                    logGui(f"{foundPrice}",color="Gold",printEnd=" ")
                 else:
-                    logGui(f"{finalPrice}",color="Gray",printEnd=" ")
+                    logGui(f"{foundPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
                 return True
@@ -758,7 +746,7 @@ def getItemSize(ss) -> list:
     res4 = locateOnImage('bottomRightCorner', ss, grayscale=False,confidence=0.82)
     res2 = None
     res3 = None
-    if not res4 and res:
+    if not (res4 and res):
         res2 = locateOnImage('topRightCorner',  ss, grayscale=False,confidence=0.82)
         res3 = locateOnImage('bottomLeftCorner',  ss, grayscale=False,confidence=0.82)
 
@@ -1524,11 +1512,7 @@ def getItemInfo() -> item:
     foundName = False
 
     logGui("Reading item...", printEnd=" ")
-
-    #check if item is on screen
-    space = locateOnScreen('findItem',confidence=0.95)
-    if not space: return None
-    
+ 
     x, y = pyautogui.position()
     coords = [x,y]
 
@@ -1536,19 +1520,26 @@ def getItemInfo() -> item:
     pyautogui.click() 
     time.sleep(config.sleepTime / 9)
 
+    #check if item is on screen
+    space = locateOnScreen('findItem',confidence=0.95)
+    if not space: return None
+
     #screenshot for text & rarity
     ssRegion = (int(space[0]) - 210, int(space[1]) - 460, 535, 750)
     logGui("Getting item info...", printEnd=" ")
 
     ss = pyautogui.screenshot(region=ssRegion)
+    sizeSS = ss
+    ss.save("debug/initialItemRead.png")
     goodSS, newSS = confirmScreenShot(ss,ssRegion)
-    if goodSS: ss = newSS
+    if goodSS: sizeSS = newSS
+    ss.save("debug/postItemRead.png")
 
     #start movement thread while reading data
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)
     searchFromStashThread.start()
 
-    size = getItemSize(ss)
+    size = getItemSize(sizeSS)
 
     rarity = getItemRarity(ss)
 
@@ -1615,9 +1606,11 @@ def getItemInfo() -> item:
 # main function 
 # reads hovered item info, lists on market
 def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
+
     time.sleep(config.sleepTime / 5)
     mytime = time.time()
     myItem = getItemInfo()                                                  # read item info
+    
     if myItem:
         myItem.printItem()                                                  # print item to gui
         foundPrice = myItem.findPrice3()                                    # if price found, continue loop || return false
@@ -1631,9 +1624,9 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
                 time.sleep(config.sleepTime / 1.2)
                 return myItem, True
     
-        time.sleep(config.sleepTime / 3)
-        pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
-        pyautogui.click(button='right')
+        # time.sleep(config.sleepTime / 3)
+        # pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
+        # pyautogui.click(button='right')
 
         return myItem, False      
     return None, False                                                      # if we fail any part of loop, return false
