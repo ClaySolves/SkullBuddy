@@ -7,12 +7,13 @@ import re
 import database
 import config
 import keyboard
+import threading
 import subprocess
 import logging
 from io import StringIO
 from PyQt5.QtWidgets import QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
-from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize
-from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor
+from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
 
 
 
@@ -332,6 +333,17 @@ class MainWindow(QMainWindow):
     def utilityTab(self,darkMode):
         tab = QWidget()
 
+        # line edits
+        intValidHeight = QIntValidator(0,20)
+        intValidWidth = QIntValidator(0,12)
+        doubleValidundercut = QDoubleValidator(0,100,2)
+        intValidSellMin = QIntValidator(0,100000)
+        intValidSellMax = QIntValidator(0,100000)
+        doubleValidSpeed = QDoubleValidator(0.3,5.0,2)
+        hotkeyRegex = QRegExp("[A-Za-z]")
+        charValidQuitHotkey = QRegExpValidator(hotkeyRegex)
+        charValidSellHotkey = QRegExpValidator(hotkeyRegex)
+
         # deathskull
         self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
         self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
@@ -358,22 +370,64 @@ class MainWindow(QMainWindow):
         self.sellLog.setReadOnly(True)
         self.sellLog.ensureCursorVisible()
         
-        #Close layout
-        helpLabel = QLabel("Ctrl + Q: Exit SkullBuddy")
-        helpLabel.setFont(QFont("Perpetua",18))
-        helpLabel.setStyleSheet("color: red")
-        helpLabel.setAlignment(Qt.AlignCenter)
+        # exit hotkey layout
+        closeHotkeyLayout = QHBoxLayout()
+
+        closeHotkeyLabelFront = QLabel(f"Ctrl + ")
+        closeHotkeyLabelFront.setFont(QFont("Perpetua",14))
+        closeHotkeyLabelFront.setStyleSheet("color: red")
+        closeHotkeyLabelFront.setFixedSize(100,22)
+        closeHotkeyLabelFront.setAlignment(Qt.AlignRight)
+
+        self.exitHotkeyField = QLineEdit()
+        self.exitHotkeyField.setFont(QFont("Perpetua",14))
+        self.exitHotkeyField.setStyleSheet("color: red")
+        self.exitHotkeyField.setFixedSize(25,25)
+        self.exitHotkeyField.setText(str(config.closeHotkey.upper()))
+        self.exitHotkeyField.setValidator(charValidQuitHotkey)
+        self.exitHotkeyField.textChanged.connect(lambda: DAD_Utils.updateConfig("closeHotkey",self.exitHotkeyField.text().upper()))
+        self.exitHotkeyField.textChanged.connect(lambda: self.exitHotkeyField.setText(self.exitHotkeyField.text().upper()))
+
+        exitHotkeyLabelBack = QLabel(": Exit SkullBuddy")
+        exitHotkeyLabelBack.setFont(QFont("Perpetua",14))
+        exitHotkeyLabelBack.setFixedSize(125,22)
+        exitHotkeyLabelBack.setStyleSheet("color: red")
+        exitHotkeyLabelBack.setAlignment(Qt.AlignLeft)
+
+        closeHotkeyLayout.addWidget(closeHotkeyLabelFront)
+        closeHotkeyLayout.addWidget(self.exitHotkeyField)
+        closeHotkeyLayout.addWidget(exitHotkeyLabelBack)
+
+        # sell Hotkey Layout
+        sellHotkeyLayout = QHBoxLayout()
+
+        sellHotkeyLabelFront = QLabel(f"Ctrl + ")
+        sellHotkeyLabelFront.setFont(QFont("Perpetua",14))
+        sellHotkeyLabelFront.setStyleSheet("color: red")
+        sellHotkeyLabelFront.setFixedSize(100,22)
+        sellHotkeyLabelFront.setAlignment(Qt.AlignRight)
+
+        self.sellHotkeyField = QLineEdit()
+        self.sellHotkeyField.setFont(QFont("Perpetua",14))
+        self.sellHotkeyField.setStyleSheet("color: red")
+        self.sellHotkeyField.setFixedSize(25,25)
+        self.sellHotkeyField.setText(str(config.sellHotkey.upper()))
+        self.sellHotkeyField.setValidator(charValidSellHotkey)
+        self.sellHotkeyField.textChanged.connect(lambda: DAD_Utils.updateConfig("sellHotkey",self.sellHotkeyField.text().upper()))
+        self.sellHotkeyField.textChanged.connect(lambda: self.sellHotkeyField.setText(self.sellHotkeyField.text().upper()))
+
+        sellHotkeyLabelBack = QLabel(": Sell Items")
+        sellHotkeyLabelBack.setFont(QFont("Perpetua",14))
+        sellHotkeyLabelBack.setStyleSheet("color: red")
+        sellHotkeyLabelBack.setFixedSize(125,22)
+        sellHotkeyLabelBack.setAlignment(Qt.AlignLeft)
+
+        sellHotkeyLayout.addWidget(sellHotkeyLabelFront)
+        sellHotkeyLayout.addWidget(self.sellHotkeyField)
+        sellHotkeyLayout.addWidget(sellHotkeyLabelBack)
 
         self.methodLabel = QLabel("Select Selling Method:")
         self.stashLabel = QLabel("Enter Stash Info:")
-
-        # line edits
-        intValidHeight = QIntValidator(0,20)
-        intValidWidth = QIntValidator(0,12)
-        doubleValidundercut = QDoubleValidator(0,100,2)
-        intValidSellMin = QIntValidator(0,100000)
-        intValidSellMax = QIntValidator(0,100000)
-        doubleValidSpeed = QDoubleValidator(0.3,5.0,2)
 
         self.appSpeed = QLineEdit()
         self.appSpeed.setPlaceholderText("Enter Sell Speed")
@@ -417,7 +471,9 @@ class MainWindow(QMainWindow):
         logLayout = QVBoxLayout()
         logHeader = QHBoxLayout()
 
-        logHeader.addWidget(helpLabel)
+        logHeader.addLayout(closeHotkeyLayout)
+        logHeader.addLayout(sellHotkeyLayout)
+
         logHeader.addWidget(self.darkModeButton)
         logLayout.addWidget(self.sellLog)
 

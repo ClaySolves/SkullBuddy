@@ -34,15 +34,33 @@ logging.basicConfig(
 # Pytess setup
 pytesseract.pytesseract.tesseract_cmd = shutil.which(config.pytessPath)
 
+
+
+# Close Hotkey
+def closeHotkey(app):
+    keyboard.add_hotkey(f"ctrl+{config.closeHotkey.lower()}",lambda: closeApp(app))
+    keyboard.wait()
+
+
+
+# Close Hotkey
+def sellHotkey(mainWindow):
+    keyboard.add_hotkey(f"ctrl+{config.sellHotkey.lower()}",lambda: sellHotkeyExec(mainWindow))
+    keyboard.wait()
+
+
+# sell hotkey function
+def sellHotkeyExec(mainWindow):
+    DAD_Utils.logDebug("Selling via sell hotkey")
+    mainWindow.handleSellItemButton() 
+
+
+
 # Close GUI
 def closeApp(app):
     DAD_Utils.logDebug("Exiting via hotkey... Goodbye!")
     app.quit()     
 
-# Close Hotkey
-def closeHotkey(app):
-    keyboard.add_hotkey("ctrl+q",lambda: closeApp(app))
-    keyboard.wait()
 
 
 def main():
@@ -54,11 +72,16 @@ def main():
 
     #Dispaly main window
     mainWindow = gui.MainWindow() 
-    mainWindow.show()              
+    mainWindow.show()             
+    
 
     #Close app hotkey setup
     closeAppHotkey = threading.Thread(target=closeHotkey, args=(app,), daemon=True)
     closeAppHotkey.start()
+
+    #Sell Button hotkey setup
+    sellButtonHotkey = threading.Thread(target=sellHotkey, args=(mainWindow,), daemon=True)
+    sellButtonHotkey.start()
 
     #End 
     sys.exit(app.exec_())         

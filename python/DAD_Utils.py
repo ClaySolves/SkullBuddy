@@ -1530,22 +1530,19 @@ def getItemInfo() -> item:
 
     ss = pyautogui.screenshot(region=ssRegion)
     sizeSS = ss
-    ss.save("debug/initialItemRead.png")
+
     goodSS, newSS = confirmScreenShot(ss,ssRegion)
     if goodSS: sizeSS = newSS
-    ss.save("debug/postItemRead.png")
 
     #start movement thread while reading data
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)
     searchFromStashThread.start()
 
     size = getItemSize(sizeSS)
-
     rarity = getItemRarity(ss)
 
     textCropBox = [60,150,400,520]
     ssTextCrop = ss.crop(textCropBox)
-    ssTextCrop.save("debug/testingRollRead.png")
     text = pytesseract.image_to_string(ssTextCrop)
 
     # Read item data
