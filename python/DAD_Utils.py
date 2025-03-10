@@ -103,23 +103,23 @@ class item():
     def searchGoodRolls(self) -> bool: #True/False searched anything
         numSearch = 0
         pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click()                
 
         pyautogui.moveTo(config.xAttribute, config.yAttribute)
-        time.sleep(config.sleepTime / 15) 
+        time.sleep(sleepTime / 15) 
         pyautogui.click()
 
         for roll in self.rolls:
             if roll[3]:
                 clearAttrSearch()
                 pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-                time.sleep(config.sleepTime / 15) 
+                time.sleep(sleepTime / 15) 
                 pyautogui.click()
                 pyautogui.typewrite(roll[1], interval=0.004)
 
                 pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch))
-                time.sleep(config.sleepTime / 15)
+                time.sleep(sleepTime / 15)
                 pyautogui.click()
                 numSearch += 1
         logger.debug(f"Searched for {numSearch} good rolls")
@@ -132,21 +132,21 @@ class item():
         for i, roll in enumerate(self.rolls):
             if i == 0:
                 pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-                time.sleep(config.sleepTime / 15)
+                time.sleep(sleepTime / 15)
                 pyautogui.click()                
 
                 pyautogui.moveTo(config.xAttribute, config.yAttribute)
-                time.sleep(config.sleepTime / 15)
+                time.sleep(sleepTime / 15)
                 pyautogui.click()
 
             clearAttrSearch()
             pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-            time.sleep(config.sleepTime / 15)
+            time.sleep(sleepTime / 15)
             pyautogui.click()
             pyautogui.typewrite(roll[1], interval=0.004)
 
             pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
-            time.sleep(config.sleepTime / 15)
+            time.sleep(sleepTime / 15)
             pyautogui.click()
         logger.debug(f"Searched for all rolls")
 
@@ -155,22 +155,22 @@ class item():
     # search market gui for indexed item roll
     def searchRoll(self,i):
         pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click() 
 
         pyautogui.moveTo(config.xAttribute, config.yAttribute)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click()
 
         clearAttrSearch()
         roll = self.rolls[i]
         pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click()
         pyautogui.typewrite(roll[1], interval=0.004)
 
         pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click()
         logger.debug("Searched for a roll")
 
@@ -180,7 +180,7 @@ class item():
     def searchFromMarketStash(self):
         pyautogui.moveTo(self.coords[0], self.coords[1]) 
         pyautogui.click() 
-        time.sleep(config.sleepTime / 9)
+        time.sleep(sleepTime / 9)
 
         pyautogui.moveTo(config.xMarketSearchNameRairty, config.yMarketSearchNameRairty, duration=0.1) 
         pyautogui.click()
@@ -191,7 +191,7 @@ class item():
     #remove roll from market gui search 
     def removeSearchRoll(self,i):
         pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
-        time.sleep(config.sleepTime / 10)
+        time.sleep(sleepTime / 10)
         pyautogui.click()
         logger.debug("removed searched roll")
 
@@ -201,12 +201,13 @@ class item():
     # Written for hotfix #79+
     def findPrice3(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
+        undercutValue = database.getConfig(cursor,'sellUndercut')
 
-        if isinstance(config.undercutValue,float):
-            quickCheckMax = config.sellMax - (config.sellMax * config.undercutValue)
+        if isinstance(undercutValue,float):
+            quickCheckMax = database.getConfig(cursor,'sellMax') - (database.getConfig(cursor,'sellMax') * undercutValue)
         else:
-            quickCheckMax = config.sellMax - config.undercutValue
-        quickCheckMin = config.sellMin
+            quickCheckMax = database.getConfig(cursor,'sellMax') - undercutValue
+        quickCheckMin = database.getConfig(cursor,'sellMin')
 
         self.printRarityName()
         # algo for item with many rolls
@@ -220,7 +221,7 @@ class item():
             
             # reset attr and get baseprice
             pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-            time.sleep(config.sleepTime / 15)
+            time.sleep(sleepTime / 15)
             pyautogui.click()
 
             prices = []
@@ -311,7 +312,7 @@ class item():
 
             # reset attr and get baseprice
             pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-            time.sleep(config.sleepTime / 15)
+            time.sleep(sleepTime / 15)
             pyautogui.click() 
 
             foundPrice = recordDisplayedPrice()
@@ -365,7 +366,7 @@ class item():
 
         # reset attr and get baseprice
         pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click() 
 
         foundPrice = recordDisplayedPrice()
@@ -464,7 +465,7 @@ class item():
                 finalPrice = max(prices)
                 #Check if profitable or too expensive
                 # to do, add each rarity sell off but for now just check to make the listing fee
-                if finalPrice < 15 or finalPrice > config.sellMin:
+                if finalPrice < 15 or finalPrice > database.getConfig(cursor,'sellMin'):
                     return False
                 else:
                     self.price = finalPrice
@@ -484,7 +485,7 @@ class item():
         useRolls = False
         numRolls = len(self.rolls)
 
-        if self.price < config.sellMin or self.price > config.sellMax:
+        if self.price < database.getConfig(cursor,'sellMin') or self.price > database.getConfig(cursor,'sellMax'):
             return False
         if rarity == None:
             useRolls = True
@@ -515,7 +516,7 @@ class item():
     def listItem(self) -> bool: # True/False Listing Success
         price = self.price
         if price and self.confirmPrice():
-            undercut = config.undercutValue
+            undercut = database.getConfig(cursor,'sellUndercut')
             logger.debug(f"{undercut} undercut value")
             if undercut < 0:
                 finalPrice = price - 1
@@ -529,7 +530,7 @@ class item():
     
             pyautogui.moveTo(self.coords[0], self.coords[1], duration=0.1) 
             pyautogui.click()
-            time.sleep(config.sleepTime / 3)
+            time.sleep(sleepTime / 3)
 
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
@@ -596,7 +597,7 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
     price = readPrices()
 
     if price:
-        price = calcItemPrice(price,config.sellMethod)
+        price = calcItemPrice(price,database.getConfig(cursor,'sellMethod'))
         logGui(f"Found ",printEnd=" ")
         if isinstance(price,int):
             logGui(f"{price}",color="Gold",printEnd=" ")
@@ -625,7 +626,7 @@ def confirmGameScreenChange(ss1, region=config.ssComp2) -> bool: #True/False Suc
     while noInfiniteLOL < 31:
         check = locateOnScreen(ss1,region=newRegion)
         if not check: return True
-        time.sleep(config.sleepTime / 30)
+        time.sleep(sleepTime / 30)
         noInfiniteLOL += 1
 
     return False
@@ -658,7 +659,7 @@ def refreshMarketItem():
     logger.debug("refreshing market filters...")
     pyautogui.moveTo(config.xResetFilters, config.yResetFilters, duration=0.05)
     pyautogui.click()
-    time.sleep(config.sleepTime / 7.5)
+    time.sleep(sleepTime / 7.5)
 
 
 
@@ -771,6 +772,10 @@ def loadTextFiles():
     logger.debug(f"Loading config files")
     global allItems
     global allRolls
+    global cursor
+    global conn
+    global sleepTime
+    global darkMode
 
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
@@ -789,6 +794,12 @@ def loadTextFiles():
     with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
+
+    conn, cursor = database.connectDatabase()
+    database.updateConfig(cursor)
+
+    sleepTime = database.getConfig(cursor,'sleepTime')
+    darkMode = database.getConfig(cursor,'darkMode')
 
 
 
@@ -923,19 +934,19 @@ def enforceSellConfig() -> bool: # ret True/False correct config
             return True
 
     #check each instance and bounds
-    check = config.sellMethod
+    check = database.getConfig(cursor,'sellMethod')
     if not boundsCheck(check,1,3): return False
     if not isinstance(check,int): return False
     
-    check = config.sellWidth
+    check = database.getConfig(cursor,'sellWidth')
     if not boundsCheck(check,1,12): return False
     if not isinstance(check,int): return False
         
-    check = config.sellHeight
+    check = database.getConfig(cursor,'sellHeight')
     if not boundsCheck(check,1,20): return False
     if not isinstance(check,int): return False
         
-    check = config.undercutValue
+    check = database.getConfig(cursor,'sellUndercut')
     if isinstance(check,int): 
         if not boundsCheck(check,0,99): return False
     if isinstance(check,float):
@@ -1082,8 +1093,10 @@ def logGui(txt,color='black',printEnd="\n"):
         txt = txt + "^"
     elif printEnd == " ":
         txt = txt + " "
-    if color == 'black' and config.darkMode:
+    if darkMode:
         color = 'white'
+    else:
+        color = 'black'
     print(f"<span style='color: {color};'>{txt}</span>", end=printEnd)
  
 
@@ -1322,7 +1335,7 @@ def returnMarketStash():
         else: 
             return True
     if work():
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         return True
     
 
@@ -1340,17 +1353,17 @@ def searchFromMarketStash() -> bool:
     if not res: return res
 
     pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-    time.sleep(config.sleepTime / 15)
+    time.sleep(sleepTime / 15)
     ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
     pyautogui.click()
 
     pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-    time.sleep(config.sleepTime / 15)
+    time.sleep(sleepTime / 15)
     pyautogui.click()
     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
     if not res:
         pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-        time.sleep(config.sleepTime / 15)
+        time.sleep(sleepTime / 15)
         pyautogui.click()
         res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
 
@@ -1382,7 +1395,7 @@ def navCharLogin():
     pyautogui.click()  # Perform a mouse click
     
     while not locateOnScreen('verifyMainScreen', region=(0,0,300,300)):
-        time.sleep(config.sleepTime / 7.5)
+        time.sleep(sleepTime / 7.5)
 
 
 
@@ -1394,7 +1407,7 @@ def changeClass():
     pyautogui.moveTo(config.xChangeClass,config.yChangeClass,duration=0.1)
     pyautogui.click()
 
-    time.sleep(config.sleepTime * 3)
+    time.sleep(sleepTime * 3)
 
 
 
@@ -1420,11 +1433,11 @@ def clickAndShift(x,y):
     pyautogui.keyDown('shift')   
 
     pyautogui.moveTo(x,y)
-    time.sleep(config.sleepTime/10)
+    time.sleep(sleepTime/10)
     pyautogui.keyDown('shift')   
-    time.sleep(config.sleepTime/10)
+    time.sleep(sleepTime/10)
     pyautogui.click(button="right")
-    time.sleep(config.sleepTime/10)
+    time.sleep(sleepTime/10)
     pyautogui.keyUp('shift')        
 
 
@@ -1434,17 +1447,17 @@ def searchStash() -> bool:
     loadTextFiles()
     if not enforceSellConfig():
         logGui("Invalid Settings!!!","red")
+        database.closeDatabase(conn) 
         return False
     
     logGui("Listing Items...")
 
     if getAvailSlots():
 
-        conn, cursor = database.connectDatabase()
         searchBlacklist = []
 
-        for y in range(config.sellHeight):
-            for x in range(config.sellWidth):
+        for y in range(database.getConfig(cursor,'sellHeight')):
+            for x in range(database.getConfig(cursor,'sellWidth')):
                 
                 newX = config.xStashStart + (40 * x)
                 newY = config.yStashStart + (40 * y)
@@ -1480,7 +1493,7 @@ def searchStash() -> bool:
                     
                         # pyautogui.moveTo(newX,newY)
                         # pyautogui.click(button='right') 
-                        time.sleep(config.sleepTime/20)
+                        time.sleep(sleepTime/20)
                         # pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
 
                         for xBL in range(foundItem.size[0]):
@@ -1496,6 +1509,7 @@ def searchStash() -> bool:
                 
         database.closeDatabase(conn)        
     else:
+        database.closeDatabase(conn)  
         logGui(f"No listing slots available")
         logGui(f"Clear sold listings or change characters")
 
@@ -1518,7 +1532,7 @@ def getItemInfo() -> item:
 
     pyautogui.moveTo(x, y) 
     pyautogui.click() 
-    time.sleep(config.sleepTime / 9)
+    time.sleep(sleepTime / 9)
 
     #check if item is on screen
     space = locateOnScreen('findItem',confidence=0.95)
@@ -1604,7 +1618,7 @@ def getItemInfo() -> item:
 # reads hovered item info, lists on market
 def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
 
-    time.sleep(config.sleepTime / 5)
+    time.sleep(sleepTime / 5)
     mytime = time.time()
     myItem = getItemInfo()                                                  # read item info
     
@@ -1618,10 +1632,10 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
             if listedSuccess:                                               # list item
                 mytime2 = time.time()
                 logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
-                time.sleep(config.sleepTime / 1.2)
+                time.sleep(sleepTime / 1.2)
                 return myItem, True
     
-        # time.sleep(config.sleepTime / 3)
+        # time.sleep(sleepTime / 3)
         # pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
         # pyautogui.click(button='right')
 

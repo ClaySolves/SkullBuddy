@@ -121,9 +121,12 @@ class listHistoryThread(QThread):
 
 #gui design
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self,darkMode):
         super().__init__()
-        self.darkMode = config.darkMode # to do : read from config
+
+        conn, cur = database.connectDatabase()
+        self.darkMode = database.getConfig(cur,'darkMode') 
+        database.closeDatabase(conn)
 
         # Create tabs
         self.tabs = QTabWidget()
@@ -256,7 +259,12 @@ class MainWindow(QMainWindow):
         #     }}
         # """)
 
-        DAD_Utils.updateConfig("darkMode",bool(self.darkMode))
+        if self.darkMode:
+            self.guiToDatabase("darkMode", 1)
+        else:
+            self.guiToDatabase("darkMode", 0)
+
+
 
     # Update History Button
     def handleViewHistoryButton(self):
@@ -331,6 +339,7 @@ class MainWindow(QMainWindow):
 
     # Build utility tab
     def utilityTab(self,darkMode):
+        conn, cursor = database.connectDatabase()
         tab = QWidget()
 
         # line edits
@@ -361,8 +370,8 @@ class MainWindow(QMainWindow):
         self.darkModeButton = QPushButton(self)
         self.darkModeButton.setIcon(QIcon("img/darkModeIcon.png"))
         self.darkModeButton.setIconSize(QSize(38,38))
-        self.darkModeButton.clicked.connect(self.handleDarkModeButton)
         self.darkModeButton.setFixedSize(36,36)
+        self.darkModeButton.clicked.connect(self.handleDarkModeButton)
 
         # logs
         self.sellLogNewline = False
@@ -373,23 +382,24 @@ class MainWindow(QMainWindow):
         # exit hotkey layout
         closeHotkeyLayout = QHBoxLayout()
 
-        closeHotkeyLabelFront = QLabel(f"Ctrl + ")
-        closeHotkeyLabelFront.setFont(QFont("Perpetua",14))
+        closeHotkeyLabelFront = QLabel(f"Ctrl +")
+        closeHotkeyLabelFront.setFont(QFont("Perpetua",15))
         closeHotkeyLabelFront.setStyleSheet("color: red")
-        closeHotkeyLabelFront.setFixedSize(100,22)
+        closeHotkeyLabelFront.setFixedSize(75,22)
         closeHotkeyLabelFront.setAlignment(Qt.AlignRight)
 
         self.exitHotkeyField = QLineEdit()
-        self.exitHotkeyField.setFont(QFont("Perpetua",14))
+        self.exitHotkeyField.setFont(QFont("Perpetua",15))
         self.exitHotkeyField.setStyleSheet("color: red")
         self.exitHotkeyField.setFixedSize(25,25)
-        self.exitHotkeyField.setText(str(config.closeHotkey.upper()))
+        self.exitHotkeyField.setText(database.getConfig(cursor,'closeHotkey'))
         self.exitHotkeyField.setValidator(charValidQuitHotkey)
-        self.exitHotkeyField.textChanged.connect(lambda: DAD_Utils.updateConfig("closeHotkey",self.exitHotkeyField.text().upper()))
-        self.exitHotkeyField.textChanged.connect(lambda: self.exitHotkeyField.setText(self.exitHotkeyField.text().upper()))
+        self.exitHotkeyField.textChanged.connect(lambda: self.guiToDatabase("closeHotkey",self.exitHotkeyField.text().upper()))
+        self.exitHotkeyField.textChanged.connect(lambda: self.exitHotkeyField.setText(self.exitHotkeyField.text().upper())
+                                                                                    if self.exitHotkeyField.text() else None)
 
         exitHotkeyLabelBack = QLabel(": Exit SkullBuddy")
-        exitHotkeyLabelBack.setFont(QFont("Perpetua",14))
+        exitHotkeyLabelBack.setFont(QFont("Perpetua",15))
         exitHotkeyLabelBack.setFixedSize(125,22)
         exitHotkeyLabelBack.setStyleSheet("color: red")
         exitHotkeyLabelBack.setAlignment(Qt.AlignLeft)
@@ -401,23 +411,24 @@ class MainWindow(QMainWindow):
         # sell Hotkey Layout
         sellHotkeyLayout = QHBoxLayout()
 
-        sellHotkeyLabelFront = QLabel(f"Ctrl + ")
-        sellHotkeyLabelFront.setFont(QFont("Perpetua",14))
+        sellHotkeyLabelFront = QLabel(f"Ctrl +")
+        sellHotkeyLabelFront.setFont(QFont("Perpetua",15))
         sellHotkeyLabelFront.setStyleSheet("color: red")
-        sellHotkeyLabelFront.setFixedSize(100,22)
+        sellHotkeyLabelFront.setFixedSize(75,22)
         sellHotkeyLabelFront.setAlignment(Qt.AlignRight)
 
         self.sellHotkeyField = QLineEdit()
-        self.sellHotkeyField.setFont(QFont("Perpetua",14))
+        self.sellHotkeyField.setFont(QFont("Perpetua",15))
         self.sellHotkeyField.setStyleSheet("color: red")
         self.sellHotkeyField.setFixedSize(25,25)
-        self.sellHotkeyField.setText(str(config.sellHotkey.upper()))
+        self.sellHotkeyField.setText(database.getConfig(cursor,"sellHotkey"))
         self.sellHotkeyField.setValidator(charValidSellHotkey)
-        self.sellHotkeyField.textChanged.connect(lambda: DAD_Utils.updateConfig("sellHotkey",self.sellHotkeyField.text().upper()))
-        self.sellHotkeyField.textChanged.connect(lambda: self.sellHotkeyField.setText(self.sellHotkeyField.text().upper()))
+        self.sellHotkeyField.textChanged.connect(lambda: self.guiToDatabase("sellHotkey",self.sellHotkeyField.text().upper()))
+        self.sellHotkeyField.textChanged.connect(lambda: self.sellHotkeyField.setText(self.sellHotkeyField.text().upper())
+                                                                                    if self.sellHotkeyField.text() else None)
 
         sellHotkeyLabelBack = QLabel(": Sell Items")
-        sellHotkeyLabelBack.setFont(QFont("Perpetua",14))
+        sellHotkeyLabelBack.setFont(QFont("Perpetua",15))
         sellHotkeyLabelBack.setStyleSheet("color: red")
         sellHotkeyLabelBack.setFixedSize(125,22)
         sellHotkeyLabelBack.setAlignment(Qt.AlignLeft)
@@ -431,33 +442,45 @@ class MainWindow(QMainWindow):
 
         self.appSpeed = QLineEdit()
         self.appSpeed.setPlaceholderText("Enter Sell Speed")
-        self.appSpeed.setText(str(config.sleepTime))
+        self.appSpeed.setText(str(database.getConfig(cursor,'sleepTime')))
         self.appSpeed.setValidator(doubleValidSpeed)
+        self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",float(self.appSpeed.text())
+                                                                    if self.appSpeed.text() else None))
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
-        self.undercut.setText(str(config.undercutValue))
+        self.undercut.setText(str(database.getConfig(cursor,'sellUndercut')))
         self.undercut.setValidator(doubleValidundercut)
+        self.undercut.textChanged.connect(lambda: self.guiToDatabase("sellUndercut",float(self.undercut.text())
+                                                                    if self.undercut.text() else None))
 
         self.sellMin = QLineEdit()
         self.sellMin.setPlaceholderText("Enter Sell Min")
-        self.sellMin.setText(str(config.sellMin))
+        self.sellMin.setText(str(database.getConfig(cursor,'sellMin')))
         self.sellMin.setValidator(intValidSellMin)
+        self.sellMin.textChanged.connect(lambda: self.guiToDatabase("sellMin",int(self.sellMin.text()) 
+                                                                    if self.sellMin.text() else None))
 
         self.sellMax = QLineEdit()
         self.sellMax.setPlaceholderText("Enter Sell Max")
-        self.sellMax.setText(str(config.sellMax))
+        self.sellMax.setText(str(database.getConfig(cursor,'sellMax')))
         self.sellMax.setValidator(intValidSellMax)
+        self.sellMax.textChanged.connect(lambda: self.guiToDatabase("sellMax",int(self.sellMax.text())) 
+                                                                    if self.sellMax.text() else None)
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
-        self.stashHeight.setText(str(config.sellHeight))
-        self.stashHeight.setValidator(intValidHeight)  
+        self.stashHeight.setText(str(database.getConfig(cursor,'sellHeight')))
+        self.stashHeight.setValidator(intValidHeight)
+        self.stashHeight.textChanged.connect(lambda: self.guiToDatabase("sellHeight",int(self.stashHeight.text())
+                                                                    if self.stashHeight.text() else None)) 
 
         self.stashWidth = QLineEdit()
         self.stashWidth.setPlaceholderText("Enter Sell Width")
-        self.stashWidth.setText(str(config.sellWidth))
+        self.stashWidth.setText(str(database.getConfig(cursor,'sellWidth')))
         self.stashWidth.setValidator(intValidWidth)
+        self.stashWidth.textChanged.connect(lambda: self.guiToDatabase("sellWidth",int(self.stashWidth.text())
+                                                                    if self.stashWidth.text() else None))
 
         # Radio Buttons
         self.radioMethodSelect = {
@@ -465,7 +488,10 @@ class MainWindow(QMainWindow):
             2 : QRadioButton("Lowest Price w/o Outliers"),
             3 : QRadioButton("Lowest 3 Price Avg")
         }
-        self.radioMethodSelect[config.sellMethod].setChecked(True)
+        self.radioMethodSelect[database.getConfig(cursor,'sellMethod')].setChecked(True)
+        for i in range(1,4):
+            self.radioMethodSelect[i].toggled.connect(lambda: self.guiToDatabase('sellMethod',
+            next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)))
         
         # Log Layout
         logLayout = QVBoxLayout()
@@ -513,6 +539,8 @@ class MainWindow(QMainWindow):
         tab.setLayout(mainLayout)
 
         self.tabs.addTab(tab,"Utility")
+
+        database.closeDatabase(conn)
 
 
 
@@ -757,7 +785,7 @@ class MainWindow(QMainWindow):
             DAD_Utils.updateConfig("sellHeight",int(txtRead))
 
         txtRead = self.undercut.text()
-        if str(config.undercutValue) != txtRead:
+        if str(config.sellUndercut) != txtRead:
             if "." in txtRead:
                 DAD_Utils.updateConfig("undercutValue",float(txtRead))
             else:
@@ -770,6 +798,14 @@ class MainWindow(QMainWindow):
         txtRead = self.sellMax.text()
         if str(config.sellMax) != txtRead:
             DAD_Utils.updateConfig("sellMax",int(txtRead))
+
+
+
+    # update database Config from gui selections
+    def guiToDatabase(self,var,val):
+        conn, cursor = database.connectDatabase()
+        database.setConfig(cursor,var,val)
+        database.closeDatabase(conn)
 
 
 

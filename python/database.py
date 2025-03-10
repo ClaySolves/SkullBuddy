@@ -1,6 +1,7 @@
 import sqlite3
 import DAD_Utils
 import logging
+import config
 import time
 import sqlite3
 
@@ -15,9 +16,90 @@ def insertItem(cursor,values):
     """
     cursor.execute(sql,values)
 
-def updateAppConfig(cursor):
-    pass
 
+
+# retrieve config variable value
+def getConfig(cursor,var):
+    sql = f"SELECT {var} FROM Config"
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    return data[0] if data else None
+
+
+
+# print entire config
+def printConfig(cursor):
+    cursor.execute("SELECT * FROM Config")
+    rows = cursor.fetchall()
+    if rows:
+        return rows
+    else: 
+        DAD_Utils.logDebug("empty Config")
+        return None
+
+
+
+# update config variable
+def setConfig(cursor,var,val):
+    sql = f'UPDATE Config SET {var} = ?'
+    try:
+        cursor.execute(sql,(val,))
+    except:
+        pass
+
+
+
+# update config in database
+def updateConfig(cursor):
+    # build sql message to create/update Config table
+    sqlDarkmode = 1 if config.darkMode else 0
+    if printConfig(cursor) == None:
+        sql = """
+            INSERT INTO Config (
+            sellMin,
+            sellMax,
+            sellWidth,
+            sellHeight,
+            sellMethod,
+            sellUndercut,
+            sellHotkey,
+            closeHotkey,
+            sleepTime,
+            darkMode
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+    else:
+        sql = """
+            UPDATE Config 
+            SET sellMin = ?,
+            sellMax = ?,
+            sellWidth = ?,
+            sellHeight = ?,
+            sellMethod = ?,
+            sellUndercut = ?,
+            sellHotkey = ?,
+            closeHotkey = ?,
+            sleepTime = ?,
+            darkMode = ?
+        """ 
+    
+    # get config values
+    sqlInsert = [config.sellMin, config.sellMax, config.sellWidth, config.sellHeight, config.sellMethod,
+              config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode]
+
+    #update Config
+    cursor.execute(sql,sqlInsert)
+    
+
+
+# delete current config
+def wipeConfig(cursor):
+    sql = "DROP TABLE IF EXISTS Config"
+    cursor.execute(sql)
+
+
+
+# get all stored items
 def getStoredItems(cursor):
     cursor.execute("SELECT * FROM items")
     rows = cursor.fetchall()
@@ -26,11 +108,17 @@ def getStoredItems(cursor):
     else: 
         DAD_Utils.logDebug("empty database")
         return None
-   
+
+
+
+# close database connection
 def closeDatabase(conn):
     conn.commit()
     conn.close()
 
+
+
+# print all items in database
 def printDatabase(cursor):
     time1 = time.time()
     totalGold = 0
@@ -52,6 +140,7 @@ def printDatabase(cursor):
     DAD_Utils.logDebug(f"Retrieved listed items in {time.time() - time1} seconds")
     
     return totalGold
+
 
 
 # Define the database connection
@@ -76,14 +165,31 @@ def connectDatabase():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Config (
         sellMin INTEGER,
-        sellmax INTEGER,
+        sellMax INTEGER,
         sellWidth INTEGER,
         sellHeight INTEGER,
         sellMethod INTEGER,
-        sellUndercut INTEGER,
-        sleepTime INTEGER,
+        sellUndercut REAL,
+        sellHotkey TEXT,
+        closeHotkey TEXT,
+        sleepTime REAL,
         darkMode INTEGER
     );
     """)
 
     return conn, cursor
+
+
+
+# INSERT INTO Config 
+#         sellMin = ?, 
+#         sellMax = ?, 
+#         sellWidth = ?, 
+#         sellHeight = ?, 
+#         sellMethod = ?, 
+#         sellUndercut = ?, 
+#         sellHotkey = ?, 
+#         closeHotkey = ?,
+#         sleepTime = ?, 
+#         darkMode = ?
+#         """ 

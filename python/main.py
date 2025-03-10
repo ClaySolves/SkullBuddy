@@ -21,6 +21,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import gui
 import shutil
 import threading
+import database
 import DAD_Utils
 
 # Logging setup
@@ -37,15 +38,15 @@ pytesseract.pytesseract.tesseract_cmd = shutil.which(config.pytessPath)
 
 
 # Close Hotkey
-def closeHotkey(app):
-    keyboard.add_hotkey(f"ctrl+{config.closeHotkey.lower()}",lambda: closeApp(app))
+def closeHotkey(app,closeKey):
+    keyboard.add_hotkey(f"ctrl+{closeKey.lower()}",lambda: closeApp(app))
     keyboard.wait()
 
 
 
 # Close Hotkey
-def sellHotkey(mainWindow):
-    keyboard.add_hotkey(f"ctrl+{config.sellHotkey.lower()}",lambda: sellHotkeyExec(mainWindow))
+def sellHotkey(mainWindow,sellKey):
+    keyboard.add_hotkey(f"ctrl+{sellKey.lower()}",lambda: sellHotkeyExec(mainWindow))
     keyboard.wait()
 
 
@@ -66,21 +67,27 @@ def closeApp(app):
 def main():
     logging.debug("Starting Program ...")
 
+    conn, cursor = database.connectDatabase()
+    closeKey = database.getConfig(cursor,'closeHotkey')
+    sellKey = database.getConfig(cursor,'sellHotkey')
+    darkMode = database.getConfig(cursor,'darkMode')
+    database.closeDatabase(conn)
+
     #Create app
     app = gui.QApplication(sys.argv)    
     app.setWindowIcon(QIcon("img/SkullBuddy.ico"))
 
     #Dispaly main window
-    mainWindow = gui.MainWindow() 
+    mainWindow = gui.MainWindow(darkMode) 
     mainWindow.show()             
     
 
     #Close app hotkey setup
-    closeAppHotkey = threading.Thread(target=closeHotkey, args=(app,), daemon=True)
+    closeAppHotkey = threading.Thread(target=closeHotkey, args=(app,closeKey,), daemon=True)
     closeAppHotkey.start()
 
     #Sell Button hotkey setup
-    sellButtonHotkey = threading.Thread(target=sellHotkey, args=(mainWindow,), daemon=True)
+    sellButtonHotkey = threading.Thread(target=sellHotkey, args=(mainWindow,sellKey,), daemon=True)
     sellButtonHotkey.start()
 
     #End 
