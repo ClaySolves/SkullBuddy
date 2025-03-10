@@ -776,6 +776,10 @@ def loadTextFiles():
     global conn
     global sleepTime
     global darkMode
+    conn, cursor = database.connectDatabase()
+
+    if database.printConfig(cursor) == None:
+        database.updateConfig(cursor)
 
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
@@ -794,9 +798,6 @@ def loadTextFiles():
     with open("config/rolls.txt", 'r') as file:
         lines = file.readlines()
     allRolls = [line.strip() for line in lines]
-
-    conn, cursor = database.connectDatabase()
-    database.updateConfig(cursor)
 
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
@@ -1093,10 +1094,8 @@ def logGui(txt,color='black',printEnd="\n"):
         txt = txt + "^"
     elif printEnd == " ":
         txt = txt + " "
-    if darkMode:
+    if darkMode and color == 'black':
         color = 'white'
-    else:
-        color = 'black'
     print(f"<span style='color: {color};'>{txt}</span>", end=printEnd)
  
 
