@@ -5,6 +5,7 @@ import pyautogui
 import importlib
 import time
 import pytesseract
+import keyboard
 import difflib
 import config
 import logging
@@ -1100,7 +1101,6 @@ def logGui(txt,color='black',printEnd="\n"):
  
 
 
-
 #find if text is clear in item attr search on market
 def clearAttrSearch():
     ss = pyautogui.screenshot(region=[config.xAttribute-103,config.yAttribute+22,64,32])
@@ -1437,75 +1437,89 @@ def clickAndShift(x,y):
     time.sleep(sleepTime/10)
     pyautogui.click(button="right")
     time.sleep(sleepTime/10)
-    pyautogui.keyUp('shift')        
+    pyautogui.keyUp('shift')
 
+
+
+def stopScript():
+    global runSearch
+    logDebug("Turning runSearch FALSE")
+    runSearch = False
 
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash() -> bool:
+    global runSearch
+    runSearch = True
+
     loadTextFiles()
     if not enforceSellConfig():
         logGui("Invalid Settings!!!","red")
         database.closeDatabase(conn) 
         return False
-    
+        
     logGui("Listing Items...")
 
     if getAvailSlots():
 
         searchBlacklist = []
-
         for y in range(database.getConfig(cursor,'sellHeight')):
+            if not runSearch: break
             for x in range(database.getConfig(cursor,'sellWidth')):
-                
-                newX = config.xStashStart + (40 * x)
-                newY = config.yStashStart + (40 * y)
+                if runSearch:
+                    newX = config.xStashStart + (40 * x)
+                    newY = config.yStashStart + (40 * y)
+                    skip = False
 
-                skip = False
-                if len(searchBlacklist):
-                    for blackList in searchBlacklist:
-                        if [x,y] == blackList:
-                            logDebug("Skipping blacklisted item")
-                            skip = True 
-                    if skip: continue 
-                
-                logger.debug(f"Searching stash at x:{newX} y:{newY}")
-                if not detectItem(newX,newY):
-                    continue
-                #Item found, hover and check listing slot
-                pyautogui.moveTo(newX, newY)
-
-                foundItem, success = handleItem()
-
-                # insert into database if successful read
-                if success:
-                    if foundItem.rarity and foundItem.name:
-                        database.insertItem(cursor,foundItem.getItemStoreDetails())     
-
-                # if failure blacklist item slots to avoid re searching + unhover item
-                else:
-                    logGui(f"Item not listed",color="Red",printEnd=" ")
-                    logGui("... Skipping")
-                    logDebug(f"Blacklisting stash squares ...")
-                    if foundItem:
-                        logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
+                    if len(searchBlacklist):
+                        for blackList in searchBlacklist:
+                            if [x,y] == blackList:
+                                logDebug("Skipping blacklisted item")
+                                skip = True 
+                        if skip: continue 
                     
-                        # pyautogui.moveTo(newX,newY)
-                        # pyautogui.click(button='right') 
-                        time.sleep(sleepTime/20)
-                        # pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
+                    logger.debug(f"Searching stash at x:{newX} y:{newY}")
+                    if not detectItem(newX,newY):
+                        continue
+                    #Item found, hover and check listing slot
+                    pyautogui.moveTo(newX, newY)
 
-                        for xBL in range(foundItem.size[0]):
-                            for yBL in range(foundItem.size[1]):
-                                if xBL == 0 and yBL == 0: continue
-                                searchBlacklist.append([x+xBL,y+yBL])
-                                logDebug(f"blacklisted {x}+{xBL},{y}+{yBL}")
-            
+                    foundItem, success = handleItem()
 
-                if not getAvailSlots(): 
-                    database.closeDatabase(conn)
-                    return False
+                    # insert into database if successful read
+                    if success:
+                        if foundItem.rarity and foundItem.name:
+                            database.insertItem(cursor,foundItem.getItemStoreDetails())     
+
+                    # if failure blacklist item slots to avoid re searching + unhover item
+                    else:
+                        logGui(f"Item not listed",color="Red",printEnd=" ")
+                        logGui("... Skipping")
+                        logDebug(f"Blacklisting stash squares ...")
+                        if foundItem:
+                            logDebug(f"item size save:{foundItem.size[0]}{foundItem.size[1]}")
+                        
+                            # pyautogui.moveTo(newX,newY)
+                            # pyautogui.click(button='right') 
+                            time.sleep(sleepTime/20)
+                            # pyautogui.moveTo(config.xStashStart,config.xStashStart - 100)  
+
+                            for xBL in range(foundItem.size[0]):
+                                for yBL in range(foundItem.size[1]):
+                                    if xBL == 0 and yBL == 0: continue
+                                    searchBlacklist.append([x+xBL,y+yBL])
+                                    logDebug(f"blacklisted {x}+{xBL},{y}+{yBL}")
                 
+
+                    if not getAvailSlots(): 
+                        database.closeDatabase(conn)
+                        return False
+                    
+
+                else:
+                    logGui("Script Terminated!",color = 'red')
+                    break
+
         database.closeDatabase(conn)        
     else:
         database.closeDatabase(conn)  

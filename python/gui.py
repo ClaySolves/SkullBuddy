@@ -7,7 +7,6 @@ import re
 import database
 import config
 import keyboard
-import threading
 import subprocess
 import logging
 from io import StringIO
@@ -88,18 +87,21 @@ class GuiScriptStream():
 class logThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
 
-    def run(self): # run function
+    def __init__(self):
+        super().__init__()
+        self.oldStdout = sys.stdout
 
-        oldStdout = sys.stdout
+
+    def run(self): # run function
         sys.stdout = GuiScriptStream(self.outputSignal)
-        #self.outputSignal.connect(goodPrint)
 
         DAD_Utils.searchStash()
         DAD_Utils.logGui("Finished!")
 
-        sys.stdout = oldStdout
+        sys.stdout = self.oldStdout
 
-
+    def running(self):
+        return self.isRunning()
 
 # worker for history stream
 class listHistoryThread(QThread):
@@ -293,7 +295,7 @@ class MainWindow(QMainWindow):
         # gui death skull update
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
-        
+
         self.guiToConfig()
         if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
@@ -302,14 +304,26 @@ class MainWindow(QMainWindow):
         # Run thread
         try:    
             DAD_Utils.logDebug("Starting thread...")
-            self.thread = logThread()
-            self.thread.finished.connect(self.resetSkullyTxt)
-            self.thread.finished.connect(self.showNormal)
-            self.thread.outputSignal.connect(self.appendSellLog)
-            self.thread.start()
+            self.logThread = logThread()
+            self.logThreadRunning = True
+
+            self.logThread.finished.connect(self.resetSkullyTxt)
+            self.logThread.finished.connect(self.showNormal)
+            self.logThread.finished.connect(self.stopLogThread)
+            self.logThread.outputSignal.connect(self.appendSellLog)
+
+            self.logThread.start()
+
         except error:
             DAD_Utils.logDebug("Error starting thread!")
             DAD_Utils.logGui("Error, Exiting!")
+
+
+
+    # stop log thread
+    def stopLogThread(self):
+        DAD_Utils.logDebug("Stopping Log Thread")
+        self.logThreadRunning = False
 
 
 
@@ -374,6 +388,7 @@ class MainWindow(QMainWindow):
         self.darkModeButton.clicked.connect(self.handleDarkModeButton)
 
         # logs
+        self.logThreadRunning = False
         self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
@@ -393,6 +408,7 @@ class MainWindow(QMainWindow):
         self.exitHotkeyField.setStyleSheet("color: red")
         self.exitHotkeyField.setFixedSize(25,25)
         self.exitHotkeyField.setText(database.getConfig(cursor,'closeHotkey'))
+        self.exitHotkeyField.setAlignment(Qt.AlignCenter)
         self.exitHotkeyField.setValidator(charValidQuitHotkey)
         self.exitHotkeyField.textChanged.connect(lambda: self.guiToDatabase("closeHotkey",self.exitHotkeyField.text().upper()))
         self.exitHotkeyField.textChanged.connect(lambda: self.exitHotkeyField.setText(self.exitHotkeyField.text().upper())
@@ -400,7 +416,7 @@ class MainWindow(QMainWindow):
 
         exitHotkeyLabelBack = QLabel(": Exit SkullBuddy")
         exitHotkeyLabelBack.setFont(QFont("Perpetua",15))
-        exitHotkeyLabelBack.setFixedSize(125,22)
+        exitHotkeyLabelBack.setFixedSize(175,22)
         exitHotkeyLabelBack.setStyleSheet("color: red")
         exitHotkeyLabelBack.setAlignment(Qt.AlignLeft)
 
@@ -422,15 +438,16 @@ class MainWindow(QMainWindow):
         self.sellHotkeyField.setStyleSheet("color: red")
         self.sellHotkeyField.setFixedSize(25,25)
         self.sellHotkeyField.setText(database.getConfig(cursor,"sellHotkey"))
+        self.sellHotkeyField.setAlignment(Qt.AlignCenter)
         self.sellHotkeyField.setValidator(charValidSellHotkey)
         self.sellHotkeyField.textChanged.connect(lambda: self.guiToDatabase("sellHotkey",self.sellHotkeyField.text().upper()))
         self.sellHotkeyField.textChanged.connect(lambda: self.sellHotkeyField.setText(self.sellHotkeyField.text().upper())
                                                                                     if self.sellHotkeyField.text() else None)
 
-        sellHotkeyLabelBack = QLabel(": Sell Items")
+        sellHotkeyLabelBack = QLabel(": Sell Items/Stop Script")
         sellHotkeyLabelBack.setFont(QFont("Perpetua",15))
         sellHotkeyLabelBack.setStyleSheet("color: red")
-        sellHotkeyLabelBack.setFixedSize(125,22)
+        sellHotkeyLabelBack.setFixedSize(225,22)
         sellHotkeyLabelBack.setAlignment(Qt.AlignLeft)
 
         sellHotkeyLayout.addWidget(sellHotkeyLabelFront)
@@ -499,7 +516,7 @@ class MainWindow(QMainWindow):
 
         logHeader.addLayout(closeHotkeyLayout)
         logHeader.addLayout(sellHotkeyLayout)
-
+        logHeader.addStretch()
         logHeader.addWidget(self.darkModeButton)
         logLayout.addWidget(self.sellLog)
 

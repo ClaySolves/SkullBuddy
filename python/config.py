@@ -4,9 +4,9 @@ pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 sellUndercut = 0.1
-sellMin = 5
-sellMax = 5
-sleepTime = 5.0
+sellMin = 125
+sellMax = 1000
+sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
 darkMode = True
@@ -14,7 +14,7 @@ darkMode = True
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 2
+sellMethod = 3
 rollMethod = ""
 sellHotkey = "D"
 closeHotkey = "Q"
@@ -22,8 +22,8 @@ closeHotkey = "Q"
 stashDump = 2 
 # stashSell: -1 for shared stash, 0-10 are numbered with 0 default
 stashSell = 0
-sellWidth = 5
-sellHeight = 5
+sellWidth = 12
+sellHeight = 3
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]

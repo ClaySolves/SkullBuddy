@@ -50,10 +50,15 @@ def sellHotkey(mainWindow,sellKey):
     keyboard.wait()
 
 
+
 # sell hotkey function
 def sellHotkeyExec(mainWindow):
     DAD_Utils.logDebug("Selling via sell hotkey")
-    mainWindow.handleSellItemButton() 
+    if mainWindow.logThreadRunning:
+        DAD_Utils.logGui("Terminating Sell Script...",color='red')
+        DAD_Utils.stopScript()
+    else:
+        mainWindow.handleSellItemButton() 
 
 
 
