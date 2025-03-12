@@ -5,7 +5,6 @@ import pyautogui
 import importlib
 import time
 import pytesseract
-import keyboard
 import difflib
 import config
 import logging

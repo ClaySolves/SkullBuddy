@@ -1,4 +1,3 @@
-from PyQt5.QtGui import QKeyEvent
 import DAD_Utils
 import sys
 import config
@@ -6,16 +5,10 @@ import time
 import re
 import database
 import config
-import keyboard
-import subprocess
 import logging
-from io import StringIO
 from PyQt5.QtWidgets import QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
-
-
-
 
  # Get the root logger configured in main.py
 logger = logging.getLogger() 
@@ -103,6 +96,8 @@ class logThread(QThread):
     def running(self):
         return self.isRunning()
 
+
+
 # worker for history stream
 class listHistoryThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
@@ -135,6 +130,8 @@ class MainWindow(QMainWindow):
         self.utilityTab(self.darkMode)
         self.historyTab(self.darkMode)
         self.helpTab(self.darkMode)
+
+        self.tabs.currentChanged.connect(self.updateHistoryTable)
 
         self.setCentralWidget(self.tabs)
         self.setWindowTitle("SkullBuddy")
@@ -690,10 +687,11 @@ class MainWindow(QMainWindow):
         mainLayout.addLayout(historyTableHeader)
         mainLayout.addLayout(historyLayout)
         mainLayout.addLayout(totalGoldLayout)
+
         tab.setLayout(mainLayout)
+
         self.tabs.addTab(tab,"History")
 
-        self.updateHistoryTable()
 
 
 
