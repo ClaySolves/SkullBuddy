@@ -4,8 +4,8 @@ pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 sellUndercut = 0.1
-sellMin = 25
-sellMax = 125
+sellMin = 50
+sellMax = 1000
 sleepTime = 1.0
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
