@@ -76,6 +76,10 @@ def main():
     closeKey = database.getConfig(cursor,'closeHotkey')
     sellKey = database.getConfig(cursor,'sellHotkey')
     darkMode = database.getConfig(cursor,'darkMode')
+    
+    if database.printConfig(cursor) == None:
+        database.updateConfig(cursor)
+
     database.closeDatabase(conn)
 
     #Create app

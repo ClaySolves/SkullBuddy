@@ -778,9 +778,6 @@ def loadTextFiles():
     global darkMode
     conn, cursor = database.connectDatabase()
 
-    if database.printConfig(cursor) == None:
-        database.updateConfig(cursor)
-
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
         file.seek(0,2)
