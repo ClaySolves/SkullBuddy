@@ -4,9 +4,9 @@ pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 sellUndercut = 0.1
-sellMin = 50
-sellMax = 1000
-sleepTime = 1.0
+sellMin = 200
+sellMax = 2500
+sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
 darkMode = True
@@ -14,7 +14,7 @@ darkMode = True
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 3
+sellMethod = 2
 rollMethod = ""
 sellHotkey = "D"
 closeHotkey = "Q"
@@ -23,7 +23,7 @@ stashDump = 2
 # stashSell: -1 for shared stash, 0-10 are numbered with 0 default
 stashSell = 0
 sellWidth = 12
-sellHeight = 20
+sellHeight = 14
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
@@ -96,3 +96,48 @@ itemSearchRegion = (73, 262, 192, 250)
 regionMarketListings = (700, 60, 440, 100)
 xCollectExpressman, yCollectExpressman = 69, 256
 xPayGetExpressman, yPayGetExpressman = 953,926
+
+# rarity sorting order
+ROLL_SEARCH = {
+    "%Action Speed": "act",
+    "Weapon Damage": "",
+    "Move Speed": "",
+    "Additional Magical Damage": "l ma",
+    "Additional Memory Capacity": "l me",
+    "Additional Move Speed": "l mo",
+    "Additional Physical Damage": "l ph",
+    "Additional Weapon Damage": "l w",
+    "Agility": "ili",
+    "%Armor Penetration": "r p",
+    "Armor Rating": "",
+    "%Buff Duration Bonus": "bu",
+    "%Debuff Duration Bonus": "deb",
+    "Dexterity": "ex",
+    "Knowledge": "kn",
+    "Luck": "lu",
+    "%Magic Penetration": "c p",
+    "Magic Resistance": "c r",
+    "%Magical Damage Bonus": "gical damage b",
+    "%Magical Damage Reduction": "gical damage r",
+    "Magical Healing": "gical h",
+    "%Magical Interaction Speed": "gical i",
+    "Magical Power": "gical p",
+    "Max Health": "x h",
+    "%Max Health Bonus": "h b",
+    "%Memory Capacity Bonus": "y b",
+    "%Move Speed Bonus": "d b",
+    "%Physical Damage Bonus": "sical damage b",
+    "%Physical Damage Reduction": "sical damage r",
+    "Physical Healing": "sical h",
+    "Physical Power": "sical p",
+    "%Projectile Damage Reduction": "e d",
+    "%Regular Interaction Speed": "r i",
+    "Resourcefulness": "ef",
+    "%Spell Casting Speed": "l c",
+    "Strength": "gt",
+    "True Magical Damage": "e m",
+    "True Physical Damage": "e p",
+    "Vigor": "vi",
+    "Will": "wi",
+    "All Attributes": "all"
+}

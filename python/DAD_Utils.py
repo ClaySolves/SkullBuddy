@@ -112,16 +112,19 @@ class item():
 
         for roll in self.rolls:
             if roll[3]:
+                rollSearchStr = findItem(roll[1],allRolls)
                 clearAttrSearch()
-                pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-                time.sleep(sleepTime / 15) 
-                pyautogui.click()
-                pyautogui.typewrite(roll[1], interval=0.004)
+                if rollSearchStr:
+                    search = config.ROLL_SEARCH.get(rollSearchStr)
+                    pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+                    time.sleep(sleepTime / 15) 
+                    pyautogui.click()
+                    pyautogui.typewrite(search, interval=0.005)
 
-                pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch))
-                time.sleep(sleepTime / 15)
-                pyautogui.click()
-                numSearch += 1
+                    pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * numSearch))
+                    time.sleep(sleepTime / 15)
+                    pyautogui.click()
+                    numSearch += 1
         logger.debug(f"Searched for {numSearch} good rolls")
         return numSearch > 0
 
@@ -139,15 +142,18 @@ class item():
                 time.sleep(sleepTime / 15)
                 pyautogui.click()
 
+            rollSearchStr = findItem(roll[1],allRolls)
             clearAttrSearch()
-            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-            time.sleep(sleepTime / 15)
-            pyautogui.click()
-            pyautogui.typewrite(roll[1], interval=0.004)
+            if rollSearchStr:
+                search = config.ROLL_SEARCH.get(rollSearchStr)
+                pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+                time.sleep(sleepTime / 15)
+                pyautogui.click()
+                pyautogui.typewrite(search, interval=0.005)
 
-            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
-            time.sleep(sleepTime / 15)
-            pyautogui.click()
+                pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect + (25 * i))
+                time.sleep(sleepTime / 15)
+                pyautogui.click()
         logger.debug(f"Searched for all rolls")
 
 
@@ -164,15 +170,18 @@ class item():
 
         clearAttrSearch()
         roll = self.rolls[i]
-        pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-        time.sleep(sleepTime / 15)
-        pyautogui.click()
-        pyautogui.typewrite(roll[1], interval=0.004)
+        rollSearchStr = findItem(roll[1],allRolls)
+        if rollSearchStr:
+            search = config.ROLL_SEARCH.get(rollSearchStr)
+            pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+            time.sleep(sleepTime / 15)
+            pyautogui.click()
+            pyautogui.typewrite(search, interval=0.005)
 
-        pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect)
-        time.sleep(sleepTime / 15)
-        pyautogui.click()
-        logger.debug("Searched for a roll")
+            pyautogui.moveTo(config.xAttrSelect, config.yAttrSelect)
+            time.sleep(sleepTime / 15)
+            pyautogui.click()
+            logger.debug(f"Searched for {search}")
 
 
 
@@ -535,7 +544,7 @@ class item():
             pyautogui.moveTo(config.xSellingPrice, config.ySellingPrice, duration=0.1) 
             pyautogui.click()
             logGui(f"Listing item for {finalPrice}","Gold")
-            pyautogui.typewrite(str(finalPrice), interval=0.06)
+            pyautogui.typewrite(str(finalPrice), interval=0.03)
 
             pyautogui.moveTo(config.xCreateListing, config.yCreateListing, duration=0.1) 
             pyautogui.click()
@@ -747,9 +756,31 @@ def getItemSize(ss) -> list:
     res4 = locateOnImage('bottomRightCorner', ss, grayscale=False,confidence=0.82)
     res2 = None
     res3 = None
+
     if not (res4 and res):
         res2 = locateOnImage('topRightCorner',  ss, grayscale=False,confidence=0.82)
         res3 = locateOnImage('bottomLeftCorner',  ss, grayscale=False,confidence=0.82)
+
+    if res and res4:
+        xSize = round((int(res4[0])-int(res[0])) / 39)
+        ySize = round((int(res4[1])-int(res[1])) / 39)
+        logDebug(f"item area: {xSize} x {ySize}")
+        return (xSize,ySize)
+        
+    elif res2 and res3:
+        xSize = round((int(res2[0])-int(res3[0])) / 39)
+        ySize = round((int(res3[1])-int(res2[1])) / 39)
+        logDebug(f"item area: {xSize} x {ySize}")
+        return (xSize,ySize)
+    
+    res = locateOnImage('topLeftCornerRed', ss, grayscale=False,confidence=0.82)
+    res4 = locateOnImage('bottomRightCornerRed', ss, grayscale=False,confidence=0.82)
+    res2 = None
+    res3 = None
+    
+    if not (res4 and res):
+        res2 = locateOnImage('topRightCornerRed',  ss, grayscale=False,confidence=0.82)
+        res3 = locateOnImage('bottomLeftCornerRed',  ss, grayscale=False,confidence=0.82)
 
     if res and res4:
         xSize = round((int(res4[0])-int(res[0])) / 39)
@@ -814,19 +845,16 @@ def restoreSelf():
     win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
 
 
+
 def getCurrentDisplay():
-    """
-    Returns which display number the current program is running on.
-    Returns: int or None (1 for first display, 2 for second, etc.)
-    """
     # Get current process ID
-    current_pid = os.getpid()
+    currentPid = os.getpid()
     
     # Get current window position
     def callback(hwnd, position):
         if win32gui.IsWindowVisible(hwnd):
             _, pid = win32process.GetWindowThreadProcessId(hwnd)
-            if pid == current_pid:
+            if pid == currentPid:
                 rect = win32gui.GetWindowRect(hwnd)
                 position.extend([rect[0], rect[1]])
     
@@ -836,12 +864,12 @@ def getCurrentDisplay():
     if not position:
         return None
         
-    window_x, window_y = position[0], position[1]
+    windowX, windowY = position[0], position[1]
     
     # Find which monitor contains the window
     for i, monitor in enumerate(get_monitors()):
-        if (monitor.x <= window_x < monitor.x + monitor.width and
-            monitor.y <= window_y < monitor.y + monitor.height):
+        if (monitor.x <= windowX < monitor.x + monitor.width and
+            monitor.y <= windowY < monitor.y + monitor.height):
             return i + 1
             
     return 1  # Default to first display if not found
@@ -859,17 +887,17 @@ def getDisplay(process_name=None):
             _, pid = win32process.GetWindowThreadProcessId(hwnd)
             try:
                 process = psutil.Process(pid)
-                proc_name = process.name()
+                procName = process.name()
             except (psutil.NoSuchProcess, psutil.AccessDenied):
-                proc_name = "Unknown"
+                procName = "Unknown"
                 
             # Check if window matches criteria
-            if (process_name and process_name.lower() == proc_name.lower()):
+            if (process_name and process_name.lower() == procName.lower()):
                 rect = win32gui.GetWindowRect(hwnd)
                 windows.append({
                     'handle': hwnd,
                     'title': title,
-                    'process': proc_name,
+                    'process': procName,
                     'rect': rect,
                     'position': (rect[0], rect[1])
                 })
@@ -1489,7 +1517,7 @@ def searchStash() -> bool:
 
                     # if failure blacklist item slots to avoid re searching + unhover item
                     else:
-                        logGui(f"Item not listed",color="Red",printEnd=" ")
+                        logGui(f"Item not listed",color="Gray",printEnd=" ")
                         logGui("... Skipping")
                         logDebug(f"Blacklisting stash squares ...")
                         if foundItem:
@@ -1548,14 +1576,21 @@ def getItemInfo() -> item:
     if not space: return None
 
     #screenshot for text & rarity
-    ssRegion = (int(space[0]) - 210, int(space[1]) - 460, 535, 750)
+    ssRegion = (int(space[0]) - 210, int(space[1]) - 510, 535, 800)
     logGui("Getting item info...", printEnd=" ")
-
     ss = pyautogui.screenshot(region=ssRegion)
-    sizeSS = ss
 
-    goodSS, newSS = confirmScreenShot(ss,ssRegion)
-    if goodSS: sizeSS = newSS
+    #screenshot for size
+    pyautogui.moveTo(config.xStashStart - 50, config.yStashStart - 50) 
+    time.sleep(sleepTime / 9)
+    confirmGameScreenChange(ss,region=ssRegion)
+    sizeSS = pyautogui.screenshot(region=ssRegion)
+
+    # goodSS, newSS = confirmScreenShot(ss,ssRegion)
+    # if goodSS: sizeSS = newSS
+
+    #sizeSS.save(f"debug/itemSSsize_{x}_{y}.png")
+    #ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 
     #start movement thread while reading data
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)

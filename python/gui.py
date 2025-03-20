@@ -832,6 +832,11 @@ class MainWindow(QMainWindow):
             database.closeDatabase(conn)
             return
 
+        #if data is displayed, wipe and reprint
+        #todo: optimize
+        if self.historyTable.rowCount() > 0:
+            self.historyTable.setRowCount(0)
+
         numItems = 0
         totalGold = 0
         for i, item in enumerate(data):
@@ -843,9 +848,11 @@ class MainWindow(QMainWindow):
             self.historyTable.setRowHeight(numItems, 40)
 
             #Update name
+            printColor = "white" if database.getConfig(cur,"darkMode") else "black"
             namePrint = item[0] if item[0] else 'NameReadError'
             tableName = QTableWidgetItem(namePrint)
             tableName.setFont(QFont("Arial",8))
+            tableName.setForeground(QColor(printColor))
             self.historyTable.setItem(numItems, 0, tableName)
 
             #update rarity
