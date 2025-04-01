@@ -338,6 +338,8 @@ class MainWindow(QMainWindow):
         DAD_Utils.logDebug(f"foundTxt: {txt}")
 
         self.sellLog.insertHtml(txt)
+        scroll = self.sellLog.verticalScrollBar()
+        scroll.setValue(scroll.maximum())
 
 
 

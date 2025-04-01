@@ -751,6 +751,7 @@ def calcItemPrice(prices, method, ascending=True):
 
 
 # get size of selected item, return size of 1 if error read
+# Depricated
 def getItemSize(ss) -> list:
     res = locateOnImage('topLeftCorner', ss, grayscale=False,confidence=0.82)
     res4 = locateOnImage('bottomRightCorner', ss, grayscale=False,confidence=0.82)
@@ -758,8 +759,8 @@ def getItemSize(ss) -> list:
     res3 = None
 
     if not (res4 and res):
-        res2 = locateOnImage('topRightCorner',  ss, grayscale=False,confidence=0.82)
-        res3 = locateOnImage('bottomLeftCorner',  ss, grayscale=False,confidence=0.82)
+        res2 = locateOnImage('topRightCorner', ss, grayscale=False,confidence=0.82)
+        res3 = locateOnImage('bottomLeftCorner', ss, grayscale=False,confidence=0.82)
 
     if res and res4:
         xSize = round((int(res4[0])-int(res[0])) / 39)
@@ -779,8 +780,8 @@ def getItemSize(ss) -> list:
     res3 = None
     
     if not (res4 and res):
-        res2 = locateOnImage('topRightCornerRed',  ss, grayscale=False,confidence=0.82)
-        res3 = locateOnImage('bottomLeftCornerRed',  ss, grayscale=False,confidence=0.82)
+        res2 = locateOnImage('topRightCornerRed', ss, grayscale=False,confidence=0.82)
+        res3 = locateOnImage('bottomLeftCornerRed', ss, grayscale=False,confidence=0.82)
 
     if res and res4:
         xSize = round((int(res4[0])-int(res[0])) / 39)
@@ -1148,7 +1149,7 @@ def locateOnScreen(img,region=config.getScreenRegion,grayscale=False,confidence=
             res = pyautogui.locateOnScreen(img, region = region, confidence = confidence, grayscale = grayscale)
         return res 
     except:
-        logger.debug("Failed to find image")
+        logger.debug(f"Failed to find image {img}")
         return None
     
 
@@ -1165,7 +1166,7 @@ def locateAllOnScreen(img,region=config.getScreenRegion,grayscale=False,confiden
         listRes = list(res)
         return listRes
     except:
-        logger.debug("Failed to find any image")
+        logger.debug(f"Failed to find any image {img}")
         return None
     
 def locateOnImage(imgNeedle, imgHaystack, grayscale=False,confidence=0.99):
@@ -1178,7 +1179,7 @@ def locateOnImage(imgNeedle, imgHaystack, grayscale=False,confidence=0.99):
             res = pyautogui.locate(imgNeedle, imgHaystack, confidence = confidence, grayscale = grayscale)
         return res
     except:
-        logger.debug("Failed to find any image")
+        logger.debug(f"Failed to find any image {imgNeedle} in image {imgHaystack}")
         return None
     
 
@@ -1287,7 +1288,7 @@ def detectItem(x,y):
     div = w*h
     res = math.floor(total/div)
     logger.debug(f"Pixel val for x:{x} y:{y} {res}")
-    if res > 110:
+    if res > config.stashPixelVal:
         ret = True
 
     if ret:
@@ -1572,22 +1573,13 @@ def getItemInfo() -> item:
     time.sleep(sleepTime / 9)
 
     #check if item is on screen
-    space = locateOnScreen('findItem',confidence=0.95)
+    space = locateOnScreen('findItem2',grayscale=False,confidence=0.90)
     if not space: return None
 
     #screenshot for text & rarity
     ssRegion = (int(space[0]) - 210, int(space[1]) - 510, 535, 800)
     logGui("Getting item info...", printEnd=" ")
     ss = pyautogui.screenshot(region=ssRegion)
-
-    #screenshot for size
-    pyautogui.moveTo(config.xStashStart - 50, config.yStashStart - 50) 
-    time.sleep(sleepTime / 9)
-    confirmGameScreenChange(ss,region=ssRegion)
-    sizeSS = pyautogui.screenshot(region=ssRegion)
-
-    # goodSS, newSS = confirmScreenShot(ss,ssRegion)
-    # if goodSS: sizeSS = newSS
 
     #sizeSS.save(f"debug/itemSSsize_{x}_{y}.png")
     #ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
@@ -1596,7 +1588,6 @@ def getItemInfo() -> item:
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)
     searchFromStashThread.start()
 
-    size = getItemSize(sizeSS)
     rarity = getItemRarity(ss)
 
     textCropBox = [60,150,400,520]
@@ -1650,6 +1641,12 @@ def getItemInfo() -> item:
             rarity = 'legendary'
         else:
             rarity = 'unique'
+
+    # lookup size
+    size = config.ITEM_SIZE.get(name)
+    if size == None: 
+        logDebug(f"NoneSizeFound")
+        size = (1,1)
 
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size)

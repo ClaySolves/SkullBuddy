@@ -14,7 +14,7 @@ Axe of Righteousness
 Badger Pendant
 Bandage
 Bandshee sonnet
-barbuta Helm
+Barbuta Helm
 Bardic Pants
 Bardiche
 Bat Claw
@@ -43,15 +43,15 @@ Buttoned Leggings
 Campfire Kit
 Candy Cane
 Candy Corn
-Caputred Mana Flakes
+Captured Mana Flakes
 Castillion Dagger
 Centaur Hoof
 Centaur Horn
 Centaur Tail
 Centaur's Madness
-Cermonial Dagger
-Cermonial Headdress
-Cermonail Staff
+Ceremonial Dagger
+Ceremonial Headdress
+Ceremonial Staff
 Champion Armor
 Chapel De Fer
 Chaperon 
@@ -108,7 +108,7 @@ Cyclops Rags
 Cyclops Vision Crystal
 Cyclop's Club
 Dagger of Righteousness
-Dark Curiass
+Dark Cuirass
 Dark Leather Leggings
 Dark Matter
 Dark Matter Tunic
@@ -166,9 +166,9 @@ Frost Wyvern's Hide
 Frosted Feather
 Frostlight Abyss Plate Armor
 Frostlight Aketon
-Frostlight Cloack
+Frostlight Cloak
 Frostlight Crusader Helm
-Frostlight Crsytal Sword
+Frostlight Crystal Sword
 Frostlight Feathered Hat
 Frostlight Gauntlets
 Frostlight Hood
@@ -192,7 +192,7 @@ Frostlight Ore
 Frostlight Powder
 Frozen Heart
 Frozen Iron Key
-Gem Neckalce
+Gem Necklace
 Gem Ring
 Ghostdust Pouch
 Ghostly Essence
@@ -269,13 +269,14 @@ Icefang
 Infected Flesh
 Intact Skull
 Iron Ore
+Iron Ingot
 Iron Powder
 Kettle Hat
 Kobold's Ear
 Kris Dagger
 Laced Turnshoe
-Lanter 
-Lanter Shield
+Lantern
+Lantern Shield
 Leaf Gold Bangle
 Leather Bonnet
 Leather Cap
@@ -285,7 +286,7 @@ Leather Leggings
 Lifeleaf
 Light Aketon
 Light Bringer
-Light Gauntlers
+Light Gauntlets
 Light Gold Bangle
 Lightfoot Boots
 Lockpick
@@ -298,7 +299,7 @@ Lyre
 Maggot
 Magic Protection Potion
 Magic Staff
-Mana Psherer
+Mana Sphere
 Manuscripts of the Warlord
 Marauder Outfit
 Mercurial Cloak
@@ -308,7 +309,7 @@ Moldy Bread
 Monkey Pendant 
 Morning Star
 Mystic Gloves
-Mystic Cestments 
+Mystic Vestments 
 Mystical Gem
 Necklace of Peace
 Norman Nasal Helm
@@ -329,10 +330,10 @@ Ornate Jazerant
 Owl Pendant
 Ox Pendant
 Padded Leggings
-Padded tunic
+Padded Tunic
 Patterned Gold Bangle 
 Pavise
-Pearl Neckalce
+Pearl Necklace
 Phantom Flower
 Phoenix Choker
 Pickaxe
@@ -434,7 +435,6 @@ Sunburt Orb
 Surgical Kit
 Suvival Bow
 Tanglethread Trousers
-Tar Flask
 Tattered Cloak
 Templar Armor
 Thorn Shield
