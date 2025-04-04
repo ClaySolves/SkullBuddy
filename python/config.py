@@ -4,8 +4,8 @@ pytessPath = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 pytessConfig = "--psm 6"
 # -1 for -1 under price, float val for percent undercut, int for static undercut
 sellUndercut = 0.1
-sellMin = 100
-sellMax = 2500
+sellMin = 60
+sellMax = 999
 sleepTime = 1.15
 sigRollIncreaseStatic = 50
 sigRollIncreasePercent = 0.2
@@ -14,7 +14,7 @@ darkMode = True
 # 1 -> Lowest Price
 # 2 -> Lowest w/o outliers
 # 3 -> Lowest 3 avg
-sellMethod = 2
+sellMethod = 1
 rollMethod = ""
 sellHotkey = "D"
 closeHotkey = "Q"
@@ -24,11 +24,13 @@ stashDump = 2
 stashSell = 0
 sellWidth = 12
 sellHeight = 20
-stashPixelVal = 80
+stashPixelVal = 60
 
+ssQuantity = [910,400,80,15]
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]
+ssGoldQuantity = [1597, 340, 180, 620]
 ssMarketItem = [200,200,100,100]
 ssMarketRoll = [1450, 175, 250, 245]
 ssMarketExpireTime = [1262, 322, 200, 630]
@@ -106,6 +108,7 @@ ROLL_SEARCH = {
     "Move Speed": "",
     "Additional Magical Damage": "l ma",
     "Additional Memory Capacity": "l me",
+    "Additional Armor Rating": "l a",
     "Additional Move Speed": "l mo",
     "Additional Physical Damage": "l ph",
     "Additional Weapon Damage": "l w",

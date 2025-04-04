@@ -22,15 +22,17 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity, coords, size, price=None):
+    def __init__(self, name, rolls, rarity, coords, size, quantity, price=None):
         self.name = name # item name
         self.rolls = rolls # item rolls
         self.rarity = rarity # item rarity
-        self.price = price # item price
+        self.price = price # item market price
+        self.listPrice = None # price item is listed at
         self.coords = coords # item location
         self.size = size # item size
         self.sold = False
         self.goodRoll = None
+        self.quantity = quantity
 
         logger.debug("New item created")
 
@@ -211,16 +213,24 @@ class item():
     def findPrice3(self) -> bool: #True/Flase Price Find Success
         logger.debug(f"Searching for {self.name} price")
         undercutValue = database.getConfig(cursor,'sellUndercut')
+        quantity = self.quantity
 
         if isinstance(undercutValue,float):
-            quickCheckMax = database.getConfig(cursor,'sellMax') - (database.getConfig(cursor,'sellMax') * undercutValue)
+            quickCheckMax = database.getConfig(cursor,'sellMax') + (database.getConfig(cursor,'sellMax') * undercutValue)
         else:
-            quickCheckMax = database.getConfig(cursor,'sellMax') - undercutValue
-        quickCheckMin = database.getConfig(cursor,'sellMin')
+            quickCheckMax = database.getConfig(cursor,'sellMax') + undercutValue
+
+        if isinstance(undercutValue,float):
+            quickCheckMin = database.getConfig(cursor,'sellMin') + (database.getConfig(cursor,'sellMin') * undercutValue)
+        else:
+            quickCheckMin = database.getConfig(cursor,'sellMin') + undercutValue
+
+        logGui(f"Number of rolls for this lookup:{len(self.rolls)}")
 
         self.printRarityName()
+
         # algo for item with many rolls
-        if (self.rarity.lower() == 'epic' or self.rarity.lower() == 'legendary' or self.rarity.lower() == 'unique' or self.rarity.lower() == 'rare'):
+        if (len(self.rolls) > 1):
             logger.debug(f"many roll item found")
 
             # record price of all rolls
@@ -236,7 +246,7 @@ class item():
             prices = []
 
             foundPrice = recordDisplayedPrice()
-            prices.append(foundPrice)
+            if foundPrice: prices.append(foundPrice)
             
             if foundPrice:
                 if foundPrice > quickCheckMax: return False
@@ -256,6 +266,7 @@ class item():
                         return True
 
             # search and store each roll
+            # quantity not added to roll searches to avoid bugs
             goodRolls = 0
             for i, _ in enumerate(self.rolls):
                 self.searchRoll(i)
@@ -296,16 +307,16 @@ class item():
             return False
 
         #algo for item with few rolls
-        elif(self.rarity.lower() == 'poor' or self.rarity.lower() == 'common' or self.rarity.lower() == 'uncommon'):
+        elif(len(self.rolls) <= 1):
             logDebug(f"few roll item found")
 
             # record price of all rolls
             foundPrice = recordDisplayedPrice(False)
-            if foundPrice:
-                if foundPrice > quickCheckMax or foundPrice < quickCheckMin: return False
 
             # found price on all attr search, return and log
             if foundPrice:
+                if foundPrice > quickCheckMax or foundPrice < quickCheckMin: return False
+
                 logGui(f"Found ",printEnd=" ")
                 if isinstance(foundPrice,int):
                     logGui(f"{foundPrice}",color="Gold",printEnd=" ")
@@ -313,11 +324,8 @@ class item():
                     logGui(f"{foundPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
-                self.price = foundPrice
+                self.price = foundPrice * quantity
                 return True
-            
-            # no matching listing for all attr, search all attr individually
-            price = None
 
             # reset attr and get baseprice
             pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
@@ -326,8 +334,9 @@ class item():
 
             foundPrice = recordDisplayedPrice()
 
-            if foundPrice: 
-                self.price = foundPrice
+            if foundPrice:
+                if foundPrice > quickCheckMax or foundPrice < quickCheckMin: return False 
+
                 logGui(f"Found ",printEnd=" ")
                 if isinstance(foundPrice,int):
                     logGui(f"{foundPrice}",color="Gold",printEnd=" ")
@@ -335,6 +344,7 @@ class item():
                     logGui(f"{foundPrice}",color="Gray",printEnd=" ")
                 logGui(f"for ",printEnd=" ")
                 self.printRarityName()
+                self.price = foundPrice * quantity
                 return True
         
             return False
@@ -431,7 +441,7 @@ class item():
         #store base price, 5 attempts
         attempts = 3
         for attempt in range(attempts):
-            foundPrice = recordDisplayedPrice(True)
+            foundPrice = recordDisplayedPrice()
             if foundPrice:
                 prices.append(foundPrice)
                 break
@@ -493,8 +503,9 @@ class item():
         priceCalc = None
         useRolls = False
         numRolls = len(self.rolls)
+        compPrice = self.listPrice
 
-        if self.price < database.getConfig(cursor,'sellMin') or self.price > database.getConfig(cursor,'sellMax'):
+        if compPrice < database.getConfig(cursor,'sellMin') or compPrice > database.getConfig(cursor,'sellMax'):
             return False
         if rarity == None:
             useRolls = True
@@ -514,9 +525,9 @@ class item():
             if size == 1: priceCalc = 53
             else: priceCalc = 30
 
-        if self.price - 15 > size * priceCalc: return True
+        if compPrice - 15 > size * priceCalc: return True
         
-        logger.debug(f"{rarity} {self.name} not listed at {self.price}, vendor instead")
+        logger.debug(f"{rarity} {self.name} not listed at {compPrice}, vendor instead")
         return False
         
 
@@ -524,19 +535,28 @@ class item():
     #Lists item for found price
     def listItem(self) -> bool: # True/False Listing Success
         price = self.price
-        if price and self.confirmPrice():
-            undercut = database.getConfig(cursor,'sellUndercut')
-            logger.debug(f"{undercut} undercut value")
-            if undercut < 0:
-                finalPrice = price - 1
+        if not price: 
+            logGui("No Price Found, Can't List")
+            return False
+
+        undercut = database.getConfig(cursor,'sellUndercut')
+
+        logger.debug(f"using {undercut} undercut value and {self.quantity} quantity")
+
+        if undercut < 0:
+            finalPrice = price - 1
+        else:
+            if isinstance(undercut,float):
+                finalPrice = int(price - (price * undercut))
+                finalPrice = int(finalPrice)
             else:
-                if isinstance(undercut,float):
-                    finalPrice = int(price - (price * undercut))
-                    finalPrice = int(finalPrice)
-                else:
-                    finalPrice = price - undercut
-            logger.debug(f"{finalPrice} found")
-    
+                finalPrice = price - int(undercut)
+
+        logger.debug(f"{finalPrice} found to list")
+
+        self.listPrice = finalPrice
+
+        if self.confirmPrice():
             pyautogui.moveTo(self.coords[0], self.coords[1], duration=0.1) 
             pyautogui.click()
             time.sleep(sleepTime / 3)
@@ -554,7 +574,7 @@ class item():
             logger.debug(f"Listed for {finalPrice}")
             return True
 
-        logger.debug(f"CANNOT LIST AN ITEM WITH NO PRICE!")
+        logger.debug(f"CANNOT LIST AN ITEM WITH NO/INVALID PRICE!")
         return False
 
 
@@ -595,30 +615,40 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
     if search:
         pyautogui.moveTo(config.xSearchPrice, config.ySearchPrice)
         pyautogui.click()
-
+        time.sleep(sleepTime / 150)
         ss = pyautogui.screenshot(region=config.ssMarketSearch)
+        ss.save(f"debug/preSearchSave.png")
         changed = confirmGameScreenChange(ss,config.ssMarketSearch)
 
         if not changed: 
             logger.debug(f"no price found ...")
             return None
 
-    price = readPrices()
+    priceListed = readPrices()
+    priceQuant = readPrices(region=config.ssGoldQuantity)
 
-    if price:
-        price = calcItemPrice(price,database.getConfig(cursor,'sellMethod'))
+    if priceQuant:
+        retPrice = calcItemPrice(priceQuant,database.getConfig(cursor,'sellMethod'))
         logGui(f"Found ",printEnd=" ")
-        if isinstance(price,int):
-            logGui(f"{price}",color="Gold",printEnd=" ")
+        if isinstance(retPrice,int):
+            logGui(f"{retPrice}",color="Gold",printEnd=" ")
         else:
-            logGui(f"{price}",color="Gray",printEnd=" ")
+            logGui(f"{retPrice}",color="Gray",printEnd=" ")
+        logGui(f"...",printEnd=" ")
+    elif priceListed:
+        retPrice = calcItemPrice(priceListed,database.getConfig(cursor,'sellMethod'))
+        logGui(f"Found ",printEnd=" ")
+        if isinstance(retPrice,int):
+            logGui(f"{retPrice}",color="Gold",printEnd=" ")
+        else:
+            logGui(f"{retPrice}",color="Gray",printEnd=" ")
         logGui(f"...",printEnd=" ")
     else:
         logger.debug(f"no price found ...")
         return None
     
-    logger.debug(f"Found price {price}")
-    return price
+    logger.debug(f"Found price {retPrice}")
+    return retPrice
 
 
 
@@ -673,8 +703,8 @@ def refreshMarketItem():
 
 
 # read displayed prices from market
-def readPrices() -> list: # return list of prices
-    ss = pyautogui.screenshot(region=config.ssGold)
+def readPrices(region=config.ssGold) -> list: # return list of prices
+    ss = pyautogui.screenshot(region=region)
     data = ss.getdata()
     newData = []
     retPrices = []
@@ -686,14 +716,26 @@ def readPrices() -> list: # return list of prices
             newData.append((0,0,0))
 
     ss.putdata(newData)
-    numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
+    numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789x.'
     txt = pytesseract.image_to_string(ss,config=numConfig)
-    prices = txt.split()
 
-    for i, price in enumerate(prices):
-        priceAdd = int(price)
-        if priceAdd > 15:
-            retPrices.append(priceAdd)
+    if 'x' in txt:
+        prices = []
+        pricesX = txt.split()
+        for price in pricesX:
+            prices.append(price.split('x')[0])
+    else:
+        prices = txt.split()
+
+    if prices:
+        for i, price in enumerate(prices):
+            if isinstance(price,int):
+                priceAdd = int(price)
+            else:
+                priceFloat= float(price)
+                priceAdd = int(priceFloat)
+            if priceAdd > 15:
+                retPrices.append(priceAdd)
 
     logger.debug(f"Found prices: {retPrices}")
     return retPrices
@@ -1294,7 +1336,7 @@ def detectItem(x,y):
     if ret:
         logger.debug("Item detected")
     else:
-        logger.debug(f"No item detected: {str(res)} < 110")
+        logger.debug(f"No item detected: {str(res)} < {config.stashPixelVal}")
     return ret
 
 
@@ -1376,21 +1418,27 @@ def searchFromMarketStash() -> bool:
     res = confirmGameScreenChange(ss,region=config.ssMarketItem)
     if not res: return res
 
+    time.sleep(0.2)
+
+    ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
+    ss.save("debug/marketstall.png")
+
     pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
     time.sleep(sleepTime / 15)
-    ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
     pyautogui.click()
 
     pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
     time.sleep(sleepTime / 15)
     pyautogui.click()
-    res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
-    if not res:
-        pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-        time.sleep(sleepTime / 15)
-        pyautogui.click()
-        res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
 
+    res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
+    # if not res:
+    #     pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
+    #     time.sleep(sleepTime / 15)
+    #     pyautogui.click()
+    #     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
+
+    logGui("Search Done")
     return res
 
 
@@ -1573,16 +1621,23 @@ def getItemInfo() -> item:
     time.sleep(sleepTime / 9)
 
     #check if item is on screen
-    space = locateOnScreen('findItem2',grayscale=False,confidence=0.90)
+    space = locateOnScreen('slotType2',grayscale=False,confidence=0.90)
     if not space: return None
 
+    #screenshot for quantity
+    ss = pyautogui.screenshot(region=config.ssQuantity)
+    numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
+    quanRead = pytesseract.image_to_string(ss,config=numConfig)
+    if quanRead:
+        quantity = int(quanRead)
+    else:
+        quantity = 1
+        logDebug("Error finding quanittiy ,setting to 1")
+
     #screenshot for text & rarity
-    ssRegion = (int(space[0]) - 210, int(space[1]) - 510, 535, 800)
+    ssRegion = (int(space[0]) - 150, int(space[1]) - 410, 535, 800)
     logGui("Getting item info...", printEnd=" ")
     ss = pyautogui.screenshot(region=ssRegion)
-
-    #sizeSS.save(f"debug/itemSSsize_{x}_{y}.png")
-    #ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 
     #start movement thread while reading data
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)
@@ -1590,9 +1645,11 @@ def getItemInfo() -> item:
 
     rarity = getItemRarity(ss)
 
-    textCropBox = [60,150,400,520]
+    textCropBox = [60,0,400,600]
     ssTextCrop = ss.crop(textCropBox)
     text = pytesseract.image_to_string(ssTextCrop)
+
+    ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 
     # Read item data
     name = ""
@@ -1603,7 +1660,7 @@ def getItemInfo() -> item:
     #iterate read text
     logGui("Storing item rolls...")
     for line in lines:
-        logDebug(f"lines: {lines}")
+        logDebug(f"line: {line}")
         if not foundName:
             found = findItem(line, allItems)
             if found: 
@@ -1649,7 +1706,8 @@ def getItemInfo() -> item:
         size = (1,1)
 
     #make item and return
-    foundItem = item(name,rolls,rarity,coords,size)
+    foundItem = item(name,rolls,rarity,coords,size,quantity)
+    logGui("Item Done")
     searchFromStashThread.join()
     return foundItem
 

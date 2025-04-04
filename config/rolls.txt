@@ -4,6 +4,7 @@ Move Speed
 Additional Magical Damage
 Additional Memory Capacity
 Additional Move Speed
+Additional Armor Rating
 Additional Physical Damage
 Additional Weapon Damage
 Agility
