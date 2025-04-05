@@ -95,7 +95,7 @@ class item():
 
         rollStr = ""
         if self.quantity > 1:
-            nameStr = self.name + str(self.quantity)
+            nameStr = self.name + f" x {self.quantity}"
         else:
             nameStr = self.name
 
@@ -655,16 +655,21 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
     priceListed = readPrices()
     priceQuant = readPrices(region=config.ssGoldQuantity)
 
-    if priceQuant:
-        retPrice = calcItemPrice(priceQuant,database.getConfig(cursor,'sellMethod'))
-        logGui(f"Found ",printEnd=" ")
-        if isinstance(retPrice,int):
-            logGui(f"{retPrice}",color="Gold",printEnd=" ")
-        else:
-            logGui(f"{retPrice}",color="Gray",printEnd=" ")
-        logGui(f"...",printEnd=" ")
+    foundPrices = None
+    if priceListed and priceQuant:
+        foundPrices = priceListed + priceQuant
+        foundPrices.sort()
+        logGui("Trigger1")
     elif priceListed:
-        retPrice = calcItemPrice(priceListed,database.getConfig(cursor,'sellMethod'))
+        foundPrices = priceListed
+        logGui("Trigger2")
+    elif priceQuant:
+        foundPrices = priceQuant
+        logGui("Trigger3")
+
+    if foundPrices:
+        logDebug(f"Calcing item price with {foundPrices}")
+        retPrice = calcItemPrice(foundPrices,database.getConfig(cursor,'sellMethod'))
         logGui(f"Found ",printEnd=" ")
         if isinstance(retPrice,int):
             logGui(f"{retPrice}",color="Gold",printEnd=" ")
@@ -672,10 +677,10 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
             logGui(f"{retPrice}",color="Gray",printEnd=" ")
         logGui(f"...",printEnd=" ")
     else:
-        logger.debug(f"no price found ...")
+        logDebug(f"no price found ...")
         return None
     
-    logger.debug(f"Found price {retPrice}")
+    logDebug(f"Found price {retPrice}")
     return retPrice
 
 
@@ -762,7 +767,8 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
             #for reads like 1,249.3, pytess reads as 1.249.3. Remove first n-1 . char
             dotCount = price.count('.')
             if dotCount > 1:
-                price = price.replace(".","",dotCount - 1)
+                dotCount = dotCount - 1
+            price = price.replace(".","",dotCount)
 
             #clean price to float or int for undercut val
             try:
@@ -1457,9 +1463,10 @@ def searchFromMarketStash() -> bool:
     priceRead = pytesseract.image_to_string(ss,config="--psm 6").lower()    
     for x in range(5):
         pyautogui.click()
-        if "price" in priceRead: break
         ss = pyautogui.screenshot(region=config.ssPriceColumnRead)
         priceRead = pytesseract.image_to_string(ss,config="--psm 6").lower()  
+        if "price" in priceRead: 
+            break
 
     # ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
     # ss.save("debug/marketstall.png")
@@ -1748,7 +1755,7 @@ def getItemInfo() -> item:
 
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size,quantity)
-    logGui("Item Done",printEnd=" ")
+    logGui("Item read done",printEnd=" ")
     searchFromStashThread.join()
     return foundItem
 
