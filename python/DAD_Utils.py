@@ -314,7 +314,7 @@ class item():
             return False
 
         #algo for item with few rolls
-        elif(len(self.rolls) <= 1):
+        elif(len(self.rolls) == 1):
             logDebug(f"few roll item found")
 
             # record price of all rolls
@@ -659,13 +659,10 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
     if priceListed and priceQuant:
         foundPrices = priceListed + priceQuant
         foundPrices.sort()
-        logGui("Trigger1")
     elif priceListed:
         foundPrices = priceListed
-        logGui("Trigger2")
     elif priceQuant:
         foundPrices = priceQuant
-        logGui("Trigger3")
 
     if foundPrices:
         logDebug(f"Calcing item price with {foundPrices}")
@@ -743,12 +740,13 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
     retPrices = []
 
     for item in data:
-        if (item[0] >= 120 or item[1] >= 120):
+        if (item[0] >= 110 or item[1] >= 110):
             newData.append(item)
         else:
             newData.append((0,0,0))
 
     ss.putdata(newData)
+    ss.save("debug/finalPrice.png")
     numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789x.'
     txt = pytesseract.image_to_string(ss,config=numConfig)
 
@@ -776,7 +774,6 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
                 retPrices.append(priceAdd)
             except:
                 logger.debug("Value error reading price")
-                return None
 
     logger.debug(f"Found prices: {retPrices}")
     return retPrices
@@ -1466,6 +1463,12 @@ def searchFromMarketStash() -> bool:
         ss = pyautogui.screenshot(region=config.ssPriceColumnRead)
         priceRead = pytesseract.image_to_string(ss,config="--psm 6").lower()  
         if "price" in priceRead: 
+            break
+
+    for x in range(10):
+        ssBuy = pyautogui.screenshot(region=config.ssBuyRead)
+        buyRead = pytesseract.image_to_string(ssBuy,config="--psm 6").lower() 
+        if 'yours' in buyRead or 'buy' in buyRead:
             break
 
     # ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
