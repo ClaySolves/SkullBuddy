@@ -300,7 +300,7 @@ class MainWindow(QMainWindow):
 
         # Run thread
         try:    
-            DAD_Utils.logDebug("Starting thread...")
+            DAD_Utils.logDebug("Starting SellButton thread...")
             self.logThread = logThread()
             self.logThreadRunning = True
 

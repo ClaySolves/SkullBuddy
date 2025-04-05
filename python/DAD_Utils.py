@@ -92,12 +92,19 @@ class item():
 
     # get item from database storing string
     def getItemStoreDetails(self):
+
         rollStr = ""
+        if self.quantity > 1:
+            nameStr = self.name + str(self.quantity)
+        else:
+            nameStr = self.name
+
         for roll in self.rolls:    
             dataStr = ",".join(str(data) for data in roll)
             rollStr += "|" + dataStr
         good = 1 if self.goodRoll else 0
-        return [self.name, self.rarity, rollStr, self.price, good]
+
+        return [nameStr, self.rarity, rollStr, self.price, good]
         
 
 
@@ -225,7 +232,7 @@ class item():
         else:
             quickCheckMin = database.getConfig(cursor,'sellMin') + undercutValue
 
-        logGui(f"Number of rolls for this lookup:{len(self.rolls)}")
+        logDebug(f"Number of rolls for this lookup: {len(self.rolls)}")
 
         self.printRarityName()
 
@@ -336,6 +343,28 @@ class item():
 
             if foundPrice:
                 if foundPrice > quickCheckMax or foundPrice < quickCheckMin: return False 
+
+                logGui(f"Found ",printEnd=" ")
+                if isinstance(foundPrice,int):
+                    logGui(f"{foundPrice}",color="Gold",printEnd=" ")
+                else:
+                    logGui(f"{foundPrice}",color="Gray",printEnd=" ")
+                logGui(f"for ",printEnd=" ")
+                self.printRarityName()
+                self.price = foundPrice * quantity
+                return True
+        
+            return False
+
+        elif(len(self.rolls) == 0):
+            logDebug(f"zero item found")
+
+            # record displayed price
+            foundPrice = recordDisplayedPrice(False)
+
+            # found price on all attr search, return and log
+            if foundPrice:
+                if foundPrice > quickCheckMax or foundPrice < quickCheckMin: return False
 
                 logGui(f"Found ",printEnd=" ")
                 if isinstance(foundPrice,int):
@@ -621,8 +650,7 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
         changed = confirmGameScreenChange(ss,config.ssMarketSearch)
 
         if not changed: 
-            logger.debug(f"no price found ...")
-            return None
+            logger.debug(f"No Gold Load Detected...")
 
     priceListed = readPrices()
     priceQuant = readPrices(region=config.ssGoldQuantity)
@@ -719,6 +747,7 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
     numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789x.'
     txt = pytesseract.image_to_string(ss,config=numConfig)
 
+    #Filter read text for ',' reads and quantitiy reads
     if 'x' in txt:
         prices = []
         pricesX = txt.split()
@@ -729,13 +758,19 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
 
     if prices:
         for i, price in enumerate(prices):
-            if isinstance(price,int):
-                priceAdd = int(price)
-            else:
-                priceFloat= float(price)
-                priceAdd = int(priceFloat)
-            if priceAdd > 15:
+
+            #for reads like 1,249.3, pytess reads as 1.249.3. Remove first n-1 . char
+            dotCount = price.count('.')
+            if dotCount > 1:
+                price = price.replace(".","",dotCount - 1)
+
+            #clean price to float or int for undercut val
+            try:
+                priceAdd = int(float(price))
                 retPrices.append(priceAdd)
+            except:
+                logger.debug("Value error reading price")
+                return None
 
     logger.debug(f"Found prices: {retPrices}")
     return retPrices
@@ -1416,29 +1451,35 @@ def searchFromMarketStash() -> bool:
     pyautogui.click()
 
     res = confirmGameScreenChange(ss,region=config.ssMarketItem)
-    if not res: return res
 
-    time.sleep(0.2)
+    #remove search overlay by looking for price column to gather price
+    ss = pyautogui.screenshot(region=config.ssPriceColumnRead)
+    priceRead = pytesseract.image_to_string(ss,config="--psm 6").lower()    
+    for x in range(5):
+        pyautogui.click()
+        if "price" in priceRead: break
+        ss = pyautogui.screenshot(region=config.ssPriceColumnRead)
+        priceRead = pytesseract.image_to_string(ss,config="--psm 6").lower()  
 
-    ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
-    ss.save("debug/marketstall.png")
+    # ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
+    # ss.save("debug/marketstall.png")
 
-    pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-    time.sleep(sleepTime / 15)
-    pyautogui.click()
+    # pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
+    # time.sleep(sleepTime / 15)
+    # pyautogui.click()
 
-    pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-    time.sleep(sleepTime / 15)
-    pyautogui.click()
+    # pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
+    # time.sleep(sleepTime / 15)
+    # pyautogui.click()
 
-    res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
+    # res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
     # if not res:
     #     pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
     #     time.sleep(sleepTime / 15)
     #     pyautogui.click()
     #     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
 
-    logGui("Search Done")
+    logGui("Search Done",printEnd=" ")
     return res
 
 
@@ -1647,7 +1688,7 @@ def getItemInfo() -> item:
 
     textCropBox = [60,0,400,600]
     ssTextCrop = ss.crop(textCropBox)
-    text = pytesseract.image_to_string(ssTextCrop)
+    text = pytesseract.image_to_string(ssTextCrop,config="--psm 6")
 
     ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 
@@ -1707,7 +1748,7 @@ def getItemInfo() -> item:
 
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size,quantity)
-    logGui("Item Done")
+    logGui("Item Done",printEnd=" ")
     searchFromStashThread.join()
     return foundItem
 
