@@ -108,6 +108,14 @@ def getStoredItems(cursor):
     else: 
         DAD_Utils.logDebug("empty database")
         return None
+    
+
+def wipeDatabase(cursor):
+    try:
+        cursor.execute("DELETE FROM Config;")
+        cursor.execute("DELETE FROM items;")
+    except:
+        logging.debug("Error wiping db")
 
 
 

@@ -1049,12 +1049,19 @@ def enforceSellConfig() -> bool: # ret True/False correct config
     #relaod config
     importlib.reload(config)
     def boundsCheck(val,int1,int2):
-        if val < int1 or val > int2:
-            return False
+        if val:
+            if val < int1 or val > int2:
+                return False
+            else:
+                return True
         else:
-            return True
-
+            return False
+        
     #check each instance and bounds
+    check = database.getConfig(cursor,'sleepTime')
+    if not boundsCheck(check,0.3,5.0): return False
+    if not isinstance(check,float): return False
+
     check = database.getConfig(cursor,'sellMethod')
     if not boundsCheck(check,1,3): return False
     if not isinstance(check,int): return False

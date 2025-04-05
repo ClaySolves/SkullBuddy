@@ -6,7 +6,7 @@ import re
 import database
 import config
 import logging
-from PyQt5.QtWidgets import QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
+from PyQt5.QtWidgets import QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
 
@@ -244,7 +244,7 @@ class MainWindow(QMainWindow):
         self.tableRollSearch.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
 
         #Swaping txt Help Tab
-        self.helpLog.setStyleSheet(f"QTextEdit {{ {newTxtColor } }}")
+        self.helpLog1.setStyleSheet(f"QTextEdit {{ {newTxtColor } }}")
 
         # super().setStyleSheet(f"""
         #     QMainWindow {{
@@ -293,7 +293,7 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
 
-        self.guiToConfig()
+        #self.guiToConfig()
         if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
             time.sleep(config.sleepTime/2)
@@ -593,6 +593,14 @@ class MainWindow(QMainWindow):
         self.totalGoldLabel.setFont(QFont("Monotype Corsiva",18))
         self.totalGoldLabel.setText("Total Value Listed:")
 
+        #Wipe Database Button
+        self.wipeDatabasebutton = QPushButton()
+        self.wipeDatabasebutton.setFixedSize(105,40)
+        self.wipeDatabasebutton.setFont(QFont("Perpetua",12))
+        self.wipeDatabasebutton.setText("Wipe Database")
+        self.wipeDatabasebutton.setStyleSheet("color: red")
+        self.wipeDatabasebutton.clicked.connect(self.handleWipeDatabaseButton)
+
         #Total gold Number
         self.totalGoldNumber = QLabel()
         self.totalGoldNumber.setFont(QFont("Monotype Corsiva",24))
@@ -679,6 +687,7 @@ class MainWindow(QMainWindow):
         historyTableHeader.addSpacerItem(QSpacerItem(113, 12, QSizePolicy.Fixed, QSizePolicy.Fixed))
         historyTableHeader.addWidget(self.tableRollSearch,alignment=Qt.AlignLeft)
         historyTableHeader.addSpacerItem(QSpacerItem(800, 12, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        historyTableHeader.addWidget(self.wipeDatabasebutton,alignment=Qt.AlignRight)
 
 
         # Add all widgets
@@ -702,41 +711,46 @@ class MainWindow(QMainWindow):
         tab = QWidget()
 
         #help widget
-        self.helpLog = QTextEdit()
-        self.helpLog.setReadOnly(True)
-        self.helpLog.setText(f"""
+        self.helpLog1 = QTextEdit()
+        self.helpLog1.setReadOnly(True)
+        self.helpLog1.setFont(QFont("Ariel",8))
+        self.helpLog1.setText(f"""
         How to use SkullBuddy:
-        
+                                    
         Launch Dark and Darker
         Navigate to Trade -> Marketplace -> My Listings
         Select stash to sell from
         Adjust Settings
         Click Sell Items
-                        
+                             
+        Do not spam hotkeys                        
 
         App Speed:
         Controlls SkullBuddy's execution time
-        Recommended Value: 1.0
+        Recommended Value: 1.0 - 1.2
         Lower values increase speed and higher values decrease speed
-        test and adjust accordingly for ideal performance 
 
                                    
         Selling Method: 
         Determines calculated item price
-        Lowest Price:                          Lists with lowest recorded price
-        Lowest Price w/o Outliers:      Lists with lowest recorded price, removing low/mislisted recorded prices
-        Lowest 3 Price Avg:                Lists with the average of the lowest 3 prices
+        Lowest Price:                       Lists with lowest recorded price
+        Lowest Price w/o Outliers:          Lists with lowest recorded price, removing low/mislisted  prices
+        Lowest 3 Price Avg:                 Lists with the average of the lowest 3 prices
                         
                         
         Undercut Value: 
         Decreases recorded price to sell faster
         Enter a number (1 - 100) to undercut the recorded price by a static value
-        Enter a decimal value (0.01 - 0.99) to undercut the recorded price by a percentage
+        Enter a decimal value (0.01 - 0.99) to undercut the recorded price by percentage
                         
         Example: Listing at 100
         Undercut Value: 20          100 - 20 = 80, list at 80 gold
         Undercut Value: .11         100 - (100 * .11) = 89, list at 89 gold    
-            
+
+                             
+        Sell Min and Max:
+        Max and Min limits for listing price
+                             
                                   
         Sell Height and Width: 
         Creates a box from top left corner to include items being sold
@@ -746,7 +760,7 @@ class MainWindow(QMainWindow):
         Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
         Sell Hieght: 10 & Sell Width: 6         includes first quadrant of stash boxes              
                         """)
-        self.helpLog.setAlignment(Qt.AlignLeft)
+        self.helpLog1.setAlignment(Qt.AlignLeft)
 
         devLabel = QLabel('<a href="https://github.com/ClaySolves">Dev</a>')
         devLabel.setOpenExternalLinks(True)
@@ -757,7 +771,7 @@ class MainWindow(QMainWindow):
         donateLabel.setAlignment(Qt.AlignCenter)
 
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.helpLog)
+        mainLayout.addWidget(self.helpLog1)
         mainLayout.addWidget(devLabel)
         mainLayout.addWidget(donateLabel)
         tab.setLayout(mainLayout)
@@ -823,6 +837,51 @@ class MainWindow(QMainWindow):
         conn, cursor = database.connectDatabase()
         database.setConfig(cursor,var,val)
         database.closeDatabase(conn)
+
+
+
+    def handleWipeDatabaseButton(self):
+        class warnBeforeWipe(QDialog):
+            def __init__(self):
+                super().__init__()
+                self.setWindowTitle("Do you really wanna do that bwo?")
+                self.setFixedSize(350,100)
+
+                warningLabel = QLabel("Listing history will be PERMANENTLY Deleted!!!")
+                warningLabel.setStyleSheet("color: red")
+                warningLabel.setFont(QFont("Perpetua",12))
+                
+                wipeButton = QPushButton("Wipe Data")
+                wipeButton.setFixedSize(100,25)
+                wipeButton.setStyleSheet("Color: red")
+                wipeButton.clicked.connect(self.wipeDatabase)  # Closes the dialog
+
+                nvmButton = QPushButton("Cancel")
+                nvmButton.setFixedSize(100,25)
+                nvmButton.clicked.connect(self.accept)  # Closes the dialog
+
+                finalLayout = QVBoxLayout()
+                layoutButtons = QHBoxLayout()
+                layoutButtons.addWidget(wipeButton)
+                layoutButtons.addWidget(nvmButton)
+
+                finalLayout.addWidget(warningLabel)
+                finalLayout.addLayout(layoutButtons)
+
+                self.setLayout(finalLayout)
+
+            def wipeDatabase(self):
+                conn, cur = database.connectDatabase()
+                database.wipeDatabase(cur)
+                database.closeDatabase(conn)
+                self.accept()
+
+
+        warning = warnBeforeWipe()
+        warning.exec_()
+
+        self.updateHistoryTable()
+        print("Done")
 
 
 
