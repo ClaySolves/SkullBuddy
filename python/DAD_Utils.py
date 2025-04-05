@@ -72,7 +72,7 @@ class item():
 
 
     #print item roll
-    def printRoll(self,i):
+    def printRoll(self,i,printEnd='\n'):
         roll = self.rolls[i]
         rollPrint = ""
         #check for % for print format
@@ -83,11 +83,11 @@ class item():
             rollPrint = f"+ {roll[0]} {roll[1]}"
         #check for good roll (added after price check)
 
-        logGui(rollPrint,"DeepSkyBlue"," ")
+        logGui(rollPrint,"DeepSkyBlue",printEnd=" ")
         if roll[3]:
-            logGui(" <- Good Roll","DarkGoldenRod")
+            logGui(" <- Good Roll","DarkGoldenRod",printEnd=" ")
         else:
-            logGui(" ")
+            logGui(" ",printEnd=" ")
 
 
     # get item from database storing string
@@ -121,6 +121,10 @@ class item():
 
         for roll in self.rolls:
             if roll[3]:
+                logGui(f"Researching",printEnd=" ")
+                self.printRoll(roll,printEnd=" ")
+                logGui("...",printEnd=" ")
+
                 rollSearchStr = findItem(roll[1],allRolls)
                 clearAttrSearch()
                 if rollSearchStr:
@@ -169,6 +173,10 @@ class item():
 
     # search market gui for indexed item roll
     def searchRoll(self,i):
+        logGui(f"Researching",printEnd=" ")
+        self.printRoll(i,printEnd=" ")
+        logGui("...",printEnd=" ")
+
         pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
         time.sleep(sleepTime / 15)
         pyautogui.click() 
@@ -241,6 +249,7 @@ class item():
             logger.debug(f"many roll item found")
 
             # record price of all rolls
+            logGui("Researching all rolls ...", printEnd=" ")
             allAttrPrice = recordDisplayedPrice(False)
             if allAttrPrice:
                 if allAttrPrice < quickCheckMin or allAttrPrice > quickCheckMax: return False
@@ -252,6 +261,7 @@ class item():
 
             prices = []
 
+            logGui("Researching base price ...", printEnd=" ")
             foundPrice = recordDisplayedPrice()
             if foundPrice: prices.append(foundPrice)
             
@@ -318,6 +328,7 @@ class item():
             logDebug(f"few roll item found")
 
             # record price of all rolls
+            logGui("Researching roll ...", printEnd=" ")
             foundPrice = recordDisplayedPrice(False)
 
             # found price on all attr search, return and log
@@ -339,6 +350,7 @@ class item():
             time.sleep(sleepTime / 15)
             pyautogui.click() 
 
+            logGui("Researching base price ...", printEnd=" ")
             foundPrice = recordDisplayedPrice()
 
             if foundPrice:
@@ -360,6 +372,7 @@ class item():
             logDebug(f"zero item found")
 
             # record displayed price
+            logGui("Researching base price ...", printEnd=" ")
             foundPrice = recordDisplayedPrice(False)
 
             # found price on all attr search, return and log
@@ -557,6 +570,7 @@ class item():
         if compPrice - 15 > size * priceCalc: return True
         
         logger.debug(f"{rarity} {self.name} not listed at {compPrice}, vendor instead")
+        logGui("Vendor Item for Better Price!",color="Gold")
         return False
         
 
@@ -672,7 +686,7 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
             logGui(f"{retPrice}",color="Gold",printEnd=" ")
         else:
             logGui(f"{retPrice}",color="Gray",printEnd=" ")
-        logGui(f"...",printEnd=" ")
+        logGui(f"...")
     else:
         logDebug(f"no price found ...")
         return None
@@ -1489,7 +1503,7 @@ def searchFromMarketStash() -> bool:
     #     pyautogui.click()
     #     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
 
-    logGui("Search Done",printEnd=" ")
+    logGui("Search completed.",printEnd=" ")
     return res
 
 
@@ -1709,7 +1723,7 @@ def getItemInfo() -> item:
     lines = text.splitlines()
 
     #iterate read text
-    logGui("Storing item rolls...")
+    logGui("Storing item rolls...", printEnd=" ")
     for line in lines:
         logDebug(f"line: {line}")
         if not foundName:
@@ -1758,8 +1772,9 @@ def getItemInfo() -> item:
 
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size,quantity)
-    logGui("Item read done",printEnd=" ")
+    logGui("Item read finished.",printEnd=" ")
     searchFromStashThread.join()
+    logGui(" ")
     return foundItem
 
 
@@ -1773,6 +1788,7 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
     myItem = getItemInfo()                                                  # read item info
     
     if myItem:
+        logGui("Searching Market For",printEnd=" ")
         myItem.printItem()                                                  # print item to gui
         foundPrice = myItem.findPrice3()                                    # if price found, continue loop || return false
         returnMarketStash()                                                 # return market stash
