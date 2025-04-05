@@ -660,7 +660,7 @@ def recordDisplayedPrice(search=True) -> int: # Price/None
         pyautogui.click()
         time.sleep(sleepTime / 150)
         ss = pyautogui.screenshot(region=config.ssMarketSearch)
-        ss.save(f"debug/preSearchSave.png")
+        #ss.save(f"debug/preSearchSave.png")
         changed = confirmGameScreenChange(ss,config.ssMarketSearch)
 
         if not changed: 
@@ -760,7 +760,7 @@ def readPrices(region=config.ssGold) -> list: # return list of prices
             newData.append((0,0,0))
 
     ss.putdata(newData)
-    ss.save("debug/finalPrice.png")
+    #ss.save("debug/finalPrice.png")
     numConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789x.'
     txt = pytesseract.image_to_string(ss,config=numConfig)
 
@@ -1721,7 +1721,7 @@ def getItemInfo() -> item:
     ssTextCrop = ss.crop(textCropBox)
     text = pytesseract.image_to_string(ssTextCrop,config="--psm 6")
 
-    ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
+    #ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 
     # Read item data
     name = ""
