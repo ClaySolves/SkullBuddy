@@ -1772,7 +1772,7 @@ def getItemInfo() -> item:
 
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size,quantity)
-    logGui("Item read finished.",printEnd=" ")
+    logGui("Item read completed.",printEnd=" ")
     searchFromStashThread.join()
     logGui(" ")
     return foundItem
