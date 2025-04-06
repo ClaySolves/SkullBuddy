@@ -927,6 +927,39 @@ def loadTextFiles():
 
 
 
+#Find stash pixel val for detect item 
+def getStashPixelVal():
+    listPxVal = []
+    ss = pyautogui.screenshot()
+    ss.save("debug/whole.png")
+
+    for y in range(20):
+        for x in range(12):
+            newX = config.xStashStart + (40 * x)
+            newY = config.yStashStart + (40 * y)
+
+            cropRegion = [newX,newY,newX+20,newY+20]
+            ssFiltered = ss.crop(cropRegion)
+            ssFiltered = ssFiltered.convert("RGB")
+
+            w, h = ssFiltered.size
+            data = ssFiltered.getdata()
+            total = 0
+
+            for item in data:
+                total += sum(item)
+            div = w*h
+            res = math.floor(total/div)
+
+            listPxVal.append(res)
+
+    listPxVal.sort()
+    avgList = listPxVal[:3]
+    val = int(sum(avgList) / len(avgList))
+
+    return val + 30
+
+
 #Minimize Window
 def minimizeSelf():
     hwnd = ctypes.windll.kernel32.GetConsoleWindow()
@@ -1059,29 +1092,35 @@ def enforceSellConfig() -> bool: # ret True/False correct config
         
     #check each instance and bounds
     check = database.getConfig(cursor,'sleepTime')
-    if not boundsCheck(check,0.3,5.0): return False
-    if not isinstance(check,float): return False
+    if not boundsCheck(check,0.3,5.0): return False, 'sleepTime'
+    if not isinstance(check,float): return False, 'sleepTime'
 
     check = database.getConfig(cursor,'sellMethod')
-    if not boundsCheck(check,1,3): return False
-    if not isinstance(check,int): return False
+    if not boundsCheck(check,1,3): return False, 'sellMethod'
+    if not isinstance(check,int): return False, 'sellMethod'
     
     check = database.getConfig(cursor,'sellWidth')
-    if not boundsCheck(check,1,12): return False
-    if not isinstance(check,int): return False
+    if not boundsCheck(check,1,12): return False, 'sellWidth'
+    if not isinstance(check,int): return False, 'sellWidth'
         
     check = database.getConfig(cursor,'sellHeight')
-    if not boundsCheck(check,1,20): return False
-    if not isinstance(check,int): return False
+    if not boundsCheck(check,1,20): return False, 'sellHeight'
+    if not isinstance(check,int): return False, 'sellHeight'
         
     check = database.getConfig(cursor,'sellUndercut')
+    print(check)
     if isinstance(check,int): 
-        if not boundsCheck(check,0,99): return False
+        if not boundsCheck(check,0,99): return False, 'sellUndercut'
     if isinstance(check,float):
-        if not boundsCheck(check,.01,.99): return False
+        if not boundsCheck(check,.01,.99): return False, 'sellUndercut'
+
+    #check && assign for stashPixelVal
+    if config.stashPixelVal == None:
+        pixelVal = getStashPixelVal()
+        updateConfig('stashPixelVal',pixelVal)
 
     #all checks pass
-    return True 
+    return True, " "
 
 
 
@@ -1388,6 +1427,7 @@ def detectItem(x,y):
         total += sum(item)
     div = w*h
     res = math.floor(total/div)
+
     logger.debug(f"Pixel val for x:{x} y:{y} {res}")
     if res > config.stashPixelVal:
         ret = True
@@ -1598,8 +1638,10 @@ def searchStash() -> bool:
     runSearch = True
 
     loadTextFiles()
-    if not enforceSellConfig():
+    check, err = enforceSellConfig()
+    if not check:
         logGui("Invalid Settings!!!","red")
+        logGui(f"Check {err} value")
         database.closeDatabase(conn) 
         return False
         

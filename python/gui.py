@@ -293,7 +293,7 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
 
-        #self.guiToConfig()
+        self.guiToConfig()
         if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
             time.sleep(config.sleepTime/2)
@@ -453,7 +453,7 @@ class MainWindow(QMainWindow):
         sellHotkeyLayout.addWidget(self.sellHotkeyField)
         sellHotkeyLayout.addWidget(sellHotkeyLabelBack)
 
-        self.methodLabel = QLabel("Select Selling Method:")
+        self.methodLabel = QLabel("Enter Selling Info:")
         self.stashLabel = QLabel("Enter Stash Info:")
 
         self.appSpeed = QLineEdit()
@@ -595,8 +595,8 @@ class MainWindow(QMainWindow):
 
         #Wipe Database Button
         self.wipeDatabasebutton = QPushButton()
-        self.wipeDatabasebutton.setFixedSize(105,40)
-        self.wipeDatabasebutton.setFont(QFont("Perpetua",12))
+        self.wipeDatabasebutton.setFixedSize(105,25)
+        self.wipeDatabasebutton.setFont(QFont("Perpetua",11))
         self.wipeDatabasebutton.setText("Wipe Database")
         self.wipeDatabasebutton.setStyleSheet("color: red")
         self.wipeDatabasebutton.clicked.connect(self.handleWipeDatabaseButton)
@@ -720,22 +720,31 @@ class MainWindow(QMainWindow):
         Launch Dark and Darker
         Navigate to Trade -> Marketplace -> My Listings
         Select stash to sell from
-        Adjust Settings
+        Adjust settings
         Click Sell Items
                              
         Do not spam hotkeys                        
 
         App Speed:
         Controlls SkullBuddy's execution time
-        Recommended Value: 1.0 - 1.2
-        Lower values increase speed and higher values decrease speed
-
+        Recommended value: 1.0 - 1.2
+        Lower values increase speed  higher values decrease speed
+                             
+                                  
+        Sell Height and Width: 
+        Creates a box from top left corner to include items being sold
+                        
+        Examples:
+        Sell Hieght:  4 & Sell Width: 12         includes first 4 rows of stash boxes
+        Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
+        Sell Hieght: 10 & Sell Width: 6          includes first quadrant of stash boxes  
+                              
                                    
         Selling Method: 
         Determines calculated item price
-        Lowest Price:                       Lists with lowest recorded price
-        Lowest Price w/o Outliers:          Lists with lowest recorded price, removing low/mislisted  prices
-        Lowest 3 Price Avg:                 Lists with the average of the lowest 3 prices
+        Lowest Price:                                    Lists with lowest recorded price
+        Lowest Price w/o Outliers:                Lists with lowest recorded price, removing low/mislisted  prices
+        Lowest 3 Price Avg:                          Lists with the average of the lowest 3 prices
                         
                         
         Undercut Value: 
@@ -743,22 +752,13 @@ class MainWindow(QMainWindow):
         Enter a number (1 - 100) to undercut the recorded price by a static value
         Enter a decimal value (0.01 - 0.99) to undercut the recorded price by percentage
                         
-        Example: Listing at 100
-        Undercut Value: 20          100 - 20 = 80, list at 80 gold
-        Undercut Value: .11         100 - (100 * .11) = 89, list at 89 gold    
+        Example: read 100 
+        Undercut Value: 20                          100 - 20 = 80, list at 80 gold
+        Undercut Value: .11                         100 - (100 * .11) = 89, list at 89 gold    
 
                              
         Sell Min and Max:
-        Max and Min limits for listing price
-                             
-                                  
-        Sell Height and Width: 
-        Creates a box from top left corner to include items being sold
-                        
-        Examples:
-        Sell Hieght:  4 & Sell Width: 12        includes first 4 rows of stash boxes
-        Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
-        Sell Hieght: 10 & Sell Width: 6         includes first quadrant of stash boxes              
+        Max and Min limits for listing price            
                         """)
         self.helpLog1.setAlignment(Qt.AlignLeft)
 
@@ -879,9 +879,6 @@ class MainWindow(QMainWindow):
 
         warning = warnBeforeWipe()
         warning.exec_()
-
-        self.updateHistoryTable()
-        print("Done")
 
 
 
