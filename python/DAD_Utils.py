@@ -119,10 +119,10 @@ class item():
         time.sleep(sleepTime / 15) 
         pyautogui.click()
 
-        for roll in self.rolls:
+        for i, roll in enumerate(self.rolls):
             if roll[3]:
                 logGui(f"Researching",printEnd=" ")
-                self.printRoll(roll,printEnd=" ")
+                self.printRoll(i,printEnd=" ")
                 logGui("...",printEnd=" ")
 
                 rollSearchStr = findItem(roll[1],allRolls)
@@ -1108,7 +1108,7 @@ def enforceSellConfig() -> bool: # ret True/False correct config
     if not isinstance(check,int): return False, 'sellHeight'
         
     check = database.getConfig(cursor,'sellUndercut')
-    print(check)
+    if check == int(check): check = int(check)
     if isinstance(check,int): 
         if not boundsCheck(check,0,99): return False, 'sellUndercut'
     if isinstance(check,float):

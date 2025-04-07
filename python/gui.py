@@ -293,10 +293,10 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
 
-        self.guiToConfig()
+        #self.guiToConfig()
         if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
-            time.sleep(config.sleepTime/2)
+            time.sleep(0.5)
 
         # Run thread
         try:    
@@ -460,14 +460,14 @@ class MainWindow(QMainWindow):
         self.appSpeed.setPlaceholderText("Enter Sell Speed")
         self.appSpeed.setText(str(database.getConfig(cursor,'sleepTime')))
         self.appSpeed.setValidator(doubleValidSpeed)
-        self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",float(self.appSpeed.text())
+        self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",self.appSpeed.text()
                                                                     if self.appSpeed.text() else None))
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
         self.undercut.setText(str(database.getConfig(cursor,'sellUndercut')))
         self.undercut.setValidator(doubleValidundercut)
-        self.undercut.textChanged.connect(lambda: self.guiToDatabase("sellUndercut",float(self.undercut.text())
+        self.undercut.textChanged.connect(lambda: self.guiToDatabase("sellUndercut",self.undercut.text()
                                                                     if self.undercut.text() else None))
 
         self.sellMin = QLineEdit()
@@ -481,8 +481,8 @@ class MainWindow(QMainWindow):
         self.sellMax.setPlaceholderText("Enter Sell Max")
         self.sellMax.setText(str(database.getConfig(cursor,'sellMax')))
         self.sellMax.setValidator(intValidSellMax)
-        self.sellMax.textChanged.connect(lambda: self.guiToDatabase("sellMax",int(self.sellMax.text())) 
-                                                                    if self.sellMax.text() else None)
+        self.sellMax.textChanged.connect(lambda: self.guiToDatabase("sellMax",int(self.sellMax.text())
+                                                                    if self.sellMax.text() else None))
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
@@ -834,7 +834,26 @@ class MainWindow(QMainWindow):
 
     # update database Config from gui selections
     def guiToDatabase(self,var,val):
+        def floatSanitize(newVal):
+            if newVal == '.':
+                print("found .")
+                newVal = None
+            elif '.' in newVal:
+                print("found Float")
+                newVal = float(newVal)
+            else:
+                print("found int")
+                newVal = int(newVal)
+            return newVal
+        
         conn, cursor = database.connectDatabase()
+
+        if var == "sellUndercut" and val:
+            val = floatSanitize(val)
+
+        if var == "sleepTime" and val:
+            val = floatSanitize(val)
+                
         database.setConfig(cursor,var,val)
         database.closeDatabase(conn)
 
