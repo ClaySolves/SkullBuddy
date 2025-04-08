@@ -1092,32 +1092,33 @@ def enforceSellConfig() -> bool: # ret True/False correct config
         
     #check each instance and bounds
     check = database.getConfig(cursor,'sleepTime')
-    if not boundsCheck(check,0.3,5.0): return False, 'sleepTime'
-    if not isinstance(check,float): return False, 'sleepTime'
+    if not boundsCheck(check,0.3,5.0): return False, 'App Speed'
+    if not isinstance(check,float): return False, 'App Speed'
 
     check = database.getConfig(cursor,'sellMethod')
-    if not boundsCheck(check,1,3): return False, 'sellMethod'
-    if not isinstance(check,int): return False, 'sellMethod'
+    if not boundsCheck(check,1,3): return False, 'Sell Method Selection'
+    if not isinstance(check,int): return False, 'Sell Method Selection'
     
     check = database.getConfig(cursor,'sellWidth')
-    if not boundsCheck(check,1,12): return False, 'sellWidth'
-    if not isinstance(check,int): return False, 'sellWidth'
+    if not boundsCheck(check,1,12): return False, 'Sell Width'
+    if not isinstance(check,int): return False, 'Sell Width'
         
     check = database.getConfig(cursor,'sellHeight')
-    if not boundsCheck(check,1,20): return False, 'sellHeight'
-    if not isinstance(check,int): return False, 'sellHeight'
+    if not boundsCheck(check,1,20): return False, 'Sell Height'
+    if not isinstance(check,int): return False, 'Sell Height'
         
     check = database.getConfig(cursor,'sellUndercut')
     if check == int(check): check = int(check)
     if isinstance(check,int): 
-        if not boundsCheck(check,0,99): return False, 'sellUndercut'
+        if not boundsCheck(check,0,99): return False, 'Undercut Value'
     if isinstance(check,float):
-        if not boundsCheck(check,.01,.99): return False, 'sellUndercut'
+        if not boundsCheck(check,.01,.99): return False, 'Undercut Value'
 
     #check && assign for stashPixelVal
-    if config.stashPixelVal == None:
+    if database.getConfig(cursor,'pixelValue') == None:
         pixelVal = getStashPixelVal()
-        updateConfig('stashPixelVal',pixelVal)
+        database.setConfig(cursor,'pixelValue',pixelVal)
+
 
     #all checks pass
     return True, " "
@@ -1367,7 +1368,7 @@ def confirmScreenShot(ss,ssRegion):
 
 
 # Returns the rarity of the item in top left 
-def getItemRarity(ss):
+def getItemRarity(ss,txt):
     ret = None
 
     poorDetect = locateOnImage('poor', ss)
@@ -1405,6 +1406,33 @@ def getItemRarity(ss):
         if confirmRarity(ss, uniqueDetect,'unique'):
             ret = 'Unique'
 
+    if ret: 
+        logger.debug(f"Found {ret} item")  
+        return ret
+
+    txt = txt.lower()
+
+    if 'poor' in txt:
+        ret = 'Poor'
+
+    if 'uncommon' in txt:
+        ret = 'Uncommon'
+
+    if 'common' in txt:
+        ret = 'Common'
+
+    if 'rare' in txt:
+        ret = 'Rare'
+
+    if 'epic' in txt:
+        ret = 'Epic'
+
+    if 'legendary' in txt:
+        ret = 'Legendary'
+
+    if 'unique' in txt:
+        ret = 'Unique'
+
     if ret:
         logger.debug(f"Found {ret} item")  
     else:
@@ -1418,7 +1446,8 @@ def getItemRarity(ss):
 def detectItem(x,y):
     ss = pyautogui.screenshot(region=[x,y,20,20])
     ss = ss.convert("RGB")
-    # ss.save(f"debug/seeStash_{x}_{y}.png")
+    pixelVal = database.getConfig(cursor,'pixelValue')
+
     w, h = ss.size
     data = ss.getdata()
     total = 0
@@ -1429,13 +1458,13 @@ def detectItem(x,y):
     res = math.floor(total/div)
 
     logger.debug(f"Pixel val for x:{x} y:{y} {res}")
-    if res > config.stashPixelVal:
+    if res > pixelVal:
         ret = True
 
     if ret:
         logger.debug("Item detected")
     else:
-        logger.debug(f"No item detected: {str(res)} < {config.stashPixelVal}")
+        logger.debug(f"No item detected: {str(res)} < {pixelVal}")
     return ret
 
 
@@ -1757,11 +1786,11 @@ def getItemInfo() -> item:
     searchFromStashThread = threading.Thread(target=searchFromMarketStash)
     searchFromStashThread.start()
 
-    rarity = getItemRarity(ss)
-
     textCropBox = [60,0,400,600]
     ssTextCrop = ss.crop(textCropBox)
     text = pytesseract.image_to_string(ssTextCrop,config="--psm 6")
+
+    rarity = getItemRarity(ss,text)
 
     #ssTextCrop.save(f"debug/itemSStext_{x}_{y}.png")
 

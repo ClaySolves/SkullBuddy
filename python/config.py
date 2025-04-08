@@ -24,7 +24,7 @@ stashDump = 2
 stashSell = 0
 sellWidth = None
 sellHeight = None
-stashPixelVal = 52
+stashPixelVal = None
 
 ssQuantity = [910,400,80,15]
 ssComp1 = [700, 400, 500, 400]

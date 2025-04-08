@@ -193,6 +193,7 @@ class MainWindow(QMainWindow):
 
         #Line txt Swap
         self.appSpeed.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        self.pixelValue.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.undercut.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.sellMin.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.sellMax.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
@@ -307,6 +308,7 @@ class MainWindow(QMainWindow):
             self.logThread.finished.connect(self.resetSkullyTxt)
             self.logThread.finished.connect(self.showNormal)
             self.logThread.finished.connect(self.stopLogThread)
+            self.logThread.finished.connect(self.updatePixelVal)
             self.logThread.outputSignal.connect(self.appendSellLog)
 
             self.logThread.start()
@@ -321,6 +323,18 @@ class MainWindow(QMainWindow):
     def stopLogThread(self):
         DAD_Utils.logDebug("Stopping Log Thread")
         self.logThreadRunning = False
+    
+
+
+    #update pixel val widget
+    def updatePixelVal(self):
+        conn, cur = database.connectDatabase()
+        pxlVal = database.getConfig(cur,'pixelValue') 
+        database.closeDatabase(conn)
+
+
+        if self.pixelValue.text() != pxlVal:
+            self.pixelValue.setText(str(pxlVal))
 
 
 
@@ -361,6 +375,7 @@ class MainWindow(QMainWindow):
         doubleValidundercut = QDoubleValidator(0,100,2)
         intValidSellMin = QIntValidator(0,100000)
         intValidSellMax = QIntValidator(0,100000)
+        intPixelValue = QIntValidator(0,220)
         doubleValidSpeed = QDoubleValidator(0.3,5.0,2)
         hotkeyRegex = QRegExp("[A-Za-z]")
         charValidQuitHotkey = QRegExpValidator(hotkeyRegex)
@@ -463,6 +478,13 @@ class MainWindow(QMainWindow):
         self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",self.appSpeed.text()
                                                                     if self.appSpeed.text() else None))
 
+        self.pixelValue = QLineEdit()
+        self.pixelValue.setPlaceholderText("Detected Pixel Value")
+        self.pixelValue.setText(str(database.getConfig(cursor,'pixelValue')))
+        self.pixelValue.setValidator(intPixelValue)
+        self.pixelValue.textChanged.connect(lambda: self.guiToDatabase("pixelValue",self.pixelValue.text()
+                                                                    if self.pixelValue.text() else None))
+
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
         self.undercut.setText(str(database.getConfig(cursor,'sellUndercut')))
@@ -521,17 +543,23 @@ class MainWindow(QMainWindow):
 
         # Settings Layout
         settingsLayout = QVBoxLayout()
+        settingsAppSettings = QHBoxLayout()
         settingsMinMaxLayout = QHBoxLayout()
+
+
         settingsLayout.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
             settingsLayout.addWidget(value)
 
-        settingsLayout.addWidget(self.appSpeed)
-        settingsLayout.addWidget(self.undercut)
+        settingsAppSettings.addWidget(self.appSpeed)
+        settingsAppSettings.addWidget(self.pixelValue)
+        settingsLayout.addLayout(settingsAppSettings)
 
         settingsMinMaxLayout.addWidget(self.sellMin)
         settingsMinMaxLayout.addWidget(self.sellMax)
         settingsLayout.addLayout(settingsMinMaxLayout)
+
+        settingsLayout.addWidget(self.undercut)
 
         settingsLayout.addWidget(self.stashLabel)
         settingsLayout.addWidget(self.stashHeight)
@@ -729,6 +757,12 @@ class MainWindow(QMainWindow):
         Controlls SkullBuddy's execution time
         Recommended value: 1.0 - 1.2
         Lower values increase speed  higher values decrease speed
+                              
+
+        Detected Pixel Value:
+        SkullBuddy automatically sets this value while running
+        If SkullBuddy is strugging to detect items lower the value to around 30-40
+        If SkullBuddy is continously hovering empty stash squares increase the value 
                              
                                   
         Sell Height and Width: 
@@ -836,13 +870,10 @@ class MainWindow(QMainWindow):
     def guiToDatabase(self,var,val):
         def floatSanitize(newVal):
             if newVal == '.':
-                print("found .")
                 newVal = None
             elif '.' in newVal:
-                print("found Float")
                 newVal = float(newVal)
             else:
-                print("found int")
                 newVal = int(newVal)
             return newVal
         

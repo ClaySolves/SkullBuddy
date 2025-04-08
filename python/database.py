@@ -65,8 +65,9 @@ def updateConfig(cursor):
             sellHotkey,
             closeHotkey,
             sleepTime,
-            darkMode
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            darkMode,
+            pixelValue
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
     else:
         sql = """
@@ -80,12 +81,13 @@ def updateConfig(cursor):
             sellHotkey = ?,
             closeHotkey = ?,
             sleepTime = ?,
-            darkMode = ?
+            darkMode = ?,
+            pixelValue = ?
         """ 
     
     # get config values
     sqlInsert = [config.sellMin, config.sellMax, config.sellWidth, config.sellHeight, config.sellMethod,
-              config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode]
+              config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode, config.stashPixelVal]
 
     #update Config
     cursor.execute(sql,sqlInsert)
@@ -181,7 +183,8 @@ def connectDatabase():
         sellHotkey TEXT,
         closeHotkey TEXT,
         sleepTime REAL,
-        darkMode INTEGER
+        darkMode INTEGER,
+        pixelValue INTEGER
     );
     """)
 
