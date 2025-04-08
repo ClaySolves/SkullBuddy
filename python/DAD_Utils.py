@@ -119,9 +119,12 @@ class item():
         time.sleep(sleepTime / 15) 
         pyautogui.click()
 
+        printResearch = True
         for i, roll in enumerate(self.rolls):
             if roll[3]:
-                logGui(f"Researching",printEnd=" ")
+                if printResearch:
+                    logGui(f"Researching",printEnd=" ")
+                    printResearch = False
                 self.printRoll(i,printEnd=" ")
                 logGui("...",printEnd=" ")
 
