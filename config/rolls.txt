@@ -40,3 +40,4 @@ True Physical Damage
 Vigor
 Will
 All Attributes
+%Cooldown Reduction Bonus

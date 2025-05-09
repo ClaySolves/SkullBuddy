@@ -1,5 +1,6 @@
 import math
 import re
+import random
 import database
 import pyautogui
 import importlib
@@ -15,14 +16,17 @@ import ctypes
 import threading
 import os
 import psutil
+from PIL import Image
+import numpy as np
 from screeninfo import get_monitors
+from collections import deque
 
 logger = logging.getLogger()  # Get the root logger configured in main.py
 
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity, coords, size, quantity, price=None):
+    def __init__(self, name, rolls, rarity, coords, size, quantity, slotType=None,price=None):
         self.name = name # item name
         self.rolls = rolls # item rolls
         self.rarity = rarity # item rarity
@@ -33,6 +37,7 @@ class item():
         self.sold = False
         self.goodRoll = None
         self.quantity = quantity
+        self.slotType = slotType
 
         logger.debug("New item created")
 
@@ -40,14 +45,16 @@ class item():
 
     #Print item
     def printItem(self,newline=False):
-        if self.price and self.rarity:
+        if self.rarity:
             self.printRarityName()
 
             for roll in self.rolls:
                 self.printRoll(roll)
                 
+        if self.price:
             logGui(f"Price: {self.price} Gold","Gold")
-            if newline: logGui("\n")
+
+        if newline: logGui("\n")
 
 
     # print item rarity and name
@@ -901,10 +908,12 @@ def loadTextFiles():
     logger.debug(f"Loading config files")
     global allItems
     global allRolls
+    global slotTypes
     global cursor
     global conn
     global sleepTime
     global darkMode
+
     conn, cursor = database.connectDatabase()
 
     with open("debug/debug.log", 'r+') as file:
@@ -927,6 +936,7 @@ def loadTextFiles():
 
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
+    slotTypes = config.SLOT_TYPE
 
 
 
@@ -934,7 +944,6 @@ def loadTextFiles():
 def getStashPixelVal():
     listPxVal = []
     ss = pyautogui.screenshot()
-    ss.save("debug/whole.png")
 
     for y in range(20):
         for x in range(12):
@@ -1081,9 +1090,11 @@ def updateConfig(var,newVal) -> bool: # ret True/False updated
 
 
 # make sure updated config variables are correct
-def enforceSellConfig() -> bool: # ret True/False correct config
+def enforceConfig() -> bool: # ret True/False correct config
     #relaod config
     importlib.reload(config)
+
+    #bounds check function
     def boundsCheck(val,int1,int2):
         if val:
             if val < int1 or val > int2:
@@ -1092,6 +1103,9 @@ def enforceSellConfig() -> bool: # ret True/False correct config
                 return True
         else:
             return False
+        
+    #bool for set pixelval
+    setPixelVal = True
         
     #check each instance and bounds
     check = database.getConfig(cursor,'sleepTime')
@@ -1118,8 +1132,9 @@ def enforceSellConfig() -> bool: # ret True/False correct config
         if not boundsCheck(check,.01,.99): return False, 'Undercut Value'
 
     #check && assign for stashPixelVal
-    if database.getConfig(cursor,'pixelValue') == None:
-        pixelVal = getStashPixelVal()
+    pixelVal = getStashPixelVal()
+
+    if setPixelVal or database.getConfig(cursor,'pixelValue') == None:
         database.setConfig(cursor,'pixelValue',pixelVal)
 
 
@@ -1129,6 +1144,7 @@ def enforceSellConfig() -> bool: # ret True/False correct config
 
 
 #Sends all treasure to expressman
+#broken as of 4/26/25 | adjust for getItemSlotType() rework
 def stashExpressman():
     xStart = config.xInventory
     yStart = config.yInventory
@@ -1163,21 +1179,21 @@ def gatherExpressman():
 
 
 # Returns slot type of highlighted item
-def getItemSlotType():
-    location = locateOnScreen("slotType",confidence=0.9)
-    if not location:
-        return None
-    
-    ssRegion = (int(location[0]), int(location[1]), 250, 25)
+def getItemSlotType(ssStash,location):
+    xRegion = int(location[0])
+    yRegion = int(location[1])
+    ssRegion = (xRegion, yRegion, xRegion + 250, yRegion + 25)
 
-    ss = pyautogui.screenshot(region=ssRegion)
-    ss = ss.convert("RGB")
-    txt = pytesseract.image_to_string('debug/itemSlot.png',config="--psm 6")
+    ssSlotType = ssStash.crop(ssRegion)
+
+    txt = pytesseract.image_to_string(ssSlotType,config="--psm 6")
+    #print(f'slot txt {txt}')
     txtRemove = "Slot Type"
     try:
-        keyword_index = txt.index(txtRemove) + len(txtRemove)
-        ret = txt[keyword_index:].lstrip()
+        keywordIndex = txt.index(txtRemove) + len(txtRemove)
+        ret = txt[keywordIndex:].lstrip()
         finalRet = ''.join(char for char in ret if char.isalpha())
+        finalFinalRet = findItem(finalRet, slotTypes, cutoff=0.8)
         return finalRet
     except ValueError:
         return None  
@@ -1474,22 +1490,48 @@ def detectItem(x,y):
 
 # Get the availible listing slots
 def getAvailSlots():
-    #Take screenshot and sanitize for read text
-    ss = pyautogui.screenshot(region=[config.xGetListings,config.yGetListings,config.x2GetListings,config.y2GetListings])
-    txt = pytesseract.image_to_string(ss,config="--psm 6")
-    txt = txt.splitlines()
+    #get current listing page
+    ss = pyautogui.screenshot(region=config.ssGetListingPageNum)
+    listConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789/'
+    txtList = pytesseract.image_to_string(ss,config=listConfig)
+    currListPage = int(txtList.split('/')[0]) - 1
 
-    #Read for listing slots and report if any avial, and #of slots
-    slots = 0
-    for lines in txt:
-        if lines == 'List an Item':
-            slots += 1
+    #Take screenshot and sanitize for read text for all listing pages
+    for i in range(currListPage, 3):
+        #logic for checking locked listings on 3rd page
+        ssRegion = config.ssGetListings
+        if i == 2:
+            ssRegion[2] += 250
+
+        ss = pyautogui.screenshot(region=ssRegion)
+        txt = pytesseract.image_to_string(ss,config="--psm 6")
+
+        if "locked" in txt.lower():
+            break
+
+        txt = txt.splitlines()
+
+        #Read for listing slots and report if any avial, and #of slots. Else go next page
+        slots = 0
+        for lines in txt:
+            if 'list an item' in lines.lower():
+                slots += 1
+            else:
+                continue
+
+        if slots > 0:
+            logger.debug(f"{slots} listings available on listing page {i}")
+            return slots
+        
         else:
-            continue
+            ssChange = pyautogui.screenshot(region=config.ssGetListingPageNum)
+            logger.debug(f"no listings slots on listing page {i}")
+            pyautogui.moveTo(config.xListingRight,config.yListingRight)
+            pyautogui.click()
+            confirmGameScreenChange(ssChange,config.ssGetListingPageNum)
+                
 
-    logger.debug(f"{slots} listings available")
-
-    return slots
+    return 0
 
 
 
@@ -1515,7 +1557,7 @@ def gatherSoldListings():
 # Lookup and return input_string from phrase_list
 def findItem(input_string, phrase_list, n = 1 , cutoff = 0.6):
     closest_match = difflib.get_close_matches(input_string, phrase_list, n = n, cutoff = cutoff)
-    logger.debug(f"Found: {closest_match}")
+    if closest_match: logger.debug(f"Found: {closest_match}")
     return closest_match[0] if closest_match else None
 
 
@@ -1642,12 +1684,6 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
 # shift + right click
 def clickAndShift(x,y):
     pyautogui.keyDown('shift')   
-    pyautogui.keyDown('shift')   
-    pyautogui.keyDown('shift')   
-    pyautogui.keyDown('shift')   
-    pyautogui.keyDown('shift')   
-    pyautogui.keyDown('shift')   
-
     pyautogui.moveTo(x,y)
     time.sleep(sleepTime/10)
     pyautogui.keyDown('shift')   
@@ -1670,7 +1706,7 @@ def searchStash() -> bool:
     runSearch = True
 
     loadTextFiles()
-    check, err = enforceSellConfig()
+    check, err = enforceConfig()
     if not check:
         logGui("Invalid Settings!!!","red")
         logGui(f"Check {err} value")
@@ -1753,7 +1789,6 @@ def getItemInfo() -> item:
     global allItems
     global allRolls
     coords = []
-    name = ""
     rolls = []
     foundName = False
 
@@ -1860,6 +1895,94 @@ def getItemInfo() -> item:
 
 
 
+#Get item name and size quickly
+def getItemNameSizeSpace(ssStash) -> item:
+    #vars
+    global allItems 
+    name = None
+    size = None
+
+    #check if item is on screen for bounds
+    space = locateOnImage('slotType2',ssStash,grayscale=False,confidence=0.90)
+    if space == None: space = (config.xStashStart, config.yStashStart)
+
+    #screenshot for text & rarity
+    xRegion = int(space[0]) - 150
+    yRegion = int(space[1]) - 410
+    ssRegion = (xRegion, yRegion, xRegion + 535, yRegion + 800)
+    ss = ssStash.crop(ssRegion)
+
+    def filterText(ss):
+        textCropBox = [60,0,400,600]
+        ssTextCrop = ss.crop(textCropBox)
+        ssTextCrop = ssTextCrop.convert('L') 
+        text = pytesseract.image_to_string(ssTextCrop,config="--psm 6")
+
+        # Read item data
+        text = ''.join(char for char in text if char.isalnum() or char.isspace() or char == '(' or char == ')')
+        lines = text.splitlines()
+
+        #Search for name
+        for line in lines:
+            if '(' in line and ')' in line:
+                line = line.split('(')[0]
+            found = findItem(line, allItems, cutoff=0.7)
+            if found: 
+                return found, lines
+            
+        return None, lines
+
+    name, lines = filterText(ss)
+    
+    retryCount = 0
+    while name is None and retryCount < 4:
+        w,l = ss.size
+        newCrop = [0, 50 * retryCount, w, l-(50 * retryCount)]
+        ss = ss.crop(newCrop)
+        name, lines = filterText(ss)
+        retryCount += 1
+
+
+    if name:
+        # lookup size
+        size = config.ITEM_SIZE.get(name)
+        if size == None: 
+            logDebug(f"NoneSizeFound for {name}")
+            size = (1,1)
+    else:
+        logDebug(f"Could not find name in\n{lines}" )
+
+    return name, size, space
+
+
+
+#Get additional information needed for item sort
+def finalizeStashItem(ssStash, name, size, space, x, y) -> item:
+    #vars
+    global allItems 
+    coords = [x,y]
+
+    slotType = getItemSlotType(ssStash,space)
+
+    #screenshot for text & rarity
+    xRegion = int(space[0]) - 150
+    yRegion = int(space[1]) - 410
+    ssRegion = (xRegion, yRegion, xRegion + 535, yRegion + 800)
+    ss = ssStash.crop(ssRegion)
+
+    textCropBox = [60,0,400,600]
+    ssTextCrop = ss.crop(textCropBox)
+    text = pytesseract.image_to_string(ssTextCrop,config="--psm 6")
+
+    rarity = getItemRarity(ss,text)
+
+    #make item and return
+    foundItem = item(name,[],rarity,coords,size,1,slotType=slotType)
+    print(f"{foundItem.rarity} {foundItem.name} {foundItem.size} {foundItem.slotType}")
+    return foundItem
+
+
+
 # main function 
 # reads hovered item info, lists on market
 def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
@@ -1888,3 +2011,172 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
 
         return myItem, False      
     return None, False                                                      # if we fail any part of loop, return false
+
+
+
+#Search current displayed stash
+def organizeStash() -> bool: # True/False successful sort
+    logger.debug("Organizing Stash")
+    time1=time.time()
+
+    ssCheckStashPage = pyautogui.screenshot(region=config.ssConfirmStash)
+    txt = pytesseract.image_to_string(ssCheckStashPage,config="--psm 6")
+    if 'stash' not in txt.lower():
+        logGui("Stash Not Detected","red")
+        logGui("Navigate to the stash you want to organize and try again")
+        logger.error("Organize stash called but no stash page detected")
+        return False
+
+    ssGetStash = pyautogui.screenshot(region=config.ssEntireStash)
+
+    itemDetectedStashSquares = []
+    stashFrequency = {}
+    ssQueue = deque()
+    itemQueue = deque()
+    stashStorage = [[None for _ in range(12)] for _ in range(20)]
+    stashItemPresent = [[False for _ in range(12)] for _ in range(20)]
+    itemsToSort = []
+
+    #look for items to sort
+    for y in range(database.getConfig(cursor,'sellHeight')):
+        for x in range(database.getConfig(cursor,'sellWidth')):
+            newX = 10 + (40 * x)
+            newY = 10 + (40 * y)
+            itemDetected = detectItem2(ssGetStash,newX,newY)
+
+            if itemDetected:
+                foundItem = [config.xStashStart + newX, config.yStashStart + newY]
+                itemDetectedStashSquares.append(foundItem)
+                stashItemPresent[y][x] = True
+
+    #this doesn't do anything but the random movement looks cool lol
+    #random.shuffle(itemDetectedStashSquares)
+
+    if not itemDetectedStashSquares:
+        logGui("Yeah let me just organize this empty stash... Bro are you dumb or something?")
+        return None
+
+    #create workers to scrape screenshots
+    def ssWorker():
+        for _ in range(20):
+            while ssQueue:
+                queueData = ssQueue.popleft()
+                x = (queueData[1] - (10 + config.xStashStart) ) // 40
+                y = (queueData[2] - (10 + config.yStashStart) ) // 40
+
+                foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
+
+                #If we found an item record. If we have full item, send to 
+                if foundSortName is not None:
+                    stashStorage[y][x] = foundSortName
+
+                    if foundSortName not in stashFrequency:
+                        stashFrequency[foundSortName] = 1
+                    else:
+                        stashFrequency[foundSortName] += 1
+
+                    itemReady = True
+                    if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
+                        while itemReady:
+                            for y2 in range(foundSortSize[1]):
+                                if y-y2 < 0: break
+                                for x2 in range(foundSortSize[0]):
+                                    if x-x2 < 0: break
+                                    #print(f"looking for stashStorage[{y-y2}][{x-x2}]")
+                                    if stashStorage[y-y2][x-x2] != foundSortName:
+                                        itemReady = False
+                            break
+                    else:
+                        itemReady = False
+
+                    if itemReady:
+                        for y2 in range(foundSortSize[1]):
+                                for x2 in range(foundSortSize[0]):
+                                    stashStorage[y-y2][x-x2] = None
+
+                        print(f"sending {foundSortName} to item queue")
+                        itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, queueData[1], queueData[2]))
+                else:
+                    pass
+            else:
+                time.sleep(0.1)
+
+        for _ in range(20):
+            while(itemQueue):
+                item = itemQueue.popleft()
+                finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5])
+                itemsToSort.append(finalItem)
+
+            else:
+                time.sleep(0.1)
+
+    numWorkers = 6 #4 if sleepTime >= 1.3 else 6
+    print(numWorkers)
+    threads = []
+
+    for _ in range(numWorkers):
+        t = threading.Thread(target=ssWorker)
+        t.start()
+        threads.append(t)
+
+    #store screenshots of each item square
+    for item in itemDetectedStashSquares:
+        pyautogui.moveTo(item[0],item[1])
+        ss = pyautogui.screenshot()
+        ssStore = (ss,item[0],item[1])
+        ssQueue.append(ssStore)
+
+    #Wait for workers
+    for thread in threads:
+        thread.join()
+
+    # Group found items by slotType, generate ideal stash, move items to new positions
+    slotTypeFreq = {}
+
+    for item in itemsToSort:
+        if item.slotType not in slotTypeFreq:
+            slotTypeFreq[item.slotType] = [item.size[0] * item.size[1], (item.size[0], item.size[1])]
+        else:
+            slotTypeFreq[item.slotType][0] += item.size[0] * item.size[1]
+            slotTypeFreq[item.slotType].append((item.size[0], item.size[1]))
+
+    print(slotTypeFreq.items())
+    print(f'done in {time.time() - time1} seconds')
+
+    sumFreq = 0
+    for freq in slotTypeFreq.values():
+        sumFreq += freq[0]
+    sortedStashItems = dict(sorted(stashFrequency.items()))
+    totalSort = 0
+    for val in sortedStashItems:
+        totalSort += sortedStashItems[val]
+    print(totalSort, len(itemDetectedStashSquares), sumFreq)
+
+
+
+
+# better detect if item is in stash on given coords
+def detectItem2(ss,x,y):
+    cropRegion = [x,y,x+20,y+20]
+    ssStashSquare = ss.crop(cropRegion)
+
+    w, h = ssStashSquare.size
+
+    pixelData = ssStashSquare.getdata()
+    total = 0
+    for data in pixelData:
+        total += sum(data)
+    
+    avgPxlVal = int(total / (w * h))
+
+    if avgPxlVal > database.getConfig(cursor,"pixelValue"):
+        return True
+    else:
+        return False
+    
+
+
+# Best detect item, take ss of entire stash, filter background colors, record coords of pixel clusters
+def detectItem3():
+    #Get list of each item and x,y coord for an easy read. One iteration, no multiple queue
+    pass

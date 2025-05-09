@@ -40,6 +40,13 @@ ssRaritySearch = [286, 193, 130, 22]
 ssPriceColumnRead = [1461,258,56,31]
 ssBuyRead = [1761,342,60,28]
 ssItemNameSearch = [49, 192, 130, 22]
+ssConfirmStash = [1585,131,65,26]
+ssEntireStash = [1376, 199, 493, 814]
+ssGetListings = [142, 500, 150, 485]
+ssGetListingPageNum = [174, 1004, 230, 40]
+
+xListingLeft, yListingLeft = 217,1021
+xListingRight, yListingRight = 368,1021
 xMarketSearchNameRairty, yMarketSearchNameRairty = 945,469
 xTrade, yTrade = 1109, 37
 xStashSelect,yStashSelect = 800,40
@@ -103,6 +110,23 @@ regionMarketListings = (700, 60, 440, 100)
 xCollectExpressman, yCollectExpressman = 69, 256
 xPayGetExpressman, yPayGetExpressman = 953,926
 
+#item slot type
+SLOT_TYPE = [
+    "Invalid",
+    "Back",
+    "Chest",
+    "Decoration"
+    "Feet"
+    "Hands",
+    "Head",
+    "Legs",
+    "Necklace",
+    "Primary Weapon",
+    "Ring",
+    "Secondary Weapon",
+    "Utility"
+]
+
 # rarity sorting order
 ROLL_SEARCH = {
     "%Action Speed": "act",
@@ -146,7 +170,8 @@ ROLL_SEARCH = {
     "True Physical Damage": "e p",
     "Vigor": "vi",
     "Will": "wi",
-    "All Attributes": "all"
+    "All Attributes": "all",
+    "%Cooldown Reduction Bonus": "n r"
 }
 
 ITEM_SIZE = {
@@ -168,7 +193,7 @@ ITEM_SIZE = {
     "Bandshee sonnet" : (1,2), 
     "Barbuta Helm" : (2,2),
     "Bardic Pants" : (2,3),
-    "Bardiche" : (2,6),
+    "Bardiche" : (2,5),
     "Bat Claw" : (1,1),
     "Bat Wing" : (2,2),
     "Battle Axe" : (2,5),
@@ -543,7 +568,7 @@ ITEM_SIZE = {
     "Runestone Gloves" : (2,2),
     "Rusty Broken Sword" : (1,2),
     "Sallet" : (2,2),
-    "Shaow Hood" : (2,2),
+    "Shadow Hood" : (2,2),
     "Shadow Mask" : (2,2),
     "Shine Bangle" : (1,1),
     "Shoes of Darkness" : (2,2),
