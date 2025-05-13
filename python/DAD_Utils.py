@@ -2210,7 +2210,6 @@ def organizeStash() -> bool: # True/False successful sort
         newStashBlockHeight = regions[1].getSize()[1]
         regionSlotTypeName = regions[0]
         newStashBlocks[regionSlotTypeName] = [[None for _ in range(12)] for _ in range(newStashBlockHeight)]
-        quickNoneCheck = None
 
         #get items to add for each slot type
         for itemsToAdd in slotTypeSize[regionSlotTypeName]:
@@ -2268,16 +2267,63 @@ def organizeStash() -> bool: # True/False successful sort
                     if breakX: break
                 lookingForSpace = False
 
+    lastBlock = None
     totalY = sum(len(block[1]) for block in newStashBlocks.items())
     print(totalY)
-    for block in newStashBlocks.items():
-        logDebug(f"block name: {block[0]}")
+    blockLen = len(newStashBlocks.items()) - 1
+
+    for n, block in enumerate(newStashBlocks.items()):
+        logDebug(f"block name: {lastBlock} {block[0]}")
+        if lastBlock == None: 
+            lastBlock = block[1]
+            continue
         print(totalY < 21)
         for brick in block[1]:
             logDebug(brick)
-        logDebug("\n")
         
+        #attempt to combine blocks
+        comboBlock = combineStashBlocks(lastBlock,block[1])
 
+        #if success, set last block. If not, push block to final
+        print(n,blockLen)
+        if comboBlock:
+            lastBlock = comboBlock   
+        else:
+            if lastBlock != None:
+
+                iAdd = 0
+                for i , row in enumerate(newStash):
+                    if row[0] == None:
+                        iAdd = i
+                        break
+
+                for y in range(len(lastBlock)):
+                    for x in range(len(lastBlock[0])):
+                        newStash[y+iAdd][x] = lastBlock[y][x]
+                lastBlock = block[1]
+
+        if n == blockLen:
+            iAdd = 0
+            for i , row in enumerate(newStash):
+                if row[0] == None:
+                    iAdd = i
+                    break
+            for y in range(len(lastBlock)):
+                    for x in range(len(lastBlock[0])):
+                        newStash[y+iAdd][x] = lastBlock[y][x]
+
+                
+        logDebug("\n")
+
+    numNotNone = 0
+    for row in newStash:
+        print(row)
+        logDebug(row)
+        for ele in row:
+            if ele != None:
+                numNotNone += 1
+
+    print(f"numNotNone = {numNotNone}")
 
     #print(sortedSlotTypeFreq.items())
 
@@ -2351,6 +2397,7 @@ def combineStashBlocks(block1, block2):
 
         height = len(grid)
         width = len(grid[0])
+        print(height,width)
         hist = [0] * width
         max_area = 0
         max_dims = (0, 0, -1, -1)  # width, height, x, y (top-left corner)
@@ -2390,10 +2437,18 @@ def combineStashBlocks(block1, block2):
     if largestRec1[0] >= largestRec2[0] and largestRec1[1] >= largestRec2[1]:
         for y in range(largestRec2[1]):
             for x in range(largestRec2[0]):
-                block1[y+largestRec1[3]][x+largestRec1[2]] = block2[y+largestRec2[3]][x+largestRec2[2]] 
+                block1[y+largestRec1[3]][x+largestRec1[2]] = block2[y+largestRec2[3]][x+largestRec2[2]]
 
-    for row in block1:
-        logDebug(row)
+        logDebug("combo rows:")
+        for row in block1:
+            logDebug(row) 
+        return block1
+    
+    #return empty if unsuccess
+    else:
+        return []
+
+
 
 
 
