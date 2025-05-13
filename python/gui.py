@@ -21,19 +21,6 @@ class error(Exception):
 
 
 
-# rarity sorting order
-RARITY_ORDER = {
-    "poor": 0,
-    "common": 1,
-    "uncommon": 2,
-    "rare": 3,
-    "epic": 4,
-    "legendary": 5,
-    "unique": 6
-}
-
-
-
 # Custom QTableWidgetItem that sorts numbers 
 class NumericTableWidgetItem(QTableWidgetItem):
     def __lt__(self, other):
@@ -53,7 +40,7 @@ class RarityTableWidgetItem(QTableWidgetItem):
             rarity1 = self.text().lower()
             rarity2 = other.text().lower()
             try:
-                return RARITY_ORDER.get(rarity1, -1) < RARITY_ORDER.get(rarity2, -1)  
+                return config.RARITY_ORDER.get(rarity1, -1) < config.RARITY_ORDER.get(rarity2, -1)  
             except ValueError:
                 pass 
         return super().__lt__(other)

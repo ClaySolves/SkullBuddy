@@ -110,22 +110,33 @@ regionMarketListings = (700, 60, 440, 100)
 xCollectExpressman, yCollectExpressman = 69, 256
 xPayGetExpressman, yPayGetExpressman = 953,926
 
-#item slot type
-SLOT_TYPE = [
-    "Invalid",
-    "Back",
-    "Chest",
-    "Decoration"
-    "Feet"
-    "Hands",
-    "Head",
-    "Legs",
-    "Necklace",
-    "Primary Weapon",
-    "Ring",
-    "Secondary Weapon",
-    "Utility"
-]
+# slot type sorting order
+SLOTTYPE_ORDER = {
+    "Ring": 1,
+    "Necklace": 2,
+    "Head": 3,
+    "Chest": 4,
+    "Back": 5,
+    "Hands": 6,
+    "Legs": 7,
+    "Feet": 8,
+    "Primary Weapon": 9,
+    "Secondary Weapon": 10,
+    "Utility": 11,
+    "Decoration": 12,
+    "Invalid": 13
+}
+
+# rarity sorting order
+RARITY_ORDER = {
+    "poor": 0,
+    "common": 1,
+    "uncommon": 2,
+    "rare": 3,
+    "epic": 4,
+    "legendary": 5,
+    "unique": 6
+}
 
 # rarity sorting order
 ROLL_SEARCH = {
@@ -196,7 +207,7 @@ ITEM_SIZE = {
     "Bardiche" : (2,5),
     "Bat Claw" : (1,1),
     "Bat Wing" : (2,2),
-    "Battle Axe" : (2,5),
+    "Battle Axe" : (2,4),
     "Bear Pendant" : (1,1),
     "Beetle Wings" : (1,3),
     "Blade of Righteousness" : (1,4),

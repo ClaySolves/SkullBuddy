@@ -39,8 +39,61 @@ class item():
         self.quantity = quantity
         self.slotType = slotType
 
-        logger.debug("New item created")
+        logger.debug(f"created {self.rarity} {self.name} sz {self.size} @ {self.coords}")
 
+    
+    # get item from database storing string
+    def getItemStoreDatabaseInfo(self):
+
+        rollStr = ""
+        if self.quantity > 1:
+            nameStr = self.name + f" x {self.quantity}"
+        else:
+            nameStr = self.name
+
+        for roll in self.rolls:    
+            dataStr = ",".join(str(data) for data in roll)
+            rollStr += "|" + dataStr
+        good = 1 if self.goodRoll else 0
+
+        return [nameStr, self.rarity, rollStr, self.price, good]
+
+
+
+    #get slottype
+    def getSlotType(self): return self.slotType
+    
+    #get name
+    def getName(self): return self.name
+    
+    #get rarity
+    def getRarity(self): 
+        if self.rarity:
+            return self.rarity
+        else:
+            return "None"
+    
+    #get quantity
+    def getQuantity(self): return self.quantity
+
+    #get Price
+    def getPrice(self): return self.price
+
+    #get Good roll status
+    def getGetRoll(self): return self.goodRoll
+
+    #get size
+    def getSize(self): return self.size
+
+    #get coords
+    def getCoords(self): return self.coords
+
+    #get list of rolls
+    def getRolls(self):
+        retRolls = []
+        for roll in self.rolls:
+            retRolls.append(roll)
+        return retRolls
 
 
     #Print item
@@ -48,11 +101,11 @@ class item():
         if self.rarity:
             self.printRarityName()
 
-            for roll in self.rolls:
-                self.printRoll(roll)
+        for i , _ in enumerate(self.rolls):
+            self.printRoll(i)
                 
         if self.price:
-            logGui(f"Price: {self.price} Gold","Gold")
+            logGui(f"Price: {self.price} Gold","Gold", printEnd=" ")
 
         if newline: logGui("\n")
 
@@ -95,23 +148,6 @@ class item():
             logGui(" <- Good Roll","DarkGoldenRod",printEnd=" ")
         else:
             logGui(" ",printEnd=" ")
-
-
-    # get item from database storing string
-    def getItemStoreDetails(self):
-
-        rollStr = ""
-        if self.quantity > 1:
-            nameStr = self.name + f" x {self.quantity}"
-        else:
-            nameStr = self.name
-
-        for roll in self.rolls:    
-            dataStr = ",".join(str(data) for data in roll)
-            rollStr += "|" + dataStr
-        good = 1 if self.goodRoll else 0
-
-        return [nameStr, self.rarity, rollStr, self.price, good]
         
 
 
@@ -936,7 +972,7 @@ def loadTextFiles():
 
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
-    slotTypes = config.SLOT_TYPE
+    slotTypes = list(config.SLOTTYPE_ORDER.keys())
 
 
 
@@ -1194,7 +1230,7 @@ def getItemSlotType(ssStash,location):
         ret = txt[keywordIndex:].lstrip()
         finalRet = ''.join(char for char in ret if char.isalpha())
         finalFinalRet = findItem(finalRet, slotTypes, cutoff=0.8)
-        return finalRet
+        return finalFinalRet
     except ValueError:
         return None  
 
@@ -1744,7 +1780,7 @@ def searchStash() -> bool:
                     # insert into database if successful read
                     if success:
                         if foundItem.rarity and foundItem.name:
-                            database.insertItem(cursor,foundItem.getItemStoreDetails())     
+                            database.insertItem(cursor,foundItem.getItemStoreDatabaseInfo())     
 
                     # if failure blacklist item slots to avoid re searching + unhover item
                     else:
@@ -1950,7 +1986,7 @@ def getItemNameSizeSpace(ssStash) -> item:
             logDebug(f"NoneSizeFound for {name}")
             size = (1,1)
     else:
-        logDebug(f"Could not find name in\n{lines}" )
+        logDebug(f"Could not f1nd name in\n{lines}" )
 
     return name, size, space
 
@@ -2034,7 +2070,7 @@ def organizeStash() -> bool: # True/False successful sort
     ssQueue = deque()
     itemQueue = deque()
     stashStorage = [[None for _ in range(12)] for _ in range(20)]
-    stashItemPresent = [[False for _ in range(12)] for _ in range(20)]
+    stashQuickEmptyCoordList = []
     itemsToSort = []
 
     #look for items to sort
@@ -2047,7 +2083,8 @@ def organizeStash() -> bool: # True/False successful sort
             if itemDetected:
                 foundItem = [config.xStashStart + newX, config.yStashStart + newY]
                 itemDetectedStashSquares.append(foundItem)
-                stashItemPresent[y][x] = True
+            else:
+                stashQuickEmptyCoordList.append((x,y))
 
     #this doesn't do anything but the random movement looks cool lol
     #random.shuffle(itemDetectedStashSquares)
@@ -2061,8 +2098,8 @@ def organizeStash() -> bool: # True/False successful sort
         for _ in range(20):
             while ssQueue:
                 queueData = ssQueue.popleft()
-                x = (queueData[1] - (10 + config.xStashStart) ) // 40
-                y = (queueData[2] - (10 + config.yStashStart) ) // 40
+                x = int ((queueData[1] - (10 + config.xStashStart) ) / 40)
+                y = int ((queueData[2] - (10 + config.yStashStart) ) / 40)
 
                 foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
 
@@ -2082,7 +2119,7 @@ def organizeStash() -> bool: # True/False successful sort
                                 if y-y2 < 0: break
                                 for x2 in range(foundSortSize[0]):
                                     if x-x2 < 0: break
-                                    #print(f"looking for stashStorage[{y-y2}][{x-x2}]")
+                                    #print(f"looking for {foundSortName} in stashStorage[{y-y2}][{x-x2}]")
                                     if stashStorage[y-y2][x-x2] != foundSortName:
                                         itemReady = False
                             break
@@ -2092,10 +2129,13 @@ def organizeStash() -> bool: # True/False successful sort
                     if itemReady:
                         for y2 in range(foundSortSize[1]):
                                 for x2 in range(foundSortSize[0]):
-                                    stashStorage[y-y2][x-x2] = None
+                                    stashStorage[y-y2][x-x2] = foundSortName + "_Done"
 
                         print(f"sending {foundSortName} to item queue")
                         itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, queueData[1], queueData[2]))
+                    else:
+                        if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
+                            print(f"{foundSortName} NOT FOUND IN {foundSortSize} qData, x, y ; x2, y2: {queueData[1]} {queueData[2]} {x} {y} {x2} {y2}")
                 else:
                     pass
             else:
@@ -2132,7 +2172,6 @@ def organizeStash() -> bool: # True/False successful sort
 
     # Group found items by slotType, generate ideal stash, move items to new positions
     slotTypeFreq = {}
-
     for item in itemsToSort:
         if item.slotType not in slotTypeFreq:
             slotTypeFreq[item.slotType] = [item.size[0] * item.size[1], (item.size[0], item.size[1])]
@@ -2140,9 +2179,126 @@ def organizeStash() -> bool: # True/False successful sort
             slotTypeFreq[item.slotType][0] += item.size[0] * item.size[1]
             slotTypeFreq[item.slotType].append((item.size[0], item.size[1]))
 
-    print(slotTypeFreq.items())
-    print(f'done in {time.time() - time1} seconds')
+    sortedItemsPlace = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
+                                                             config.RARITY_ORDER.get(item.getRarity().lower(), -1), item.getName()))
+    
+    #new stash creation vars
+    slotTypeSize = {}
+    slotTypeMax = {}
+    newStashBlocks = {}
+    newStash = [[None for _ in range(12)] for _ in range(20)]
 
+    #sort items by slotType
+    for item in sortedItemsPlace:
+        #print(f"{item.getSlotType()} {item.getSize()} {item.getName()} {item.getRarity()}")
+        if item.getSlotType() in slotTypeSize:
+            slotTypeSize[item.getSlotType()].append(item)
+        else:
+            slotTypeSize[item.getSlotType()] = [item]
+
+    #get size allocation for new stash region for each slot type
+    for items in slotTypeSize.items():
+        slotTypeMax[items[0]] = max(items[1], key = lambda x: x.getSize()[1])
+        for item in items[1]:
+            item.printItem()
+        print("\n","\n","\n","\n")
+
+    print(slotTypeMax.items())
+
+    #reserve space and construct each stash block
+    for regions in slotTypeMax.items():
+        newStashBlockHeight = regions[1].getSize()[1]
+        regionSlotTypeName = regions[0]
+        newStashBlocks[regionSlotTypeName] = [[None for _ in range(12)] for _ in range(newStashBlockHeight)]
+        quickNoneCheck = None
+
+        #get items to add for each slot type
+        for itemsToAdd in slotTypeSize[regionSlotTypeName]:
+            print(f'Item to add: {itemsToAdd.getName()}')
+            sz = itemsToAdd.getSize()
+            addX,addY = sz[0], sz[1]
+
+            blockCache = {}
+            lookingForSpace = True
+            while lookingForSpace:
+                for x in range(12):
+                    breakX = False
+                    for y in range(newStashBlockHeight):
+                        #lookup coords from cache or region map
+                        if (y,x) in blockCache:
+                            comp = blockCache[y,x]
+                            logDebug(f"retrieve {comp} from blockCache @ {x,y}")
+                        else:
+                            comp = newStashBlocks[regionSlotTypeName][y][x]
+                            logDebug(f"retrieve {comp} from newStashBlocks @ {x,y}")
+
+                        print(f" comp is: {comp}")
+                        if comp == None:
+                            #If we have an empty slot, check to see if there is enough room to add
+                            #by iterating to all size squares. If we see another item or go out of bounds stop
+                            addAtCurrentLeftCorner = True
+                            while addAtCurrentLeftCorner:
+                                for y2 in range(y,y+addY):
+                                    if y2 > newStashBlockHeight - 1: 
+                                        addAtCurrentLeftCorner = False
+                                        break
+                                    for x2 in range(x,x+addX):
+                                        if x2 > 11: 
+                                            addAtCurrentLeftCorner = False
+                                            break
+                                        comp2 = newStashBlocks[regionSlotTypeName][y2][x2]
+                                        blockCache[(y2,x2)] = comp2
+                                        if comp2 != None: 
+                                            addAtCurrentLeftCorner = False
+                                            break
+                                break
+
+                            # if we have space, reserve it and update cache
+                            if addAtCurrentLeftCorner:
+                                nameRegion = itemsToAdd.getName()
+                                for y2 in range(y,y+addY):
+                                    for x2 in range(x,x+addX):
+                                        blockCache[(y2,x2)] = nameRegion
+                                        newStashBlocks[regionSlotTypeName][y2][x2] = nameRegion
+                                lookingForSpace = False
+                                logDebug(f"added {nameRegion} to new stash @ {x, y}")
+                                x,y = 13, newStashBlockHeight + 1
+                                breakX = True
+                                break
+                    if breakX: break
+                lookingForSpace = False
+
+    totalY = sum(len(block[1]) for block in newStashBlocks.items())
+    print(totalY)
+    for block in newStashBlocks.items():
+        logDebug(f"block name: {block[0]}")
+        print(totalY < 21)
+        for brick in block[1]:
+            logDebug(brick)
+        logDebug("\n")
+        
+
+
+    #print(sortedSlotTypeFreq.items())
+
+    # maxSize = (1,1)
+    # for slotType in sortedSlotTypeFreq.items():
+    #     maxFound = max(slotType[1][1:len(slotType[1])])
+    #     maxFoundInt = maxFound[0] * maxFound[1]
+    #     if maxFoundInt > maxSize[0] * maxSize[1]:
+    #         maxSize = maxFound
+
+    # print(sortedSlotTypeFreq)
+    # if len(stashQuickEmptyCoordList) < maxSize[0] * maxSize[1]:
+    #     print("Not Enough Space To Move Items")
+    #     return False
+    
+
+
+
+
+    
+    #This block is used to compare stash read square vals for debugging 
     sumFreq = 0
     for freq in slotTypeFreq.values():
         sumFreq += freq[0]
@@ -2151,7 +2307,16 @@ def organizeStash() -> bool: # True/False successful sort
     for val in sortedStashItems:
         totalSort += sortedStashItems[val]
     print(totalSort, len(itemDetectedStashSquares), sumFreq)
+    
+    print(f'done in {time.time() - time1:.2f} seconds')
 
+
+    # print("----------------------")
+
+    # for row in stashStorage:
+    #     logDebug(row)
+
+    # print(stashFrequency.items())
 
 
 
@@ -2173,7 +2338,67 @@ def detectItem2(ss,x,y):
         return True
     else:
         return False
+
+
+
+# Merge block2 into block1 for one item block if possible
+def combineStashBlocks(block1, block2):
+
+    #find max square of avail space for target
+    def largestRect(grid, matchNone=True):
+        if not grid or not grid[0]:
+            return 0, 0, -1, -1  # width, height, x, y
+
+        height = len(grid)
+        width = len(grid[0])
+        hist = [0] * width
+        max_area = 0
+        max_dims = (0, 0, -1, -1)  # width, height, x, y (top-left corner)
+
+        for y in range(height):
+            for x in range(width):
+                cell_matches = (grid[y][x] is None) if matchNone else (grid[y][x] is not None)
+                hist[x] = hist[x] + 1 if cell_matches else 0
+
+            # Stack-based histogram max-rectangle
+            stack = []
+            x = 0
+            while x <= width:
+                curr_height = hist[x] if x < width else 0
+                if not stack or curr_height >= hist[stack[-1]]:
+                    stack.append(x)
+                    x += 1
+                else:
+                    top = stack.pop()
+                    h = hist[top]
+                    w = x if not stack else x - stack[-1] - 1
+                    area = h * w
+
+                    if area > max_area:
+                        max_area = area
+                        x_left = 0 if not stack else stack[-1] + 1
+                        top_left_x = x_left
+                        top_left_y = y - h + 1  # y of top-left is current row minus height + 1
+                        max_dims = (w, h, top_left_x, top_left_y)
+
+        return max_dims  # width, height, x, y
     
+    largestRec1 = largestRect(block1)
+    largestRec2 = largestRect(block2, matchNone=False)
+
+    #if we have enough "None" space in block1 for block2 items, combine.
+    if largestRec1[0] >= largestRec2[0] and largestRec1[1] >= largestRec2[1]:
+        for y in range(largestRec2[1]):
+            for x in range(largestRec2[0]):
+                block1[y+largestRec1[3]][x+largestRec1[2]] = block2[y+largestRec2[3]][x+largestRec2[2]] 
+
+    for row in block1:
+        logDebug(row)
+
+
+
+
+
 
 
 # Best detect item, take ss of entire stash, filter background colors, record coords of pixel clusters
