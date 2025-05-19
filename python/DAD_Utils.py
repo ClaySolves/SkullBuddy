@@ -88,6 +88,8 @@ class item():
     #get coords
     def getCoords(self): return self.coords
 
+    def setCoords(self, x, y): self.coords = (x,y)
+
     #get list of rolls
     def getRolls(self):
         retRolls = []
@@ -1713,7 +1715,6 @@ def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
     time.sleep(0.05)   
     pyautogui.mouseUp()          # Release the mouse button
-    pyautogui.moveTo(config.xStashStart, config.yStashStart)
 
 
 
@@ -2055,6 +2056,7 @@ def organizeStash() -> bool: # True/False successful sort
     logger.debug("Organizing Stash")
     time1=time.time()
 
+    #check to make sure we're on stash page
     ssCheckStashPage = pyautogui.screenshot(region=config.ssConfirmStash)
     txt = pytesseract.image_to_string(ssCheckStashPage,config="--psm 6")
     if 'stash' not in txt.lower():
@@ -2063,17 +2065,17 @@ def organizeStash() -> bool: # True/False successful sort
         logger.error("Organize stash called but no stash page detected")
         return False
 
+    #var setup
     ssGetStash = pyautogui.screenshot(region=config.ssEntireStash)
-
     itemDetectedStashSquares = []
     stashFrequency = {}
     ssQueue = deque()
     itemQueue = deque()
     stashStorage = [[None for _ in range(12)] for _ in range(20)]
-    stashQuickEmptyCoordList = []
+    stashQuickEmptyCoordSet = set()
     itemsToSort = []
 
-    #look for items to sort
+    #look for items to sort in stash ss
     for y in range(database.getConfig(cursor,'sellHeight')):
         for x in range(database.getConfig(cursor,'sellWidth')):
             newX = 10 + (40 * x)
@@ -2084,11 +2086,9 @@ def organizeStash() -> bool: # True/False successful sort
                 foundItem = [config.xStashStart + newX, config.yStashStart + newY]
                 itemDetectedStashSquares.append(foundItem)
             else:
-                stashQuickEmptyCoordList.append((x,y))
+                stashQuickEmptyCoordSet.add((x,y))
 
-    #this doesn't do anything but the random movement looks cool lol
-    #random.shuffle(itemDetectedStashSquares)
-
+    #if no items return None
     if not itemDetectedStashSquares:
         logGui("Yeah let me just organize this empty stash... Bro are you dumb or something?")
         return None
@@ -2096,14 +2096,16 @@ def organizeStash() -> bool: # True/False successful sort
     #create workers to scrape screenshots
     def ssWorker():
         for _ in range(20):
+            #If a screenshot is added to the queue, a worker will take it and harvest info
             while ssQueue:
                 queueData = ssQueue.popleft()
                 x = int ((queueData[1] - (10 + config.xStashStart) ) / 40)
                 y = int ((queueData[2] - (10 + config.yStashStart) ) / 40)
 
+                #read necessary info for size and name
                 foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
 
-                #If we found an item record. If we have full item, send to 
+                # record frequency of items, if we have same frequency as size send item to be completed
                 if foundSortName is not None:
                     stashStorage[y][x] = foundSortName
 
@@ -2119,28 +2121,30 @@ def organizeStash() -> bool: # True/False successful sort
                                 if y-y2 < 0: break
                                 for x2 in range(foundSortSize[0]):
                                     if x-x2 < 0: break
-                                    #print(f"looking for {foundSortName} in stashStorage[{y-y2}][{x-x2}]")
                                     if stashStorage[y-y2][x-x2] != foundSortName:
                                         itemReady = False
                             break
                     else:
                         itemReady = False
 
+                    #if item is sent to queue, adjust stashStorage and frequency
                     if itemReady:
                         for y2 in range(foundSortSize[1]):
                                 for x2 in range(foundSortSize[0]):
                                     stashStorage[y-y2][x-x2] = foundSortName + "_Done"
+                                    stashFrequency[foundSortName] -= 1
 
                         print(f"sending {foundSortName} to item queue")
-                        itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, queueData[1], queueData[2]))
+                        xCoord = queueData[1] - (40 * (foundSortSize[0] - 1))
+                        yCoord = queueData[2] - (40 * (foundSortSize[1] - 1))
+                        itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord))
                     else:
                         if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
                             print(f"{foundSortName} NOT FOUND IN {foundSortSize} qData, x, y ; x2, y2: {queueData[1]} {queueData[2]} {x} {y} {x2} {y2}")
-                else:
-                    pass
             else:
-                time.sleep(0.1)
+                time.sleep(0.15)
 
+        # Once the screenshot queue is empty, work on items to be complted
         for _ in range(20):
             while(itemQueue):
                 item = itemQueue.popleft()
@@ -2150,6 +2154,7 @@ def organizeStash() -> bool: # True/False successful sort
             else:
                 time.sleep(0.1)
 
+    #start worker threads
     numWorkers = 6 #4 if sleepTime >= 1.3 else 6
     print(numWorkers)
     threads = []
@@ -2170,31 +2175,35 @@ def organizeStash() -> bool: # True/False successful sort
     for thread in threads:
         thread.join()
 
-    # Group found items by slotType, generate ideal stash, move items to new positions
-    slotTypeFreq = {}
-    for item in itemsToSort:
-        if item.slotType not in slotTypeFreq:
-            slotTypeFreq[item.slotType] = [item.size[0] * item.size[1], (item.size[0], item.size[1])]
-        else:
-            slotTypeFreq[item.slotType][0] += item.size[0] * item.size[1]
-            slotTypeFreq[item.slotType].append((item.size[0], item.size[1]))
-
-    sortedItemsPlace = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
+    # Sort items into order for new stash
+    itemSortPlaceOrder = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
                                                              config.RARITY_ORDER.get(item.getRarity().lower(), -1), item.getName()))
     
     #new stash creation vars
     slotTypeSize = {}
     slotTypeMax = {}
     newStashBlocks = {}
+    stashStorageCoordDict = {}
     newStash = [[None for _ in range(12)] for _ in range(20)]
 
-    #sort items by slotType
-    for item in sortedItemsPlace:
-        #print(f"{item.getSlotType()} {item.getSize()} {item.getName()} {item.getRarity()}")
+    #break sorted items by slotType for placement
+    for item in itemSortPlaceOrder:
+        xStorage,yStorage = item.getCoords()
+        xSize, ySize = item.getSize()
+        xStashCoord = int((xStorage - 10 - config.xStashStart) / 40)
+        yStashCoord = int((yStorage - 10 - config.yStashStart) / 40)
+        for x in range(xStashCoord, xStashCoord + xSize):
+            for y in range(yStashCoord, yStashCoord + ySize):
+                stashStorageCoordDict[(x,y)] = (item)
+
         if item.getSlotType() in slotTypeSize:
             slotTypeSize[item.getSlotType()].append(item)
         else:
             slotTypeSize[item.getSlotType()] = [item]
+    
+    logDebug(f"Testing stashStorageCoordDict:")
+    for itemCoordDict in stashStorageCoordDict.items():
+        logDebug((itemCoordDict[0],itemCoordDict[1].getName()))
 
     #get size allocation for new stash region for each slot type
     for items in slotTypeSize.items():
@@ -2206,163 +2215,372 @@ def organizeStash() -> bool: # True/False successful sort
     print(slotTypeMax.items())
 
     #reserve space and construct each stash block
-    for regions in slotTypeMax.items():
+    newItemCoords = {}
+    coordsAddYSave = 0
+    blockCache = {}
+    for n, regions in enumerate(slotTypeMax.items()):
         newStashBlockHeight = regions[1].getSize()[1]
         regionSlotTypeName = regions[0]
         newStashBlocks[regionSlotTypeName] = [[None for _ in range(12)] for _ in range(newStashBlockHeight)]
 
+        coordsAddY = coordsAddYSave
+
         #get items to add for each slot type
         for itemsToAdd in slotTypeSize[regionSlotTypeName]:
-            print(f'Item to add: {itemsToAdd.getName()}')
+            logDebug(f'Item to add: {itemsToAdd.getName()}')
             sz = itemsToAdd.getSize()
             addX,addY = sz[0], sz[1]
 
-            blockCache = {}
-            lookingForSpace = True
-            while lookingForSpace:
-                for x in range(12):
-                    breakX = False
-                    for y in range(newStashBlockHeight):
-                        #lookup coords from cache or region map
-                        if (y,x) in blockCache:
-                            comp = blockCache[y,x]
-                            logDebug(f"retrieve {comp} from blockCache @ {x,y}")
-                        else:
-                            comp = newStashBlocks[regionSlotTypeName][y][x]
-                            logDebug(f"retrieve {comp} from newStashBlocks @ {x,y}")
+            
+            for x in range(12):
+                breakX = False
+                for y in range(newStashBlockHeight):
+                    #lookup coords from cache or region map
+                    if (y+coordsAddY,x) in blockCache:
+                        comp = blockCache[y+coordsAddY,x]
+                        logDebug(f"retrieve {comp} from blockCache @ {x,y+coordsAddY}")
+                    else:
+                        comp = newStashBlocks[regionSlotTypeName][y][x]
+                        logDebug(f"retrieve {comp} from newStashBlocks @ {x,y}")
 
-                        print(f" comp is: {comp}")
-                        if comp == None:
-                            #If we have an empty slot, check to see if there is enough room to add
-                            #by iterating to all size squares. If we see another item or go out of bounds stop
-                            addAtCurrentLeftCorner = True
-                            while addAtCurrentLeftCorner:
-                                for y2 in range(y,y+addY):
-                                    if y2 > newStashBlockHeight - 1: 
+                    if comp == None:
+                        #If we have an empty slot, check to see if there is enough room to add
+                        #by iterating to all size squares. If we see another item stop.
+                        addAtCurrentLeftCorner = True
+                        while addAtCurrentLeftCorner:
+                            for y2 in range(y,y+addY):
+                                if y2 > newStashBlockHeight - 1: 
+                                    addAtCurrentLeftCorner = False
+                                    break
+                                for x2 in range(x,x+addX):
+                                    if x2 > 11: 
                                         addAtCurrentLeftCorner = False
                                         break
-                                    for x2 in range(x,x+addX):
-                                        if x2 > 11: 
-                                            addAtCurrentLeftCorner = False
-                                            break
-                                        comp2 = newStashBlocks[regionSlotTypeName][y2][x2]
-                                        blockCache[(y2,x2)] = comp2
-                                        if comp2 != None: 
-                                            addAtCurrentLeftCorner = False
-                                            break
-                                break
+                                    comp2 = newStashBlocks[regionSlotTypeName][y2][x2]
+                                    blockCache[(y2+coordsAddY,x2)] = comp2
+                                    if comp2 != None: 
+                                        addAtCurrentLeftCorner = False
+                                        break
+                            break
 
-                            # if we have space, reserve it and update cache
-                            if addAtCurrentLeftCorner:
-                                nameRegion = itemsToAdd.getName()
-                                for y2 in range(y,y+addY):
-                                    for x2 in range(x,x+addX):
-                                        blockCache[(y2,x2)] = nameRegion
-                                        newStashBlocks[regionSlotTypeName][y2][x2] = nameRegion
-                                lookingForSpace = False
-                                logDebug(f"added {nameRegion} to new stash @ {x, y}")
-                                x,y = 13, newStashBlockHeight + 1
-                                breakX = True
-                                break
-                    if breakX: break
-                lookingForSpace = False
+                        # if we have space, reserve it and update cache
+                        if addAtCurrentLeftCorner:
+                            nameRegion = itemsToAdd.getName()
+                            for y2 in range(y,y+addY):
+                                for x2 in range(x,x+addX):
+                                    blockCache[(y2+coordsAddY,x2)] = nameRegion
+                                    newStashBlocks[regionSlotTypeName][y2][x2] = nameRegion
 
+                            logDebug(f"added {nameRegion} to new stash @ {x, y}")
+                            logDebug(f"dict store {nameRegion} to new stash @ {x, y+coordsAddY}")
+                            newItemCoords[(x,y+coordsAddY)] = itemsToAdd
+                            x,y = 13, newStashBlockHeight + 1
+                            breakX = True
+                            break
+
+                if breakX: break
+
+        coordsAddYSave += newStashBlockHeight
+
+    for coords in newItemCoords.items():
+        logDebug(f"coord: {coords[0]} item:{coords[1].getName()}")
+
+    print(f"{len(newItemCoords.items())} new item coords pre merge")
+
+    #stack newly created item blocks and form new stash
     lastBlock = None
-    totalY = sum(len(block[1]) for block in newStashBlocks.items())
-    print(totalY)
     blockLen = len(newStashBlocks.items()) - 1
 
     for n, block in enumerate(newStashBlocks.items()):
-        logDebug(f"block name: {lastBlock} {block[0]}")
+        for row in block[1]:
+            logDebug(row)
+
+    #Move through blocks in pair of 2 and try to combine to retain order
+    coordsAddYSave = 0
+    ComboDelY = 0
+    ComboCurrent = 0
+    stackingCombo = False
+    for n, block in enumerate(newStashBlocks.items()):
+        if lastBlock != None:
+            logDebug(f"block name: {block[0]}")
         if lastBlock == None: 
             lastBlock = block[1]
+            coordsAddYSave += len(lastBlock)
+            logDebug("Just Continued!!!")
             continue
-        print(totalY < 21)
+
+        for brick in lastBlock:
+            logDebug(brick)
+
         for brick in block[1]:
             logDebug(brick)
         
         #attempt to combine blocks
-        comboBlock = combineStashBlocks(lastBlock,block[1])
+        itemCoordYAdd = 0
+        for i , row in enumerate(newStash):
+            logDebug(f"new stash row: {row}")
+            if row[0] == None:
+                itemCoordYAdd = i
+                break
+        comboBlock, newItemCoords = combineStashBlocks(lastBlock,block[1], newItemCoords, coordsAddYSave, ComboDelY)
 
         #if success, set last block. If not, push block to final
-        print(n,blockLen)
         if comboBlock:
+            stackingCombo = True
             lastBlock = comboBlock   
+            ComboDelY += len(block[1])
         else:
             if lastBlock != None:
-
-                iAdd = 0
-                for i , row in enumerate(newStash):
-                    if row[0] == None:
-                        iAdd = i
-                        break
-
                 for y in range(len(lastBlock)):
                     for x in range(len(lastBlock[0])):
-                        newStash[y+iAdd][x] = lastBlock[y][x]
-                lastBlock = block[1]
+                        yDict = y + ComboCurrent + itemCoordYAdd
+                        yNewStash = y + itemCoordYAdd
+                        logDebug(f"""coordsAddYSave: {coordsAddYSave} minus length of last block{len(lastBlock)} itemCoordYAdd: {itemCoordYAdd} comboDelY: {ComboDelY} comboCurrent: {ComboCurrent} x iter 0 to {len(lastBlock[0])} y iter 0 to {len(lastBlock)}
+                                 ||||| Searching @ dict for block no combo {x, yDict} to assign newStash @ {x,yNewStash} """)
+                        
+                        newStash[y+itemCoordYAdd][x] = lastBlock[y][x]
+                        if (x, yDict) in newItemCoords:
+                            logDebug(f"Moving {newItemCoords[(x, yDict)].getName()} aka {lastBlock[y][x]} by block no combo @ {x, yDict} to {x, yNewStash}")
+                            newItemCoords[x,yNewStash] = newItemCoords.pop((x, yDict))
+                            
+            if n == blockLen: 
+                itemCoordYAdd += len(lastBlock)
+
+            if stackingCombo:
+                ComboCurrent = ComboDelY
+                stackingCombo = False
+
+            lastBlock = block[1]
 
         if n == blockLen:
-            iAdd = 0
-            for i , row in enumerate(newStash):
-                if row[0] == None:
-                    iAdd = i
-                    break
             for y in range(len(lastBlock)):
                     for x in range(len(lastBlock[0])):
-                        newStash[y+iAdd][x] = lastBlock[y][x]
+                        yDict = y + ComboCurrent + itemCoordYAdd
+                        yNewStash = y + itemCoordYAdd
 
+                        logDebug(f"""coordsAddYSave: {coordsAddYSave} itemCoordYAdd: {itemCoordYAdd} comboDelY: {ComboDelY} comboCurrent: {ComboCurrent} x iter 0 to {len(lastBlock[0])} y iter 0 to {len(lastBlock)} 
+                                 ||||| Searching @ dict for block final{x, yDict} to assign newStash @ {x,yNewStash} """)
+                        newStash[y+itemCoordYAdd][x] = lastBlock[y][x]
+                        if (x,yDict) in newItemCoords:
+                            logDebug(f"Moving {newItemCoords[(x,yDict)].getName()} by block final @ {x,yDict} to {x,yNewStash}")
+                            newItemCoords[x,yNewStash] = newItemCoords.pop((x, yDict))
+
+        if comboBlock:
+            coordsAddYSave += len(block[1])
+        else:
+            coordsAddYSave += len(lastBlock)
+
+    for coords in newItemCoords.items():
+        if isinstance(coords[1], int): continue 
+        logDebug(f"coord: {coords[0]} item:{coords[1].getName()}")
+
+    print(f"{len(newItemCoords.items())} new item coords post merge")
+
+    print(f"{len(itemsToSort)} items to sort")
+
+    #functions to move and store for newStash
+    def moveNewStash(xStart, yStart, xDest, yDest, szX, szY):
+        logDebug(f"Trying to move from {xStart,yStart} to {xDest, yDest}")
+        if(xStart,yStart) == (xDest,yDest): return True, True
+
+        #check to see if we're blocked for the move
+        name = newItemCoords[(xDest,yDest)].getName()
+        for y in range(szY):
+            for x in range(szX):
+                xCheck = x + xDest
+                yCheck = y + yDest
+                comp = stashStorage[yCheck][xCheck]
+                if comp != None and comp != name + "_Done":
+                    logDebug(f"{name} blocked by {stashStorage[yCheck][xCheck]} @ {(xCheck,yCheck)}")
+                    return False, (xCheck,yCheck)
                 
-        logDebug("\n")
+        #not blocked, update stashQuickEmptyCoordSet() and stashStorage()
 
+        dontRewrite = set()
+        for y in range(yDest,yDest + szY):
+            for x in range(xDest, xDest + szX):
+                stashStorage[y][x] = name + "_Moved"
+                stashQuickEmptyCoordSet.discard((x,y))
+                dontRewrite.add((x,y))
+
+        for y in range(yStart,yStart + szY):
+            for x in range(xStart, xStart + szX):
+                    if (x,y) not in dontRewrite:
+                        stashStorage[y][x] = None
+                        stashQuickEmptyCoordSet.add((x,y))
+
+        xStartGui = ((xStart * 40) + 10 + config.xStashStart)
+        yStartGui = ((yStart * 40) + 10 + config.yStashStart)
+
+        xDestGui = ((xDest * 40) + 10 + config.xStashStart)
+        yDestGui = ((yDest * 40) + 10 + config.yStashStart)
+
+        clickAndDrag(xStartGui, yStartGui, xDestGui, yDestGui, duration=sleepTime/5)
+
+        return True, True
+    
+    def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, xStash=20, yStash=20):
+        bestCoord = None
+        bestDist = float('inf')
+
+        for x in range(xStash - xFindSize + 1):
+            for y in range(yStash - yFindSize + 1):
+                blockCoords = [(x + dx, y + dy) for dx in range(xFindSize) for dy in range(yFindSize)]
+                if all(coord in stashQuickEmptyCoordSet for coord in blockCoords):
+                    dist = abs(x - xStart) + abs(y - yStart)
+                    if dist < bestDist:
+                        bestDist = dist
+                        bestCoord = (x, y)
+                        
+        return bestCoord
+        
+    #data for movement
+    itemStartEnd = []
+    sortItems = True
+
+    swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
+    for item in itemSortPlaceOrder:
+        def validateCoords(i):
+            return 0 <= i and i <= 19
+
+        xStart, yStart = item.getCoords()
+        xStartInt = int((xStart - 10 - config.xStashStart) / 40)
+        yStartInt = int((yStart - 10 - config.yStashStart) / 40)
+
+        xDestination,yDestination = swappedNewItemCoords[item]
+
+        if not (validateCoords(xStartInt) and validateCoords(yStartInt) and validateCoords(xDestination) and validateCoords(yDestination)):
+            logDebug(f"Coordinate Error on {(xStartInt, yStartInt) , {(xDestination, yDestination)}}")
+            return False
+        
+        szX,szY = item.getSize()
+        itemStartEnd.append([item, xStartInt, yStartInt, xDestination, yDestination, szX, szY, False])
+
+    for list in itemStartEnd:
+        print(f"must move {list[0].getName()} from {list[1]} to {list[2]} status: {list[3]}")
+
+    #while we have items to move and space to move items, move items to new slots
+    while(sortItems):
+        for item in itemStartEnd:
+            #cache & coord setup
+            visited = set()
+            visited.add(item[0])
+    
+            moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
+
+            if not moved[0]:
+                blockingItemCoords = moved[1]
+                blockingItem = stashStorageCoordDict[blockingItemCoords]
+                
+                def handleBlocking(blockingItem):
+                    currentBlocker = next((item for i, item in enumerate(itemStartEnd) if item[0] == blockingItem), None)
+
+                    #if we have seen this blocker before, find temp space and move seen item to it- if no temp space then we need to create it or else we have truly failed.
+                    if blockingItem in visited:
+                        tempPlacement = findClosestEmptyBlock(currentBlocker[1], currentBlocker[2], currentBlocker[5], currentBlocker[6])
+                        if tempPlacement:
+                            moved = moveNewStash(currentBlocker[1], currentBlocker[2], tempPlacement[0], tempPlacement[1], currentBlocker[5], currentBlocker[6])
+                            if moved:
+                                logDebug(f"Moving {currentBlocker[0].getName()} to temp space @ {currentBlocker[5], currentBlocker[6]}")
+                                return True
+                            else:
+                                logDebug(f"FAILED Moving {currentBlocker[0].getName()} to temp space @ {currentBlocker[5], currentBlocker[6]}")
+                                return False
+                        else:
+                            logDebug(f"No avail temp space, FAIL!!!!")
+                            return False
+                        
+                    #if we haven't seen the blocker, attempt to move it to it's final destination
+                    else:
+                        visited.add(blockingItem)
+
+                        if currentBlocker:
+                            moved = moveNewStash(currentBlocker[1], currentBlocker[2], currentBlocker[3], currentBlocker[4], currentBlocker[5], currentBlocker[6])
+                            if not moved:
+                                newBlockingItemCoords = moved[1]
+                                newBlocker = stashStorageCoordDict[newBlockingItemCoords]
+                                result = handleBlocking(newBlocker)
+
+                                if result:
+                                    logDebug(f"Moved1 {currentBlocker[0].getName()} successfully via handleBlocking")
+                                return result
+                            
+                            else:
+                                itemStartEnd.pop(next((i for i, itemDel in enumerate(itemStartEnd) if itemDel[0] == currentBlocker[0]), None))
+                                logDebug(f"Moved2 {currentBlocker[0].getName()} successfully via handleBlocking")
+                                currentBlocker[7] = True
+
+                                #After successfully removing a blocker, revisit the visited items and handle them.
+                                if visited:
+                                    #TODO: If we have visited other items before moving this blocker, go back and move those now that there is space. 
+                                    pass
+                                else:
+                                    return True
+                        
+                        else:
+                            logDebug(f"could not find {blockingItem.getName()} in itemStartEnd")
+                            return False
+                        
+                result = handleBlocking(blockingItem)
+
+                if result:
+                    logDebug(f"Moved3 {blockingItem.getName()} successfully via handleBlocking")
+                else:
+                    logDebug(f"FAILED Moving {blockingItem.getName()} via handleBlocking")
+
+            else:
+                #move success, set final ele to True
+                logDebug(f"Setting True")
+                item[7] = True
+
+        sortItems = all(itemStartEnd[7])
+        print("INF DETECTION")
+        time.sleep(sleepTime)
+
+    print(f'done in {time.time() - time1:.2f} seconds')
+
+    #This block is used to compare stash read square vals for debugging 
+    numGoodGood = 0
+    for i, item in enumerate(newItemCoords.items()):
+        logDebug(f"Comping {item[1].getName()} and {itemSortPlaceOrder[i].getName()}")
+        xNew1,yNew1 = item[0]
+        xNew2 = ((xNew1 * 40) + 10 + config.xStashStart)
+        yNew2 = ((yNew1 * 40) + 10 + config.yStashStart)
+
+        x,y = itemSortPlaceOrder[i].getCoords()
+        xReal = int((x - 10 - config.xStashStart) / 40)
+        yReal = int((y - 10 - config.yStashStart) / 40)
+        logDebug(f"Moving {itemSortPlaceOrder[i].getName()} from {x,y} aka {xReal, yReal} to {xNew2,yNew2 } aka {xNew1,yNew1}")
+        if newStash[yNew1][xNew1] == item[1].getName(): numGoodGood+=1
+        try:
+            logDebug(f"{newStash[yNew1][xNew1] == item[1].getName()} newStashComp: {newStash[yNew1][xNew1]} accepting {item[1].getName()} @ {xNew1,yNew1}")
+        except Exception as e:   
+            logDebug(f"fail @ {x,y} {item[1].getName()}")
+            pass
+
+    if numGoodGood == len(itemsToSort):
+        print(f"Ultimate success! {numGoodGood} == {len(itemsToSort)} Items to sort matches itemToSort")
+    else:
+        print(f"{numGoodGood} != {len(itemsToSort)}")
+
+    y = len(stashStorage) -1
+    x = len(stashStorage[0]) -1
+    numStashFreq = 0
+    for i in range(y):
+        logDebug(stashStorage[i])
+        for j in range(x):
+            if stashStorage[i][j] != None: numStashFreq += 1
+    
     numNotNone = 0
     for row in newStash:
-        print(row)
         logDebug(row)
         for ele in row:
             if ele != None:
                 numNotNone += 1
 
-    print(f"numNotNone = {numNotNone}")
-
-    #print(sortedSlotTypeFreq.items())
-
-    # maxSize = (1,1)
-    # for slotType in sortedSlotTypeFreq.items():
-    #     maxFound = max(slotType[1][1:len(slotType[1])])
-    #     maxFoundInt = maxFound[0] * maxFound[1]
-    #     if maxFoundInt > maxSize[0] * maxSize[1]:
-    #         maxSize = maxFound
-
-    # print(sortedSlotTypeFreq)
-    # if len(stashQuickEmptyCoordList) < maxSize[0] * maxSize[1]:
-    #     print("Not Enough Space To Move Items")
-    #     return False
-    
+    logDebug(f"{numStashFreq} should ==  {len(itemDetectedStashSquares)} should ==  {(numNotNone)}")
 
 
-
-
-    
-    #This block is used to compare stash read square vals for debugging 
-    sumFreq = 0
-    for freq in slotTypeFreq.values():
-        sumFreq += freq[0]
-    sortedStashItems = dict(sorted(stashFrequency.items()))
-    totalSort = 0
-    for val in sortedStashItems:
-        totalSort += sortedStashItems[val]
-    print(totalSort, len(itemDetectedStashSquares), sumFreq)
-    
-    print(f'done in {time.time() - time1:.2f} seconds')
-
-
-    # print("----------------------")
-
-    # for row in stashStorage:
-    #     logDebug(row)
-
-    # print(stashFrequency.items())
 
 
 
@@ -2388,9 +2606,9 @@ def detectItem2(ss,x,y):
 
 
 # Merge block2 into block1 for one item block if possible
-def combineStashBlocks(block1, block2):
+def combineStashBlocks(block1, block2, newItemCoords, coordsAddY, ComboDelY):
 
-    #find max square of avail space for target
+    #find max rect of avail space for target
     def largestRect(grid, matchNone=True):
         if not grid or not grid[0]:
             return 0, 0, -1, -1  # width, height, x, y
@@ -2430,24 +2648,74 @@ def combineStashBlocks(block1, block2):
 
         return max_dims  # width, height, x, y
     
+    def largest_connected_non_none(grid):
+        if not grid or not grid[0]:
+            return 0, 0, -1, -1  # width, height, x, y
+
+        height = len(grid)
+        width = len(grid[0])
+        visited = [[False] * width for _ in range(height)]
+        max_area = 0
+        max_dims = (0, 0, -1, -1)  # width, height, x, y
+
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # up, down, left, right
+
+        for y in range(height):
+            for x in range(width):
+                if grid[y][x] is not None and not visited[y][x]:
+                    # Start BFS
+                    queue = deque()
+                    queue.append((x, y))
+                    visited[y][x] = True
+
+                    min_x = max_x = x
+                    min_y = max_y = y
+
+                    while queue:
+                        cx, cy = queue.popleft()
+                        for dx, dy in directions:
+                            nx, ny = cx + dx, cy + dy
+                            if 0 <= nx < width and 0 <= ny < height:
+                                if grid[ny][nx] is not None and not visited[ny][nx]:
+                                    visited[ny][nx] = True
+                                    queue.append((nx, ny))
+                                    min_x = min(min_x, nx)
+                                    max_x = max(max_x, nx)
+                                    min_y = min(min_y, ny)
+                                    max_y = max(max_y, ny)
+
+                    comp_width = max_x - min_x + 1
+                    comp_height = max_y - min_y + 1
+                    comp_area = comp_width * comp_height
+
+                    if comp_area > max_area:
+                        max_area = comp_area
+                        max_dims = (comp_width, comp_height, min_x, min_y)
+
+        return max_dims  # width, height, x, y
+    
     largestRec1 = largestRect(block1)
-    largestRec2 = largestRect(block2, matchNone=False)
+    largestRec2 = largest_connected_non_none(block2)
 
     #if we have enough "None" space in block1 for block2 items, combine.
     if largestRec1[0] >= largestRec2[0] and largestRec1[1] >= largestRec2[1]:
         for y in range(largestRec2[1]):
             for x in range(largestRec2[0]):
+                #update first block with both to return in & update newItemCoords Y value for affected items
                 block1[y+largestRec1[3]][x+largestRec1[2]] = block2[y+largestRec2[3]][x+largestRec2[2]]
+                logDebug(f"Searching for index in dict: for combo block {(x,y + coordsAddY)} mapped to replacement {x+largestRec1[2],y+coordsAddY-len(block1)-ComboDelY}")
+                if (x,y + coordsAddY) in newItemCoords:
+                    logDebug(f"Moving {newItemCoords[(x,y + coordsAddY)].getName()} by stash combo @ {x,y + coordsAddY} to {x+largestRec1[2],y+coordsAddY-len(block1)-ComboDelY}")
+                    newItemCoords[x+largestRec1[2],y+coordsAddY-len(block1)-ComboDelY] = newItemCoords.pop((x,y + coordsAddY))
 
         logDebug("combo rows:")
         for row in block1:
             logDebug(row) 
-        return block1
-    
-    #return empty if unsuccess
-    else:
-        return []
 
+        return block1, newItemCoords
+    
+    else:
+        return None, newItemCoords
 
 
 
