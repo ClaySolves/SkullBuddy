@@ -38,6 +38,7 @@ class item():
         self.goodRoll = None
         self.quantity = quantity
         self.slotType = slotType
+        self.destination = None
 
         logger.debug(f"created {self.rarity} {self.name} sz {self.size} @ {self.coords}")
 
@@ -88,7 +89,18 @@ class item():
     #get coords
     def getCoords(self): return self.coords
 
+    #get coords relative to stash
+    def getStashCoords(self):
+        xInt = int((self.coords[0] - 10 - config.xStashStart) / 40)
+        yInt = int((self.coords[1] - 10 - config.yStashStart) / 40)
+        return xInt, yInt
+
+
     def setCoords(self, x, y): self.coords = (x,y)
+
+    def getDestination(self): return self.destination
+
+    def setDestination(self ,xDest, yDest): self.destination = (xDest, yDest)
 
     #get list of rolls
     def getRolls(self):
@@ -447,142 +459,58 @@ class item():
         return False
 
 
-    #Search market for item price # Assume that View Market tab is open
-    #Rewrite for optimization
-    #Depricated
-    def findPrice2(self) -> bool: #True/Flase Price Find Success
-        logger.debug(f"Searching for {self.name} price")
-        logGui(f"Searching market for {self.rarity} {self.name}")
 
-        # Search for item from Listings Stash
-        ss = pyautogui.screenshot(region=config.ssMarketItem)
-        self.searchFromMarketStash()
-        confirmGameScreenChange(ss,region=config.ssMarketItem)
+    #Moves item from starting coords to destination coords in stash. Returns status of move and end coordinates
+    def moveToStash(self, xDest, yDest, stashStorageCoordDict):
+        name = self.name
+        xSz, ySz = self.size
+        xStart, yStart = self.coords
+        xStartInt, yStartInt = self.getStashCoords()
 
-        # record price of all rolls
-        self.searchAllRolls()
-        foundPrice = recordDisplayedPrice()
+        def validateCoords(i):
+            return 0 <= i and i <= 19
+    
+        if not (validateCoords(xStartInt) and validateCoords(yStartInt) and validateCoords(xDest) and validateCoords(yDest)):
+            logDebug(f"Coordinate Error on {(xStartInt, yStartInt)} , {(xDest, yDest)} for {self.getName()}")
+            return False
 
-        # found price on all attr search, return and log
-        if foundPrice:
-            logGui(f"Found {foundPrice} for {self.name}")
-            logDebug(f"Found {foundPrice} for {self.name}")
-            self.price = foundPrice
-            return True
+        logDebug(f"Trying to move from {xStartInt, yStartInt} to {xDest, yDest}")
+
+        if(xStartInt, yStartInt) == (xDest,yDest): return True
+
+
+        # dontRewrite = set()
+        # for y in range(yDest,yDest + ySz):
+        #     for x in range(xDest, xDest + xSz):
+        #         stashStorage[y][x] = name + "_Moved"
+        #         stashQuickEmptyCoordSet.discard((x,y))
+        #         dontRewrite.add((x,y))
+
+        # for y in range(yStartInt,yStartInt + ySz):
+        #     for x in range(xStartInt, xStartInt + xSz):
+        #             if (x,y) not in dontRewrite:
+        #                 stashStorage[y][x] = None
+        #                 stashQuickEmptyCoordSet.add((x,y))
+
+        for y in range(ySz):
+            for x in range(xSz):
+                stashStorageCoordDict[(x + xDest,y + yDest)] = stashStorageCoordDict.pop((x + xStartInt,y + yStartInt))
+
+        xDestGui = ((xDest * 40) + 10 + config.xStashStart)
+        yDestGui = ((yDest * 40) + 10 + config.yStashStart)
+
+        self.setCoords(xDestGui, yDestGui)
+
+        if name in config.ITEM_MOVES_BOTTOM_RIGHT_CORNER:
+            xDestGui += 40 * (xSz - 1)
+            yDestGui += 40 * (ySz - 1)
+
+
+        clickAndDrag(xStart, yStart, xDestGui, yDestGui, duration=sleepTime/7)
         
-        # no matching listing for all attr, search all attr 1 @ at a time
-        prices = []
 
-        # reset attr and get baseprice
-        pyautogui.moveTo(config.xResetAttribute, config.yResetAttribute)
-        time.sleep(sleepTime / 15)
-        pyautogui.click() 
-
-        foundPrice = recordDisplayedPrice()
-        prices.append(foundPrice)
-
-        # search and store each roll
-        manyGoodRolls = False
-        goodRolls = 0
-        for i, _ in enumerate(self.rolls):
-            self.searchRoll(i)
-            foundPrice = recordDisplayedPrice()
-            if foundPrice: 
-                prices.append(foundPrice)
-                good = checkPriceRoll(prices[0],foundPrice)
-                if good and self.goodRoll is None:
-                    self.goodRoll = good
-                    goodRolls += 1
-                    manyGoodRolls = goodRolls >= 2
-            logger.debug(f"Found price {foundPrice} for roll {self.rolls[i]}")
-
-        #store many good roll price if there are many good rolls
-        if manyGoodRolls: 
-            self.searchGoodRolls()
-            foundPrice = recordDisplayedPrice()
-            if foundPrice: prices.append(foundPrice)
-            logger.debug(f"Found price {foundPrice} for good rolls")
-
-        # assign best price 
-        if prices: 
-            finalPrice = max(prices)
-            #Check if profitable or too expensive
-            # to do, add each rarity sell off but for now just check to make the listing fee
-            self.price = finalPrice
-            logGui(f"Found price {self.price} for {self.rarity} {self.name}")
-            logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
-            return True
-        
-        return False
-
-        
-        
-    #Search market for item price # Assume that View Market tab is open
-    #Depricated
-    def findPrice(self) -> bool: # True/False Price Find Success
-        logger.debug(f"Searching for {self.name} price")
-        logGui(f"Searching market for {self.rarity} {self.name}")
-
-        prices = []
-        foundPrice = None
-        # reset filters, search rarity
-        self.searchFromMarketStash()
-
-        #store base price, 5 attempts
-        attempts = 3
-        for attempt in range(attempts):
-            foundPrice = recordDisplayedPrice()
-            if foundPrice:
-                prices.append(foundPrice)
-                break
-            else:
-                foundPrice = 0
-
-        #If none found or <15, something is wrong. Go next
-        goodBaseRead = True
-        if foundPrice < 15:
-            logger.debug(f"!!!!!!!!!WEIRD LOW PRICE FOUND!!!!!!!!!!")
-            goodBaseRead = False
-            if self.rarity == 'poor' or self.rarity == 'common':
-                return False
-        logger.debug(f"Found price {foundPrice} base price")
-
-        #store price of each roll
-        manyGoodRolls = False
-        goodRolls = 0
-        for i, roll in enumerate(self.rolls):
-            self.searchRoll(i)
-            foundPrice = recordDisplayedPrice()
-            if foundPrice: 
-                prices.append(foundPrice)
-                good = checkPriceRoll(prices[0],foundPrice)
-                if good and self.goodRoll is None and goodBaseRead:
-                    self.goodRoll = good
-                    goodRolls += 1
-                    manyGoodRolls = goodRolls >= 2
-                if not roll[3]: self.rolls[i][3] = good
-            logger.debug(f"Found price {foundPrice} for roll {i+1}")
-        
-        #store all roll price if there are many good rolls
-        if manyGoodRolls: 
-            self.searchGoodRolls()
-            foundPrice = recordDisplayedPrice()
-            if foundPrice: self.price = foundPrice
-            logger.debug(f"Found price {foundPrice} for good rolls")
-        else:
-            if prices: 
-                finalPrice = max(prices)
-                #Check if profitable or too expensive
-                # to do, add each rarity sell off but for now just check to make the listing fee
-                if finalPrice < 15 or finalPrice > database.getConfig(cursor,'sellMin'):
-                    return False
-                else:
-                    self.price = finalPrice
-                    logger.debug(f"Found price {self.price} for {self.rarity} {self.name}")
-                    return True
-            else:
-                return False
-
+        return True
+    
 
 
     #confirms item should be listed for found price:
@@ -1711,9 +1639,9 @@ def changeClass():
 def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
     pyautogui.moveTo(xStart, yStart)  # Move to the starting position
     pyautogui.mouseDown()        # Press and hold the mouse button
-    time.sleep(0.05)              # Optional: Wait a moment for the cursor to settle
-    pyautogui.moveTo(xEnd, yEnd, duration=duration)  # Drag to the destination position
-    time.sleep(0.05)   
+    time.sleep(duration/25)              # Optional: Wait a moment for the cursor to settle
+    pyautogui.moveTo(xEnd, yEnd, duration=duration/1)  # Drag to the destination position
+    time.sleep(duration/25)   
     pyautogui.mouseUp()          # Release the mouse button
 
 
@@ -2137,6 +2065,8 @@ def organizeStash() -> bool: # True/False successful sort
                         print(f"sending {foundSortName} to item queue")
                         xCoord = queueData[1] - (40 * (foundSortSize[0] - 1))
                         yCoord = queueData[2] - (40 * (foundSortSize[1] - 1))
+                        if xCoord < 0 or yCoord < 200:
+                            logDebug("Trigger")
                         itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord))
                     else:
                         if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
@@ -2174,6 +2104,9 @@ def organizeStash() -> bool: # True/False successful sort
     #Wait for workers
     for thread in threads:
         thread.join()
+
+    for row in stashStorage:
+        logDebug(row)
 
     # Sort items into order for new stash
     itemSortPlaceOrder = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
@@ -2237,13 +2170,13 @@ def organizeStash() -> bool: # True/False successful sort
                 for y in range(newStashBlockHeight):
                     #lookup coords from cache or region map
                     if (y+coordsAddY,x) in blockCache:
-                        comp = blockCache[y+coordsAddY,x]
-                        logDebug(f"retrieve {comp} from blockCache @ {x,y+coordsAddY}")
+                        blockCheck = blockCache[y+coordsAddY,x]
+                        logDebug(f"retrieve {blockCheck} from blockCache @ {x,y+coordsAddY}")
                     else:
-                        comp = newStashBlocks[regionSlotTypeName][y][x]
-                        logDebug(f"retrieve {comp} from newStashBlocks @ {x,y}")
+                        blockCheck = newStashBlocks[regionSlotTypeName][y][x]
+                        logDebug(f"retrieve {blockCheck} from newStashBlocks @ {x,y}")
 
-                    if comp == None:
+                    if blockCheck == None:
                         #If we have an empty slot, check to see if there is enough room to add
                         #by iterating to all size squares. If we see another item stop.
                         addAtCurrentLeftCorner = True
@@ -2370,21 +2303,23 @@ def organizeStash() -> bool: # True/False successful sort
         else:
             coordsAddYSave += len(lastBlock)
 
-    for coords in newItemCoords.items():
-        if isinstance(coords[1], int): continue 
-        logDebug(f"coord: {coords[0]} item:{coords[1].getName()}")
+    for coord, item in newItemCoords.items():
+        item.setDestination(coord[0],coord[1])
 
     print(f"{len(newItemCoords.items())} new item coords post merge")
-
     print(f"{len(itemsToSort)} items to sort")
+
 
     #functions to move and store for newStash
     def moveNewStash(xStart, yStart, xDest, yDest, szX, szY):
         logDebug(f"Trying to move from {xStart,yStart} to {xDest, yDest}")
-        if(xStart,yStart) == (xDest,yDest): return True, True
+        if(xStart,yStart) == (xDest,yDest): return True, pyautogui.position()
 
         #check to see if we're blocked for the move
-        name = newItemCoords[(xDest,yDest)].getName()
+        name = newItemCoords.get((xDest,yDest), "empty")
+        if name != "empty":
+            name = name.getName()
+
         for y in range(szY):
             for x in range(szX):
                 xCheck = x + xDest
@@ -2409,133 +2344,249 @@ def organizeStash() -> bool: # True/False successful sort
                         stashStorage[y][x] = None
                         stashQuickEmptyCoordSet.add((x,y))
 
+        for y in range(szY):
+            for x in range(szX):
+                stashStorageCoordDict[(x + xDest,y + yDest)] = stashStorageCoordDict.pop((x + xStart,y + yStart))
+
+        if name in config.ITEM_MOVES_BOTTOM_RIGHT_CORNER:
+            xDest += szX-1
+            yDest += szY-1
+
         xStartGui = ((xStart * 40) + 10 + config.xStashStart)
         yStartGui = ((yStart * 40) + 10 + config.yStashStart)
 
         xDestGui = ((xDest * 40) + 10 + config.xStashStart)
         yDestGui = ((yDest * 40) + 10 + config.yStashStart)
 
-        clickAndDrag(xStartGui, yStartGui, xDestGui, yDestGui, duration=sleepTime/5)
+        time.sleep(sleepTime/10)
+        clickAndDrag(xStartGui, yStartGui, xDestGui, yDestGui, duration=sleepTime/2.5)
+        time.sleep(sleepTime/10)
 
-        return True, True
+        ret = pyautogui.position()
+
+        return True, ret
     
-    def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, xStash=20, yStash=20):
+
+    # find closest empty stash block XxY stash block
+    def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, destSet, xStash=20, yStash=20):
+
+        stashQuickEmptyCoordSet = set()
+        for itemGetNones in stashStorageCoordDict.items():
+            x,y = (itemGetNones[0][0],itemGetNones[0][1])
+            stashQuickEmptyCoordSet.add((x,y))
+
         bestCoord = None
         bestDist = float('inf')
 
         for x in range(xStash - xFindSize + 1):
             for y in range(yStash - yFindSize + 1):
                 blockCoords = [(x + dx, y + dy) for dx in range(xFindSize) for dy in range(yFindSize)]
-                if all(coord in stashQuickEmptyCoordSet for coord in blockCoords):
+                if all(coord not in stashQuickEmptyCoordSet for coord in blockCoords) and all(coord not in destSet for coord in blockCoords):
                     dist = abs(x - xStart) + abs(y - yStart)
                     if dist < bestDist:
                         bestDist = dist
                         bestCoord = (x, y)
                         
         return bestCoord
-        
-    #data for movement
-    itemStartEnd = []
-    sortItems = True
-
-    swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
-    for item in itemSortPlaceOrder:
-        def validateCoords(i):
-            return 0 <= i and i <= 19
-
-        xStart, yStart = item.getCoords()
-        xStartInt = int((xStart - 10 - config.xStashStart) / 40)
-        yStartInt = int((yStart - 10 - config.yStashStart) / 40)
-
-        xDestination,yDestination = swappedNewItemCoords[item]
-
-        if not (validateCoords(xStartInt) and validateCoords(yStartInt) and validateCoords(xDestination) and validateCoords(yDestination)):
-            logDebug(f"Coordinate Error on {(xStartInt, yStartInt) , {(xDestination, yDestination)}}")
-            return False
-        
-        szX,szY = item.getSize()
-        itemStartEnd.append([item, xStartInt, yStartInt, xDestination, yDestination, szX, szY, False])
-
-    for list in itemStartEnd:
-        print(f"must move {list[0].getName()} from {list[1]} to {list[2]} status: {list[3]}")
-
-    #while we have items to move and space to move items, move items to new slots
-    while(sortItems):
-        for item in itemStartEnd:
-            #cache & coord setup
-            visited = set()
-            visited.add(item[0])
     
-            moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
 
-            if not moved[0]:
-                blockingItemCoords = moved[1]
-                blockingItem = stashStorageCoordDict[blockingItemCoords]
-                
-                def handleBlocking(blockingItem):
-                    currentBlocker = next((item for i, item in enumerate(itemStartEnd) if item[0] == blockingItem), None)
+    
+    #Handle all of an item's blockers
+    def handleBlocking(currentBlocker, stashStorageCoordDict, visited=[], destSet = set()):
+        
+        xStart, yStart = currentBlocker.getStashCoords()
+        xSz, ySz = currentBlocker.getSize()
+        name = currentBlocker.getName()
+        xDest, yDest = currentBlocker.getDestination()
 
-                    #if we have seen this blocker before, find temp space and move seen item to it- if no temp space then we need to create it or else we have truly failed.
-                    if blockingItem in visited:
-                        tempPlacement = findClosestEmptyBlock(currentBlocker[1], currentBlocker[2], currentBlocker[5], currentBlocker[6])
-                        if tempPlacement:
-                            moved = moveNewStash(currentBlocker[1], currentBlocker[2], tempPlacement[0], tempPlacement[1], currentBlocker[5], currentBlocker[6])
-                            if moved:
-                                logDebug(f"Moving {currentBlocker[0].getName()} to temp space @ {currentBlocker[5], currentBlocker[6]}")
-                                return True
-                            else:
-                                logDebug(f"FAILED Moving {currentBlocker[0].getName()} to temp space @ {currentBlocker[5], currentBlocker[6]}")
-                                return False
-                        else:
-                            logDebug(f"No avail temp space, FAIL!!!!")
-                            return False
-                        
-                    #if we haven't seen the blocker, attempt to move it to it's final destination
-                    else:
-                        visited.add(blockingItem)
-
-                        if currentBlocker:
-                            moved = moveNewStash(currentBlocker[1], currentBlocker[2], currentBlocker[3], currentBlocker[4], currentBlocker[5], currentBlocker[6])
-                            if not moved:
-                                newBlockingItemCoords = moved[1]
-                                newBlocker = stashStorageCoordDict[newBlockingItemCoords]
-                                result = handleBlocking(newBlocker)
-
-                                if result:
-                                    logDebug(f"Moved1 {currentBlocker[0].getName()} successfully via handleBlocking")
-                                return result
-                            
-                            else:
-                                itemStartEnd.pop(next((i for i, itemDel in enumerate(itemStartEnd) if itemDel[0] == currentBlocker[0]), None))
-                                logDebug(f"Moved2 {currentBlocker[0].getName()} successfully via handleBlocking")
-                                currentBlocker[7] = True
-
-                                #After successfully removing a blocker, revisit the visited items and handle them.
-                                if visited:
-                                    #TODO: If we have visited other items before moving this blocker, go back and move those now that there is space. 
-                                    pass
-                                else:
-                                    return True
-                        
-                        else:
-                            logDebug(f"could not find {blockingItem.getName()} in itemStartEnd")
-                            return False
-                        
-                result = handleBlocking(blockingItem)
-
-                if result:
-                    logDebug(f"Moved3 {blockingItem.getName()} successfully via handleBlocking")
+        logDebug(f"HandlingBlocking for {name}")
+        for item in stashStorageCoordDict.items():
+            logDebug(f"handling Blocking for {item[1].getName()} @ {item[0]}")
+        
+        #if we have seen this blocker before, find temp space and move seen item to it- if no temp space then we need to create it or else we have truly failed.
+        if currentBlocker in visited:
+            tempPlacement = findClosestEmptyBlock(xStart, yStart, xSz, ySz, destSet)
+            if tempPlacement:
+                moved = currentBlocker.moveToStash(tempPlacement[0], tempPlacement[1], stashStorageCoordDict)
+                if moved:
+                    logDebug(f"Moving {name} to temp space @ {tempPlacement[0], tempPlacement[1]}")
                 else:
-                    logDebug(f"FAILED Moving {blockingItem.getName()} via handleBlocking")
-
+                    logDebug(f"FAILED1 Moving {name} to temp space @ {tempPlacement[0], tempPlacement[1]}")
+                    return False
             else:
-                #move success, set final ele to True
-                logDebug(f"Setting True")
-                item[7] = True
+                logDebug(f"No avail temp space, FAIL!!!!")
+                return False
+            
+        #if we haven't seen the blocker, attempt to move it to it's final destination
+        else:
+            visited.append(currentBlocker)
+            for y in range(ySz):
+                for x in range(xSz):
+                    xCheck = x + xDest
+                    yCheck = y + yDest
+                    blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
+                    if blockCheck != None and blockCheck != currentBlocker:
+                        logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
+                        
+                        success = handleBlocking(blockCheck, stashStorageCoordDict)
+                        if success:
+                            logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
+                
+                        else:
+                            logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {name}")
+                            return False
 
-        sortItems = all(itemStartEnd[7])
-        print("INF DETECTION")
-        time.sleep(sleepTime)
+            moved = currentBlocker.moveToStash(xDest, yDest, stashStorageCoordDict)
+
+            if not moved:
+                logDebug(f"FAILED3!! to move {name} via handleBlocking")
+                return False
+        
+            else:
+                logDebug(f"Moved2 {name} successfully via handleBlocking")
+                
+                for y in range(yDest, yDest + ySz):
+                    for x in range(xDest, xDest + xSz):
+                            destSet.discard((x,y))
+        
+
+        # If we visited other blockers, move them to final positions now that we have a clear path
+        while visited:
+            lastVisited = visited.pop()
+            xStart, yStart = lastVisited.getStashCoords()
+            xSz, ySz = lastVisited.getSize()
+            name = lastVisited.getName()
+            xDest, yDest = lastVisited.getDestination()
+
+            logDebug((name, lastVisited.getRarity()))
+
+
+            for y in range(ySz):
+                for x in range(xSz):
+                    xCheck = x + xDest
+                    yCheck = y + yDest
+                    blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
+                    if blockCheck != None and blockCheck != lastVisited:
+                        logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
+                        
+                        success = handleBlocking(blockCheck, stashStorageCoordDict)
+                        if success:
+                            logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
+        
+                        else:
+                            logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {name}")
+                            return False
+
+            moved = lastVisited.moveToStash(xDest, yDest, stashStorageCoordDict)
+
+            if not moved:
+                logDebug(f"FAILED3!! to move {lastVisited.getName()} via handleBlocking")
+                return False
+        
+            else: 
+                logDebug(f"Moved2 {lastVisited.getName()} successfully via handleBlocking")
+                for y in range(yDest, yDest + ySz):
+                        for x in range(xDest, xDest + xSz):
+                            destSet.discard((x,y))
+        
+        return True
+
+
+    #Attempt to move each item to its new stash destination
+    swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
+
+    for item in itemSortPlaceOrder:
+        #get new destination coords and attempt move
+        xDestination, yDestination = item.getDestination()
+        xSz, ySz = item.getSize()
+
+        
+        for y in range(ySz):
+            for x in range(xSz):
+                xCheck = x + xDestination
+                yCheck = y + yDestination
+                blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
+                if blockCheck != None and blockCheck != item:
+                    logDebug(f"{item.getName()} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
+                    
+                    success = handleBlocking(blockCheck, stashStorageCoordDict)
+                    if success:
+                        logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
+            
+                    else:
+                        logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {item.getName()}")
+                        return False
+
+        success = item.moveToStash(xDestination, yDestination, stashStorageCoordDict)
+
+        if success:
+            logDebug(f"Moved3 {item.getName()} successfully via order move")
+      
+
+        else:
+            logDebug(f"FAILED2 Moving {item.getName()} via order move after handling blocking. Cannot move {item.getName()}")
+            return False
+       
+
+        
+    # #data for movement
+    # itemStartEnd = []
+    # sortItems = True
+
+    # swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
+    # for item in itemSortPlaceOrder:
+    #     def validateCoords(i):
+    #         return 0 <= i and i <= 19
+
+    #     xStart, yStart = item.getCoords()
+    #     xStartInt = int((xStart - 10 - config.xStashStart) / 40)
+    #     yStartInt = int((yStart - 10 - config.yStashStart) / 40)
+
+    #     xDestination,yDestination = swappedNewItemCoords[item]
+
+    #     if not (validateCoords(xStartInt) and validateCoords(yStartInt) and validateCoords(xDestination) and validateCoords(yDestination)):
+    #         logDebug(f"Coordinate Error on {(xStartInt, yStartInt)} , {(xDestination, yDestination)} for {item.getName()}")
+    #         return False
+        
+    #     szX,szY = item.getSize()
+
+    #     itemStartEnd.append([item, xStartInt, yStartInt, xDestination, yDestination, szX, szY, False])
+
+    # for list in itemStartEnd:
+    #     logDebug(f"must move {list[0].getName()} from {list[1]} , {list[2]} to {list[3]} , {list[2]} status: {list[7]}")
+
+    # #while we have items to move and space to move items, move items to new slots
+
+    # while(sortItems):
+    #     for item in itemStartEnd:
+    #         if not item[7]:
+    #             moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
+
+    #             while not moved[0]:
+    #                 blockingItemCoords = moved[1]
+    #                 blockingItem = stashStorageCoordDict[blockingItemCoords]
+                    
+    #                 result = handleBlocking(blockingItem)
+
+    #                 if result:
+    #                     logDebug(f"Moved3 {blockingItem.getName()} successfully via handleBlocking")
+    #                     moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
+    #                 else:
+    #                     logDebug(f"FAILED2 Moving {blockingItem.getName()} via handleBlocking. Cannot move {item[0].getName()}")
+    #                     return False
+
+    #             else:
+    #                 #move success, set final ele to True
+    #                 logDebug(f"Setting True")
+    #                 newXCoord,newYCoord = moved[1]
+    #                 item[0].setCoords(newXCoord,newYCoord)
+    #                 item[7] = True
+                
+
+    #     sortItems = not all(item[7] for item in itemStartEnd)
+    #     time.sleep(sleepTime)
+
+    
 
     print(f'done in {time.time() - time1:.2f} seconds')
 

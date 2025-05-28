@@ -110,6 +110,11 @@ regionMarketListings = (700, 60, 440, 100)
 xCollectExpressman, yCollectExpressman = 69, 256
 xPayGetExpressman, yPayGetExpressman = 953,926
 
+ITEM_MOVES_BOTTOM_RIGHT_CORNER = {
+    "Lyre",
+    "Surgical Kit"
+}
+
 # slot type sorting order
 SLOTTYPE_ORDER = {
     "Ring": 1,
