@@ -25,6 +25,9 @@ stashSell = 0
 sellWidth = None
 sellHeight = None
 stashPixelVal = None
+organizeMethod = None
+organizeStashes = 0
+numDatabase = 13
 
 ssQuantity = [910,400,80,15]
 ssComp1 = [700, 400, 500, 400]

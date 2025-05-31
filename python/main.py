@@ -62,7 +62,7 @@ def sellHotkeyExec(mainWindow):
 
 
 
-# Close GUI
+# Close GUIq
 def closeApp(app):
     DAD_Utils.logDebug("Exiting via hotkey... Goodbye!")
     app.quit()     
@@ -70,15 +70,16 @@ def closeApp(app):
 
 
 def main():
-    logging.debug("Starting Program ...")
+    logging.debug("Starting Program ...") 
 
     conn, cursor = database.connectDatabase()
     closeKey = database.getConfig(cursor,'closeHotkey')
     sellKey = database.getConfig(cursor,'sellHotkey')
     darkMode = database.getConfig(cursor,'darkMode')
-    
-    if database.printConfig(cursor) == None:
-        database.updateConfig(cursor)
+
+    currNumData = database.printConfig(cursor)[0]
+    if currNumData == None or len(currNumData) != config.numDatabase:
+        database.updateConfig(cursor,len(currNumData) if currNumData else 0)
 
     database.closeDatabase(conn)
 

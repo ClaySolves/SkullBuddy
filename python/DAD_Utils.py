@@ -125,7 +125,7 @@ class item():
 
 
     # print item rarity and name
-    def printRarityName(self):
+    def printRarityName(self,printEnd="\n"):
         printColor = "Black"
         if self.rarity:
             if self.rarity.lower() == 'poor' or self.rarity.lower() == 'common':
@@ -142,7 +142,7 @@ class item():
                 printColor = 'PaleGoldenRod'
 
         rarityPrint = self.rarity[0].upper() + self.rarity[1:]
-        logGui(f"{rarityPrint} {self.name}",printColor)
+        logGui(f"{rarityPrint} {self.name}",printColor,printEnd=printEnd)
 
 
     #print item roll
@@ -505,6 +505,9 @@ class item():
             xDestGui += 40 * (xSz - 1)
             yDestGui += 40 * (ySz - 1)
 
+        logGui(f"Moving ", printEnd=" ")
+        self.printRarityName(printEnd=" ")
+        logGui(f"Moving {name} from {xStartInt, yStartInt} to {xDest, yDest}")
 
         clickAndDrag(xStart, yStart, xDestGui, yDestGui, duration=sleepTime/7)
         
@@ -881,7 +884,8 @@ def loadTextFiles():
     global darkMode
 
     conn, cursor = database.connectDatabase()
-
+    print(database.printDatabase(cursor))
+   
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
         file.seek(0,2)
@@ -1072,7 +1076,7 @@ def enforceConfig() -> bool: # ret True/False correct config
         
     #bool for set pixelval
     setPixelVal = True
-        
+
     #check each instance and bounds
     check = database.getConfig(cursor,'sleepTime')
     if not boundsCheck(check,0.3,5.0): return False, 'App Speed'
@@ -1153,7 +1157,7 @@ def getItemSlotType(ssStash,location):
     ssSlotType = ssStash.crop(ssRegion)
 
     txt = pytesseract.image_to_string(ssSlotType,config="--psm 6")
-    #print(f'slot txt {txt}')
+
     txtRemove = "Slot Type"
     try:
         keywordIndex = txt.index(txtRemove) + len(txtRemove)
@@ -1460,6 +1464,7 @@ def getAvailSlots():
     ss = pyautogui.screenshot(region=config.ssGetListingPageNum)
     listConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789/'
     txtList = pytesseract.image_to_string(ss,config=listConfig)
+    if txtList == None or txtList == '': return 0
     currListPage = int(txtList.split('/')[0]) - 1
 
     #Take screenshot and sanitize for read text for all listing pages
@@ -1943,7 +1948,7 @@ def finalizeStashItem(ssStash, name, size, space, x, y) -> item:
 
     #make item and return
     foundItem = item(name,[],rarity,coords,size,1,slotType=slotType)
-    print(f"{foundItem.rarity} {foundItem.name} {foundItem.size} {foundItem.slotType}")
+
     return foundItem
 
 
@@ -1981,8 +1986,25 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
 
 #Search current displayed stash
 def organizeStash() -> bool: # True/False successful sort
-    logger.debug("Organizing Stash")
+    
+    loadTextFiles()
+    enforceConfig()
+
+    logGui("Organizing Stash...")
     time1=time.time()
+
+    # get config vars for single or multi stash sort
+    organizeMethod = database.getConfig(cursor, "organizeMethod")
+    flag = database.getConfig(cursor, "organizeStashes")
+    stashFlags = []
+    if organizeMethod == 2:
+        for i in range(8):
+            if bool(flag & (1 << i)):
+                stashFlags.append(i)
+    
+    logGui("Organizing Stash...")
+    logDebug(f"Organizing Stash with organize method {organizeMethod} and {stashFlags}")
+
 
     #check to make sure we're on stash page
     ssCheckStashPage = pyautogui.screenshot(region=config.ssConfirmStash)
@@ -1991,6 +2013,7 @@ def organizeStash() -> bool: # True/False successful sort
         logGui("Stash Not Detected","red")
         logGui("Navigate to the stash you want to organize and try again")
         logger.error("Organize stash called but no stash page detected")
+        database.closeDatabase(conn)
         return False
 
     #var setup
@@ -2019,76 +2042,83 @@ def organizeStash() -> bool: # True/False successful sort
     #if no items return None
     if not itemDetectedStashSquares:
         logGui("Yeah let me just organize this empty stash... Bro are you dumb or something?")
+        database.closeDatabase(conn)
         return None
 
     #create workers to scrape screenshots
     def ssWorker():
-        for _ in range(20):
-            #If a screenshot is added to the queue, a worker will take it and harvest info
-            while ssQueue:
-                queueData = ssQueue.popleft()
-                x = int ((queueData[1] - (10 + config.xStashStart) ) / 40)
-                y = int ((queueData[2] - (10 + config.yStashStart) ) / 40)
+        firstTime = True
+        while(ssQueue or itemQueue or firstTime):
+            firstTime = False
+            logDebug("Thread working ssQueue")
+            for _ in range(50):
+                #If a screenshot is added to the queue, a worker will take it and harvest info
+                
+                while ssQueue:
+                    queueData = ssQueue.popleft()
+                    x = int ((queueData[1] - (10 + config.xStashStart) ) / 40)
+                    y = int ((queueData[2] - (10 + config.yStashStart) ) / 40)
 
-                #read necessary info for size and name
-                foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
+                    #read necessary info for size and name
+                    foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
 
-                # record frequency of items, if we have same frequency as size send item to be completed
-                if foundSortName is not None:
-                    stashStorage[y][x] = foundSortName
+                    # record frequency of items, if we have same frequency as size send item to be completed
+                    if foundSortName is not None:
+                        stashStorage[y][x] = foundSortName
 
-                    if foundSortName not in stashFrequency:
-                        stashFrequency[foundSortName] = 1
-                    else:
-                        stashFrequency[foundSortName] += 1
+                        if foundSortName not in stashFrequency:
+                            stashFrequency[foundSortName] = 1
+                        else:
+                            stashFrequency[foundSortName] += 1
 
-                    itemReady = True
-                    if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
-                        while itemReady:
-                            for y2 in range(foundSortSize[1]):
-                                if y-y2 < 0: break
-                                for x2 in range(foundSortSize[0]):
-                                    if x-x2 < 0: break
-                                    if stashStorage[y-y2][x-x2] != foundSortName:
-                                        itemReady = False
-                            break
-                    else:
-                        itemReady = False
-
-                    #if item is sent to queue, adjust stashStorage and frequency
-                    if itemReady:
-                        for y2 in range(foundSortSize[1]):
-                                for x2 in range(foundSortSize[0]):
-                                    stashStorage[y-y2][x-x2] = foundSortName + "_Done"
-                                    stashFrequency[foundSortName] -= 1
-
-                        print(f"sending {foundSortName} to item queue")
-                        xCoord = queueData[1] - (40 * (foundSortSize[0] - 1))
-                        yCoord = queueData[2] - (40 * (foundSortSize[1] - 1))
-                        if xCoord < 0 or yCoord < 200:
-                            logDebug("Trigger")
-                        itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord))
-                    else:
+                        itemReady = True
                         if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
-                            print(f"{foundSortName} NOT FOUND IN {foundSortSize} qData, x, y ; x2, y2: {queueData[1]} {queueData[2]} {x} {y} {x2} {y2}")
-            else:
-                time.sleep(0.15)
+                            while itemReady:
+                                for y2 in range(foundSortSize[1]):
+                                    if y-y2 < 0: break
+                                    for x2 in range(foundSortSize[0]):
+                                        if x-x2 < 0: break
+                                        if stashStorage[y-y2][x-x2] != foundSortName:
+                                            itemReady = False
+                                break
+                        else:
+                            itemReady = False
 
-        # Once the screenshot queue is empty, work on items to be complted
-        for _ in range(20):
-            while(itemQueue):
-                item = itemQueue.popleft()
-                finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5])
-                itemsToSort.append(finalItem)
+                        #if item is sent to queue, adjust stashStorage and frequency
+                        if itemReady:
+                            for y2 in range(foundSortSize[1]):
+                                    for x2 in range(foundSortSize[0]):
+                                        stashStorage[y-y2][x-x2] = foundSortName + "_Done"
+                                        stashFrequency[foundSortName] -= 1
 
-            else:
-                time.sleep(0.1)
+                            logDebug(f"sending {foundSortName} to item queue")
+                            xCoord = queueData[1] - (40 * (foundSortSize[0] - 1))
+                            yCoord = queueData[2] - (40 * (foundSortSize[1] - 1))
+                            if xCoord < 0 or yCoord < 200:
+                                logDebug("Trigger")
+                            itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord))
+
+                time.sleep(0.05)
+
+            logDebug("Thread working itemQueue")
+            # Once the screenshot queue is empty, work on items to be complted
+            for _ in range(50):
+                while(itemQueue):
+                    item = itemQueue.popleft()
+                    finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5])
+                    logGui("Found ", printEnd=" ")
+                    finalItem.printRarityName(printEnd=" ")
+                    logGui(f"at {finalItem.getStashCoords()}")
+
+                    itemsToSort.append(finalItem)
+
+                time.sleep(0.05)
 
     #start worker threads
-    numWorkers = 6 #4 if sleepTime >= 1.3 else 6
-    print(numWorkers)
-    threads = []
+    numWorkers = 4 if sleepTime >= 1.3 else 6
+    logDebug(f"Using numworkers: {numWorkers}")
 
+    threads = []
     for _ in range(numWorkers):
         t = threading.Thread(target=ssWorker)
         t.start()
@@ -2111,6 +2141,8 @@ def organizeStash() -> bool: # True/False successful sort
     # Sort items into order for new stash
     itemSortPlaceOrder = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
                                                              config.RARITY_ORDER.get(item.getRarity().lower(), -1), item.getName()))
+    
+    logGui(f"Found {len(itemSortPlaceOrder)} to organize")
     
     #new stash creation vars
     slotTypeSize = {}
@@ -2141,11 +2173,6 @@ def organizeStash() -> bool: # True/False successful sort
     #get size allocation for new stash region for each slot type
     for items in slotTypeSize.items():
         slotTypeMax[items[0]] = max(items[1], key = lambda x: x.getSize()[1])
-        for item in items[1]:
-            item.printItem()
-        print("\n","\n","\n","\n")
-
-    print(slotTypeMax.items())
 
     #reserve space and construct each stash block
     newItemCoords = {}
@@ -2218,7 +2245,6 @@ def organizeStash() -> bool: # True/False successful sort
     for coords in newItemCoords.items():
         logDebug(f"coord: {coords[0]} item:{coords[1].getName()}")
 
-    print(f"{len(newItemCoords.items())} new item coords pre merge")
 
     #stack newly created item blocks and form new stash
     lastBlock = None
@@ -2306,66 +2332,7 @@ def organizeStash() -> bool: # True/False successful sort
     for coord, item in newItemCoords.items():
         item.setDestination(coord[0],coord[1])
 
-    print(f"{len(newItemCoords.items())} new item coords post merge")
-    print(f"{len(itemsToSort)} items to sort")
-
-
-    #functions to move and store for newStash
-    def moveNewStash(xStart, yStart, xDest, yDest, szX, szY):
-        logDebug(f"Trying to move from {xStart,yStart} to {xDest, yDest}")
-        if(xStart,yStart) == (xDest,yDest): return True, pyautogui.position()
-
-        #check to see if we're blocked for the move
-        name = newItemCoords.get((xDest,yDest), "empty")
-        if name != "empty":
-            name = name.getName()
-
-        for y in range(szY):
-            for x in range(szX):
-                xCheck = x + xDest
-                yCheck = y + yDest
-                comp = stashStorage[yCheck][xCheck]
-                if comp != None and comp != name + "_Done":
-                    logDebug(f"{name} blocked by {stashStorage[yCheck][xCheck]} @ {(xCheck,yCheck)}")
-                    return False, (xCheck,yCheck)
-                
-        #not blocked, update stashQuickEmptyCoordSet() and stashStorage()
-
-        dontRewrite = set()
-        for y in range(yDest,yDest + szY):
-            for x in range(xDest, xDest + szX):
-                stashStorage[y][x] = name + "_Moved"
-                stashQuickEmptyCoordSet.discard((x,y))
-                dontRewrite.add((x,y))
-
-        for y in range(yStart,yStart + szY):
-            for x in range(xStart, xStart + szX):
-                    if (x,y) not in dontRewrite:
-                        stashStorage[y][x] = None
-                        stashQuickEmptyCoordSet.add((x,y))
-
-        for y in range(szY):
-            for x in range(szX):
-                stashStorageCoordDict[(x + xDest,y + yDest)] = stashStorageCoordDict.pop((x + xStart,y + yStart))
-
-        if name in config.ITEM_MOVES_BOTTOM_RIGHT_CORNER:
-            xDest += szX-1
-            yDest += szY-1
-
-        xStartGui = ((xStart * 40) + 10 + config.xStashStart)
-        yStartGui = ((yStart * 40) + 10 + config.yStashStart)
-
-        xDestGui = ((xDest * 40) + 10 + config.xStashStart)
-        yDestGui = ((yDest * 40) + 10 + config.yStashStart)
-
-        time.sleep(sleepTime/10)
-        clickAndDrag(xStartGui, yStartGui, xDestGui, yDestGui, duration=sleepTime/2.5)
-        time.sleep(sleepTime/10)
-
-        ret = pyautogui.position()
-
-        return True, ret
-    
+    logDebug(f"{len(itemsToSort)} items to sort")
 
     # find closest empty stash block XxY stash block
     def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, destSet, xStash=20, yStash=20):
@@ -2449,7 +2416,6 @@ def organizeStash() -> bool: # True/False successful sort
                     for x in range(xDest, xDest + xSz):
                             destSet.discard((x,y))
         
-
         # If we visited other blockers, move them to final positions now that we have a clear path
         while visited:
             lastVisited = visited.pop()
@@ -2491,10 +2457,6 @@ def organizeStash() -> bool: # True/False successful sort
         
         return True
 
-
-    #Attempt to move each item to its new stash destination
-    swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
-
     for item in itemSortPlaceOrder:
         #get new destination coords and attempt move
         xDestination, yDestination = item.getDestination()
@@ -2515,6 +2477,7 @@ def organizeStash() -> bool: # True/False successful sort
             
                     else:
                         logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {item.getName()}")
+                        database.closeDatabase(conn)
                         return False
 
         success = item.moveToStash(xDestination, yDestination, stashStorageCoordDict)
@@ -2522,73 +2485,12 @@ def organizeStash() -> bool: # True/False successful sort
         if success:
             logDebug(f"Moved3 {item.getName()} successfully via order move")
       
-
         else:
             logDebug(f"FAILED2 Moving {item.getName()} via order move after handling blocking. Cannot move {item.getName()}")
+            database.closeDatabase(conn)
             return False
-       
-
         
-    # #data for movement
-    # itemStartEnd = []
-    # sortItems = True
-
-    # swappedNewItemCoords = {value: key for key, value in newItemCoords.items()}
-    # for item in itemSortPlaceOrder:
-    #     def validateCoords(i):
-    #         return 0 <= i and i <= 19
-
-    #     xStart, yStart = item.getCoords()
-    #     xStartInt = int((xStart - 10 - config.xStashStart) / 40)
-    #     yStartInt = int((yStart - 10 - config.yStashStart) / 40)
-
-    #     xDestination,yDestination = swappedNewItemCoords[item]
-
-    #     if not (validateCoords(xStartInt) and validateCoords(yStartInt) and validateCoords(xDestination) and validateCoords(yDestination)):
-    #         logDebug(f"Coordinate Error on {(xStartInt, yStartInt)} , {(xDestination, yDestination)} for {item.getName()}")
-    #         return False
-        
-    #     szX,szY = item.getSize()
-
-    #     itemStartEnd.append([item, xStartInt, yStartInt, xDestination, yDestination, szX, szY, False])
-
-    # for list in itemStartEnd:
-    #     logDebug(f"must move {list[0].getName()} from {list[1]} , {list[2]} to {list[3]} , {list[2]} status: {list[7]}")
-
-    # #while we have items to move and space to move items, move items to new slots
-
-    # while(sortItems):
-    #     for item in itemStartEnd:
-    #         if not item[7]:
-    #             moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
-
-    #             while not moved[0]:
-    #                 blockingItemCoords = moved[1]
-    #                 blockingItem = stashStorageCoordDict[blockingItemCoords]
-                    
-    #                 result = handleBlocking(blockingItem)
-
-    #                 if result:
-    #                     logDebug(f"Moved3 {blockingItem.getName()} successfully via handleBlocking")
-    #                     moved = moveNewStash(item[1], item[2], item[3], item[4], item[5], item[6])
-    #                 else:
-    #                     logDebug(f"FAILED2 Moving {blockingItem.getName()} via handleBlocking. Cannot move {item[0].getName()}")
-    #                     return False
-
-    #             else:
-    #                 #move success, set final ele to True
-    #                 logDebug(f"Setting True")
-    #                 newXCoord,newYCoord = moved[1]
-    #                 item[0].setCoords(newXCoord,newYCoord)
-    #                 item[7] = True
-                
-
-    #     sortItems = not all(item[7] for item in itemStartEnd)
-    #     time.sleep(sleepTime)
-
-    
-
-    print(f'done in {time.time() - time1:.2f} seconds')
+    logGui(f'done in {time.time() - time1:.2f} seconds')
 
     #This block is used to compare stash read square vals for debugging 
     numGoodGood = 0
@@ -2610,9 +2512,9 @@ def organizeStash() -> bool: # True/False successful sort
             pass
 
     if numGoodGood == len(itemsToSort):
-        print(f"Ultimate success! {numGoodGood} == {len(itemsToSort)} Items to sort matches itemToSort")
+        logDebug(f"Ultimate success! {numGoodGood} == {len(itemsToSort)} Items to sort matches itemToSort")
     else:
-        print(f"{numGoodGood} != {len(itemsToSort)}")
+        logDebug(f"{numGoodGood} != {len(itemsToSort)}")
 
     y = len(stashStorage) -1
     x = len(stashStorage[0]) -1
@@ -2630,6 +2532,9 @@ def organizeStash() -> bool: # True/False successful sort
                 numNotNone += 1
 
     logDebug(f"{numStashFreq} should ==  {len(itemDetectedStashSquares)} should ==  {(numNotNone)}")
+
+    database.closeDatabase(conn)
+    return True
 
 
 
@@ -2666,7 +2571,6 @@ def combineStashBlocks(block1, block2, newItemCoords, coordsAddY, ComboDelY):
 
         height = len(grid)
         width = len(grid[0])
-        print(height,width)
         hist = [0] * width
         max_area = 0
         max_dims = (0, 0, -1, -1)  # width, height, x, y (top-left corner)
@@ -2767,11 +2671,6 @@ def combineStashBlocks(block1, block2, newItemCoords, coordsAddY, ComboDelY):
     
     else:
         return None, newItemCoords
-
-
-
-
-
 
 
 

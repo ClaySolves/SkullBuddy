@@ -6,7 +6,7 @@ import re
 import database
 import config
 import logging
-from PyQt5.QtWidgets import QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
+from PyQt5.QtWidgets import QButtonGroup, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
 from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
 
@@ -67,15 +67,21 @@ class GuiScriptStream():
 class logThread(QThread):
     outputSignal = pyqtSignal(str)  # var for output
 
-    def __init__(self):
+    def __init__(self, selling):
         super().__init__()
+
+        self.selling = selling
         self.oldStdout = sys.stdout
 
 
     def run(self): # run function
         sys.stdout = GuiScriptStream(self.outputSignal)
 
-        DAD_Utils.searchStash()
+        if self.selling:
+            DAD_Utils.searchStash()
+        else:
+            DAD_Utils.organizeStash()
+
         DAD_Utils.logGui("Finished!")
 
         sys.stdout = self.oldStdout
@@ -148,6 +154,7 @@ class MainWindow(QMainWindow):
             buttonAppBgrd = "background-color: #e1e1e1"
             buttonColor = "border: 1px solid #7a7a7a"
             sellButtonPath = "img/DaDButton.png"
+            organizeButtonPath = "img/organizeButton.png"
 
             self.darkMode = False 
 
@@ -162,6 +169,7 @@ class MainWindow(QMainWindow):
             buttonAppBgrd = "background-color: #353535"
             buttonColor = "border: 1px solid #ffffff"
             sellButtonPath = "img/DaDButtonDark.png"
+            organizeButtonPath = "img/organizeButtonDark.png"
 
             self.darkMode = True
 
@@ -177,6 +185,7 @@ class MainWindow(QMainWindow):
         #Label txt Swap
         self.methodLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
         self.stashLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
+        self.organizeLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
 
         #Line txt Swap
         self.appSpeed.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
@@ -186,13 +195,23 @@ class MainWindow(QMainWindow):
         self.sellMax.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.stashHeight.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
         self.stashWidth.setStyleSheet(f"QLineEdit {{ {newTxtColor } }}")
+        
+       
+
 
         #Radio txt Swap
         for i in range (1,4):
             self.radioMethodSelect[i].setStyleSheet(f"QRadioButton {{ {newTxtColor } }}")
 
+        for i in range (1,3):
+            self.stashOrganizeMethod[i].setStyleSheet(f"QRadioButton {{ {newTxtColor } }}")
+
+        for i in range(1,9):
+             self.stashCheckboxSelect[i].setStyleSheet(f"QCheckBox {{ {newTxtColor } }}")
+
         #button txt swap
         self.sellButton.setIcon(QIcon(sellButtonPath))
+        self.organizeButton.setIcon(QIcon(organizeButtonPath))
 
         self.paintSkully(self.darkMode)
 
@@ -281,6 +300,8 @@ class MainWindow(QMainWindow):
         self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
         self.deathSkullLabel.repaint()
 
+        self.organizeButton.setEnabled(False)
+
         #self.guiToConfig()
         if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
             self.showMinimized()
@@ -289,16 +310,50 @@ class MainWindow(QMainWindow):
         # Run thread
         try:    
             DAD_Utils.logDebug("Starting SellButton thread...")
-            self.logThread = logThread()
-            self.logThreadRunning = True
+            self.logSellThread = logThread(True)
+            self.logSellThreadRunning = True
 
-            self.logThread.finished.connect(self.resetSkullyTxt)
-            self.logThread.finished.connect(self.showNormal)
-            self.logThread.finished.connect(self.stopLogThread)
-            self.logThread.finished.connect(self.updatePixelVal)
-            self.logThread.outputSignal.connect(self.appendSellLog)
+            self.logSellThread.finished.connect(self.resetSkullyTxt)
+            self.logSellThread.finished.connect(self.showNormal)
+            self.logSellThread.finished.connect(self.stopLogThread)
+            self.logSellThread.finished.connect(self.updatePixelVal)
+            self.logSellThread.finished.connect(self.enableOrganizeButton)
 
-            self.logThread.start()
+            self.logSellThread.outputSignal.connect(self.appendSellLog)
+
+            self.logSellThread.start()
+
+        except error:
+            DAD_Utils.logDebug("Error starting thread!")
+            DAD_Utils.logGui("Error, Exiting!")
+
+
+    
+    # Organize Stash Button
+    def handleOrganizeButton(self):
+        # gui death skull update
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
+        self.deathSkullLabel.repaint()
+
+        self.sellButton.setEnabled(False)
+
+        #self.guiToConfig()
+        if DAD_Utils.getDisplay(process_name=config.exeName) == DAD_Utils.getCurrentDisplay():
+            self.showMinimized()
+            time.sleep(0.5)
+
+        # Run thread
+        try:    
+            DAD_Utils.logDebug("Starting SellButton thread...")
+            self.logOrganizeThread = logThread(False)
+
+            self.logOrganizeThread.finished.connect(self.resetSkullyTxt)
+            self.logOrganizeThread.finished.connect(self.showNormal)
+            self.logOrganizeThread.finished.connect(self.updatePixelVal)
+            self.logOrganizeThread.finished.connect(self.enableSellButton)
+            self.logOrganizeThread.outputSignal.connect(self.appendSellLog)
+
+            self.logOrganizeThread.start()
 
         except error:
             DAD_Utils.logDebug("Error starting thread!")
@@ -309,7 +364,16 @@ class MainWindow(QMainWindow):
     # stop log thread
     def stopLogThread(self):
         DAD_Utils.logDebug("Stopping Log Thread")
-        self.logThreadRunning = False
+        self.logSellThreadRunning = False
+
+    
+
+    # enable sell buttons
+    def enableSellButton(self):
+        self.sellButton.setEnabled(True)
+
+    def enableOrganizeButton(self):
+        self.organizeButton.setEnabled(True)
     
 
 
@@ -375,13 +439,21 @@ class MainWindow(QMainWindow):
 
         self.paintSkully(darkMode)
 
-        # button
+        # sell Items button
         self.sellButton = QPushButton(self)
         self.sellButton.setIcon(QIcon("img/DaDButton.png"))
-        self.sellButton.setIconSize(QSize(310,70))
+        self.sellButton.setIconSize(QSize(155,35))
         self.sellButton.clicked.connect(self.handleSellItemButton)
-        self.sellButton.setFixedSize(QSize(310,70))
+        self.sellButton.setFixedSize(QSize(155,35))
 
+        # organize Stash button
+        self.organizeButton = QPushButton(self)
+        self.organizeButton.setIcon(QIcon("img/organizeButton.png"))
+        self.organizeButton.setIconSize(QSize(155,35))
+        self.organizeButton.clicked.connect(self.handleOrganizeButton)
+        self.organizeButton.setFixedSize(QSize(155,35))
+
+        # dark mode button
         self.darkModeButton = QPushButton(self)
         self.darkModeButton.setIcon(QIcon("img/darkModeIcon.png"))
         self.darkModeButton.setIconSize(QSize(38,38))
@@ -389,7 +461,7 @@ class MainWindow(QMainWindow):
         self.darkModeButton.clicked.connect(self.handleDarkModeButton)
 
         # logs
-        self.logThreadRunning = False
+        self.logSellThreadRunning = False
         self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
@@ -456,7 +528,9 @@ class MainWindow(QMainWindow):
         sellHotkeyLayout.addWidget(sellHotkeyLabelBack)
 
         self.methodLabel = QLabel("Enter Selling Info:")
+        self.methodLabel.setFixedWidth(85)
         self.stashLabel = QLabel("Enter Stash Info:")
+        self.organizeLabel = QLabel("Enter Organize Info:")
 
         self.appSpeed = QLineEdit()
         self.appSpeed.setPlaceholderText("Enter Sell Speed")
@@ -497,6 +571,7 @@ class MainWindow(QMainWindow):
         self.stashHeight.setPlaceholderText("Enter Sell Height")
         self.stashHeight.setText(str(database.getConfig(cursor,'sellHeight')))
         self.stashHeight.setValidator(intValidHeight)
+        self.stashHeight.setFixedWidth(155)
         self.stashHeight.textChanged.connect(lambda: self.guiToDatabase("sellHeight",int(self.stashHeight.text())
                                                                     if self.stashHeight.text() else None)) 
 
@@ -504,10 +579,12 @@ class MainWindow(QMainWindow):
         self.stashWidth.setPlaceholderText("Enter Sell Width")
         self.stashWidth.setText(str(database.getConfig(cursor,'sellWidth')))
         self.stashWidth.setValidator(intValidWidth)
+        self.stashWidth.setFixedWidth(155)
         self.stashWidth.textChanged.connect(lambda: self.guiToDatabase("sellWidth",int(self.stashWidth.text())
                                                                     if self.stashWidth.text() else None))
 
         # Radio Buttons
+        sellMethodSelect = QButtonGroup(self)
         self.radioMethodSelect = {
             1 : QRadioButton("Lowest Price"),
             2 : QRadioButton("Lowest Price w/o Outliers"),
@@ -515,8 +592,43 @@ class MainWindow(QMainWindow):
         }
         self.radioMethodSelect[database.getConfig(cursor,'sellMethod')].setChecked(True)
         for i in range(1,4):
+            sellMethodSelect.addButton(self.radioMethodSelect[i])
             self.radioMethodSelect[i].toggled.connect(lambda: self.guiToDatabase('sellMethod',
             next((key for key, value in self.radioMethodSelect.items() if value.isChecked()),None)))
+
+        sellOrganizeSelect = QButtonGroup(self)
+        self.stashOrganizeMethod = {
+            1 : QRadioButton("Displayed Stash"),
+            2 : QRadioButton("Selected Stash")
+        }
+        self.stashOrganizeMethod[database.getConfig(cursor,'organizeMethod')].setChecked(True)
+        for i in range(1,3):
+            sellOrganizeSelect.addButton(self.stashOrganizeMethod[i])
+            self.stashOrganizeMethod[i].toggled.connect(lambda: self.guiToDatabase('organizeMethod',
+            next((key for key, value in self.stashOrganizeMethod.items() if value.isChecked()),None)))
+            self.stashOrganizeMethod[i].toggled.connect(self.handleStashCheckBoxes)
+
+        #checkBoxes
+        self.stashCheckboxSelect = {
+            1 : QCheckBox("Stash 1"),
+            2 : QCheckBox("Stash 2"),
+            3 : QCheckBox("Stash 3"),
+            4 : QCheckBox("Stash 4"),
+            5 : QCheckBox("Stash 5"),
+            6 : QCheckBox("Stash 6"),
+            7 : QCheckBox("Shared Stash"),
+            8 : QCheckBox("DLC Stash")
+        }
+        
+        flag = database.getConfig(cursor, "organizeStashes")
+        for n, checkbox in enumerate(self.stashCheckboxSelect.values()):
+            checkbox.stateChanged.connect(self.stashCheckBoxToDatabase)
+            if database.getConfig(cursor, "organizeMethod") != 2:
+                checkbox.setEnabled(False)
+            if bool(flag & (1 << (n))):
+                checkbox.setChecked(True)
+                
+        
         
         # Log Layout
         logLayout = QVBoxLayout()
@@ -529,29 +641,72 @@ class MainWindow(QMainWindow):
         logLayout.addWidget(self.sellLog)
 
         # Settings Layout
-        settingsLayout = QVBoxLayout()
+        settingsFinalLayout = QVBoxLayout()
+        settingsLayoutSelling = QVBoxLayout()
+        settingsLayoutOrganize = QVBoxLayout()
         settingsAppSettings = QHBoxLayout()
         settingsMinMaxLayout = QHBoxLayout()
+        settingsButtonLayout = QHBoxLayout()
+        
 
-
-        settingsLayout.addWidget(self.methodLabel)
+        #Build settings for selling items
+        settingsLayoutSelling.addWidget(self.methodLabel)
         for value in self.radioMethodSelect.values():
-            settingsLayout.addWidget(value)
+            settingsLayoutSelling.addWidget(value)
 
         settingsAppSettings.addWidget(self.appSpeed)
         settingsAppSettings.addWidget(self.pixelValue)
-        settingsLayout.addLayout(settingsAppSettings)
+        settingsLayoutSelling.addLayout(settingsAppSettings)
 
         settingsMinMaxLayout.addWidget(self.sellMin)
         settingsMinMaxLayout.addWidget(self.sellMax)
-        settingsLayout.addLayout(settingsMinMaxLayout)
+        settingsLayoutSelling.addLayout(settingsMinMaxLayout)
 
-        settingsLayout.addWidget(self.undercut)
+        settingsLayoutSelling.addWidget(self.undercut)
 
-        settingsLayout.addWidget(self.stashLabel)
-        settingsLayout.addWidget(self.stashHeight)
-        settingsLayout.addWidget(self.stashWidth)
-        settingsLayout.addWidget(self.sellButton)
+        settingsButtonLayout.addWidget(self.sellButton)
+        settingsButtonLayout.addWidget(self.organizeButton)
+        settingsButtonLayout.addSpacerItem(QSpacerItem(150, 12, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        settingsLayoutSelling.addWidget(self.stashLabel)
+        settingsLayoutSelling.addWidget(self.stashHeight)
+        settingsLayoutSelling.addWidget(self.stashWidth)
+        
+        #build settings for organzing items
+        settingsLayoutOrganize.addWidget(self.organizeLabel)
+
+        for value in self.stashOrganizeMethod.values():
+            settingsLayoutOrganize.addWidget(value)
+
+        settingsLayoutOrganize.addSpacerItem(QSpacerItem(80, 27, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        checkCol1 = QVBoxLayout()
+        checkCol2 = QVBoxLayout()
+        checkWrapper = QHBoxLayout()
+
+        for n, checkbox in enumerate(self.stashCheckboxSelect.values()):
+            if n + 1 < 7:
+                checkCol1.addWidget(checkbox)
+            else:
+                checkCol2.addWidget(checkbox)
+
+        checkCol2.addSpacerItem(QSpacerItem(80, 98, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        #checkCol2.add
+
+        checkWrapper.addLayout(checkCol1)
+        checkWrapper.addLayout(checkCol2)
+
+        settingsLayoutOrganize.addLayout(checkWrapper)
+
+
+        settingsWrapper = QHBoxLayout()
+        settingsWrapper.addLayout(settingsLayoutSelling)
+        settingsWrapper.addLayout(settingsLayoutOrganize)
+        settingsWrapper.addSpacerItem(QSpacerItem(1200, 200, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        settingsFinalLayout.addLayout(settingsWrapper)
+        settingsFinalLayout.addLayout(settingsButtonLayout)
 
         # Graphics Setup
         skullyLayout = QVBoxLayout()
@@ -560,7 +715,7 @@ class MainWindow(QMainWindow):
         #Bottom Layout
         BottomLayout = QHBoxLayout()
         BottomLayout.addLayout(skullyLayout)
-        BottomLayout.addLayout(settingsLayout)
+        BottomLayout.addLayout(settingsFinalLayout)
 
         # Main Layout
         mainLayout = QVBoxLayout()
@@ -917,6 +1072,31 @@ class MainWindow(QMainWindow):
         warning = warnBeforeWipe()
         warning.exec_()
 
+
+
+    # handle stash select checkboxes
+    def handleStashCheckBoxes(self):
+        setVal = False if self.stashOrganizeMethod[1].isChecked() else True
+        for n, checkbox in enumerate(self.stashCheckboxSelect.values()):
+                checkbox.setEnabled(setVal)
+
+
+
+    #handle checkbox data to send to database
+    def stashCheckBoxToDatabase(self):
+        conn, cur = database.connectDatabase()
+        flag = database.getConfig(cur, "organizeStashes")
+        if flag == None: flag = 0
+
+        for n, checkbox in enumerate(self.stashCheckboxSelect.values()):
+            if checkbox.isChecked():
+                flag |= 1 << (n)
+            else:
+                flag &= ~(1 << (n))
+
+        database.setConfig(cur, "organizeStashes", flag)
+        database.closeDatabase(conn)
+            
 
 
     # Update history table

@@ -50,10 +50,11 @@ def setConfig(cursor,var,val):
 
 
 # update config in database
-def updateConfig(cursor):
+def updateConfig(cursor, lenCurCon):
     # build sql message to create/update Config table
     sqlDarkmode = 1 if config.darkMode else 0
-    if printConfig(cursor) == None:
+    if lenCurCon == 0 or lenCurCon != config.numDatabase:
+        wipeConfig(cursor)
         sql = """
             INSERT INTO Config (
             sellMin,
@@ -66,8 +67,10 @@ def updateConfig(cursor):
             closeHotkey,
             sleepTime,
             darkMode,
-            pixelValue
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            pixelValue,
+            organizeMethod,
+            organizeStashes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
     else:
         sql = """
@@ -82,12 +85,15 @@ def updateConfig(cursor):
             closeHotkey = ?,
             sleepTime = ?,
             darkMode = ?,
-            pixelValue = ?
+            pixelValue = ?,
+            organizeMethod = ?,
+            organizeStashes = ?
         """ 
     
     # get config values
     sqlInsert = [config.sellMin, config.sellMax, config.sellWidth, config.sellHeight, config.sellMethod,
-              config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode, config.stashPixelVal]
+              config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode, config.stashPixelVal,
+              config.organizeMethod, config.organizeStashes]
 
     #update Config
     cursor.execute(sql,sqlInsert)
@@ -98,6 +104,25 @@ def updateConfig(cursor):
 def wipeConfig(cursor):
     sql = "DROP TABLE IF EXISTS Config"
     cursor.execute(sql)
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Config (
+        sellMin INTEGER,
+        sellMax INTEGER,
+        sellWidth INTEGER,
+        sellHeight INTEGER,
+        sellMethod INTEGER,
+        sellUndercut REAL,
+        sellHotkey TEXT,
+        closeHotkey TEXT,
+        sleepTime REAL,
+        darkMode INTEGER,
+        pixelValue INTEGER,
+        organizeMethod INTEGER,
+        organizeStashes INTEGER           
+    );
+    """)
+
 
 
 
@@ -184,23 +209,11 @@ def connectDatabase():
         closeHotkey TEXT,
         sleepTime REAL,
         darkMode INTEGER,
-        pixelValue INTEGER
+        pixelValue INTEGER,
+        organizeMethod INTEGER,
+        organizeStashes INTEGER           
     );
     """)
 
     return conn, cursor
 
-
-
-# INSERT INTO Config 
-#         sellMin = ?, 
-#         sellMax = ?, 
-#         sellWidth = ?, 
-#         sellHeight = ?, 
-#         sellMethod = ?, 
-#         sellUndercut = ?, 
-#         sellHotkey = ?, 
-#         closeHotkey = ?,
-#         sleepTime = ?, 
-#         darkMode = ?
-#         """ 
