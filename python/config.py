@@ -47,6 +47,7 @@ ssConfirmStash = [1585,131,65,26]
 ssEntireStash = [1376, 199, 493, 814]
 ssGetListings = [142, 500, 150, 485]
 ssGetListingPageNum = [174, 1004, 230, 40]
+ssGetStashInv = [686, 624, 415, 208]
 
 xListingLeft, yListingLeft = 217,1021
 xListingRight, yListingRight = 368,1021

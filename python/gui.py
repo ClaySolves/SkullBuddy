@@ -599,9 +599,12 @@ class MainWindow(QMainWindow):
         sellOrganizeSelect = QButtonGroup(self)
         self.stashOrganizeMethod = {
             1 : QRadioButton("Displayed Stash"),
-            2 : QRadioButton("Selected Stash")
+            2 : QRadioButton("Multi-Select Stash")
         }
-        self.stashOrganizeMethod[database.getConfig(cursor,'organizeMethod')].setChecked(True)
+        
+        setorganizeSelect = self.stashOrganizeMethod.get(database.getConfig(cursor,'organizeMethod'), None)
+        if setorganizeSelect: setorganizeSelect.setChecked(True)
+
         for i in range(1,3):
             sellOrganizeSelect.addButton(self.stashOrganizeMethod[i])
             self.stashOrganizeMethod[i].toggled.connect(lambda: self.guiToDatabase('organizeMethod',

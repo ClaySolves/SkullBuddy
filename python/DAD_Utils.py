@@ -3,6 +3,7 @@ import re
 import random
 import database
 import pyautogui
+import pydirectinput
 import importlib
 import time
 import pytesseract
@@ -26,7 +27,7 @@ logger = logging.getLogger()  # Get the root logger configured in main.py
 #item class
 class item():
     # constructor
-    def __init__(self, name, rolls, rarity, coords, size, quantity, slotType=None,price=None):
+    def __init__(self, name, rolls, rarity, coords, size, quantity, slotType=None, price=None, numStash=None):
         self.name = name # item name
         self.rolls = rolls # item rolls
         self.rarity = rarity # item rarity
@@ -39,6 +40,7 @@ class item():
         self.quantity = quantity
         self.slotType = slotType
         self.destination = None
+        self.numStash = numStash
 
         logger.debug(f"created {self.rarity} {self.name} sz {self.size} @ {self.coords}")
 
@@ -101,6 +103,8 @@ class item():
     def getDestination(self): return self.destination
 
     def setDestination(self ,xDest, yDest): self.destination = (xDest, yDest)
+
+    def getNumStash(self): return self.numStash
 
     #get list of rolls
     def getRolls(self):
@@ -461,11 +465,13 @@ class item():
 
 
     #Moves item from starting coords to destination coords in stash. Returns status of move and end coordinates
-    def moveToStash(self, xDest, yDest, stashStorageCoordDict):
+    def moveToStash(self, xDest, yDest, stashStorageCoordDict, destStash, invStorage):
         name = self.name
         xSz, ySz = self.size
         xStart, yStart = self.coords
         xStartInt, yStartInt = self.getStashCoords()
+
+        global currentStashSelect
 
         def validateCoords(i):
             return 0 <= i and i <= 19
@@ -476,8 +482,7 @@ class item():
 
         logDebug(f"Trying to move from {xStartInt, yStartInt} to {xDest, yDest}")
 
-        if(xStartInt, yStartInt) == (xDest,yDest): return True
-
+        if(xStartInt, yStartInt) == (xDest,yDest) and destStash == self.numStash: return True
 
         # dontRewrite = set()
         # for y in range(yDest,yDest + ySz):
@@ -494,7 +499,7 @@ class item():
 
         for y in range(ySz):
             for x in range(xSz):
-                stashStorageCoordDict[(x + xDest,y + yDest)] = stashStorageCoordDict.pop((x + xStartInt,y + yStartInt))
+                stashStorageCoordDict[(x + xDest, y + yDest, destStash)] = stashStorageCoordDict.pop((x + xStartInt,y + yStartInt, self.numStash))
 
         xDestGui = ((xDest * 40) + 10 + config.xStashStart)
         yDestGui = ((yDest * 40) + 10 + config.yStashStart)
@@ -505,13 +510,32 @@ class item():
             xDestGui += 40 * (xSz - 1)
             yDestGui += 40 * (ySz - 1)
 
+        
+        if currentStashSelect != self.numStash:
+            selectStash(self.numStash)
+        
+
         logGui(f"Moving ", printEnd=" ")
         self.printRarityName(printEnd=" ")
         logGui(f"Moving {name} from {xStartInt, yStartInt} to {xDest, yDest}")
 
-        clickAndDrag(xStart, yStart, xDestGui, yDestGui, duration=sleepTime/7)
-        
+        if self.numStash != destStash:
+            xSz, ySz = self.size
 
+            clickAndShift(xStart, yStart)
+            newStartCoords = invStorage.get((xSz,ySz),None)
+            if not newStartCoords: 
+                logDebug(f"Error getting inv Stash coords for {x,y} with {self.size}")
+                return False
+            
+            selectStash(destStash)
+            clickAndDrag(newStartCoords[0], newStartCoords[1], xDestGui, yDestGui, duration=sleepTime/7)
+        else:
+            clickAndDrag(xStart, yStart, xDestGui, yDestGui, duration=sleepTime/7)
+
+        currentStashSelect = destStash
+        self.numStash = destStash
+        
         return True
     
 
@@ -883,8 +907,11 @@ def loadTextFiles():
     global sleepTime
     global darkMode
 
+    global currentStashSelect
+
     conn, cursor = database.connectDatabase()
-    print(database.printDatabase(cursor))
+    logDebug(database.printConfig(cursor)[0])
+    print(database.printConfig(cursor)[0])
    
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
@@ -907,6 +934,7 @@ def loadTextFiles():
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
     slotTypes = list(config.SLOTTYPE_ORDER.keys())
+    currentStashSelect = None
 
 
 
@@ -1103,7 +1131,7 @@ def enforceConfig() -> bool: # ret True/False correct config
 
     #check && assign for stashPixelVal
     pixelVal = getStashPixelVal()
-
+    logDebug(f"pixelVal: {pixelVal}")
     if setPixelVal or database.getConfig(cursor,'pixelValue') == None:
         database.setConfig(cursor,'pixelValue',pixelVal)
 
@@ -1577,24 +1605,6 @@ def searchFromMarketStash() -> bool:
         if 'yours' in buyRead or 'buy' in buyRead:
             break
 
-    # ss = pyautogui.screenshot(region=[config.ssMarketRollSearch[0] + 10,config.ssMarketRollSearch[1],config.ssMarketRollSearch[2],config.ssMarketRollSearch[3] + 50])
-    # ss.save("debug/marketstall.png")
-
-    # pyautogui.moveTo(config.xAttrSearch, config.yAttrSearch)
-    # time.sleep(sleepTime / 15)
-    # pyautogui.click()
-
-    # pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-    # time.sleep(sleepTime / 15)
-    # pyautogui.click()
-
-    # res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
-    # if not res:
-    #     pyautogui.moveTo(config.xAttrSearch + 250, config.yAttrSearch)
-    #     time.sleep(sleepTime / 15)
-    #     pyautogui.click()
-    #     res = confirmGameScreenChange(ss,region=config.ssMarketRollSearch)
-
     logGui("Search completed.",printEnd=" ")
     return res
 
@@ -1616,12 +1626,12 @@ def seperateRollValues(s) -> list: #[val, rollName]
 # Navigate char login screen
 def navCharLogin():
     xChar, yChar = 1750, 200 # coords for char location
-    pyautogui.moveTo(xChar, yChar, duration=0.1)  # Move the mouse to (x, y) over 1 second
-    pyautogui.click()  # Perform a mouse click
+    pyautogui.moveTo(xChar, yChar, duration=0.1)  
+    pyautogui.click()  
 
-    xLobby, yLobby = 960, 1000  # coords for enter lobby location
-    pyautogui.moveTo(xLobby, yLobby, duration=0.1)  # Move the mouse to (x, y) over 1 second
-    pyautogui.click()  # Perform a mouse click
+    xLobby, yLobby = 960, 1000  
+    pyautogui.moveTo(xLobby, yLobby, duration=0.1) 
+    pyautogui.click()  
     
     while not locateOnScreen('verifyMainScreen', region=(0,0,300,300)):
         time.sleep(sleepTime / 7.5)
@@ -1642,25 +1652,21 @@ def changeClass():
 
 # moves mouse from start to end
 def clickAndDrag(xStart, yStart, xEnd, yEnd, duration=0.1):
-    pyautogui.moveTo(xStart, yStart)  # Move to the starting position
-    pyautogui.mouseDown()        # Press and hold the mouse button
-    time.sleep(duration/25)              # Optional: Wait a moment for the cursor to settle
-    pyautogui.moveTo(xEnd, yEnd, duration=duration/1)  # Drag to the destination position
+    pyautogui.moveTo(xStart, yStart)  
+    pyautogui.mouseDown() 
+    time.sleep(duration/25)      
+    pyautogui.moveTo(xEnd, yEnd, duration=duration/1) 
     time.sleep(duration/25)   
-    pyautogui.mouseUp()          # Release the mouse button
+    pyautogui.mouseUp()          
 
 
 
-# shift + right click
+# shift + right click. For whatever reason pyautogui shift click combo doesn't work, so pydirectinput is used
 def clickAndShift(x,y):
-    pyautogui.keyDown('shift')   
     pyautogui.moveTo(x,y)
-    time.sleep(sleepTime/10)
-    pyautogui.keyDown('shift')   
-    time.sleep(sleepTime/10)
-    pyautogui.click(button="right")
-    time.sleep(sleepTime/10)
-    pyautogui.keyUp('shift')
+    pydirectinput.keyDown('shift')   
+    pydirectinput.rightClick()
+    pydirectinput.keyUp('shift')
 
 
 
@@ -1927,7 +1933,7 @@ def getItemNameSizeSpace(ssStash) -> item:
 
 
 #Get additional information needed for item sort
-def finalizeStashItem(ssStash, name, size, space, x, y) -> item:
+def finalizeStashItem(ssStash, name, size, space, x, y, numStash) -> item:
     #vars
     global allItems 
     coords = [x,y]
@@ -1947,7 +1953,7 @@ def finalizeStashItem(ssStash, name, size, space, x, y) -> item:
     rarity = getItemRarity(ss,text)
 
     #make item and return
-    foundItem = item(name,[],rarity,coords,size,1,slotType=slotType)
+    foundItem = item(name, [], rarity, coords, size, 1, slotType=slotType, numStash=numStash)
 
     return foundItem
 
@@ -1959,38 +1965,37 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
 
     time.sleep(sleepTime / 5)
     mytime = time.time()
-    myItem = getItemInfo()                                                  # read item info
+    myItem = getItemInfo()                                               
     
+    #if we successfully read an item, find a price and list it on the market
     if myItem:
         logGui("Searching Market For",printEnd=" ")
-        myItem.printItem()                                                  # print item to gui
-        foundPrice = myItem.findPrice3()                                    # if price found, continue loop || return false
-        returnMarketStash()                                                 # return market stash
+        myItem.printItem()                                                 
+        foundPrice = myItem.findPrice3()                                
+        returnMarketStash()                                              
 
         if foundPrice:
             listedSuccess = myItem.listItem()
-            if listedSuccess:                                               # list item
+            if listedSuccess:                                             
                 mytime2 = time.time()
-                logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")         # log time to gui
+                logGui(f"Listed item in {mytime2-mytime:0.1f} seconds")        
                 time.sleep(sleepTime / 1.2)
                 return myItem, True
     
-        # time.sleep(sleepTime / 3)
-        # pyautogui.moveTo(myItem.coords[0],myItem.coords[1])
-        # pyautogui.click(button='right')
-
         return myItem, False      
-    return None, False                                                      # if we fail any part of loop, return false
-
-
+    return None, False                                                 
 
 #Search current displayed stash
 def organizeStash() -> bool: # True/False successful sort
     
     loadTextFiles()
-    enforceConfig()
+    check, err = enforceConfig()
+    if not check:
+        logGui("Invalid Settings!!!","red")
+        logGui(f"Check {err} value")
+        database.closeDatabase(conn) 
+        return False
 
-    logGui("Organizing Stash...")
     time1=time.time()
 
     # get config vars for single or multi stash sort
@@ -2001,6 +2006,8 @@ def organizeStash() -> bool: # True/False successful sort
         for i in range(8):
             if bool(flag & (1 << i)):
                 stashFlags.append(i)
+    else:
+        stashFlags.append(1)
     
     logGui("Organizing Stash...")
     logDebug(f"Organizing Stash with organize method {organizeMethod} and {stashFlags}")
@@ -2017,27 +2024,40 @@ def organizeStash() -> bool: # True/False successful sort
         return False
 
     #var setup
-    ssGetStash = pyautogui.screenshot(region=config.ssEntireStash)
+    numReadStashes = len(stashFlags) if organizeMethod == 2 else 1
+    print(numReadStashes)
+
     itemDetectedStashSquares = []
     stashFrequency = {}
     ssQueue = deque()
     itemQueue = deque()
-    stashStorage = [[None for _ in range(12)] for _ in range(20)]
+    stashStorage = [[None for _ in range(12)] for _ in range(20 * numReadStashes)]
     stashQuickEmptyCoordSet = set()
     itemsToSort = []
 
-    #look for items to sort in stash ss
-    for y in range(database.getConfig(cursor,'sellHeight')):
-        for x in range(database.getConfig(cursor,'sellWidth')):
-            newX = 10 + (40 * x)
-            newY = 10 + (40 * y)
-            itemDetected = detectItem2(ssGetStash,newX,newY)
+    
 
-            if itemDetected:
-                foundItem = [config.xStashStart + newX, config.yStashStart + newY]
-                itemDetectedStashSquares.append(foundItem)
-            else:
-                stashQuickEmptyCoordSet.add((x,y))
+    #look for items to sort in stash ss
+    for i in range(numReadStashes-1,-1,-1):
+        if organizeMethod == 2:
+            selectStash(stashFlags[i])
+
+        ssGetStash = pyautogui.screenshot(region=config.ssEntireStash)
+        for y in range(20):
+            for x in range(12):
+                newX = 10 + (40 * x)
+                newY = 10 + (40 * y)
+                itemDetected = detectItem2(ssGetStash,newX,newY)
+
+                if itemDetected:
+                    # if organizeMethod == 2:
+                    foundItem = [config.xStashStart + newX, config.yStashStart + newY,stashFlags[i]]
+
+                    # else:
+                    #     foundItem = [config.xStashStart + newX, config.yStashStart + newY,stashFlags[i]]
+                    itemDetectedStashSquares.append(foundItem)
+                else:
+                    stashQuickEmptyCoordSet.add((x,y))
 
     #if no items return None
     if not itemDetectedStashSquares:
@@ -2048,6 +2068,7 @@ def organizeStash() -> bool: # True/False successful sort
     #create workers to scrape screenshots
     def ssWorker():
         firstTime = True
+        
         while(ssQueue or itemQueue or firstTime):
             firstTime = False
             logDebug("Thread working ssQueue")
@@ -2057,7 +2078,7 @@ def organizeStash() -> bool: # True/False successful sort
                 while ssQueue:
                     queueData = ssQueue.popleft()
                     x = int ((queueData[1] - (10 + config.xStashStart) ) / 40)
-                    y = int ((queueData[2] - (10 + config.yStashStart) ) / 40)
+                    y = int ((queueData[2] - (10 + config.yStashStart) ) / 40) + (20 * stashFlags.index(queueData[3]))
 
                     #read necessary info for size and name
                     foundSortName, foundSortSize, foundSortSpace = getItemNameSizeSpace(queueData[0])
@@ -2094,9 +2115,8 @@ def organizeStash() -> bool: # True/False successful sort
                             logDebug(f"sending {foundSortName} to item queue")
                             xCoord = queueData[1] - (40 * (foundSortSize[0] - 1))
                             yCoord = queueData[2] - (40 * (foundSortSize[1] - 1))
-                            if xCoord < 0 or yCoord < 200:
-                                logDebug("Trigger")
-                            itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord))
+
+                            itemQueue.append((queueData[0], foundSortName, foundSortSize, foundSortSpace, xCoord, yCoord, queueData[3]))
 
                 time.sleep(0.05)
 
@@ -2105,10 +2125,10 @@ def organizeStash() -> bool: # True/False successful sort
             for _ in range(50):
                 while(itemQueue):
                     item = itemQueue.popleft()
-                    finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5])
+                    finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5], item[6])
                     logGui("Found ", printEnd=" ")
                     finalItem.printRarityName(printEnd=" ")
-                    logGui(f"at {finalItem.getStashCoords()}")
+                    logGui(f"at {finalItem.getStashCoords()} {finalItem.getNumStash()}")
 
                     itemsToSort.append(finalItem)
 
@@ -2125,11 +2145,18 @@ def organizeStash() -> bool: # True/False successful sort
         threads.append(t)
 
     #store screenshots of each item square
-    for item in itemDetectedStashSquares:
+    if organizeMethod == 2: prevStash = None
+    for n, item in enumerate(itemDetectedStashSquares):
+        currStash = item[2]
+        if organizeMethod == 2 and prevStash != currStash:
+            selectStash(currStash)
+            time.sleep(sleepTime/10)  
+
         pyautogui.moveTo(item[0],item[1])
         ss = pyautogui.screenshot()
-        ssStore = (ss,item[0],item[1])
+        ssStore = (ss,item[0],item[1],currStash)
         ssQueue.append(ssStore)
+        prevStash = currStash
 
     #Wait for workers
     for thread in threads:
@@ -2159,7 +2186,7 @@ def organizeStash() -> bool: # True/False successful sort
         yStashCoord = int((yStorage - 10 - config.yStashStart) / 40)
         for x in range(xStashCoord, xStashCoord + xSize):
             for y in range(yStashCoord, yStashCoord + ySize):
-                stashStorageCoordDict[(x,y)] = (item)
+                stashStorageCoordDict[(x,y,item.numStash)] = (item)
 
         if item.getSlotType() in slotTypeSize:
             slotTypeSize[item.getSlotType()].append(item)
@@ -2335,12 +2362,13 @@ def organizeStash() -> bool: # True/False successful sort
     logDebug(f"{len(itemsToSort)} items to sort")
 
     # find closest empty stash block XxY stash block
-    def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, destSet, xStash=20, yStash=20):
+    def findClosestEmptyBlock(xStart, yStart, xFindSize, yFindSize, destSet, destStash, xStash=20, yStash=20):
 
         stashQuickEmptyCoordSet = set()
         for itemGetNones in stashStorageCoordDict.items():
-            x,y = (itemGetNones[0][0],itemGetNones[0][1])
-            stashQuickEmptyCoordSet.add((x,y))
+            if itemGetNones.numStash == destStash:
+                x,y = (itemGetNones[0][0],itemGetNones[0][1])
+                stashQuickEmptyCoordSet.add((x,y))
 
         bestCoord = None
         bestDist = float('inf')
@@ -2359,8 +2387,7 @@ def organizeStash() -> bool: # True/False successful sort
 
     
     #Handle all of an item's blockers
-    def handleBlocking(currentBlocker, stashStorageCoordDict, visited=[], destSet = set()):
-        
+    def handleBlocking(currentBlocker, stashStorageCoordDict, destStash, invStorage, visited=[], destSet = set()):
         xStart, yStart = currentBlocker.getStashCoords()
         xSz, ySz = currentBlocker.getSize()
         name = currentBlocker.getName()
@@ -2372,9 +2399,9 @@ def organizeStash() -> bool: # True/False successful sort
         
         #if we have seen this blocker before, find temp space and move seen item to it- if no temp space then we need to create it or else we have truly failed.
         if currentBlocker in visited:
-            tempPlacement = findClosestEmptyBlock(xStart, yStart, xSz, ySz, destSet)
+            tempPlacement = findClosestEmptyBlock(xStart, yStart, xSz, ySz, destSet, destStash)
             if tempPlacement:
-                moved = currentBlocker.moveToStash(tempPlacement[0], tempPlacement[1], stashStorageCoordDict)
+                moved = currentBlocker.moveToStash(tempPlacement[0], tempPlacement[1], stashStorageCoordDict, destStash, invStorage)
                 if moved:
                     logDebug(f"Moving {name} to temp space @ {tempPlacement[0], tempPlacement[1]}")
                 else:
@@ -2391,11 +2418,11 @@ def organizeStash() -> bool: # True/False successful sort
                 for x in range(xSz):
                     xCheck = x + xDest
                     yCheck = y + yDest
-                    blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
-                    if blockCheck != None and blockCheck != currentBlocker:
+                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, currentBlocker.numStash), None)
+                    if blockCheck != None and blockCheck != currentBlocker and currentBlocker.numStash != blockCheck.numStash:
                         logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                         
-                        success = handleBlocking(blockCheck, stashStorageCoordDict)
+                        success = handleBlocking(blockCheck, stashStorageCoordDict, destStash, invStorage)
                         if success:
                             logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
                 
@@ -2403,7 +2430,7 @@ def organizeStash() -> bool: # True/False successful sort
                             logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {name}")
                             return False
 
-            moved = currentBlocker.moveToStash(xDest, yDest, stashStorageCoordDict)
+            moved = currentBlocker.moveToStash(xDest, yDest, stashStorageCoordDict, destStash, invStorage)
 
             if not moved:
                 logDebug(f"FAILED3!! to move {name} via handleBlocking")
@@ -2431,11 +2458,11 @@ def organizeStash() -> bool: # True/False successful sort
                 for x in range(xSz):
                     xCheck = x + xDest
                     yCheck = y + yDest
-                    blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
+                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, lastVisited.numStash), None)
                     if blockCheck != None and blockCheck != lastVisited:
                         logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                         
-                        success = handleBlocking(blockCheck, stashStorageCoordDict)
+                        success = handleBlocking(blockCheck, stashStorageCoordDict, destStash, invStorage)
                         if success:
                             logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
         
@@ -2443,7 +2470,7 @@ def organizeStash() -> bool: # True/False successful sort
                             logDebug(f"FAILED2 Moving {blockCheck.getName()} via handleBlocking. Cannot move {name}")
                             return False
 
-            moved = lastVisited.moveToStash(xDest, yDest, stashStorageCoordDict)
+            moved = lastVisited.moveToStash(xDest, yDest, stashStorageCoordDict, destStash, invStorage)
 
             if not moved:
                 logDebug(f"FAILED3!! to move {lastVisited.getName()} via handleBlocking")
@@ -2456,6 +2483,11 @@ def organizeStash() -> bool: # True/False successful sort
                             destSet.discard((x,y))
         
         return True
+    
+    #if multi-stash select, find 
+
+    destStash = min(stashFlags)
+    invStorage = getInvQuickStashLocations()
 
     for item in itemSortPlaceOrder:
         #get new destination coords and attempt move
@@ -2467,11 +2499,11 @@ def organizeStash() -> bool: # True/False successful sort
             for x in range(xSz):
                 xCheck = x + xDestination
                 yCheck = y + yDestination
-                blockCheck = stashStorageCoordDict.get((xCheck,yCheck), None)
+                blockCheck = stashStorageCoordDict.get((xCheck, yCheck, item.numStash), None)
                 if blockCheck != None and blockCheck != item:
                     logDebug(f"{item.getName()} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                     
-                    success = handleBlocking(blockCheck, stashStorageCoordDict)
+                    success = handleBlocking(blockCheck, stashStorageCoordDict, destStash, invStorage)
                     if success:
                         logDebug(f"Moved3 {blockCheck.getName()} successfully via handleBlocking")
             
@@ -2480,7 +2512,7 @@ def organizeStash() -> bool: # True/False successful sort
                         database.closeDatabase(conn)
                         return False
 
-        success = item.moveToStash(xDestination, yDestination, stashStorageCoordDict)
+        success = item.moveToStash(xDestination, yDestination, stashStorageCoordDict, destStash, invStorage)
 
         if success:
             logDebug(f"Moved3 {item.getName()} successfully via order move")
@@ -2495,7 +2527,7 @@ def organizeStash() -> bool: # True/False successful sort
     #This block is used to compare stash read square vals for debugging 
     numGoodGood = 0
     for i, item in enumerate(newItemCoords.items()):
-        logDebug(f"Comping {item[1].getName()} and {itemSortPlaceOrder[i].getName()}")
+        logDebug(f"Comping {item[1].getName()} and {itemSortPlaceOrder[i].name}")
         xNew1,yNew1 = item[0]
         xNew2 = ((xNew1 * 40) + 10 + config.xStashStart)
         yNew2 = ((yNew1 * 40) + 10 + config.yStashStart)
@@ -2538,8 +2570,6 @@ def organizeStash() -> bool: # True/False successful sort
 
 
 
-
-
 # better detect if item is in stash on given coords
 def detectItem2(ss,x,y):
     cropRegion = [x,y,x+20,y+20]
@@ -2563,7 +2593,6 @@ def detectItem2(ss,x,y):
 
 # Merge block2 into block1 for one item block if possible
 def combineStashBlocks(block1, block2, newItemCoords, coordsAddY, ComboDelY):
-
     #find max rect of avail space for target
     def largestRect(grid, matchNone=True):
         if not grid or not grid[0]:
@@ -2678,3 +2707,56 @@ def combineStashBlocks(block1, block2, newItemCoords, coordsAddY, ComboDelY):
 def detectItem3():
     #Get list of each item and x,y coord for an easy read. One iteration, no multiple queue
     pass
+
+
+
+# select stash
+def selectStash(numStash):
+    xStashSwitch, yStashSwitch = 1380, 195
+    pyautogui.moveTo(xStashSwitch - 60, yStashSwitch + 10 + (numStash * 46))
+    pyautogui.click()
+
+
+
+# get locations of empty inventory space
+def getInvQuickStashLocations():
+    mySS = pyautogui.screenshot(region=config.ssGetStashInv)
+    myGrid = [[None for _ in range (10)] for _ in range(5)]
+
+    for y in range(5):
+        for x in range(10):
+            newX = 10 + (40 * x)
+            newY = 10 + (40 * y)
+            if detectItem2(mySS,newX, newY):
+                myGrid[y][x] = 1
+
+    for row in myGrid:
+        print(row)
+
+    def findFirstEmptyRect(grid, width, height):
+        rows, cols = len(grid), len(grid[0])
+
+        for y in range(rows - height + 1):
+            for x in range(cols - width + 1):
+                all_none = True
+                for dy in range(height):
+                    if any(grid[y + dy][x : x + width]):
+                        all_none = False
+                        break
+                if all_none:
+                    xMv = x * 40 + config.ssGetStashInv[0] + 17
+                    yMv = y * 40 + config.ssGetStashInv[1] + 17
+                    return (xMv, yMv)
+
+        return None
+
+    findFirstAcceptGrid = dict()
+    for y in range(1,6):
+        for x in range(1,4):
+            if(x,y) == (3,5): break
+
+            res = findFirstEmptyRect(myGrid,x,y)
+            if res: findFirstAcceptGrid[(x,y)] = res
+        if(x,y) == (3,5): break
+
+    return findFirstAcceptGrid
