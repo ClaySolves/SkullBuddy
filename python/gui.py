@@ -184,7 +184,7 @@ class MainWindow(QMainWindow):
 
         #Label txt Swap
         self.methodLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
-        self.stashLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
+        #self.stashLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
         self.organizeLabel.setStyleSheet(f"QLabel {{ {newTxtColor } }}")
 
         #Line txt Swap
@@ -400,8 +400,6 @@ class MainWindow(QMainWindow):
             self.sellLogNewline = True
             txt = txt.replace("^","")
 
-        DAD_Utils.logDebug(f"foundTxt: {txt}")
-
         self.sellLog.insertHtml(txt)
         scroll = self.sellLog.verticalScrollBar()
         scroll.setValue(scroll.maximum())
@@ -529,12 +527,15 @@ class MainWindow(QMainWindow):
 
         self.methodLabel = QLabel("Enter Selling Info:")
         self.methodLabel.setFixedWidth(85)
+
         self.stashLabel = QLabel("Enter Stash Info:")
         self.organizeLabel = QLabel("Enter Organize Info:")
 
         self.appSpeed = QLineEdit()
-        self.appSpeed.setPlaceholderText("Enter Sell Speed")
+        self.appSpeed.setPlaceholderText("Enter App Speed")
         self.appSpeed.setText(str(database.getConfig(cursor,'sleepTime')))
+        self.appSpeed.setFixedWidth(155)
+        #self.appSpeed.setAlignment(Qt.AlignCenter)
         self.appSpeed.setValidator(doubleValidSpeed)
         self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",self.appSpeed.text()
                                                                     if self.appSpeed.text() else None))
@@ -644,36 +645,30 @@ class MainWindow(QMainWindow):
         logLayout.addWidget(self.sellLog)
 
         # Settings Layout
-        settingsFinalLayout = QVBoxLayout()
         settingsLayoutSelling = QVBoxLayout()
         settingsLayoutOrganize = QVBoxLayout()
-        settingsAppSettings = QHBoxLayout()
         settingsMinMaxLayout = QHBoxLayout()
         settingsButtonLayout = QHBoxLayout()
         
 
         #Build settings for selling items
         settingsLayoutSelling.addWidget(self.methodLabel)
+
         for value in self.radioMethodSelect.values():
             settingsLayoutSelling.addWidget(value)
 
-        settingsAppSettings.addWidget(self.appSpeed)
-        settingsAppSettings.addWidget(self.pixelValue)
-        settingsLayoutSelling.addLayout(settingsAppSettings)
+        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 22, QSizePolicy.Fixed, QSizePolicy.Fixed))
+
+        settingsLayoutSelling.addWidget(self.stashHeight)
+        settingsLayoutSelling.addWidget(self.stashWidth)
+
+        settingsLayoutSelling.addWidget(self.undercut)
 
         settingsMinMaxLayout.addWidget(self.sellMin)
         settingsMinMaxLayout.addWidget(self.sellMax)
         settingsLayoutSelling.addLayout(settingsMinMaxLayout)
 
-        settingsLayoutSelling.addWidget(self.undercut)
-
-        settingsButtonLayout.addWidget(self.sellButton)
-        settingsButtonLayout.addWidget(self.organizeButton)
-        settingsButtonLayout.addSpacerItem(QSpacerItem(150, 12, QSizePolicy.Expanding, QSizePolicy.Fixed))
-
-        settingsLayoutSelling.addWidget(self.stashLabel)
-        settingsLayoutSelling.addWidget(self.stashHeight)
-        settingsLayoutSelling.addWidget(self.stashWidth)
+        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 25, QSizePolicy.Fixed, QSizePolicy.Fixed))
         
         #build settings for organzing items
         settingsLayoutOrganize.addWidget(self.organizeLabel)
@@ -681,7 +676,7 @@ class MainWindow(QMainWindow):
         for value in self.stashOrganizeMethod.values():
             settingsLayoutOrganize.addWidget(value)
 
-        settingsLayoutOrganize.addSpacerItem(QSpacerItem(80, 27, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        settingsLayoutOrganize.addSpacerItem(QSpacerItem(80, 35, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
         checkCol1 = QVBoxLayout()
         checkCol2 = QVBoxLayout()
@@ -708,6 +703,17 @@ class MainWindow(QMainWindow):
         settingsWrapper.addLayout(settingsLayoutOrganize)
         settingsWrapper.addSpacerItem(QSpacerItem(1200, 200, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
+        settingsFinalLayout = QVBoxLayout()
+        
+        speedWrapper = QHBoxLayout()
+        speedWrapper.addWidget(self.appSpeed)
+        speedWrapper.addWidget(self.pixelValue)
+
+        settingsButtonLayout.addWidget(self.sellButton)
+        settingsButtonLayout.addWidget(self.organizeButton)
+        settingsButtonLayout.addSpacerItem(QSpacerItem(150, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        settingsFinalLayout.addLayout(speedWrapper)
         settingsFinalLayout.addLayout(settingsWrapper)
         settingsFinalLayout.addLayout(settingsButtonLayout)
 

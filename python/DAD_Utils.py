@@ -484,19 +484,6 @@ class item():
 
         if(xStartInt, yStartInt) == (xDest,yDest) and destStash == self.numStash: return True
 
-        # dontRewrite = set()
-        # for y in range(yDest,yDest + ySz):
-        #     for x in range(xDest, xDest + xSz):
-        #         stashStorage[y][x] = name + "_Moved"
-        #         stashQuickEmptyCoordSet.discard((x,y))
-        #         dontRewrite.add((x,y))
-
-        # for y in range(yStartInt,yStartInt + ySz):
-        #     for x in range(xStartInt, xStartInt + xSz):
-        #             if (x,y) not in dontRewrite:
-        #                 stashStorage[y][x] = None
-        #                 stashQuickEmptyCoordSet.add((x,y))
-
         for y in range(ySz):
             for x in range(xSz):
                 stashStorageCoordDict[(x + xDest, y + yDest, destStash)] = stashStorageCoordDict.pop((x + xStartInt,y + yStartInt, self.numStash))
@@ -510,11 +497,9 @@ class item():
             xDestGui += 40 * (xSz - 1)
             yDestGui += 40 * (ySz - 1)
 
-        
         if currentStashSelect != self.numStash:
             selectStash(self.numStash)
         
-
         logGui(f"Moving ", printEnd=" ")
         self.printRarityName(printEnd=" ")
         logGui(f"Moving {name} from {xStartInt, yStartInt} to {xDest, yDest}")
@@ -1996,7 +1981,9 @@ def organizeStash() -> bool: # True/False successful sort
         database.closeDatabase(conn) 
         return False
 
+    global currentStashSelect
     time1=time.time()
+
 
     # get config vars for single or multi stash sort
     organizeMethod = database.getConfig(cursor, "organizeMethod")
@@ -2128,7 +2115,7 @@ def organizeStash() -> bool: # True/False successful sort
                     finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5], item[6])
                     logGui("Found ", printEnd=" ")
                     finalItem.printRarityName(printEnd=" ")
-                    logGui(f"at {finalItem.getStashCoords()} {finalItem.getNumStash()}")
+                    logGui(f"at coords {finalItem.getStashCoords()}, stash num {finalItem.getNumStash()}")
 
                     itemsToSort.append(finalItem)
 
@@ -2488,6 +2475,7 @@ def organizeStash() -> bool: # True/False successful sort
 
     destStash = min(stashFlags)
     invStorage = getInvQuickStashLocations()
+    currentStashSelect = destStash
 
     for item in itemSortPlaceOrder:
         #get new destination coords and attempt move
