@@ -2,9 +2,9 @@
 
 Play [Dark and Darker](https://www.darkanddarker.com/play) now for free!
 
-SkullBuddy is an automation tool to quickly list loot on the marketplace in Dark and Darker.
+SkullBuddy is an automation tool to quickly list loot on the marketplace and sort stash items in Dark and Darker.
 
-![SkullBuddy](img/SkullBuddyUtility5.png)
+![SkullBuddy](img/SkullBuddyUtility6.png)
 ![SkullBuddy](img/SkullBuddyHistory3.png)
 
 ## Requirements
@@ -34,6 +34,7 @@ Enjoy!
 SkullBuddy does not allow the user to hack, cheat, abuse, manipulate, 
 change or otherwise obtain unauthorised access to any benefits or 
 features in-game and does not automate gameplay mechanisms, only 
-menu navigation. Skullbuddy uses the PyAutoGUI library for game navigation. 
+menu navigation. Skullbuddy uses the PyAutoGUI library for game navigation and a
+combination of in-game screenshots and tesseract OCR to retrieve game data. 
 Skullbuddy does not read game memory or access data not availble to the player by 
 default. SkullBuddy only interacts with navigation outside of the dungeon.

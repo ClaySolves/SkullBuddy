@@ -1378,44 +1378,44 @@ def confirmScreenShot(ss,ssRegion):
 def getItemRarity(ss,txt):
     ret = None
 
-    # poorDetect = locateOnImage('poor', ss)
-    # if poorDetect:
-    #     if confirmRarity(ss, poorDetect,'poor'):
-    #         ret = 'Poor'
+    poorDetect = locateOnImage('poor', ss)
+    if poorDetect:
+        if confirmRarity(ss, poorDetect,'poor'):
+            ret = 'Poor'
 
-    # commonDetect = locateOnImage('common', ss)
-    # if commonDetect:
-    #     if confirmRarity(ss, commonDetect,'common'):
-    #         ret = 'Common'
+    commonDetect = locateOnImage('common', ss)
+    if commonDetect:
+        if confirmRarity(ss, commonDetect,'common'):
+            ret = 'Common'
 
-    # uncommonDetect = locateOnImage('uncommon',ss)
-    # if uncommonDetect:
-    #     if confirmRarity(ss, uncommonDetect,'uncommon'):
-    #         ret = 'Uncommon'
+    uncommonDetect = locateOnImage('uncommon',ss)
+    if uncommonDetect:
+        if confirmRarity(ss, uncommonDetect,'uncommon'):
+            ret = 'Uncommon'
 
-    # rareDetect = locateOnImage('rare', ss)
-    # if rareDetect:
-    #     if confirmRarity(ss, rareDetect,'rare'):
-    #         ret = 'Rare'
+    rareDetect = locateOnImage('rare', ss)
+    if rareDetect:
+        if confirmRarity(ss, rareDetect,'rare'):
+            ret = 'Rare'
 
-    # epicDetect = locateOnImage('epic', ss)
-    # if epicDetect:
-    #     if confirmRarity(ss, epicDetect,'epic'):
-    #         ret = 'Epic'
+    epicDetect = locateOnImage('epic', ss)
+    if epicDetect:
+        if confirmRarity(ss, epicDetect,'epic'):
+            ret = 'Epic'
 
-    # legendaryDetect = locateOnImage('legendary', ss)
-    # if legendaryDetect:
-    #     if confirmRarity(ss, legendaryDetect,'legendary'):
-    #         ret = 'Legendary'
+    legendaryDetect = locateOnImage('legendary', ss)
+    if legendaryDetect:
+        if confirmRarity(ss, legendaryDetect,'legendary'):
+            ret = 'Legendary'
 
-    # uniqueDetect = locateOnImage('unique', ss)
-    # if uniqueDetect:
-    #     if confirmRarity(ss, uniqueDetect,'unique'):
-    #         ret = 'Unique'
+    uniqueDetect = locateOnImage('unique', ss)
+    if uniqueDetect:
+        if confirmRarity(ss, uniqueDetect,'unique'):
+            ret = 'Unique'
 
-    # if ret: 
-    #     logger.debug(f"Found {ret} item")  
-    #     return ret
+    if ret: 
+        logger.debug(f"Found {ret} item")  
+        return ret
 
     txt = txt.lower()
 
@@ -1984,6 +1984,8 @@ def organizeStash() -> bool: # True/False successful sort
     
     loadTextFiles()
     global runOrganize
+
+    runOrganize = True
 
 
     check, err = enforceConfig()

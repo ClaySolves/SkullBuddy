@@ -154,7 +154,7 @@ class MainWindow(QMainWindow):
             buttonAppBgrd = "background-color: #e1e1e1"
             buttonColor = "border: 1px solid #7a7a7a"
             sellButtonPath = "img/DaDButton.png"
-            organizeButtonPath = "img/organizeButton.png"
+            organizeButtonPath = "img/organizeButtonEA.png"
 
             self.darkMode = False 
 
@@ -169,7 +169,7 @@ class MainWindow(QMainWindow):
             buttonAppBgrd = "background-color: #353535"
             buttonColor = "border: 1px solid #ffffff"
             sellButtonPath = "img/DaDButtonDark.png"
-            organizeButtonPath = "img/organizeButtonDark.png"
+            organizeButtonPath = "img/organizeButtonDarkEA.png"
 
             self.darkMode = True
 
@@ -452,7 +452,7 @@ class MainWindow(QMainWindow):
 
         # organize Stash button
         self.organizeButton = QPushButton(self)
-        self.organizeButton.setIcon(QIcon("img/organizeButton.png"))
+        self.organizeButton.setIcon(QIcon("img/organizeButtonEA.png"))
         self.organizeButton.setIconSize(QSize(155,35))
         self.organizeButton.clicked.connect(self.handleOrganizeButton)
         self.organizeButton.setFixedSize(QSize(155,35))
@@ -954,7 +954,9 @@ class MainWindow(QMainWindow):
         Sell Min and Max:
         Max and Min limits for listing price          
 
-        Organizing Settings:
+        Organizing Settings (EARLY ACCESS!!):
+                              
+        Organzing is still buggy, dev is working on a faster solution
 
         Displayed Stash: 
         Organizes currently displayed stash
