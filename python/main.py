@@ -54,8 +54,12 @@ def sellHotkey(mainWindow,sellKey):
 # sell hotkey function
 def sellHotkeyExec(mainWindow):
     DAD_Utils.logDebug("Selling via sell hotkey")
-    if mainWindow.logThreadRunning:
+    if mainWindow.logSellThreadRunning:
         DAD_Utils.logGui("Terminating Sell Script...",color='red')
+        DAD_Utils.stopScript()
+
+    elif mainWindow.logOrganizeThreadRunning:
+        DAD_Utils.logGui("Terminating Organize Script...",color='red')
         DAD_Utils.stopScript()
     else:
         mainWindow.handleSellItemButton() 

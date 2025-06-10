@@ -466,6 +466,9 @@ class item():
 
     #Moves item from starting coords to destination coords in stash. Returns status of move and end coordinates
     def moveToStash(self, xDest, yDest, stashStorageCoordDict, destStash, invStorage):
+        global runOrganize
+        if not runOrganize: return False
+
         name = self.name
         xSz, ySz = self.size
         xStart, yStart = self.coords
@@ -892,11 +895,11 @@ def loadTextFiles():
     global sleepTime
     global darkMode
 
+    global runOrganize
     global currentStashSelect
 
     conn, cursor = database.connectDatabase()
     logDebug(database.printConfig(cursor)[0])
-    print(database.printConfig(cursor)[0])
    
     with open("debug/debug.log", 'r+') as file:
         #Clear debug file if over 2MB
@@ -919,7 +922,9 @@ def loadTextFiles():
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
     slotTypes = list(config.SLOTTYPE_ORDER.keys())
+
     currentStashSelect = None
+    runOrganize = True
 
 
 
@@ -1373,44 +1378,44 @@ def confirmScreenShot(ss,ssRegion):
 def getItemRarity(ss,txt):
     ret = None
 
-    poorDetect = locateOnImage('poor', ss)
-    if poorDetect:
-        if confirmRarity(ss, poorDetect,'poor'):
-            ret = 'Poor'
+    # poorDetect = locateOnImage('poor', ss)
+    # if poorDetect:
+    #     if confirmRarity(ss, poorDetect,'poor'):
+    #         ret = 'Poor'
 
-    commonDetect = locateOnImage('common', ss)
-    if commonDetect:
-        if confirmRarity(ss, commonDetect,'common'):
-            ret = 'Common'
+    # commonDetect = locateOnImage('common', ss)
+    # if commonDetect:
+    #     if confirmRarity(ss, commonDetect,'common'):
+    #         ret = 'Common'
 
-    uncommonDetect = locateOnImage('uncommon',ss)
-    if uncommonDetect:
-        if confirmRarity(ss, uncommonDetect,'uncommon'):
-            ret = 'Uncommon'
+    # uncommonDetect = locateOnImage('uncommon',ss)
+    # if uncommonDetect:
+    #     if confirmRarity(ss, uncommonDetect,'uncommon'):
+    #         ret = 'Uncommon'
 
-    rareDetect = locateOnImage('rare', ss)
-    if rareDetect:
-        if confirmRarity(ss, rareDetect,'rare'):
-            ret = 'Rare'
+    # rareDetect = locateOnImage('rare', ss)
+    # if rareDetect:
+    #     if confirmRarity(ss, rareDetect,'rare'):
+    #         ret = 'Rare'
 
-    epicDetect = locateOnImage('epic', ss)
-    if epicDetect:
-        if confirmRarity(ss, epicDetect,'epic'):
-            ret = 'Epic'
+    # epicDetect = locateOnImage('epic', ss)
+    # if epicDetect:
+    #     if confirmRarity(ss, epicDetect,'epic'):
+    #         ret = 'Epic'
 
-    legendaryDetect = locateOnImage('legendary', ss)
-    if legendaryDetect:
-        if confirmRarity(ss, legendaryDetect,'legendary'):
-            ret = 'Legendary'
+    # legendaryDetect = locateOnImage('legendary', ss)
+    # if legendaryDetect:
+    #     if confirmRarity(ss, legendaryDetect,'legendary'):
+    #         ret = 'Legendary'
 
-    uniqueDetect = locateOnImage('unique', ss)
-    if uniqueDetect:
-        if confirmRarity(ss, uniqueDetect,'unique'):
-            ret = 'Unique'
+    # uniqueDetect = locateOnImage('unique', ss)
+    # if uniqueDetect:
+    #     if confirmRarity(ss, uniqueDetect,'unique'):
+    #         ret = 'Unique'
 
-    if ret: 
-        logger.debug(f"Found {ret} item")  
-        return ret
+    # if ret: 
+    #     logger.debug(f"Found {ret} item")  
+    #     return ret
 
     txt = txt.lower()
 
@@ -1660,6 +1665,10 @@ def stopScript():
     logDebug("Turning runSearch FALSE")
     runSearch = False
 
+    global runOrganize
+    logDebug("Turning runOrganize FALSE")
+    runOrganize = False
+
 
 # Main script call. Search through all stash cubes, drag item to first, and sell
 def searchStash() -> bool:
@@ -1739,7 +1748,7 @@ def searchStash() -> bool:
         database.closeDatabase(conn)        
     else:
         database.closeDatabase(conn)  
-        logGui(f"No listing slots available")
+        logGui(f"No listing slots available","red")
         logGui(f"Clear sold listings or change characters")
 
 
@@ -1974,6 +1983,9 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
 def organizeStash() -> bool: # True/False successful sort
     
     loadTextFiles()
+    global runOrganize
+
+
     check, err = enforceConfig()
     if not check:
         logGui("Invalid Settings!!!","red")
@@ -1984,6 +1996,14 @@ def organizeStash() -> bool: # True/False successful sort
     global currentStashSelect
     time1=time.time()
 
+    def getStash(val):
+        if val == 6:
+            return "Shared Stash"
+
+        if val == 7:
+            return "DLC Stash"
+        
+        return f"{val + 1}"
 
     # get config vars for single or multi stash sort
     organizeMethod = database.getConfig(cursor, "organizeMethod")
@@ -1995,10 +2015,27 @@ def organizeStash() -> bool: # True/False successful sort
                 stashFlags.append(i)
     else:
         stashFlags.append(1)
-    
-    logGui("Organizing Stash...")
-    logDebug(f"Organizing Stash with organize method {organizeMethod} and {stashFlags}")
 
+    if organizeMethod == 1:
+        logGui("Organizing Selected Stash...")
+    else:
+        logGui(f"Organizing Stash",printEnd=" ")
+        numFlags = len(stashFlags)
+        if numFlags == 1:
+            logGui(f"{getStash(stashFlags[0])}")
+
+        elif numFlags == 2:
+            logGui(f"{getStash(stashFlags[0])} and {getStash(stashFlags[1])}")
+
+        else:
+            for i, val in enumerate(stashFlags):
+                if i == len(stashFlags) - 1:
+                    logGui(f"and {getStash(val)}")
+                    break
+
+                logGui(f"{getStash(val)}", printEnd=", ")
+
+    logDebug(f"Organizing Stash with organize method {organizeMethod} and {stashFlags}")
 
     #check to make sure we're on stash page
     ssCheckStashPage = pyautogui.screenshot(region=config.ssConfirmStash)
@@ -2012,7 +2049,6 @@ def organizeStash() -> bool: # True/False successful sort
 
     #var setup
     numReadStashes = len(stashFlags) if organizeMethod == 2 else 1
-    print(numReadStashes)
 
     itemDetectedStashSquares = []
     stashFrequency = {}
@@ -2022,10 +2058,10 @@ def organizeStash() -> bool: # True/False successful sort
     stashQuickEmptyCoordSet = set()
     itemsToSort = []
 
-    
 
     #look for items to sort in stash ss
     for i in range(numReadStashes-1,-1,-1):
+
         if organizeMethod == 2:
             selectStash(stashFlags[i])
 
@@ -2055,8 +2091,10 @@ def organizeStash() -> bool: # True/False successful sort
     #create workers to scrape screenshots
     def ssWorker():
         firstTime = True
-        
+        if not runOrganize: return False
+
         while(ssQueue or itemQueue or firstTime):
+            if not runOrganize: return False
             firstTime = False
             logDebug("Thread working ssQueue")
             for _ in range(50):
@@ -2081,14 +2119,18 @@ def organizeStash() -> bool: # True/False successful sort
 
                         itemReady = True
                         if stashFrequency[foundSortName] >= (foundSortSize[0] * foundSortSize[1]):
-                            while itemReady:
-                                for y2 in range(foundSortSize[1]):
-                                    if y-y2 < 0: break
-                                    for x2 in range(foundSortSize[0]):
-                                        if x-x2 < 0: break
-                                        if stashStorage[y-y2][x-x2] != foundSortName:
-                                            itemReady = False
-                                break
+                            
+                            for y2 in range(foundSortSize[1]):
+                                if y-y2 < 0: 
+                                    itemReady = False
+                                    break
+                                for x2 in range(foundSortSize[0]):
+                                    if x-x2 < 0: 
+                                        itemReady = False
+                                        break
+                                    if stashStorage[y-y2][x-x2] != foundSortName:
+                                        itemReady = False
+                                
                         else:
                             itemReady = False
 
@@ -2111,11 +2153,13 @@ def organizeStash() -> bool: # True/False successful sort
             # Once the screenshot queue is empty, work on items to be complted
             for _ in range(50):
                 while(itemQueue):
+                    if not runOrganize: return False
+
                     item = itemQueue.popleft()
                     finalItem = finalizeStashItem(item[0],item[1],item[2],item[3],item[4],item[5], item[6])
                     logGui("Found ", printEnd=" ")
                     finalItem.printRarityName(printEnd=" ")
-                    logGui(f"at coords {finalItem.getStashCoords()}, stash num {finalItem.getNumStash()}")
+                    logGui(f"at coords {finalItem.getStashCoords()} & stash {finalItem.getNumStash()}")
 
                     itemsToSort.append(finalItem)
 
@@ -2131,9 +2175,15 @@ def organizeStash() -> bool: # True/False successful sort
         t.start()
         threads.append(t)
 
+
+
     #store screenshots of each item square
     if organizeMethod == 2: prevStash = None
     for n, item in enumerate(itemDetectedStashSquares):
+        if not runOrganize: 
+            database.closeDatabase(conn)
+            return False
+
         currStash = item[2]
         if organizeMethod == 2 and prevStash != currStash:
             selectStash(currStash)
@@ -2149,15 +2199,22 @@ def organizeStash() -> bool: # True/False successful sort
     for thread in threads:
         thread.join()
 
+    logDebug(f"Length of StashFrequency {len(stashFrequency.items())}")
+    for misfets in stashFrequency.items():
+        logDebug(misfets)
+        print(misfets)
+
     for row in stashStorage:
         logDebug(row)
 
+    print(runOrganize)
+
     # Sort items into order for new stash
     itemSortPlaceOrder = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
-                                                             config.RARITY_ORDER.get(item.getRarity().lower(), -1), item.getName()))
-    
+                                                                config.RARITY_ORDER.get(item.getRarity().lower(), -1), item.getName()))
+
     logGui(f"Found {len(itemSortPlaceOrder)} to organize")
-    
+
     #new stash creation vars
     slotTypeSize = {}
     slotTypeMax = {}
@@ -2166,7 +2223,7 @@ def organizeStash() -> bool: # True/False successful sort
     newStash = [[None for _ in range(12)] for _ in range(20)]
 
     #break sorted items by slotType for placement
-    for item in itemSortPlaceOrder:
+    for item in itemSortPlaceOrder:        
         xStorage,yStorage = item.getCoords()
         xSize, ySize = item.getSize()
         xStashCoord = int((xStorage - 10 - config.xStashStart) / 40)
@@ -2179,7 +2236,7 @@ def organizeStash() -> bool: # True/False successful sort
             slotTypeSize[item.getSlotType()].append(item)
         else:
             slotTypeSize[item.getSlotType()] = [item]
-    
+
     logDebug(f"Testing stashStorageCoordDict:")
     for itemCoordDict in stashStorageCoordDict.items():
         logDebug((itemCoordDict[0],itemCoordDict[1].getName()))
@@ -2199,12 +2256,20 @@ def organizeStash() -> bool: # True/False successful sort
 
         coordsAddY = coordsAddYSave
 
+        travelWidth = 0
         #get items to add for each slot type
         for itemsToAdd in slotTypeSize[regionSlotTypeName]:
             logDebug(f'Item to add: {itemsToAdd.getName()}')
             sz = itemsToAdd.getSize()
             addX,addY = sz[0], sz[1]
 
+            travelWidth += addX
+            if travelWidth > 11:
+                newStashBlockHeight += addY
+                for stashAddY in range(addY):
+                        newStashBlocks[regionSlotTypeName].append([None for _ in range(12)])
+                        
+                travelWidth = 0
             
             for x in range(12):
                 breakX = False
@@ -2257,7 +2322,7 @@ def organizeStash() -> bool: # True/False successful sort
         coordsAddYSave += newStashBlockHeight
 
     for coords in newItemCoords.items():
-        logDebug(f"coord: {coords[0]} item:{coords[1].getName()}")
+        logDebug(f"coord: {coords[0]} stash: {coords[1].numStash} item:{coords[1].getName()}")
 
 
     #stack newly created item blocks and form new stash
@@ -2309,7 +2374,7 @@ def organizeStash() -> bool: # True/False successful sort
                         yDict = y + ComboCurrent + itemCoordYAdd
                         yNewStash = y + itemCoordYAdd
                         logDebug(f"""coordsAddYSave: {coordsAddYSave} minus length of last block{len(lastBlock)} itemCoordYAdd: {itemCoordYAdd} comboDelY: {ComboDelY} comboCurrent: {ComboCurrent} x iter 0 to {len(lastBlock[0])} y iter 0 to {len(lastBlock)}
-                                 ||||| Searching @ dict for block no combo {x, yDict} to assign newStash @ {x,yNewStash} """)
+                                    ||||| Searching @ dict for block no combo {x, yDict} to assign newStash @ {x,yNewStash} """)
                         
                         newStash[y+itemCoordYAdd][x] = lastBlock[y][x]
                         if (x, yDict) in newItemCoords:
@@ -2332,7 +2397,7 @@ def organizeStash() -> bool: # True/False successful sort
                         yNewStash = y + itemCoordYAdd
 
                         logDebug(f"""coordsAddYSave: {coordsAddYSave} itemCoordYAdd: {itemCoordYAdd} comboDelY: {ComboDelY} comboCurrent: {ComboCurrent} x iter 0 to {len(lastBlock[0])} y iter 0 to {len(lastBlock)} 
-                                 ||||| Searching @ dict for block final{x, yDict} to assign newStash @ {x,yNewStash} """)
+                                    ||||| Searching @ dict for block final{x, yDict} to assign newStash @ {x,yNewStash} """)
                         newStash[y+itemCoordYAdd][x] = lastBlock[y][x]
                         if (x,yDict) in newItemCoords:
                             logDebug(f"Moving {newItemCoords[(x,yDict)].getName()} by block final @ {x,yDict} to {x,yNewStash}")
@@ -2353,7 +2418,7 @@ def organizeStash() -> bool: # True/False successful sort
 
         stashQuickEmptyCoordSet = set()
         for itemGetNones in stashStorageCoordDict.items():
-            if itemGetNones.numStash == destStash:
+            if itemGetNones[1].numStash == destStash:
                 x,y = (itemGetNones[0][0],itemGetNones[0][1])
                 stashQuickEmptyCoordSet.add((x,y))
 
@@ -2370,19 +2435,19 @@ def organizeStash() -> bool: # True/False successful sort
                         bestCoord = (x, y)
                         
         return bestCoord
-    
 
-    
+
+
     #Handle all of an item's blockers
     def handleBlocking(currentBlocker, stashStorageCoordDict, destStash, invStorage, visited=[], destSet = set()):
+        if not runOrganize: return False
+
         xStart, yStart = currentBlocker.getStashCoords()
         xSz, ySz = currentBlocker.getSize()
         name = currentBlocker.getName()
         xDest, yDest = currentBlocker.getDestination()
 
         logDebug(f"HandlingBlocking for {name}")
-        for item in stashStorageCoordDict.items():
-            logDebug(f"handling Blocking for {item[1].getName()} @ {item[0]}")
         
         #if we have seen this blocker before, find temp space and move seen item to it- if no temp space then we need to create it or else we have truly failed.
         if currentBlocker in visited:
@@ -2405,8 +2470,8 @@ def organizeStash() -> bool: # True/False successful sort
                 for x in range(xSz):
                     xCheck = x + xDest
                     yCheck = y + yDest
-                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, currentBlocker.numStash), None)
-                    if blockCheck != None and blockCheck != currentBlocker and currentBlocker.numStash != blockCheck.numStash:
+                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, destStash), None)
+                    if blockCheck != None and blockCheck != currentBlocker:
                         logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                         
                         success = handleBlocking(blockCheck, stashStorageCoordDict, destStash, invStorage)
@@ -2432,6 +2497,8 @@ def organizeStash() -> bool: # True/False successful sort
         
         # If we visited other blockers, move them to final positions now that we have a clear path
         while visited:
+            if not runOrganize: return False
+
             lastVisited = visited.pop()
             xStart, yStart = lastVisited.getStashCoords()
             xSz, ySz = lastVisited.getSize()
@@ -2445,7 +2512,7 @@ def organizeStash() -> bool: # True/False successful sort
                 for x in range(xSz):
                     xCheck = x + xDest
                     yCheck = y + yDest
-                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, lastVisited.numStash), None)
+                    blockCheck = stashStorageCoordDict.get((xCheck, yCheck, destStash), None)
                     if blockCheck != None and blockCheck != lastVisited:
                         logDebug(f"{name} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                         
@@ -2470,7 +2537,7 @@ def organizeStash() -> bool: # True/False successful sort
                             destSet.discard((x,y))
         
         return True
-    
+
     #if multi-stash select, find 
 
     destStash = min(stashFlags)
@@ -2487,7 +2554,7 @@ def organizeStash() -> bool: # True/False successful sort
             for x in range(xSz):
                 xCheck = x + xDestination
                 yCheck = y + yDestination
-                blockCheck = stashStorageCoordDict.get((xCheck, yCheck, item.numStash), None)
+                blockCheck = stashStorageCoordDict.get((xCheck, yCheck, destStash), None)
                 if blockCheck != None and blockCheck != item:
                     logDebug(f"{item.getName()} blocked by {blockCheck.getRarity()} {blockCheck.getName()} @ {(xCheck,yCheck)}")
                     
@@ -2504,7 +2571,7 @@ def organizeStash() -> bool: # True/False successful sort
 
         if success:
             logDebug(f"Moved3 {item.getName()} successfully via order move")
-      
+        
         else:
             logDebug(f"FAILED2 Moving {item.getName()} via order move after handling blocking. Cannot move {item.getName()}")
             database.closeDatabase(conn)
@@ -2543,7 +2610,7 @@ def organizeStash() -> bool: # True/False successful sort
         logDebug(stashStorage[i])
         for j in range(x):
             if stashStorage[i][j] != None: numStashFreq += 1
-    
+
     numNotNone = 0
     for row in newStash:
         logDebug(row)
@@ -2717,9 +2784,6 @@ def getInvQuickStashLocations():
             newY = 10 + (40 * y)
             if detectItem2(mySS,newX, newY):
                 myGrid[y][x] = 1
-
-    for row in myGrid:
-        print(row)
 
     def findFirstEmptyRect(grid, width, height):
         rows, cols = len(grid), len(grid[0])

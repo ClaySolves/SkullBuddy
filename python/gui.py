@@ -8,7 +8,7 @@ import config
 import logging
 from PyQt5.QtWidgets import QButtonGroup, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
-from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
+from PyQt5.QtGui import QCursor, QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
 
  # Get the root logger configured in main.py
 logger = logging.getLogger() 
@@ -297,7 +297,7 @@ class MainWindow(QMainWindow):
     # Sell Items Button
     def handleSellItemButton(self):
         # gui death skull update
-        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThinkSell)
         self.deathSkullLabel.repaint()
 
         self.organizeButton.setEnabled(False)
@@ -315,7 +315,7 @@ class MainWindow(QMainWindow):
 
             self.logSellThread.finished.connect(self.resetSkullyTxt)
             self.logSellThread.finished.connect(self.showNormal)
-            self.logSellThread.finished.connect(self.stopLogThread)
+            self.logSellThread.finished.connect(self.stopSellLogThread)
             self.logSellThread.finished.connect(self.updatePixelVal)
             self.logSellThread.finished.connect(self.enableOrganizeButton)
 
@@ -332,7 +332,7 @@ class MainWindow(QMainWindow):
     # Organize Stash Button
     def handleOrganizeButton(self):
         # gui death skull update
-        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThink)
+        self.deathSkullLabel.setPixmap(self.deathSkullPixmapThinkOrganize)
         self.deathSkullLabel.repaint()
 
         self.sellButton.setEnabled(False)
@@ -346,9 +346,11 @@ class MainWindow(QMainWindow):
         try:    
             DAD_Utils.logDebug("Starting SellButton thread...")
             self.logOrganizeThread = logThread(False)
+            self.logOrganizeThreadRunning = True
 
             self.logOrganizeThread.finished.connect(self.resetSkullyTxt)
             self.logOrganizeThread.finished.connect(self.showNormal)
+            self.logOrganizeThread.finished.connect(self.stopOrganizeLogThread)
             self.logOrganizeThread.finished.connect(self.updatePixelVal)
             self.logOrganizeThread.finished.connect(self.enableSellButton)
             self.logOrganizeThread.outputSignal.connect(self.appendSellLog)
@@ -362,10 +364,14 @@ class MainWindow(QMainWindow):
 
 
     # stop log thread
-    def stopLogThread(self):
+    def stopSellLogThread(self):
         DAD_Utils.logDebug("Stopping Log Thread")
         self.logSellThreadRunning = False
 
+
+    def stopOrganizeLogThread(self):
+        DAD_Utils.logDebug("Stopping Organize Log Thread")
+        self.logOrganizeThreadRunning = False
     
 
     # enable sell buttons
@@ -460,6 +466,8 @@ class MainWindow(QMainWindow):
 
         # logs
         self.logSellThreadRunning = False
+        self.logOrganizeThreadRunning = False
+
         self.sellLogNewline = False
         self.sellLog = QTextEdit(self)
         self.sellLog.setReadOnly(True)
@@ -544,6 +552,7 @@ class MainWindow(QMainWindow):
         self.pixelValue.setPlaceholderText("Detected Pixel Value")
         self.pixelValue.setText(str(database.getConfig(cursor,'pixelValue')))
         self.pixelValue.setValidator(intPixelValue)
+        self.pixelValue.setFixedWidth(155)
         self.pixelValue.textChanged.connect(lambda: self.guiToDatabase("pixelValue",self.pixelValue.text()
                                                                     if self.pixelValue.text() else None))
 
@@ -650,7 +659,6 @@ class MainWindow(QMainWindow):
         settingsMinMaxLayout = QHBoxLayout()
         settingsButtonLayout = QHBoxLayout()
         
-
         #Build settings for selling items
         settingsLayoutSelling.addWidget(self.methodLabel)
 
@@ -658,10 +666,8 @@ class MainWindow(QMainWindow):
             settingsLayoutSelling.addWidget(value)
 
         settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 22, QSizePolicy.Fixed, QSizePolicy.Fixed))
-
         settingsLayoutSelling.addWidget(self.stashHeight)
         settingsLayoutSelling.addWidget(self.stashWidth)
-
         settingsLayoutSelling.addWidget(self.undercut)
 
         settingsMinMaxLayout.addWidget(self.sellMin)
@@ -671,6 +677,7 @@ class MainWindow(QMainWindow):
         settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 25, QSizePolicy.Fixed, QSizePolicy.Fixed))
         
         #build settings for organzing items
+        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 4, QSizePolicy.Fixed, QSizePolicy.Fixed))
         settingsLayoutOrganize.addWidget(self.organizeLabel)
 
         for value in self.stashOrganizeMethod.values():
@@ -701,13 +708,14 @@ class MainWindow(QMainWindow):
         settingsWrapper = QHBoxLayout()
         settingsWrapper.addLayout(settingsLayoutSelling)
         settingsWrapper.addLayout(settingsLayoutOrganize)
-        settingsWrapper.addSpacerItem(QSpacerItem(1200, 200, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        settingsWrapper.addSpacerItem(QSpacerItem(1600, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
         settingsFinalLayout = QVBoxLayout()
         
         speedWrapper = QHBoxLayout()
         speedWrapper.addWidget(self.appSpeed)
         speedWrapper.addWidget(self.pixelValue)
+        speedWrapper.addSpacerItem(QSpacerItem(1600, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
         settingsButtonLayout.addWidget(self.sellButton)
         settingsButtonLayout.addWidget(self.organizeButton)
@@ -915,7 +923,8 @@ class MainWindow(QMainWindow):
         If SkullBuddy is strugging to detect items lower the value to around 30-40
         If SkullBuddy is continously hovering empty stash squares increase the value 
                              
-                                  
+        Selling Settings:
+               
         Sell Height and Width: 
         Creates a box from top left corner to include items being sold
                         
@@ -943,8 +952,16 @@ class MainWindow(QMainWindow):
 
                              
         Sell Min and Max:
-        Max and Min limits for listing price            
-                        """)
+        Max and Min limits for listing price          
+
+        Organizing Settings:
+
+        Displayed Stash: 
+        Organizes currently displayed stash
+
+        Multi-select Stash: 
+        Oraganizes selected stashes
+        """)
         self.helpLog1.setAlignment(Qt.AlignLeft)
 
         devLabel = QLabel('<a href="https://github.com/ClaySolves">Dev</a>')
@@ -955,10 +972,23 @@ class MainWindow(QMainWindow):
         donateLabel.setOpenExternalLinks(True)
         donateLabel.setAlignment(Qt.AlignCenter)
 
+        discordLabel = QLabel('<a href="https://discord.gg/Gd3Hr78H">Discord</a>')
+        discordLabel.setOpenExternalLinks(True)
+        discordLabel.setAlignment(Qt.AlignCenter)
+
         mainLayout = QVBoxLayout()
+        linksLayout = QHBoxLayout()
+
         mainLayout.addWidget(self.helpLog1)
-        mainLayout.addWidget(devLabel)
-        mainLayout.addWidget(donateLabel)
+
+        linksLayout.addSpacerItem(QSpacerItem(300, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        linksLayout.addWidget(devLabel)
+        linksLayout.addWidget(discordLabel)
+        linksLayout.addWidget(donateLabel)
+        linksLayout.addSpacerItem(QSpacerItem(300, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        mainLayout.addLayout(linksLayout)
+
         tab.setLayout(mainLayout)
 
         self.tabs.addTab(tab,"Help")
@@ -1264,11 +1294,13 @@ class MainWindow(QMainWindow):
     def paintSkully(self,darkMode):
         if darkMode:
             self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalkingDark.png')
-            self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinkingDark.png')
+            self.deathSkullPixmapThinkSell = QPixmap('img/DeathSkullThinkingDark.png')
+            self.deathSkullPixmapThinkOrganize = QPixmap('img/DeathSkullThinkingDark.png')
             
         else:
             self.deathSkullPixmapTalk = QPixmap('img/DeathSkullTalking.png')
-            self.deathSkullPixmapThink = QPixmap('img/DeathSkullThinking.png')
+            self.deathSkullPixmapThinkSell = QPixmap('img/DeathSkullThinking.png')
+            self.deathSkullPixmapThinkOrganize = QPixmap('img/DeathSkullThinking.png')
 
         self.deathSkullText = QPainter(self.deathSkullPixmapTalk)
         self.deathSkullText.setFont(QFont("Tahoma", 10))  # Set the font and font size
@@ -1278,10 +1310,18 @@ class MainWindow(QMainWindow):
         self.deathSkullText.drawText(152, 217, "Adjust settings ... Click Sell Items ...")
         self.deathSkullText.end()
 
-        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThink)
+        
+        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThinkSell)
         self.deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
         self.deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
         self.deathSkullThinkText.drawText(167, 183, "Selling your items...")
+        self.deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
+        self.deathSkullThinkText.end()
+    
+        self.deathSkullThinkText = QPainter(self.deathSkullPixmapThinkOrganize)
+        self.deathSkullThinkText.setFont(QFont("Tahoma", 10))  # Set the font and font size
+        self.deathSkullThinkText.setPen(QColor("red"))      # Set the color of the text
+        self.deathSkullThinkText.drawText(167, 183, "Organizing your items...")
         self.deathSkullThinkText.drawText(145, 200, "Don't move your mouse...")
         self.deathSkullThinkText.end()
 
