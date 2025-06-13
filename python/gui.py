@@ -955,14 +955,26 @@ class MainWindow(QMainWindow):
         Max and Min limits for listing price          
 
         Organizing Settings (EARLY ACCESS!!):
-                              
-        Organzing is still buggy, dev is working on a faster solution
 
         Displayed Stash: 
         Organizes currently displayed stash
 
         Multi-select Stash: 
         Oraganizes selected stashes
+                              
+        Select checkboxes based on how many stashes you have unlocked
+                                                            
+        Example: 0 extra stashes
+        Stash 1: mapped to Stash 1
+        Shared Stash: mapped to Stash 2
+        DLC Stash: mapped to Stash 3
+                              
+        Example: 2 extra stashes 
+        Stash 1: mapped to Stash 1
+        Stash 2: mapped to Stash 2
+        Stash 3: mapped to Stash 3
+        Shared Stash: mapped to Stash 4
+        DLC Stash: mapped to Stash 5
         """)
         self.helpLog1.setAlignment(Qt.AlignLeft)
 

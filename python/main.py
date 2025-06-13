@@ -83,9 +83,11 @@ def main():
 
     currNumData = database.printConfig(cursor)
 
-
-    if currNumData == None or len(currNumData) != config.numDatabase:
-        database.updateConfig(cursor,len(currNumData[0]) if currNumData else 0)
+    if currNumData == None:
+         database.updateConfig(cursor, 0)
+    elif len(currNumData[0]) != config.numDatabase:
+        if currNumData[0] != None:
+            database.updateConfig(cursor,len(currNumData[0]) if currNumData[0] else 0)
 
     database.closeDatabase(conn)
 

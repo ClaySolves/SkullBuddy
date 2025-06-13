@@ -1077,14 +1077,15 @@ def updateConfig(var,newVal) -> bool: # ret True/False updated
 
 
 # make sure updated config variables are correct
-def enforceConfig() -> bool: # ret True/False correct config
+def enforceConfig(selling) -> bool: # ret True/False correct config
     #relaod config
     importlib.reload(config)
 
     #bounds check function
     def boundsCheck(val,int1,int2):
-        if val:
-            if val <= int1 or val >= int2:
+        logDebug(f"{val, int1, int2}")
+        if val != None:
+            if val < int1 or val > int2:
                 return False
             else:
                 return True
@@ -1099,24 +1100,37 @@ def enforceConfig() -> bool: # ret True/False correct config
     if not boundsCheck(check,0.3,5.0): return False, 'App Speed'
     if not isinstance(check,float): return False, 'App Speed'
 
-    check = database.getConfig(cursor,'sellMethod')
-    if not boundsCheck(check,1,3): return False, 'Sell Method Selection'
-    if not isinstance(check,int): return False, 'Sell Method Selection'
-    
-    check = database.getConfig(cursor,'sellWidth')
-    if not boundsCheck(check,1,12): return False, 'Sell Width'
-    if not isinstance(check,int): return False, 'Sell Width'
+    #config check for selling button
+    if selling:
+        check = database.getConfig(cursor,'sellMethod')
+        if not boundsCheck(check,1,3): return False, 'Sell Method Selection'
+        if not isinstance(check,int): return False, 'Sell Method Selection'
         
-    check = database.getConfig(cursor,'sellHeight')
-    if not boundsCheck(check,1,20): return False, 'Sell Height'
-    if not isinstance(check,int): return False, 'Sell Height'
+        check = database.getConfig(cursor,'sellWidth')
+        if not boundsCheck(check,1,12): return False, 'Sell Width'
+        if not isinstance(check,int): return False, 'Sell Width'
+            
+        check = database.getConfig(cursor,'sellHeight')
+        if not boundsCheck(check,1,20): return False, 'Sell Height'
+        if not isinstance(check,int): return False, 'Sell Height'
+            
+        check = database.getConfig(cursor,'sellUndercut')
         
-    check = database.getConfig(cursor,'sellUndercut')
-    if check == int(check): check = int(check)
-    if isinstance(check,int): 
-        if not boundsCheck(check,0,99): return False, 'Undercut Value'
-    if isinstance(check,float):
-        if not boundsCheck(check,.01,.99): return False, 'Undercut Value'
+        if isinstance(check,int): 
+            if not boundsCheck(check,0,100): return False, 'Undercut Value'
+        if isinstance(check,float):
+            if not boundsCheck(check,-0.01,.99): return False, 'Undercut Value'
+
+    #config check for organzing button
+    else:
+        check = database.getConfig(cursor,'organizeMethod')
+        if not boundsCheck(check,1,3): return False, 'Organize Method Select'
+        if not isinstance(check,int): return False, 'Organize Method Select'
+        
+        if check == 2:
+            check = database.getConfig(cursor,'organizeStashes')
+            if not boundsCheck(check, 1, 2**8 - 1): return False, 'Stash Checkbox Select'
+            if not isinstance(check,int): return False, 'Stash Checkbox Select'
 
     #check && assign for stashPixelVal
     pixelVal = getStashPixelVal()
@@ -1675,7 +1689,7 @@ def searchStash() -> bool:
     runSearch = True
 
     loadTextFiles()
-    check, err = enforceConfig()
+    check, err = enforceConfig(True)
     if not check:
         logGui("Invalid Settings!!!","red")
         logGui(f"Check {err} value")
@@ -1987,7 +2001,7 @@ def organizeStash() -> bool: # True/False successful sort
     runOrganize = True
 
 
-    check, err = enforceConfig()
+    check, err = enforceConfig(False)
     if not check:
         logGui("Invalid Settings!!!","red")
         logGui(f"Check {err} value")
@@ -2203,12 +2217,9 @@ def organizeStash() -> bool: # True/False successful sort
     logDebug(f"Length of StashFrequency {len(stashFrequency.items())}")
     for misfets in stashFrequency.items():
         logDebug(misfets)
-        print(misfets)
 
     for row in stashStorage:
         logDebug(row)
-
-    print(runOrganize)
 
     # Sort items into order for new stash
     itemSortPlaceOrder = sorted(itemsToSort, key=lambda item: (config.SLOTTYPE_ORDER.get(item.getSlotType() , -1), -item.getSize()[1], 
