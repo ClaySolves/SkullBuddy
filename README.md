@@ -4,6 +4,13 @@ Play [Dark and Darker](https://www.darkanddarker.com/play) now for free!
 
 SkullBuddy is an automation tool to quickly list loot on the marketplace and sort stash items in Dark and Darker.
 
+<table>
+  <tr>
+    <td><img src="./img/SkullBuddySellExample.gif" alt="Skull Buddy Sell Example" width="300"></td>
+    <td><img src="./img/SkullBuddyExampleOrganize.gif" alt="Skull Buddy Organize Example" width="300"></td>
+  </tr>
+</table>
+
 ![SkullBuddy](img/SkullBuddyUtility6.png)
 ![SkullBuddy](img/SkullBuddyHistory3.png)
 

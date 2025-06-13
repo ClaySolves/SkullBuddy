@@ -1084,7 +1084,7 @@ def enforceConfig() -> bool: # ret True/False correct config
     #bounds check function
     def boundsCheck(val,int1,int2):
         if val:
-            if val < int1 or val > int2:
+            if val <= int1 or val >= int2:
                 return False
             else:
                 return True
