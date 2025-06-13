@@ -81,9 +81,11 @@ def main():
     sellKey = database.getConfig(cursor,'sellHotkey')
     darkMode = database.getConfig(cursor,'darkMode')
 
-    currNumData = database.printConfig(cursor)[0]
+    currNumData = database.printConfig(cursor)
+
+
     if currNumData == None or len(currNumData) != config.numDatabase:
-        database.updateConfig(cursor,len(currNumData) if currNumData else 0)
+        database.updateConfig(cursor,len(currNumData[0]) if currNumData else 0)
 
     database.closeDatabase(conn)
 

@@ -18,7 +18,6 @@ import threading
 import os
 import psutil
 from PIL import Image
-import numpy as np
 from screeninfo import get_monitors
 from collections import deque
 
