@@ -6,8 +6,8 @@ SkullBuddy is an automation tool to quickly list loot on the marketplace and sor
 
 <table>
   <tr>
-    <td><img src="./img/SkullBuddySellExample2.gif" alt="Skull Buddy Sell Example" width="345"></td>
     <td><img src="./img/SkullBuddyExampleOrganize2.gif" alt="Skull Buddy Organize Example" width="345"></td>
+    <td><img src="./img/SkullBuddySellExample2.gif" alt="Skull Buddy Sell Example" width="345"></td>
   </tr>
 </table>
 
