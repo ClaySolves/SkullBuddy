@@ -6,7 +6,7 @@ import re
 import database
 import config
 import logging
-from PyQt5.QtWidgets import QButtonGroup, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
+from PyQt5.QtWidgets import QButtonGroup, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QApplication, QMainWindow, QShortcut, QTableWidget, QTableWidgetItem, QPushButton, QRadioButton, QTextEdit, QTextBrowser, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QLabel, QCheckBox, QGraphicsView, QTabWidget
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize, QRegExp
 from PyQt5.QtGui import QCursor, QIcon, QIntValidator, QDoubleValidator, QKeySequence, QPixmap, QPainter, QFont, QColor, QRegExpValidator
 
@@ -208,6 +208,9 @@ class MainWindow(QMainWindow):
 
         for i in range(1,9):
              self.stashCheckboxSelect[i].setStyleSheet(f"QCheckBox {{ {newTxtColor } }}")
+
+        #checkbox Swap
+        self.APICheckbox.setStyleSheet(f"QCheckBox {{ {newTxtColor } }}")
 
         #button txt swap
         self.sellButton.setIcon(QIcon(sellButtonPath))
@@ -640,6 +643,14 @@ class MainWindow(QMainWindow):
                 checkbox.setEnabled(False)
             if bool(flag & (1 << (n))):
                 checkbox.setChecked(True)
+
+        self.APICheckbox = QCheckBox("Use DarkerDB Price Check")
+        if database.getConfig(cursor, "apiMode") == 1:
+            self.APICheckbox.setChecked(True)
+        else:
+            self.APICheckbox.setChecked(False)
+
+        self.APICheckbox.stateChanged.connect(self.apiModeCheckboxToDatabase)
                 
         
         
@@ -662,10 +673,13 @@ class MainWindow(QMainWindow):
         #Build settings for selling items
         settingsLayoutSelling.addWidget(self.methodLabel)
 
+        settingsLayoutSelling.addWidget(self.APICheckbox)
+
         for value in self.radioMethodSelect.values():
             settingsLayoutSelling.addWidget(value)
 
-        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 22, QSizePolicy.Fixed, QSizePolicy.Fixed))
+        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 10, QSizePolicy.Fixed, QSizePolicy.Fixed))
+
         settingsLayoutSelling.addWidget(self.stashHeight)
         settingsLayoutSelling.addWidget(self.stashWidth)
         settingsLayoutSelling.addWidget(self.undercut)
@@ -674,16 +688,16 @@ class MainWindow(QMainWindow):
         settingsMinMaxLayout.addWidget(self.sellMax)
         settingsLayoutSelling.addLayout(settingsMinMaxLayout)
 
-        settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 25, QSizePolicy.Fixed, QSizePolicy.Fixed))
-        
-        #build settings for organzing items
         settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 4, QSizePolicy.Fixed, QSizePolicy.Fixed))
+        
+
+        #Build settings for organzing items
         settingsLayoutOrganize.addWidget(self.organizeLabel)
 
         for value in self.stashOrganizeMethod.values():
             settingsLayoutOrganize.addWidget(value)
 
-        settingsLayoutOrganize.addSpacerItem(QSpacerItem(80, 35, QSizePolicy.Expanding, QSizePolicy.Fixed))
+        settingsLayoutOrganize.addSpacerItem(QSpacerItem(80, 20, QSizePolicy.Expanding, QSizePolicy.Fixed))
 
         checkCol1 = QVBoxLayout()
         checkCol2 = QVBoxLayout()
@@ -898,83 +912,99 @@ class MainWindow(QMainWindow):
         tab = QWidget()
 
         #help widget
-        self.helpLog1 = QTextEdit()
+        self.helpLog1 = QTextBrowser()
         self.helpLog1.setReadOnly(True)
         self.helpLog1.setFont(QFont("Ariel",8))
-        self.helpLog1.setText(f"""
-        How to use SkullBuddy:
-                                    
-        Launch Dark and Darker
-        Navigate to Trade -> Marketplace -> My Listings
-        Select stash to sell from
-        Adjust settings
-        Click Sell Items
-                             
-        Do not spam hotkeys                        
+        self.helpLog1.setOpenExternalLinks(True)
+        self.helpLog1.setHtml(f"""
+        <h2>How to use SkullBuddy:</h2>
 
-        App Speed:
-        Controlls SkullBuddy's execution time
-        Recommended value: 1.0 - 1.2
-        Lower values increase speed  higher values decrease speed
-                              
+        <p>Launch <b>Dark and Darker</b><br><br>
+        
+        Sell Items:<br>
+        Navigate to <b>Trade → Marketplace → My Listings</b><br>
+        Select stash to sell from<br>
+        Adjust settings<br>
+        Click <b>Sell Items</b></p>
 
-        Detected Pixel Value:
-        SkullBuddy automatically sets this value while running
-        If SkullBuddy is strugging to detect items lower the value to around 30-40
-        If SkullBuddy is continously hovering empty stash squares increase the value 
-                             
-        Selling Settings:
-               
-        Sell Height and Width: 
-        Creates a box from top left corner to include items being sold
-                        
-        Examples:
-        Sell Hieght:  4 & Sell Width: 12         includes first 4 rows of stash boxes
-        Sell Hieght: 20 & Sell Width: 12        includes all stash boxes
-        Sell Hieght: 10 & Sell Width: 6          includes first quadrant of stash boxes  
-                              
-                                   
-        Selling Method: 
-        Determines calculated item price
-        Lowest Price:                                    Lists with lowest recorded price
-        Lowest Price w/o Outliers:                Lists with lowest recorded price, removing low/mislisted  prices
-        Lowest 3 Price Avg:                          Lists with the average of the lowest 3 prices
-                        
-                        
-        Undercut Value: 
-        Decreases recorded price to sell faster
-        Enter a number (1 - 100) to undercut the recorded price by a static value
-        Enter a decimal value (0.01 - 0.99) to undercut the recorded price by percentage
-                        
-        Example: read 100 
-        Undercut Value: 20                          100 - 20 = 80, list at 80 gold
-        Undercut Value: .11                         100 - (100 * .11) = 89, list at 89 gold    
+        Organize Items:<br>
+        Navigate to <b>Stash</b><br>
+        Select stash to organize or use multi-select<br>
+        Adjust settings<br>
+        Click <b>Organize Items</b></p>
 
-                             
-        Sell Min and Max:
-        Max and Min limits for listing price          
+        <p style="color: red;"><i>Do not spam hotkeys</i></p><br>
 
-        Organizing Settings (EARLY ACCESS!!):
+        <h3>App Speed:</h3>
+        <p>
+        Controls SkullBuddy's execution time<br>
+        Recommended value: <b>1.0 – 1.2</b><br>
+        Lower values increase speed, higher values decrease speed
+        </p>
 
-        Displayed Stash: 
+        <h3>Detected Pixel Value:</h3>
+        <p>
+        SkullBuddy <b>automatically sets this value while running</b><br>
+        If SkullBuddy is struggling to detect items, lower the value to around 30–40<br>
+        If SkullBuddy is continuously hovering empty stash squares, increase the value
+        </p><br>
+
+        <h2>Selling Settings:</h2><br>
+
+        <strong>Use DarkerDB Price Check:</strong><br>
+                Requests a price check from <a href="https://www.darkerdb.com" target="_blank">DarkerDB</a> instead of using TesseractOCR + Market Lookup<br><br>
+
+        <strong>Selling Method:</strong><br>
+        Determines calculated item price:<br><br>
+
+        Lowest Price → Lists with lowest recorded price<br>
+        Lowest Price w/o Outliers → Removes low/mislisted prices<br>
+        Lowest 3 Price Avg → Averages the lowest 3 prices<br><br>
+
+        <strong>Sell Height and Width:</strong><br>
+        Creates a box from the top-left corner to include items being sold<br><br>
+
+        Sell Height: <b>4</b> & Sell Width: <b>12</b> → includes first 4 rows of stash boxes<br>
+        Sell Height: <b>20</b> & Sell Width: <b>12</b> → includes all stash boxes<br>
+        Sell Height: <b>10</b> & Sell Width: <b>6</b> → includes first quadrant of stash boxes<br><br>
+
+        <strong>Undercut Value:</strong><br>
+        Decreases recorded price to sell faster<br>
+        Enter a number (<b>1–100</b>) to undercut by a static value<br>
+        Enter a decimal (<b>0.01–0.99</b>) to undercut by percentage<br><br>
+
+        Examples (recorded price = <b>100</b>):<br>
+        Undercut Value: <b>20</b> → 100 - 20 = <b>80</b>, list at 80 gold<br>
+        Undercut Value: <b>0.11</b>> → 100 - (100 * 0.11) = <b>89</b>, list at 89 gold<br>
+        <br>
+
+        <strong>Sell Min and Max:</strong><br>
+        Max and Min limits for listing price<br><br>
+
+        <h2>Organizing Settings <span style="color: orange;">(EARLY ACCESS!)</span>:</h2>
+
+        <strong>Displayed Stash::</strong><br>
         Organizes currently displayed stash
+        <br><br>
 
-        Multi-select Stash: 
-        Oraganizes selected stashes
-                              
-        Select checkboxes based on how many stashes you have unlocked
-                                                            
-        Example: 0 extra stashes
-        Stash 1: mapped to Stash 1
-        Shared Stash: mapped to Stash 2
-        DLC Stash: mapped to Stash 3
-                              
-        Example: 2 extra stashes 
-        Stash 1: mapped to Stash 1
-        Stash 2: mapped to Stash 2
-        Stash 3: mapped to Stash 3
-        Shared Stash: mapped to Stash 4
-        DLC Stash: mapped to Stash 5
+        <strong>Multi-select Stash::</strong><br>
+        Organizes selected stashes<br>
+        Select checkboxes based on how many stashes you have unlocked.<br><br>
+
+        Example: <b>0</b> extra stashes<br>
+
+        <b>Stash 1</b>: mapped to <b>Stash 1</b><br>
+        <b>Shared Stash</b>: mapped to <b>Stash 2</b><br>
+        <b>DLC Stash</b>: mapped to <b>Stash 3</b><br><br>
+
+
+        Example: <b>2</b> extra stashes<br>
+
+        <b>Stash 1</b>: mapped to <b>Stash 1</b><br>
+        <b>Stash 2</b>: mapped to <b>Stash 2</b><br>
+        <b>Stash 3</b>: mapped to <b>Stash 3</b><br>
+        <b>Shared Stash</b>: mapped to <b>Stash 4</b><br>
+        <b>DLC Stash</b>: mapped to <b>Stash 5</b><br>
         """)
         self.helpLog1.setAlignment(Qt.AlignLeft)
 
@@ -1148,6 +1178,20 @@ class MainWindow(QMainWindow):
                 flag &= ~(1 << (n))
 
         database.setConfig(cur, "organizeStashes", flag)
+        database.closeDatabase(conn)
+
+
+
+    #handle apiMode checkbox to database
+    def apiModeCheckboxToDatabase(self):
+        conn, cur = database.connectDatabase()
+        checked = self.APICheckbox.isChecked()
+
+        if checked:
+            database.setConfig(cur, "apiMode", 1)
+        else:
+            database.setConfig(cur, "apiMode", 0)
+            
         database.closeDatabase(conn)
             
 
