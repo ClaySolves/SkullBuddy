@@ -70,8 +70,9 @@ def updateConfig(cursor, lenCurCon):
             pixelValue,
             organizeMethod,
             organizeStashes,
-            apiMode
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            apiMode,
+            DarkerDBApiKey
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
     else:
         sql = """
@@ -89,13 +90,14 @@ def updateConfig(cursor, lenCurCon):
             pixelValue = ?,
             organizeMethod = ?,
             organizeStashes = ?,
-            apiMode = ?
+            apiMode = ?,
+            DarkerDBApiKey = ?
         """ 
     
     # get config values
     sqlInsert = [config.sellMin, config.sellMax, config.sellWidth, config.sellHeight, config.sellMethod,
               config.sellUndercut, config.sellHotkey, config.closeHotkey, config.sleepTime, sqlDarkmode, config.stashPixelVal,
-              config.organizeMethod, config.organizeStashes, config.apiMode]
+              config.organizeMethod, config.organizeStashes, config.apiMode, config.DarkerDBApiKey]
 
     #update Config
     cursor.execute(sql,sqlInsert)
@@ -122,7 +124,8 @@ def wipeConfig(cursor):
         pixelValue INTEGER,
         organizeMethod INTEGER,
         organizeStashes INTEGER,
-        apiMode INTEGER           
+        apiMode INTEGER,
+        DarkerDBApiKey INTEGER           
     );
     """)
 
@@ -215,7 +218,8 @@ def connectDatabase():
         pixelValue INTEGER,
         organizeMethod INTEGER,
         organizeStashes INTEGER,
-        apiMode INTEGER     
+        apiMode INTEGER,
+        DarkerDBApiKey INTEGER     
     );
     """)
 

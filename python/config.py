@@ -27,11 +27,13 @@ sellHeight = None
 stashPixelVal = None
 organizeMethod = None
 organizeStashes = 0
+
 apiMode = 0
+DarkerDBApiKey = 0
 
-numDatabase = 14
+numDatabase = 15
 
-ssQuantity = [910,400,80,15]
+ssQuantity = [910,390,80,20]
 ssComp1 = [700, 400, 500, 400]
 ssComp2 = [650, 350, 600, 500]
 ssGold = [1488, 340, 72, 620]

@@ -495,6 +495,9 @@ class MainWindow(QMainWindow):
         self.exitHotkeyField.textChanged.connect(lambda: self.guiToDatabase("closeHotkey",self.exitHotkeyField.text().upper()))
         self.exitHotkeyField.textChanged.connect(lambda: self.exitHotkeyField.setText(self.exitHotkeyField.text().upper())
                                                                                     if self.exitHotkeyField.text() else None)
+        hotkeyDatabase = database.getConfig(cursor, "closeHotkey")
+        if hotkeyDatabase == None:
+            self.exitHotkeyField.clear()
 
         exitHotkeyLabelBack = QLabel(": Exit SkullBuddy")
         exitHotkeyLabelBack.setFont(QFont("Perpetua",15))
@@ -525,6 +528,9 @@ class MainWindow(QMainWindow):
         self.sellHotkeyField.textChanged.connect(lambda: self.guiToDatabase("sellHotkey",self.sellHotkeyField.text().upper()))
         self.sellHotkeyField.textChanged.connect(lambda: self.sellHotkeyField.setText(self.sellHotkeyField.text().upper())
                                                                                     if self.sellHotkeyField.text() else None)
+        hotkeyDatabase = database.getConfig(cursor, "sellHotkey")
+        if hotkeyDatabase == None:
+            self.sellHotkeyField.clear()
 
         sellHotkeyLabelBack = QLabel(": Sell Items/Stop Script")
         sellHotkeyLabelBack.setFont(QFont("Perpetua",15))
@@ -550,6 +556,9 @@ class MainWindow(QMainWindow):
         self.appSpeed.setValidator(doubleValidSpeed)
         self.appSpeed.textChanged.connect(lambda: self.guiToDatabase("sleepTime",self.appSpeed.text()
                                                                     if self.appSpeed.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "sleepTime")
+        if retrieveDatabase == None:
+            self.appSpeed.clear()
 
         self.pixelValue = QLineEdit()
         self.pixelValue.setPlaceholderText("Detected Pixel Value")
@@ -558,6 +567,9 @@ class MainWindow(QMainWindow):
         self.pixelValue.setFixedWidth(155)
         self.pixelValue.textChanged.connect(lambda: self.guiToDatabase("pixelValue",self.pixelValue.text()
                                                                     if self.pixelValue.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "pixelValue")
+        if retrieveDatabase == None:
+            self.pixelValue.clear()
 
         self.undercut = QLineEdit()
         self.undercut.setPlaceholderText("Enter Undercut Value")
@@ -565,6 +577,9 @@ class MainWindow(QMainWindow):
         self.undercut.setValidator(doubleValidundercut)
         self.undercut.textChanged.connect(lambda: self.guiToDatabase("sellUndercut",self.undercut.text()
                                                                     if self.undercut.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "sellUndercut")
+        if retrieveDatabase == None:
+            self.undercut.clear()
 
         self.sellMin = QLineEdit()
         self.sellMin.setPlaceholderText("Enter Sell Min")
@@ -572,6 +587,9 @@ class MainWindow(QMainWindow):
         self.sellMin.setValidator(intValidSellMin)
         self.sellMin.textChanged.connect(lambda: self.guiToDatabase("sellMin",int(self.sellMin.text()) 
                                                                     if self.sellMin.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "sellMin")
+        if retrieveDatabase == None:
+            self.sellMin.clear()
 
         self.sellMax = QLineEdit()
         self.sellMax.setPlaceholderText("Enter Sell Max")
@@ -579,6 +597,9 @@ class MainWindow(QMainWindow):
         self.sellMax.setValidator(intValidSellMax)
         self.sellMax.textChanged.connect(lambda: self.guiToDatabase("sellMax",int(self.sellMax.text())
                                                                     if self.sellMax.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "sellMax")
+        if retrieveDatabase == None:
+            self.sellMax.clear()
 
         self.stashHeight = QLineEdit()
         self.stashHeight.setPlaceholderText("Enter Sell Height")
@@ -587,6 +608,9 @@ class MainWindow(QMainWindow):
         self.stashHeight.setFixedWidth(155)
         self.stashHeight.textChanged.connect(lambda: self.guiToDatabase("sellHeight",int(self.stashHeight.text())
                                                                     if self.stashHeight.text() else None)) 
+        retrieveDatabase = database.getConfig(cursor, "sellHeight")
+        if retrieveDatabase == None:
+            self.stashHeight.clear()
 
         self.stashWidth = QLineEdit()
         self.stashWidth.setPlaceholderText("Enter Sell Width")
@@ -595,6 +619,9 @@ class MainWindow(QMainWindow):
         self.stashWidth.setFixedWidth(155)
         self.stashWidth.textChanged.connect(lambda: self.guiToDatabase("sellWidth",int(self.stashWidth.text())
                                                                     if self.stashWidth.text() else None))
+        retrieveDatabase = database.getConfig(cursor, "sellWidth")
+        if retrieveDatabase == None:
+            self.stashWidth.clear()
 
         # Radio Buttons
         sellMethodSelect = QButtonGroup(self)
@@ -649,11 +676,9 @@ class MainWindow(QMainWindow):
             self.APICheckbox.setChecked(True)
         else:
             self.APICheckbox.setChecked(False)
-
         self.APICheckbox.stateChanged.connect(self.apiModeCheckboxToDatabase)
+        self.apiModeCheckboxToDatabase()
                 
-        
-        
         # Log Layout
         logLayout = QVBoxLayout()
         logHeader = QHBoxLayout()
@@ -690,7 +715,6 @@ class MainWindow(QMainWindow):
 
         settingsLayoutSelling.addSpacerItem(QSpacerItem(155, 4, QSizePolicy.Fixed, QSizePolicy.Fixed))
         
-
         #Build settings for organzing items
         settingsLayoutOrganize.addWidget(self.organizeLabel)
 
@@ -718,7 +742,6 @@ class MainWindow(QMainWindow):
 
         settingsLayoutOrganize.addLayout(checkWrapper)
 
-
         settingsWrapper = QHBoxLayout()
         settingsWrapper.addLayout(settingsLayoutSelling)
         settingsWrapper.addLayout(settingsLayoutOrganize)
@@ -734,7 +757,7 @@ class MainWindow(QMainWindow):
         settingsButtonLayout.addWidget(self.sellButton)
         settingsButtonLayout.addWidget(self.organizeButton)
         settingsButtonLayout.addSpacerItem(QSpacerItem(150, 0, QSizePolicy.Expanding, QSizePolicy.Fixed))
-
+        
         settingsFinalLayout.addLayout(speedWrapper)
         settingsFinalLayout.addLayout(settingsWrapper)
         settingsFinalLayout.addLayout(settingsButtonLayout)
@@ -1191,6 +1214,9 @@ class MainWindow(QMainWindow):
             database.setConfig(cur, "apiMode", 1)
         else:
             database.setConfig(cur, "apiMode", 0)
+
+        for i in range(1,4):
+            self.radioMethodSelect[i].setEnabled(not checked)
             
         database.closeDatabase(conn)
             

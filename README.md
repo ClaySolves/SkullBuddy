@@ -11,7 +11,7 @@ SkullBuddy is an automation tool to quickly list loot on the marketplace and sor
   </tr>
 </table>
 
-![SkullBuddy](img/SkullBuddyUtility6.png)
+![SkullBuddy](img/SkullBuddyUtility8.png)
 
 ## Requirements
 

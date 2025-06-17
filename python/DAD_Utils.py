@@ -17,6 +17,9 @@ import ctypes
 import threading
 import os
 import psutil
+import requests
+import json
+
 from PIL import Image
 from screeninfo import get_monitors
 from collections import deque
@@ -114,12 +117,13 @@ class item():
 
 
     #Print item
-    def printItem(self,newline=False):
+    def printItem(self,rolls=True, newline=False):
         if self.rarity:
             self.printRarityName()
 
-        for i , _ in enumerate(self.rolls):
-            self.printRoll(i)
+        if rolls:
+            for i , _ in enumerate(self.rolls):
+                self.printRoll(i)
                 
         if self.price:
             logGui(f"Price: {self.price} Gold","Gold", printEnd=" ")
@@ -283,6 +287,54 @@ class item():
         time.sleep(sleepTime / 10)
         pyautogui.click()
         logger.debug("removed searched roll")
+
+    
+
+    #find item price with DarerkDB Api reques
+    def findPriceApi(self):    
+        # 0 us roll val, 1 is roll, 2 is if displayed as % or int
+        darkerDBApiKey = database.getConfig(cursor, "DarkerDBApiKey")
+        if darkerDBApiKey == 0:
+            darkerDBApiKey = genDarkerDBApiKey()
+
+        url = "https://api.darkerdb.com/v1/price-check"
+        params = {
+            "item": self.name,
+            "rarity": self.rarity,
+            "key": darkerDBApiKey
+        }
+
+        for i, roll in enumerate(self.rolls):
+            if roll[2]:
+                #convert % value
+                if int(roll[0]) % 10 == 0:
+                    params[f"secondary[{roll[1].replace(" ", "_").lower()}]"] = {roll[0]}
+                else:
+                    params[f"secondary[{roll[1].replace(" ", "_").lower()}]"] = {int(roll[0]) / 10}
+            else:
+                params[f"secondary[{roll[1].replace(" ", "_").lower()}]"] = {int(roll[0])}
+
+        logDebug(params)
+        response = requests.get(url, params)
+            
+        logDebug(f"api response- {response.status_code} , {response.json()}")
+
+        if response.status_code == 200:
+            rawData = json.loads(response.text)
+            logDebug(rawData)
+
+            #get price from response
+            try:
+                apiPrice = rawData["body"]["market_price"]
+                self.price = int(apiPrice) * self.quantity
+
+                return apiPrice * self.quantity
+            
+            except:
+                return False
+            
+        else: 
+            return False
 
 
 
@@ -882,6 +934,12 @@ def getItemSize(ss) -> list:
     return (1,1)
 
 
+#placeholder function for if/when DarkerDB ever requires api key
+def genDarkerDBApiKey():
+    apiKey = f"SkullBuddy_{os.getlogin()}"
+    database.setConfig(cursor, "DarkerDBApiKey", apiKey)
+    return apiKey
+
 
 #Load global variables and clear debug file. MUST BE RAN!
 def loadTextFiles():
@@ -893,6 +951,7 @@ def loadTextFiles():
     global conn
     global sleepTime
     global darkMode
+    global apiMode
 
     global runOrganize
     global currentStashSelect
@@ -921,6 +980,7 @@ def loadTextFiles():
     sleepTime = database.getConfig(cursor,'sleepTime')
     darkMode = database.getConfig(cursor,'darkMode')
     slotTypes = list(config.SLOTTYPE_ORDER.keys())
+    apiMode = database.getConfig(cursor,'apiMode')
 
     currentStashSelect = None
     runOrganize = True
@@ -1771,6 +1831,8 @@ def getItemInfo() -> item:
     #vars
     global allItems
     global allRolls
+    global apiMode
+
     coords = []
     rolls = []
     foundName = False
@@ -1804,8 +1866,9 @@ def getItemInfo() -> item:
     ss = pyautogui.screenshot(region=ssRegion)
 
     #start movement thread while reading data
-    searchFromStashThread = threading.Thread(target=searchFromMarketStash)
-    searchFromStashThread.start()
+    if not apiMode:
+        searchFromStashThread = threading.Thread(target=searchFromMarketStash)
+        searchFromStashThread.start()
 
     textCropBox = [60,0,400,600]
     ssTextCrop = ss.crop(textCropBox)
@@ -1872,7 +1935,10 @@ def getItemInfo() -> item:
     #make item and return
     foundItem = item(name,rolls,rarity,coords,size,quantity)
     logGui("Item read completed.",printEnd=" ")
-    searchFromStashThread.join()
+
+    if not apiMode:
+        searchFromStashThread.join()
+
     logGui(" ")
     return foundItem
 
@@ -1969,6 +2035,7 @@ def finalizeStashItem(ssStash, name, size, space, x, y, numStash) -> item:
 # main function 
 # reads hovered item info, lists on market
 def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
+    global apiMode
 
     time.sleep(sleepTime / 5)
     mytime = time.time()
@@ -1976,10 +2043,20 @@ def handleItem() -> tuple[item, bool]: # Returns listed item / listing success
     
     #if we successfully read an item, find a price and list it on the market
     if myItem:
-        logGui("Searching Market For",printEnd=" ")
-        myItem.printItem()                                                 
-        foundPrice = myItem.findPrice3()                                
-        returnMarketStash()                                              
+        if apiMode:
+            logGui("Searching DarkerDB For",printEnd=" ")
+        else:
+            logGui("Searching Market For",printEnd=" ")
+        myItem.printItem(rolls=not apiMode)
+        
+        #look for price by querying darkerdb API
+        if apiMode:
+            foundPrice = myItem.findPriceApi()   
+
+        #look for price by researching market
+        else:
+            foundPrice = myItem.findPrice3()                                
+            returnMarketStash()                                              
 
         if foundPrice:
             listedSuccess = myItem.listItem()
