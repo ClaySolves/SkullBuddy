@@ -983,7 +983,7 @@ class MainWindow(QMainWindow):
         Lowest Price → Lists with lowest recorded price<br>
         Lowest Price w/o Outliers → Removes low/mislisted prices<br>
         Lowest 3 Price Avg → Averages the lowest 3 prices<br><br>
-
+                              
         <strong>Sell Height and Width:</strong><br>
         Creates a box from the top-left corner to include items being sold<br><br>
 
@@ -1004,7 +1004,7 @@ class MainWindow(QMainWindow):
         <strong>Sell Min and Max:</strong><br>
         Max and Min limits for listing price<br><br>
 
-        <h2>Organizing Settings <span style="color: orange;">(EARLY ACCESS!)</span>:</h2>
+        <h2>Organizing Settings <span style="color: orange;">(EARLY ACCESS!)</span>:</h2><br>
 
         <strong>Displayed Stash::</strong><br>
         Organizes currently displayed stash

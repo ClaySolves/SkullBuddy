@@ -1141,6 +1141,9 @@ def enforceConfig(selling) -> bool: # ret True/False correct config
     #relaod config
     importlib.reload(config)
 
+    global goodConfig
+    goodConfig = True
+
     #bounds check function
     def boundsCheck(val,int1,int2):
         logDebug(f"{val, int1, int2}")
@@ -1152,45 +1155,60 @@ def enforceConfig(selling) -> bool: # ret True/False correct config
         else:
             return False
         
+    def logError(field, val, bound1, bound2, bound3=None, bound4=None):
+        if val == None: val = "No value"
+        logGui(f"{val} not in bounds {bound1} to {bound2}", printEnd=" ")
+
+        if bound3 != None and bound4 != None:
+            logGui(f"or {bound3} to {bound4}", printEnd=" ")
+
+        logGui(f"for setting {field}")
+        global goodConfig
+        goodConfig = False
+        
     #bool for set pixelval
     setPixelVal = True
 
     #check each instance and bounds
     check = database.getConfig(cursor,'sleepTime')
-    if not boundsCheck(check,0.3,5.0): return False, 'App Speed'
-    if not isinstance(check,float): return False, 'App Speed'
+    if not boundsCheck(check,0.3,5.0): logError("App Speed", check, 0.3, 5.0)
+    if not isinstance(check,float): logError("App Speed", check, 0.3, 5.0)
 
     #config check for selling button
     if selling:
         check = database.getConfig(cursor,'sellMethod')
-        if not boundsCheck(check,1,3): return False, 'Sell Method Selection'
-        if not isinstance(check,int): return False, 'Sell Method Selection'
+        if not boundsCheck(check,1,3): logError("Sell Method Selection", check, 1, 3)
+        if not isinstance(check,int): logError("Sell Method Selection", check, 1, 3)
         
         check = database.getConfig(cursor,'sellWidth')
-        if not boundsCheck(check,1,12): return False, 'Sell Width'
-        if not isinstance(check,int): return False, 'Sell Width'
+        if not boundsCheck(check,1,12): logError("Sell Width", check, 1, 12)
+        if not isinstance(check,int): logError("Sell Width", check, 1, 12)
             
         check = database.getConfig(cursor,'sellHeight')
-        if not boundsCheck(check,1,20): return False, 'Sell Height'
-        if not isinstance(check,int): return False, 'Sell Height'
+        if not boundsCheck(check,1,20): logError("Sell Height", check, 1, 20)
+        if not isinstance(check,int): logError("Sell Height", check, 1, 20)
             
         check = database.getConfig(cursor,'sellUndercut')
-        
-        if isinstance(check,int): 
-            if not boundsCheck(check,0,100): return False, 'Undercut Value'
-        if isinstance(check,float):
-            if not boundsCheck(check,-0.01,.99): return False, 'Undercut Value'
+        if check:
+            if check % 1 == 0:
+                if not boundsCheck(check,0,500): logError("Undercut Value", check, 0, 500)
+            else:
+                if not boundsCheck(check,-0.01,.99): logError("Undercut Value", check, 0.00, .99)
+        else:
+            logError("Undercut Value", None , 0.00, .99, bound3=0, bound4=500)
+
+
 
     #config check for organzing button
     else:
         check = database.getConfig(cursor,'organizeMethod')
-        if not boundsCheck(check,1,3): return False, 'Organize Method Select'
-        if not isinstance(check,int): return False, 'Organize Method Select'
+        if not boundsCheck(check,1,3): logError("Organize Method Select", check, 1, 3)
+        if not isinstance(check,int): logError("Organize Method Select", check, 1, 3)
         
         if check == 2:
             check = database.getConfig(cursor,'organizeStashes')
-            if not boundsCheck(check, 1, 2**8 - 1): return False, 'Stash Checkbox Select'
-            if not isinstance(check,int): return False, 'Stash Checkbox Select'
+            if not boundsCheck(check, 1, 2**8 - 1): logError("Stash Checkbox Select", check, 1, 2**8 - 1)
+            if not isinstance(check,int): logError("Stash Checkbox Select", check, 1, 2**8 - 1)
 
     #check && assign for stashPixelVal
     pixelVal = getStashPixelVal()
@@ -1198,9 +1216,10 @@ def enforceConfig(selling) -> bool: # ret True/False correct config
     if setPixelVal or database.getConfig(cursor,'pixelValue') == None:
         database.setConfig(cursor,'pixelValue',pixelVal)
 
-
-    #all checks pass
-    return True, " "
+    if goodConfig:
+        return True
+    else:
+        return False
 
 
 
@@ -1749,10 +1768,9 @@ def searchStash() -> bool:
     runSearch = True
 
     loadTextFiles()
-    check, err = enforceConfig(True)
+    check = enforceConfig(True)
     if not check:
         logGui("Invalid Settings!!!","red")
-        logGui(f"Check {err} value")
         database.closeDatabase(conn) 
         return False
         
@@ -2078,10 +2096,9 @@ def organizeStash() -> bool: # True/False successful sort
     runOrganize = True
 
 
-    check, err = enforceConfig(False)
+    check = enforceConfig(False)
     if not check:
         logGui("Invalid Settings!!!","red")
-        logGui(f"Check {err} value")
         database.closeDatabase(conn) 
         return False
 
