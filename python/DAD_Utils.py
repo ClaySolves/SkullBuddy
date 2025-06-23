@@ -1575,9 +1575,17 @@ def getAvailSlots():
     listConfig = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789/'
     txtList = pytesseract.image_to_string(ss,config=listConfig)
     if txtList == None or txtList == '': return 0
-    currListPage = int(txtList.split('/')[0]) - 1
 
-    #Take screenshot and sanitize for read text for all listing pages
+    #get current page listing
+    if "/" in txtList:
+        currListPage = int(txtList.split('/')[0]) - 1
+    elif "3" in txtList:
+        currListPage = int(txtList.split('3')[0]) - 1
+    else:
+        logDebug("getAvailSlots() Error, Can't find currListPage:")
+        return 0
+
+    #sanitize for read text for all listing pages
     for i in range(currListPage, 3):
         #logic for checking locked listings on 3rd page
         ssRegion = config.ssGetListings

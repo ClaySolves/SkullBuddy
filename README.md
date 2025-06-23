@@ -35,8 +35,6 @@ move SkullBuddy.exe out of dist folder and into download root path. Example:
 
 Run SkullBuddy.exe from download root path
 
-right click exe to pin to taskbar or start
-
 Enjoy!
 
 ## Disclaimer
